@@ -1,6 +1,6 @@
 # Buzzy — steg för steg i webbläsaren
 
-Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation har verifierats i Actions; metadata har delvis lästs. Hosting-pilot är inte körd.
+Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation och metadata-inventering har verifierats i Actions. Regelkopian kommer från manuellt bekräftad konsoltext; Hosting-pilot är inte körd.
 
 Vi gör kopplingen i etapper: källkod på GitHub, ett läsande Google-konto, GitHub/Google-koppling, inventering, regelgranskning och sist pilot. Inget behöver publiceras till spelets huvudsida.
 
@@ -125,6 +125,8 @@ Om något misslyckas visar nu även **API read errors** och publika annotations 
 Om något misslyckas: läs den namngivna resursen/HTTP-statusen i rapporten. Det kan bero på API-aktivering, IAM eller propagation. Kontrollera orsaken; ge inte kontot Owner/Editor eller databasadministration som generell lösning. Ingen deploy får göras med ofullständig inventering.
 
 ## 7. Granska regler före pilot
+
+Den konkreta granskningen finns i [RULES_REVIEW_289.md](RULES_REVIEW_289.md). Run 42126629347 och artifactets hash/filer har verifierats: inga API-fel, ingen aktiverad/länkad fakturering, rätt projekt/databas/Auth/Hosting och bevarad stängd konsolkopia. Föreslagna regler matchar exakt den tidigare lokalt testade #288-versionen. Användarens beslut att publicera dem återstår.
 
 Visa rapporten och regelfilerna för Codex. Kontrollera att rätt projekt/Spark/Anonymous/Hosting/RTDB har lästs, att eventuella befintliga regler är bevarade och att inga andra appar i databasen påverkas. De föreslagna reglerna ersätter hela instansens nuvarande regeluppsättning.
 

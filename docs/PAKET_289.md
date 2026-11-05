@@ -4,7 +4,7 @@
 
 ## Aktuellt
 
-GitHub-repo BadBagel47/buzzy är offentligt. Två manuella flöden finns; inga push-/PR-/schemautlösare. GitHub OIDC/WIF och kontot buzzy-gpt fungerar efter rättning till ID-kvalificerat subject. Tidigare fel rapporterades från run 42123366809: Cloud Billing API var avstängt och regelendpointen nekade läskontot. Användaren har aktiverat API:et och lämnat konsolens hela regeltext, som endast innehåller .read:false och .write:false. Detta säger inget om befintliga data.
+GitHub-repo BadBagel47/buzzy är offentligt. Två manuella flöden finns; inga push-/PR-/schemautlösare. GitHub OIDC/WIF och kontot buzzy-gpt fungerar efter rättning till ID-kvalificerat subject. Tidigare fel rapporterades från run 42123366809: Cloud Billing API var avstängt och regelendpointen nekade läskontot. Användaren har aktiverat API:et och lämnat konsolens hela regeltext, som endast innehåller .read:false och .write:false. Därefter har run 42126629347 och hela artifactet granskats: inga API-fel, billingEnabled:false, billingAccountLinked:false och bevarad manuellt bekräftad konsolkopia. Detta säger inget om befintliga data.
 
 Regelkopian är sparad i ops/rules-evidence/console-current.rules.json och oföränderlig före-pilot-referens before-pilot.rules.json. Snapshotmetadata anger projekt/databas, manuell källa, fångsttid och kanonisk hash. HTML-blanksteg och radbrytningsmarkeringar från chatten normaliserades till giltig JSON, med exakt samma behörigheter; det är inte en kopia av verifierade originalbytes från servern. Originalmeddelandet är bevarat separat i den lokala backupen.
 
@@ -26,4 +26,4 @@ Artifactretention är tre dagar; användaren sparar backup lokalt före regelän
 
 ## Nästa steg
 
-Uppdatera GitHub-sidan, välj en NY inventory-run på main med rules_source=console och bekräftelsen markerad efter kontroll av konsoltexten. Läs API-resultat och hela rapporten, inklusive faktureringskontrollen efter API-aktiveringen. Därefter görs konkret granskning av regeländringen och separat användarbeslut före publicering. Hosting-identitet/pilotmiljö och verkliga mobiltester återstår. Ingen molnregeländring eller Hosting-deploy är utförd av agenten.
+Läs [den konkreta regelgranskningen](RULES_REVIEW_289.md) och invänta användarens uttryckliga publiceringsbeslut. Den granskade metadata-inventeringen är nu komplett. Efter godkänd publicering i Firebase-konsolen behövs ny aktuell konsolkopia och kontroll. Separat Hosting-identitet, pilotmiljö och verkliga mobiltester återstår. Ingen molnregeländring eller Hosting-deploy är utförd av agenten.

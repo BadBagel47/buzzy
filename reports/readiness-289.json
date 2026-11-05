@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "console rules backup preserved; explicit manual evidence mode locally verified; fresh cloud inventory still required",
+  "status": "successful cloud metadata inventory reviewed; exact game rules proposal ready for user publication decision",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -44,7 +44,7 @@
     "method": "GitHub OIDC via Workload Identity Federation and distinct service accounts",
     "privateKeysRequired": false,
     "interactiveCliRequiredFromUser": false,
-    "cloudAccessVerified": false,
+    "cloudAccessVerified": true,
     "inventoryServiceAccount": "buzzy-gpt@buzzy-197dc.iam.gserviceaccount.com",
     "inventoryAccountNameSource": "user-reported; Google role bindings not verified",
     "browserSetupUserConfirmed": {
@@ -78,28 +78,18 @@
     },
     "googleFederationVerified": true,
     "lastCloudRun": {
-      "id": "42121837454",
-      "sourceCommit": "c80002e51b9bd38b12ebbf6369861389bd58048e",
-      "googleAuth": "success",
-      "inventory": "incomplete",
-      "errors": [
-        {
-          "resource": "rules",
-          "httpStatus": 401
-        },
-        {
-          "resource": "billing",
-          "httpStatus": 403
-        }
-      ],
-      "currentRulesBackupSaved": false,
-      "artifactSha256": "fecf81a8ad116394a84d1e63234769d9e2c00e69226d3e6243ad35136b4c0838"
+      "id": "42126629347",
+      "jobId": "127592375600",
+      "result": "success",
+      "artifactSha256": "8dcb08840d9716c39882b2c1d4a81b97f2634942e871962d3aab3a04d523ea66",
+      "artifactReviewed": true
     },
     "rulesEvidenceModes": {
       "default": "api; no automatic fallback",
       "console": "explicit rules_source=console + console_rules_confirmed=true for each run",
       "consoleEvidenceIsApiVerified": false
-    }
+    },
+    "verifiedScope": "Google federation and eight metadata reads; rules remain console-copy-confirmed, not API verified"
   },
   "repository": {
     "name": "BadBagel47/buzzy",
@@ -115,7 +105,7 @@
   "googleProject": {
     "id": "buzzy-197dc",
     "number": "775038676052",
-    "authenticatedProjectRequestsSent": 9,
+    "authenticatedProjectRequestsSent": 8,
     "resourcesChanged": false,
     "billingChanged": false,
     "hostingDeployed": false,
@@ -133,17 +123,30 @@
     "currentDatabaseRulesBackupSource": "user-copied Firebase console rules; formatting normalized, not API original bytes",
     "consoleRulesSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
     "rulesPublished": false,
-    "billingApiActivation": "user-confirmed; new read not yet verified"
+    "billingApiActivation": "verified by successful billing read",
+    "lastInventoryCheckedAt": "2026-11-05T23:03:52.572Z",
+    "billingEnabled": false,
+    "billingAccountLinked": false,
+    "requestCountNote": "latest successful run only; prior diagnostic run reads excluded",
+    "metadataInventoryVerified": true
   },
   "pending": [
-    "Run fresh metadata inventory on latest main using console evidence and explicit confirmation; verify billing after API activation",
-    "Review exact proposed rules against preserved closed baseline and obtain separate publication decision",
-    "After approved Firebase Console publication, collect a new current-console copy and preserve before-pilot backup",
+    "Obtain explicit decision on exact reviewed rule set, then user publishes via Firebase Console",
+    "Collect new current-console rules copy after publication, preserve before-pilot backup and verify metadata/evidence",
     "Configure separate Hosting identity and firebase-pilot environment",
-    "Require reviewed rules hash + matching selected evidence + current confirmation before one-day pilot",
-    "Real host and two-mobile tests and usage monitoring",
-    "Remove obsolete name-only inventory IAM binding after working setup is confirmed"
+    "Approve one-day Hosting pilot and test with real host and two mobiles",
+    "Remove obsolete name-only inventory IAM binding"
   ],
   "nextFreeIssueId": 290,
-  "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00"
+  "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
+  "rulesPublicationProposal": {
+    "status": "awaiting explicit user decision; not published",
+    "review": "docs/RULES_REVIEW_289.md",
+    "beforeRulesSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
+    "proposedRulesSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
+    "proposedFileSha256": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498",
+    "rulesEqualTested288": true,
+    "currentRulesEvidenceSource": "console-copy-confirmed",
+    "currentRulesApiVerified": false
+  }
 }

@@ -1,0 +1,13 @@
+# Buzzy — framtida ändringar
+
+Nya önskemål får ett eget internt ID och samlas före implementation. Att ett önskemål registreras är inte ett klartecken att implementera det eller ändra det pågående publiceringssteget.
+
+| ID | Önskemål | Status |
+|---|---|---|
+| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Registrerat 2026-11-06 för framtiden. Ingen utredning eller implementation körd. |
+
+För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
+
+Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Användarens beslut om Firebase-regelpublicering är fortfarande väntande; detta nya önskemål är inte ett publiceringsgodkännande.
+
+Nästa fria interna ID: **#291**.

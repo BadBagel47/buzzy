@@ -39,3 +39,5 @@ Efter en godkänd regelpublicering ska användaren lämna en ny konsolkopia. End
 Kör `node --test tests/operations.test.mjs` från roten. I `buzzy-live-pilot`: låst `npm ci`, `npm run test:config`, `npm run build:pilot`, `CHROMIUM_PATH=/path/to/chromium npm run test:pilot`. Actions kör samma kontroller. Den fulla emulator-/mobilpiloten är inte ersatt av dessa kontroller. Interceptade HTTPS-prov visar inte en lyckad verklig Firebase-anslutning.
 
 Officiell grund: [Google auth-action och WIF](https://github.com/google-github-actions/auth#workload-identity-federation-through-a-service-account), [Firebase Hosting-preview](https://firebase.google.com/docs/hosting/test-preview-deploy), [Google Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
+
+Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #290, utred mobilvibration vid buzz.

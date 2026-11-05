@@ -1,6 +1,6 @@
 # #289 — GitHub Actions med webbaserad Google-koppling
 
-**Källkod på GitHub, Googlefederation verifierad, Firebase-pilot inte publicerad.** Användaren vill arbeta helt via webben. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #290.
+**Källkod på GitHub, Googlefederation verifierad, Firebase-pilot inte publicerad.** Användaren vill arbeta helt via webben. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #291.
 
 ## Aktuellt
 

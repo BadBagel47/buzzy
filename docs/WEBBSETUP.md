@@ -60,12 +60,20 @@ Lägg in följande **attribute mappings**. Varje rad är en separat mappning fr�
 Klistra in hela följande i **Attribute condition**. Villkoret släpper endast in detta repo/ägare, `main` och de två namngivna manuella flödena med rätt Environment:
 
 ```text
-attribute.repository_id == '1423632612' &&
-attribute.repository_owner_id == '340718529' &&
-attribute.ref == 'refs/heads/main' &&
-attribute.event_name == 'workflow_dispatch' &&
-((attribute.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-inventory.yml@refs/heads/main' && google.subject == 'repo:BadBagel47/buzzy:environment:firebase-inventory') ||
- (attribute.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-pilot.yml@refs/heads/main' && google.subject == 'repo:BadBagel47/buzzy:environment:firebase-pilot'))
+assertion.repository_id == '1423632612' &&
+assertion.repository_owner_id == '340718529' &&
+assertion.ref == 'refs/heads/main' &&
+assertion.event_name == 'workflow_dispatch' &&
+(
+  (
+    assertion.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-inventory.yml@refs/heads/main' &&
+    assertion.sub == 'repo:BadBagel47/buzzy:environment:firebase-inventory'
+  ) ||
+  (
+    assertion.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-pilot.yml@refs/heads/main' &&
+    assertion.sub == 'repo:BadBagel47/buzzy:environment:firebase-pilot'
+  )
+)
 ```
 
 Poolen/provider-vyn ska visa denna provider:
@@ -74,7 +82,7 @@ Poolen/provider-vyn ska visa denna provider:
 projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/providers/github
 ```
 
-Öppna därefter tjänstekontot `buzzy-gpt` → **Permissions → Grant access**. Lägg till denna principal med rollen **Workload Identity User** (`roles/iam.workloadIdentityUser`) **på tjänstekontot**, inte på hela projektet:
+Öppna därefter tjänstekontot `buzzy-gpt` → **Principals with access → Grant access**. Lägg till denna principal med rollen **Workload Identity User** (`roles/iam.workloadIdentityUser`) **på tjänstekontot**, inte på hela projektet:
 
 ```text
 principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47/buzzy:environment:firebase-inventory
@@ -123,7 +131,7 @@ Kontrollera i Firebase-konsolen att Anonymous är på och Auto clean-up fortsatt
 
 Skapa på samma sätt ett tjänstekonto med ID **`buzzy-hosting`**, e-post `buzzy-hosting@buzzy-197dc.iam.gserviceaccount.com`. Ge projektrollerna **Firebase Viewer**, **Service Usage Viewer** och **Firebase Hosting Admin** (`roles/firebasehosting.admin`). Ingen Realtime Database Admin, Auth Admin, Editor, Owner, billing- eller API-enable-roll.
 
-På just detta tjänstekontos Permissions lägger du rollen **Workload Identity User** för:
+På just detta tjänstekontos flik **Principals with access** lägger du rollen **Workload Identity User** för:
 
 ```text
 principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47/buzzy:environment:firebase-pilot

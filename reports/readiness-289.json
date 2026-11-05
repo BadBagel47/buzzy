@@ -45,7 +45,19 @@
     "interactiveCliRequiredFromUser": false,
     "cloudAccessVerified": false,
     "inventoryServiceAccount": "buzzy-gpt@buzzy-197dc.iam.gserviceaccount.com",
-    "inventoryAccountNameSource": "user-reported; Google role bindings not verified"
+    "inventoryAccountNameSource": "user-reported; Google role bindings not verified",
+    "browserSetupUserConfirmed": {
+      "inventoryProjectRoles": [
+        "roles/firebase.viewer",
+        "roles/serviceusage.serviceUsageViewer"
+      ],
+      "poolId": "buzzy-github",
+      "providerId": "github",
+      "inventoryServiceAccountWorkloadIdentityUser": true,
+      "evidence": "Screenshots reviewed and user confirmed Save; not API verified",
+      "nextStep": "Create GitHub environment firebase-inventory and its two variables",
+      "updatedAt": "2026-11-05T21:36:24.571817+00:00"
+    }
   },
   "repository": {
     "name": "BadBagel47/buzzy",

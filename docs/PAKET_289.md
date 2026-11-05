@@ -1,6 +1,6 @@
 # #289 — GitHub Actions med webbaserad Google-koppling
 
-**Förberett, inte aktiverat eller publicerat.** Användaren vill inte köra något i terminalen och gav Kör för detta alternativ. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #290.
+**Källkod uppladdad till GitHub; inte Firebase-aktiverat eller publicerat.** Användaren vill inte köra något i terminalen och gav Kör för detta alternativ. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #290.
 
 ## Leverans
 
@@ -27,6 +27,6 @@ Pilotkommandot är låst till hosting:channel:deploy pilot, expires 1d, no-autho
 
 ## Nästa externa steg
 
-Repo BadBagel47/buzzy är verifierat tomt och offentligt, ID 1423632612, ägar-ID 340718529. Filerna är inte uppladdade; uppladdning gör källkoden offentlig. ZIP har avgränsade projekt-/UI-indata, inga chattexporter, node_modules eller credentials. Därefter följer användaren webbguiden för läsande tjänstekonto och WIF/Environment, kör inventering, sparar backup och granskar resultatet före någon molnregel-/Hosting-ändring. Ingen Google IAM/WIF/API-ändring, betalplansändring eller deploy är utförd.
+Repo BadBagel47/buzzy är offentligt, ID 1423632612, ägar-ID 340718529. Det granskade paketets 53 filer har efter användarens uttryckliga godkännande lagts upp på main i commit 09d0e00b94a12962e5f30b5819c220a417a2517a. Båda manuella workflowfiler syns på Actions-sidan. Ingen workflowkörning är startad. ZIP har avgränsade projekt-/UI-indata, inga chattexporter, node_modules eller credentials. Därefter följer användaren webbguiden för läsande tjänstekonto och WIF/Environment, kör inventering, sparar backup och granskar resultatet före någon molnregel-/Hosting-ändring. Ingen Google IAM/WIF/API-ändring, betalplansändring eller deploy är utförd.
 
 Miljöns tidigare Google/Firebase-nätutkast är redan aktivt i revision 7. GitHub-spåret kräver inte att samma miljöutkast godkänns igen. Den gamla Codex-login-hjälpen är historik och ska inte erbjudas som ett krav för detta spår.

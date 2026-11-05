@@ -1,8 +1,8 @@
 # Buzzy — webbaserad Spark-pilot (#289)
 
-Förberett paket, **inte uppladdat eller publicerat**. GitHub-repot `BadBagel47/buzzy` har verifierats tomt och offentligt. Den här leveransen innehåller projektkällor och frysta UI-referenser, inte kontots chattexport eller privata nycklar. Tidigare #288 och #287 är bevarade separat.
+**Källkoden är uppladdad till GitHub; Firebase-piloten är inte publicerad.** Användaren godkände uppladdningen till det offentliga repot `BadBagel47/buzzy`. Det granskade paketet lades upp oförändrat i commit `09d0e00b94a12962e5f30b5819c220a417a2517a`. Den här leveransen innehåller projektkällor och frysta UI-referenser, inte kontots chattexport eller privata nycklar. Tidigare #288 och #287 är bevarade separat.
 
-Användaren ska inte behöva installera något eller köra terminalkommandon. Följ [webbguiden](docs/WEBBSETUP.md). Den första molnkörningen läser bara inställningar och sparar regler. Ett separat manuellt flöde kan efter granskning publicera en endagspilot till Hosting-kanalen `pilot`. Inget flöde publicerar till huvudsidan.
+Användaren ska inte behöva installera något eller köra terminalkommandon. Följ [webbguiden](docs/WEBBSETUP.md). Den första molnkörningen läser bara inställningar och sparar regler. Ett separat manuellt flöde kan efter granskning publicera en endagspilot till Hosting-kanalen `pilot`. Inget flöde publicerar till huvudsidan. Båda manuella flödena syns nu under Actions; ingen körning har startats.
 
 ## Paketets delar
 

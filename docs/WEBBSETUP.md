@@ -1,12 +1,12 @@
 # Buzzy — steg för steg i webbläsaren
 
-Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat; ingen GitHub-körning eller molnbehörighet är ännu verifierad.
+Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Ingen GitHub-körning eller molnbehörighet är ännu verifierad.
 
 Vi gör kopplingen i etapper: källkod på GitHub, ett läsande Google-konto, GitHub/Google-koppling, inventering, regelgranskning och sist pilot. Inget behöver publiceras till spelets huvudsida.
 
 ## 1. Lägg det granskade paketet i rätt repo
 
-Repo: [BadBagel47/buzzy](https://github.com/BadBagel47/buzzy). Det är **offentligt** och var tomt vid kontrollen. När paketet läggs där blir källkoden offentlig. Ingen push är utförd av Codex.
+Repo: [BadBagel47/buzzy](https://github.com/BadBagel47/buzzy). Det är **offentligt** och var tomt vid kontrollen. När paketet läggs där blir källkoden offentlig. Codex har efter uttryckligt godkännande lagt upp det granskade paketet på main. **Steg 1 är klart; börja med steg 2.**
 
 Om Codex lägger upp filerna åt dig behövs ingen egen filhantering. Alternativt kan du ladda ner ZIP-leveransen, dubbelklicka den på Mac och använda GitHubs **uploading an existing file** på det tomma repot, eller **Add file → Upload files**. Ladda upp **innehållet** i mappen `buzzy-github-release`, inte den yttre mappen. På Mac visar **⌘ + Skift + .** dolda filer; `.github` och `.gitignore` måste följa med. Välj `main` som gren. Ladda aldrig upp `node_modules`, inloggningsfiler eller hela chattexporten. Paketet håller sig under webbuppladdningens hundrafilsgräns.
 

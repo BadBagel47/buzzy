@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "prepared locally; not uploaded, authenticated or deployed",
+  "status": "source uploaded to GitHub; Google federation not configured and Firebase not deployed",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -49,8 +49,11 @@
     "id": "1423632612",
     "ownerId": "340718529",
     "public": true,
-    "mainRemoteEmpty": true,
-    "sourceUploaded": false
+    "sourceUploaded": true,
+    "initialRemoteEmpty": true,
+    "approvedSourceCommit": "09d0e00b94a12962e5f30b5819c220a417a2517a",
+    "manualWorkflowsVisible": true,
+    "workflowRunsStarted": false
   },
   "googleProject": {
     "id": "buzzy-197dc",
@@ -62,7 +65,6 @@
     "rulesDeployed": false
   },
   "pending": [
-    "Review/upload exact source package to public repository",
     "Create read-only service account and scoped Google WIF provider in browser",
     "Configure GitHub environment and run read-only inventory",
     "Download rules backup and review existing/project/Auth/plan/Hosting/API metadata",
@@ -70,5 +72,6 @@
     "Configure separate Hosting identity, then approve one-day pilot",
     "Real host and two-mobile tests and usage monitoring"
   ],
-  "nextFreeIssueId": 290
+  "nextFreeIssueId": 290,
+  "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00"
 }

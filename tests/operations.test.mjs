@@ -5,7 +5,7 @@ import {mkdtemp, mkdir, writeFile, readFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments, oidcSubject} from '../ops/policy.mjs';
-import {RESOURCES, reader, collectInventory, main} from '../ops/inventory.mjs';
+import {RESOURCES, reader, collectInventory, main, apiFailure} from '../ops/inventory.mjs';
 import {parseRulesSource} from '../ops/rules-source.mjs';
 import {summarizeClaims, diagnose} from '../ops/oidc-diagnostics.mjs';
 
@@ -112,6 +112,24 @@ test('Inventory never exposes tokens or server error bodies; only a missing pilo
   const failed = reader(token, async () => {throw new Error(token);});
   await assert.rejects(failed('rules'), error => !error.message.includes(token));
   assert.throws(() => reader(''));
+});
+
+test('API diagnostics distinguish disabled APIs and IAM without exporting response messages or secrets', async () => {
+  const secret = 'LOCAL-FAKE-RESPONSE-SECRET';
+  const body = {error: {status: 'PERMISSION_DENIED', message: secret, token: secret, details: [{reason: 'SERVICE_DISABLED', metadata: {service: 'cloudbilling.googleapis.com', permission: 'resourcemanager.projects.get', token: secret}}]}};
+  const read = reader('LOCAL-FAKE-AUTH', async () => ({ok: false, status: 403, json: async () => body}));
+  await assert.rejects(read('billing'), error => {
+    assert.deepEqual(error.apiDiagnostic, {resource: 'billing', httpStatus: 403, status: 'PERMISSION_DENIED', reason: 'SERVICE_DISABLED', service: 'cloudbilling.googleapis.com', permission: 'resourcemanager.projects.get'});
+    assert.ok(!JSON.stringify(error.apiDiagnostic).includes(secret));assert.ok(!error.message.includes(secret));return true;
+  });
+  assert.equal(apiFailure('rules', 401, {error: 'Permission denied'}).apiDiagnostic.reason, 'REMOTE_PERMISSION_DENIED');
+  const rejected = apiFailure('billing', 403, {error: {status: secret, details: [{reason: secret, metadata: {service: 'attacker.invalid', permission: secret}}]}});
+  assert.deepEqual(rejected.apiDiagnostic, {resource: 'billing', httpStatus: 403});
+  const data = fixture();data.billing = apiFailure('billing', 403, body);
+  const {report} = await collect(data);
+  assert.equal(report.rulesBackupSaved, true);assert.equal(report.apiErrors[0].reason, 'SERVICE_DISABLED');
+  data.rules = apiFailure('rules', 401, {error: 'Permission denied'});
+  assert.equal((await collect(data)).report.rulesBackupSaved, false);
 });
 
 test('Inventory backs up exact rules before metadata; filters Auth and release data', async () => {

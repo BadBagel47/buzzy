@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "OIDC mismatch diagnosed from real artifact; Google provider condition and service-account principal need ID-qualified subject",
+  "status": "Google federation verified; read-only inventory blocked by rules HTTP 401 and billing HTTP 403; structured API error diagnostics prepared",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -9,11 +9,11 @@
   },
   "tests": {
     "operations": {
-      "passed": 15,
+      "passed": 16,
       "failed": 0,
       "skipped": 0,
       "fixtureOnly": true,
-      "latestRun": "2026-11-05T22:02:25.138897+00:00"
+      "latestRun": "2026-11-05T22:38:07.378173+00:00"
     },
     "appConfiguration": {
       "passed": 3,
@@ -26,10 +26,10 @@
       "skipped": 0,
       "allCloudRequestsIntercepted": true
     },
-    "totalPassed": 19,
+    "totalPassed": 20,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "15 operation tests rerun, including sanitized real-claim regression; previous 3 config + 1 intercepted HTTPS unchanged-app checks retained"
+    "note": "16 operation tests rerun for allowlisted API errors/backup reporting; previous 3 configuration + 1 intercepted HTTPS app tests not rerun"
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -74,6 +74,25 @@
       "allOtherConditionClaimsMatch": true,
       "googleConfigurationCorrectionPending": true,
       "pilotSubjectObserved": false
+    },
+    "googleFederationVerified": true,
+    "lastCloudRun": {
+      "id": "42121837454",
+      "sourceCommit": "c80002e51b9bd38b12ebbf6369861389bd58048e",
+      "googleAuth": "success",
+      "inventory": "incomplete",
+      "errors": [
+        {
+          "resource": "rules",
+          "httpStatus": 401
+        },
+        {
+          "resource": "billing",
+          "httpStatus": 403
+        }
+      ],
+      "currentRulesBackupSaved": false,
+      "artifactSha256": "fecf81a8ad116394a84d1e63234769d9e2c00e69226d3e6243ad35136b4c0838"
     }
   },
   "repository": {
@@ -90,11 +109,21 @@
   "googleProject": {
     "id": "buzzy-197dc",
     "number": "775038676052",
-    "authenticatedProjectRequestsSent": 0,
+    "authenticatedProjectRequestsSent": 9,
     "resourcesChanged": false,
     "billingChanged": false,
     "hostingDeployed": false,
-    "rulesDeployed": false
+    "rulesDeployed": false,
+    "verifiedReads": [
+      "project identity/ACTIVE",
+      "Anonymous Auth enabled and authorized domains",
+      "EU database identity/ACTIVE",
+      "default Hosting site",
+      "Hosting API enabled",
+      "no live releases returned",
+      "pilot channel absent"
+    ],
+    "currentDatabaseRulesBackedUp": false
   },
   "pending": [
     "Create read-only service account and scoped Google WIF provider in browser",

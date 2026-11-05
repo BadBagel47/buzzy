@@ -119,6 +119,8 @@ Ingen speldata, användarlista, OAuth-klienthemlighet eller autentiseringsfil h�
 
 Vid OIDC-fel före Google-inloggning visar körningens Summary även **GitHub identity selectors** och artifactet kan innehålla `oidc-selectors.json`. Där visas endast förutbestämda offentliga claims och jämförelser, ingen JWT eller token. Jämför faktisk identitet med provider-villkoret innan något ändras.
 
+Om något misslyckas visar nu även **API read errors** och publika annotations de tillåtna strukturerade felkoderna: exempelvis SERVICE_DISABLED eller IAM_PERMISSION_DENIED, berörd API och eventuellt namngiven IAM-permission. Råa felmeddelanden, token och godtyckliga metadata loggas inte. HTTP 401/403 ensamt avgör inte vilken åtgärd som behövs. Fältet rulesBackupSaved visar om en verklig molnbackup finns; proposed-database.rules.json är aldrig en backup av nuvarande molnregler.
+
 Om något misslyckas: läs den namngivna resursen/HTTP-statusen i rapporten. Det kan bero på API-aktivering, IAM eller propagation. Kontrollera orsaken; ge inte kontot Owner/Editor eller databasadministration som generell lösning. Ingen deploy får göras med ofullständig inventering.
 
 ## 7. Granska regler före pilot

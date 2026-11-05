@@ -1,0 +1,14 @@
+**/node_modules/
+**/dist/
+**/dist-pilot/
+**/.firebase/
+**/*-debug.log
+**/gha-creds-*.json
+**/.env
+**/.env.*
+ci-reports/
+buzzy-live-pilot/reports/*
+buzzy-live-pilot/firebase.hosting-ci.json
+buzzy-live-pilot/host.html
+buzzy-live-pilot/player.html
+buzzy-live-pilot/index.html

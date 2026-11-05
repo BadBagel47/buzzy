@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081327">
+  <meta name="color-scheme" content="dark">
+  <title>Buzzy · Start page preview</title>
+  <style>
+    :root{
+      color-scheme:dark;
+      --page:#081327;
+      --surface:#152540;
+      --field:#0b192d;
+      --line:#304665;
+      --text:#f5f9ff;
+      --muted:#b4c7e3;
+      --accent:#80a8ff;
+      --error:#ffabc0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-synthesis:none;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      min-height:100svh;
+      display:flex;
+      padding:32px 20px;
+      padding: max(32px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));
+      background:radial-gradient(ellipse at 50% -15%,rgba(99,134,255,.24),transparent 60%),linear-gradient(175deg,#081327,#101d33 70%,#0b192d);
+      color:var(--text);
+      font-size:16px;
+    }
+    button,input{font:inherit}
+    button{cursor:pointer;touch-action:manipulation}
+    .landing{width:100%;max-width:400px;margin:auto}
+    .brand{display:block;text-align:center;font-size:38px;line-height:1.1;font-weight:900;letter-spacing:-2.3px;color:#f8fbff;margin:0 0 34px}
+    .brand span{color:var(--accent)}
+    .join-card{
+      background:linear-gradient(155deg,#1c3051,#152540);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 18px 45px rgba(2,10,27,.22),inset 0 1px rgba(255,255,255,.035);
+    }
+    h1{margin:0 0 9px;font-size:28px;line-height:1.2;letter-spacing:-.7px;font-weight:800;text-align:center}
+    .intro{margin:0 0 28px;color:var(--muted);font-size:15px;line-height:1.5;text-align:center;text-wrap:balance}
+    .field-group+.field-group{margin-top:20px}
+    .label-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:9px}
+    label{font-size:14px;font-weight:750}
+    .field-hint{font-size:12px;color:var(--muted)}
+    input{
+      display:block;width:100%;min-width:0;
+      border:1px solid #385472;border-radius:13px;
+      background:var(--field);color:var(--text);
+      min-height:54px;padding:14px 16px;
+      box-shadow:inset 0 2px 5px rgba(2,8,23,.14);
+      transition:border-color 160ms ease,box-shadow 160ms ease;
+    }
+    input::placeholder{color:#8da5c7;opacity:1}
+    .room-code{
+      min-height:82px;padding:14px 12px;
+      font-size:clamp(26px,8vw,34px);font-weight:750;
+      letter-spacing:.22em;text-indent:.22em;text-align:center;text-transform:uppercase;
+      font-variant-numeric:tabular-nums;
+    }
+    .room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}
+    input:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-color:var(--accent)}
+    input[aria-invalid="true"]{border-color:var(--error)}
+    .field-error{margin:9px 0 0;font-size:13px;line-height:1.45;color:var(--error)}
+    .join-button{
+      display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:60px;margin-top:26px;
+      padding:14px 18px;border:1px solid #2bb18e;border-radius:15px;
+      background:radial-gradient(circle at 28% -75%,#3bd6b1,#168d75 75%);
+      color:#fff;font-size:20px;line-height:1.2;font-weight:850;
+      box-shadow:inset 0 1px rgba(255,255,255,.2),inset 0 -5px rgba(1,60,52,.2),0 7px 16px rgba(2,8,23,.15);
+      transition:transform 120ms ease,filter 120ms ease;
+    }
+    .join-button svg{width:20px;height:20px;flex:none}
+    .join-button:active{transform:translateY(1px);filter:brightness(.94)}
+    button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+    .host-option{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 5px;margin-top:18px;font-size:14px;color:var(--muted)}
+    .host-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 5px;border:0;border-radius:7px;background:transparent;color:#b6ceff;font-size:14px;font-weight:750}
+    .host-button svg{width:15px;height:15px;flex:none}
+    dialog{
+      width:calc(100% - 32px);max-width:380px;max-height:calc(100svh - 32px);overflow:auto;
+      margin:auto;padding:25px;border:1px solid #425c80;border-radius:21px;
+      background:linear-gradient(155deg,#1c3051,#152540);color:var(--text);
+      box-shadow:0 20px 70px rgba(0,0,0,.4);
+    }
+    dialog::backdrop{background:rgba(3,10,23,.8)}
+    dialog h2{margin:0 0 10px;font-size:22px;line-height:1.3;letter-spacing:-.4px}
+    dialog p{margin:0;color:#c8d9f2;line-height:1.6;font-size:15px}
+    .dialog-close{display:block;width:100%;min-height:48px;margin-top:22px;padding:12px;border:1px solid #49648c;border-radius:12px;background:#243c60;color:var(--text);font-weight:750}
+    .noscript{color:var(--muted);font-size:13px;text-align:center;line-height:1.5;margin:20px 0 0}
+    [hidden]{display:none!important}
+    @media(max-width:350px){body{padding-inline:16px}.join-card{padding:22px 20px}.brand{font-size:34px;margin-bottom:28px}h1{font-size:26px}.intro{font-size:14px}.label-row{gap:8px}}
+    @media(max-height:620px){body{padding-block:22px}.brand{margin-bottom:24px}}
+    @media(prefers-reduced-motion:reduce){input,.join-button{transition:none}.join-button:active{transform:none}}
+  </style>
+</head>
+<body>
+  <main class="landing" aria-labelledby="page-title">
+    <div class="brand" aria-label="Buzzy">bu<span>z</span>zy<span>.</span></div>
+
+    <section class="join-card" aria-labelledby="page-title">
+      <h1 id="page-title">Join a game</h1>
+      <p class="intro">Enter the room code from your host.</p>
+
+      <form id="join-form" novalidate>
+        <div class="field-group">
+          <div class="label-row"><label for="room-code">Room code</label><span class="field-hint" id="code-hint">6 characters</span></div>
+          <input class="room-code" id="room-code" name="roomCode" type="text" inputmode="text" maxlength="12" placeholder="······" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-hint code-error" required>
+          <p class="field-error" id="code-error" aria-live="polite" hidden></p>
+        </div>
+
+        <div class="field-group">
+          <div class="label-row"><label for="player-name">Your name</label></div>
+          <input id="player-name" name="playerName" type="text" maxlength="24" placeholder="What should we call you?" autocomplete="nickname" autocapitalize="words" spellcheck="false" aria-describedby="name-error" required>
+          <p class="field-error" id="name-error" aria-live="polite" hidden></p>
+        </div>
+
+        <button class="join-button" type="submit">
+          <span>Join game</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <div class="host-option"><span>Here to host?</span><button class="host-button" id="host-entry" type="button">Host a game <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
+    <noscript><p class="noscript">Design preview. Download and open this file in your browser to try the controls.</p></noscript>
+  </main>
+
+  <dialog id="preview-dialog" aria-labelledby="preview-title" aria-describedby="preview-description">
+    <h2 id="preview-title">Start page preview</h2>
+    <p id="preview-description"></p>
+    <button class="dialog-close" id="close-preview" type="button">Back to start page</button>
+  </dialog>
+
+  <script>
+    // #278: standalone visual/interaction preview; no backend or simulated room join.
+    (()=>{
+      const form=document.getElementById('join-form');
+      const code=document.getElementById('room-code');
+      const name=document.getElementById('player-name');
+      const dialog=document.getElementById('preview-dialog');
+      const description=document.getElementById('preview-description');
+      const normalizeCode=value=>value.toUpperCase().replace(/\s+/g,'');
+      function error(input,id,message){
+        input.setAttribute('aria-invalid',String(!!message));
+        const node=document.getElementById(id);node.textContent=message;node.hidden=!message;
+      }
+      code.addEventListener('input',()=>{
+        const next=normalizeCode(code.value);
+        if(code.value!==next){const start=code.selectionStart,end=code.selectionEnd;code.value=next;code.setSelectionRange(Math.min(start,next.length),Math.min(end,next.length));}
+        error(code,'code-error','');
+      });
+      name.addEventListener('input',()=>error(name,'name-error',''));
+      form.addEventListener('submit',event=>{
+        event.preventDefault();code.value=normalizeCode(code.value);
+        const codeError=/^[A-HJ-NP-Z2-9]{6}$/.test(code.value)?'':'Enter the 6-character room code from your host.';
+        const nameError=name.value.trim()?'':'Enter your name.';
+        error(code,'code-error',codeError);error(name,'name-error',nameError);
+        if(codeError){code.focus();return;}
+        if(nameError){name.focus();return;}
+        description.textContent='This is a design preview. Joining a room will be connected later.';
+        dialog.showModal();
+      });
+      document.getElementById('host-entry').addEventListener('click',()=>{
+        description.textContent='This is a design preview. The host entry will be connected later.';
+        dialog.showModal();
+      });
+      document.getElementById('close-preview').addEventListener('click',()=>dialog.close());
+    })();
+  </script>
+</body>
+</html>

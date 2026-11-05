@@ -1,0 +1,117 @@
+name: Firebase - publish reviewed pilot
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_rules_sha256:
+        description: SHA-256 of the reviewed proposed rules, also present in Firebase
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: buzzy-firebase-cloud
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.repository == 'BadBagel47/buzzy' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the selected main commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Select Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: buzzy-live-pilot/package-lock.json
+      - name: Install locked dependencies
+        working-directory: buzzy-live-pilot
+        run: npm ci --no-audit --no-fund
+      - name: Verify cloud-operation guards
+        run: node --test tests/operations.test.mjs
+      - name: Verify app configuration and build pilot
+        working-directory: buzzy-live-pilot
+        run: |
+          npm run test:config
+          npm run build:pilot
+      - name: Install test browser
+        working-directory: buzzy-live-pilot
+        run: |
+          npx --no-install playwright install --with-deps chromium
+          node --input-type=module -e 'import {chromium} from "playwright"; import {appendFileSync} from "node:fs"; appendFileSync(process.env.GITHUB_ENV, "CHROMIUM_PATH=" + chromium.executablePath() + "\n")'
+      - name: Verify HTTPS pilot with all cloud requests intercepted
+        working-directory: buzzy-live-pilot
+        run: npm run test:pilot
+      - name: Retain tested site
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: buzzy-tested-pilot-${{ github.run_id }}
+          path: buzzy-live-pilot/dist-pilot/
+          retention-days: 3
+          if-no-files-found: error
+
+  pilot:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: firebase-pilot
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      WIF_PROVIDER: ${{ vars.WIF_PROVIDER }}
+      GOOGLE_SERVICE_ACCOUNT: ${{ vars.GOOGLE_SERVICE_ACCOUNT }}
+      REVIEWED_RULES_SHA256: ${{ inputs.reviewed_rules_sha256 }}
+    steps:
+      - name: Check out the selected main commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Select Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: buzzy-live-pilot/package-lock.json
+      - name: Install locked CLI before authentication
+        working-directory: buzzy-live-pilot
+        run: npm ci --no-audit --no-fund
+      - name: Restore only the tested public site
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: buzzy-tested-pilot-${{ github.run_id }}
+          path: buzzy-live-pilot/dist-pilot
+      - name: Validate repository and identity selectors
+        run: node ops/check-context.mjs pilot
+      - name: Get temporary Google access
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
+        with:
+          project_id: buzzy-197dc
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_SERVICE_ACCOUNT }}
+          token_format: access_token
+          access_token_lifetime: 600s
+          access_token_scopes: https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/firebase.database,https://www.googleapis.com/auth/userinfo.email
+          create_credentials_file: true
+          cleanup_credentials: true
+      - name: Back up and recheck project, plan, API and reviewed rules
+        run: node ops/inventory.mjs pilot
+        env:
+          GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+      - name: Publish Hosting pilot only, for one day
+        run: node ops/deploy-pilot.mjs
+      - name: Retain sanitized preflight and rules backup
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: buzzy-pilot-preflight-${{ github.run_id }}
+          path: ci-reports/pilot/
+          retention-days: 3
+          if-no-files-found: warn

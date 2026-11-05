@@ -1,0 +1,74 @@
+{
+  "id": 289,
+  "status": "prepared locally; not uploaded, authenticated or deployed",
+  "checkedAt": "2026-11-05T16:20:55.814364+00:00",
+  "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+  "original288Manifest": {
+    "files": 66,
+    "mismatches": 0
+  },
+  "tests": {
+    "operations": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "fixtureOnly": true
+    },
+    "appConfiguration": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "builtPilotHttps": {
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "allCloudRequestsIntercepted": true
+    },
+    "totalPassed": 16,
+    "fullEmulatorRegressionRerun": false,
+    "realMobilePilotRun": false
+  },
+  "installation": "npm ci using unchanged lockfile passed",
+  "pilotBuild": "passed from isolated package; original sources and references unchanged",
+  "workflowValidation": {
+    "tool": "actionlint 1.7.7",
+    "workflows": 2,
+    "passed": true,
+    "shellcheckAndPyflakes": "not run",
+    "officialArtifactSha256": "023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757"
+  },
+  "authentication": {
+    "method": "GitHub OIDC via Workload Identity Federation and distinct service accounts",
+    "privateKeysRequired": false,
+    "interactiveCliRequiredFromUser": false,
+    "cloudAccessVerified": false
+  },
+  "repository": {
+    "name": "BadBagel47/buzzy",
+    "id": "1423632612",
+    "ownerId": "340718529",
+    "public": true,
+    "mainRemoteEmpty": true,
+    "sourceUploaded": false
+  },
+  "googleProject": {
+    "id": "buzzy-197dc",
+    "number": "775038676052",
+    "authenticatedProjectRequestsSent": 0,
+    "resourcesChanged": false,
+    "billingChanged": false,
+    "hostingDeployed": false,
+    "rulesDeployed": false
+  },
+  "pending": [
+    "Review/upload exact source package to public repository",
+    "Create read-only service account and scoped Google WIF provider in browser",
+    "Configure GitHub environment and run read-only inventory",
+    "Download rules backup and review existing/project/Auth/plan/Hosting/API metadata",
+    "After explicit review publish rules in Firebase Console if needed",
+    "Configure separate Hosting identity, then approve one-day pilot",
+    "Real host and two-mobile tests and usage monitoring"
+  ],
+  "nextFreeIssueId": 290
+}

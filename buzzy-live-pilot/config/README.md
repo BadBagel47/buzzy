@@ -1,0 +1,1 @@
+Offentlig webbkonfiguration från användaren, förvarad utan aktivering. Ingen fil här importeras av appen. Anonymous Auth och RTDB finns enligt användaren i projektet buzzy-197dc, plan Spark; faktisk molnåtkomst/regler är inte API-verifierade. Inga privata nycklar eller deploybehörigheter finns här.

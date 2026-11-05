@@ -3,6 +3,7 @@ import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {PROJECT, PROJECT_NUMBER, DATABASE, DATABASE_URL, rulesHash, assertContext, assertPilotReady, hostingOnlyConfig} from './policy.mjs';
 import {parseRulesSource} from './rules-source.mjs';
+import {loadConsoleEvidence} from './console-rules.mjs';
 
 export const RESOURCES = Object.freeze({
   project: `https://firebase.googleapis.com/v1beta1/projects/${PROJECT}`,
@@ -70,17 +71,24 @@ function releaseMetadata(release) {
   return {name: release.name, type: release.type, releaseTime: release.releaseTime, version: release.version && {name: release.version.name, status: release.version.status}};
 }
 
-export async function collectInventory({read, proposed, save}) {
-  const result = {projectId: PROJECT, checkedAt: new Date().toISOString(), readOnly: true, errors: [], apiErrors: [], rulesBackupSaved: false};
+export async function collectInventory({read, proposed, save, consoleEvidence}) {
+  const result = {projectId: PROJECT, checkedAt: new Date().toISOString(), readOnly: true, errors: [], apiErrors: [], rulesBackupSaved: false, rulesSource: consoleEvidence ? 'console-copy-confirmed' : 'api', rulesApiVerified: false, apiReadsAttempted: 0};
   const resources = {};
+  if (consoleEvidence) {
+    result.consoleRulesEvidence = {projectId: PROJECT, databaseURL: DATABASE_URL, capturedAt: consoleEvidence.metadata.capturedAt, canonicalSha256: consoleEvidence.sha256, operatorConfirmed: true, serverApiVerified: false};
+    await save('rules-evidence.json', result.consoleRulesEvidence);
+    await save('before-pilot.rules.json', consoleEvidence.baseline);
+  }
   // Save rules immediately, even if a later metadata read fails. No player data is read.
   for (const name of ['rules', ...Object.keys(RESOURCES).filter(n => n !== 'rules')]) {
     try {
-      resources[name] = await read(name);
+      if (name === 'rules' && consoleEvidence) resources[name] = consoleEvidence.source;
+      else { result.apiReadsAttempted++;resources[name] = await read(name); }
       if (name === 'rules') {
         await save('existing-database.rules.json', resources.rules);
         result.rulesBackupSaved = true;
         result.currentRulesSha256 = rulesHash(parseRulesSource(resources.rules));
+        result.rulesApiVerified = !consoleEvidence;
       }
     } catch (error) {
       result.errors.push(error.message);
@@ -103,28 +111,30 @@ export async function collectInventory({read, proposed, save}) {
   result.hostingApiEnabled = resources.hostingService?.state === 'ENABLED';
   result.liveReleases = resources.releases?.releases?.map(releaseMetadata) ?? [];
   result.pilot = resources.pilot === null ? null : resources.pilot ? {name: resources.pilot.name, url: resources.pilot.url, expireTime: resources.pilot.expireTime, release: releaseMetadata(resources.pilot.release)} : undefined;
-  result.status = result.errors.length ? 'incomplete; no changes performed' : 'inventory complete; no changes performed';
+  result.status = result.errors.length ? 'incomplete; no changes performed' : consoleEvidence ? 'metadata inventory complete; rules from operator-confirmed console copy, not API verified' : 'inventory complete; no changes performed';
   await save('inventory.json', result);
   return result;
 }
 
 export async function main(kind = process.argv[2], env = process.env) {
   assertContext(env, kind);
+  const consoleEvidence = await loadConsoleEvidence(env);
   const directory = resolve('ci-reports', kind);
   await mkdir(directory, {recursive: true});
   const save = (name, value) => writeFile(resolve(directory, name), typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n');
   const proposed = JSON.parse(await readFile('buzzy-live-pilot/database.rules.json', 'utf8'));
-  const report = await collectInventory({read: reader(env.GOOGLE_OAUTH_ACCESS_TOKEN), proposed, save});
+  const report = await collectInventory({read: reader(env.GOOGLE_OAUTH_ACCESS_TOKEN), proposed, save, consoleEvidence});
   const summary = `## Buzzy ${kind}\n\nRead-only check for ${PROJECT} at commit ${env.GITHUB_SHA}.\n\n- Status: ${report.status}\n- Existing rules backup saved: ${report.rulesBackupSaved}\n- Current rules SHA-256: ${report.currentRulesSha256 || 'not read'}\n- Proposed rules SHA-256: ${report.proposedRulesSha256}\n- Rules match: ${report.rulesMatch}\n- Billing enabled: ${report.billingEnabled ?? 'not verified'}\n- Anonymous Auth enabled: ${report.anonymousEnabled ?? 'not verified'}\n\nDownload the inventory artifact for sanitized metadata and any rules backup actually saved. No player data, account list, OAuth settings or credentials are included.\n\n### API read errors\n\n\`\`\`json\n${JSON.stringify(report.apiErrors, null, 2)}\n\`\`\`\n`;
-  if (env.GITHUB_STEP_SUMMARY) await appendFile(env.GITHUB_STEP_SUMMARY, summary);
-  console.log(`${report.status}; rules match: ${report.rulesMatch}; resources checked: ${Object.keys(RESOURCES).length}`);
+  const evidenceSummary = `\n### Rules evidence\n\n- Source: ${report.rulesSource}\n- Current rules read/verified through API: ${report.rulesApiVerified}\n- API read attempts: ${report.apiReadsAttempted}\n\n${consoleEvidence ? 'The existing-database.rules.json file is the preserved console copy confirmed by this workflow operator. It does not prove the current live rules independently. Pilot also requires it to match the proposed rules and the reviewed hash.\n' : ''}`;
+  if (env.GITHUB_STEP_SUMMARY) await appendFile(env.GITHUB_STEP_SUMMARY, summary + evidenceSummary);
+  console.log(`${report.status}; rules match: ${report.rulesMatch}; API reads attempted: ${report.apiReadsAttempted}`);
   for (const error of report.apiErrors) console.error(`::error title=Inventory ${error.resource} HTTP ${error.httpStatus}::${JSON.stringify(error)}`);
   if (report.errors.length) throw new Error('Read-only inventory incomplete. Read inventory.json; no deployment is permitted.');
   if (kind === 'pilot') {
     assertPilotReady(report, env.REVIEWED_RULES_SHA256);
     const config = JSON.parse(await readFile('buzzy-live-pilot/firebase.pilot.json', 'utf8'));
     await writeFile('buzzy-live-pilot/firebase.hosting-ci.json', JSON.stringify(hostingOnlyConfig(config), null, 2) + '\n');
-    await save('approval.json', {sourceCommit: env.GITHUB_SHA, reviewedRulesSha256: env.REVIEWED_RULES_SHA256, verifiedAt: new Date().toISOString(), target: 'pilot', expires: '1d', databaseWritesAllowed: false});
+    await save('approval.json', {sourceCommit: env.GITHUB_SHA, reviewedRulesSha256: env.REVIEWED_RULES_SHA256, verifiedAt: new Date().toISOString(), target: 'pilot', expires: '1d', databaseWritesAllowed: false, rulesSource: report.rulesSource, rulesApiVerified: report.rulesApiVerified, consoleSnapshotSha256: consoleEvidence?.sha256});
   }
   return report;
 }

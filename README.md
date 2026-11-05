@@ -2,7 +2,7 @@
 
 **Källkoden är uppladdad till GitHub; Firebase-piloten är inte publicerad.** Användaren godkände uppladdningen till det offentliga repot `BadBagel47/buzzy`. Det granskade paketet lades upp oförändrat i commit `09d0e00b94a12962e5f30b5819c220a417a2517a`. Den här leveransen innehåller projektkällor och frysta UI-referenser, inte kontots chattexport eller privata nycklar. Tidigare #288 och #287 är bevarade separat.
 
-Användaren ska inte behöva installera något eller köra terminalkommandon. Följ [webbguiden](docs/WEBBSETUP.md). Den första molnkörningen läser bara inställningar och sparar regler. Ett separat manuellt flöde kan efter granskning publicera en endagspilot till Hosting-kanalen `pilot`. Inget flöde publicerar till huvudsidan. Båda manuella flödena syns nu under Actions; ingen körning har startats.
+Användaren ska inte behöva installera något eller köra terminalkommandon. Följ [webbguiden](docs/WEBBSETUP.md). Inventeringen läser bara inställningar och bevarar reglernas evidens: antingen en API-läsning eller en uttryckligen bekräftad konsolkopia. Ett separat manuellt flöde kan efter granskning publicera en endagspilot till Hosting-kanalen `pilot`. Inget flöde publicerar till huvudsidan. Googlefederation är verifierad i Actions. Molnläskontroller har körts; reglernas API nekar läskontot och Cloud Billing API var avstängt. Användaren har därefter aktiverat API:et och lämnat en konsolkopia av nuvarande stängda regler. Hosting-pilot är fortfarande inte körd.
 
 ## Paketets delar
 
@@ -20,11 +20,19 @@ GitHub OIDC och Google Workload Identity Federation används via två separata t
 
 Inga push-/pull-request-/schemautlösare finns. Att lägga koden på GitHub aktiverar ingen Firebase-publicering. Behörighetskopplingen måste först skapas i Google/GitHubs webbkonsoler. Review och Run workflow sker av användaren. Firebase-planen förblir Spark; flödet nekar pilot när ett länkat billingkonto rapporteras aktivt eller planstatus inte går att kontrollera.
 
-Databasregler ändras **inte** av något workflow. Efter backup och granskning kan användaren publicera de föreslagna reglerna i Firebase-konsolens regelredigerare. Pilotflödet kräver sedan exakt matchning med både granskad hash och reglerna som redan finns i molnet. Första Hosting-/Auth/API-aktivering görs vid behov uttryckligen i webbkonsolen. CLI-flödet tillåts inte börja förrän Hosting API är verifierat aktiverat; Auth-domänsynk är avstängd.
+Databasregler ändras **inte** av något workflow. Efter backup och granskning kan användaren publicera de föreslagna reglerna i Firebase-konsolens regelredigerare. Pilotflödet kräver exakt matchning med granskad hash och vald regelevidens. API-läge kräver en lyckad aktuell regel-API-läsning. Konsolläge kräver separat uttrycklig bekräftelse vid varje körning att den sparade kopian matchar konsolens aktuella regler; detta är manuell kontroll, ingen oberoende API-verifiering. Första Hosting-/Auth/API-aktivering görs vid behov uttryckligen i webbkonsolen. CLI-flödet tillåts inte börja förrän Hosting API är verifierat aktiverat; Auth-domänsynk är avstängd.
 
 Preview isolerar inte databasen. Aktuella regler och rumsdata hör till det riktiga projektet, även när webbplatsen ligger på en previewadress. Spara backupen lokalt före regeländring. Artifact-retention är tre dagar och pilotlänken gäller en dag. Pilotens giltighet raderar inte övergivna rum och stoppar inte åtkomst genom andra webbplatser.
 
 Publika GitHub-repon kan köras med standardvärdar utan Actions-minutkostnad enligt GitHubs vanliga villkor; artifacts/cacher är fortfarande resurser. Paketet använder kort retention och små webbbyggen. Detta är inte en kvot-/kostnadsgaranti för Firebase eller GitHub. Ingen Blaze eller betalningskoppling ingår.
+
+## Regelbackup och manuellt konsolläge
+
+Användarens konsolkopia sparas i `ops/rules-evidence/console-current.rules.json` med projekt/databas/hash/proveniens i `console-snapshot.json`. Den första, helt stängda regeluppsättningen bevaras separat i `before-pilot.rules.json` för återgång. Formatering normaliserades från chattens HTML-/radbrytningsmarkeringar, behörigheterna är exakt `.read: false` och `.write: false`. Detta bevisar inte att databasen är tom.
+
+Standardvalet `rules_source=api` är fortsatt strikt och faller aldrig automatiskt tillbaka vid 401. Välj `rules_source=console` och markera `console_rules_confirmed` endast efter kontroll av aktuell konsoltext mot sparad kopia. Konsolläget gör åtta metadata-GET-anrop och ingen regel-API-läsning. Rapport/artifact anger källan och `rulesApiVerified: false`. En grön metadata-inventering är inte ett publiceringsgodkännande: den nuvarande stängda kopian matchar inte föreslagna spelregler och pilotspärren stoppar fortfarande.
+
+Efter en godkänd regelpublicering ska användaren lämna en ny konsolkopia. Endast den aktuella kopian/metadata uppdateras; före-pilot-backupen behålls. Pilot kräver sedan samma manuella bekräftelse, matchande föreslagen/granskad hash och övriga molnkontroller. Den manuella vägen ger inte läskontot bredare IAM-rättigheter.
 
 ## Validering för utvecklare
 

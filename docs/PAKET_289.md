@@ -1,32 +1,29 @@
 # #289 — GitHub Actions med webbaserad Google-koppling
 
-**Källkod uppladdad till GitHub; inte Firebase-aktiverat eller publicerat.** Användaren vill inte köra något i terminalen och gav Kör för detta alternativ. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #290.
+**Källkod på GitHub, Googlefederation verifierad, Firebase-pilot inte publicerad.** Användaren vill arbeta helt via webben. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #290.
 
-## Leverans
+## Aktuellt
 
-- Arbets-/leveransmapp: /workspace/buzzy-github-release.
-- Hela webbhandledningen: buzzy-github-release/docs/WEBBSETUP.md.
-- Självbärande källkodspaket: BUZZY_GITHUB_ACTIONS_289.zip.
-- Rapporter: buzzy-github-release/reports/readiness-289.json och test-/actionlint-loggar.
+GitHub-repo BadBagel47/buzzy är offentligt. Två manuella flöden finns; inga push-/PR-/schemautlösare. GitHub OIDC/WIF och kontot buzzy-gpt fungerar efter rättning till ID-kvalificerat subject. Tidigare fel rapporterades från run 42123366809: Cloud Billing API var avstängt och regelendpointen nekade läskontot. Användaren har aktiverat API:et och lämnat konsolens hela regeltext, som endast innehåller .read:false och .write:false. Detta säger inget om befintliga data.
 
-Paketet har två manuella workflows: först läsande inventering och exakt rå regelbackup; därefter en separat, granskad Hosting-preview i en dag. Ingen push-/PR-/schemautlösare finns. Google OIDC/WIF ger tillfällig åtkomst till separata tjänstekonton; inga privata JSON-nycklar eller användarens CLI-login behövs. Behörigheten begränsas till numeriska repo-/ägar-ID:n, main, rätt workflow och environment.
+Regelkopian är sparad i ops/rules-evidence/console-current.rules.json och oföränderlig före-pilot-referens before-pilot.rules.json. Snapshotmetadata anger projekt/databas, manuell källa, fångsttid och kanonisk hash. HTML-blanksteg och radbrytningsmarkeringar från chatten normaliserades till giltig JSON, med exakt samma behörigheter; det är inte en kopia av verifierade originalbytes från servern. Originalmeddelandet är bevarat separat i den lokala backupen.
 
-## Kontrollerade gränser
+## Två uttryckliga evidenslägen
 
-Inventeringen gör nio fasta GET-anrop, hämtar inga speldata/kontolistor, följer inga tokenbärande redirects och exporterar inte full Auth-konfiguration eller OAuth-hemligheter. Kommentarer i regler sparas exakt för återgång men ignoreras vid JSON-/hashjämförelse. Aktuell rules-API-backup och sanerad release-/projektmetadata sparas med tre dagars artifact-retention; användaren behöver ladda ner backup före regeländring. Release-ID:n är metadata, ingen full kopia av tidigare site.
+Standard api kräver lyckad regel-API-läsning och faller aldrig automatiskt tillbaka vid 401. Console kräver aktivt valt rules_source=console och console_rules_confirmed=true vid varje run. Den sparade konsolkopians projekt/databas/hash och bevarade baseline valideras före användning. Flödet gör då åtta fasta metadata-GET-anrop, sparar kopior och märker rapport/artifact som console-copy-confirmed, rulesApiVerified:false. Det verifierar inte oberoende vad som är publicerat i Firebase.
 
-Ingen CI-databasskrivning. Efter inventering och konkret granskning kan regler publiceras i Firebase-konsolen; flödet stoppar om befintliga regler inte matchar föreslagna och granskad hash. Hosting API måste redan vara aktivt, rätt projekt/databas/site/Anonymous kontrolleras och aktiv/länkad billing stoppar. Billing-info är en kontroll av länkning/aktivering; den är inte i sig ett separat Firebase-plannamn. Spark är fortsatt användarens krav.
+Inventory kan slutföra metadata och bevara den aktuella stängda konsolkopian. En grön sådan körning betyder inte redo att publicera spel: stängda regler matchar inte förslaget och pilotgaten nekar fortsatt. Först efter separat konkret regelgranskning/publiceringsbeslut kan användaren publicera via Firebase-konsolen och lämna ny aktuell konsolkopia. Den uppdateras med hash/proveniens; före-pilot-backupen ändras inte. Pilot kräver matchande snapshot/proposed/reviewed-hash, ny operatörsbekräftelse och alla övriga aktuella projekt-/plan-/Auth-/databas-/Hosting/API-kontroller.
 
-Pilotkommandot är låst till hosting:channel:deploy pilot, expires 1d, no-authorized-domains, fast projekt och Hosting-only-konfiguration. Huvudkanalen är inte mål. Hosting Admin har dock projektomfattande Hosting-rättigheter; kanalbegränsningen ligger i granskad kod/Workload-villkor, inte en separat kanal-IAM-roll. Preview delar riktig databas och saknar privat länkskydd. Expiry raderar inga rum.
+## Begränsningar
 
-## Faktisk verifiering
+Inga CI-regel-/dataskrivningar, privata nycklar, allmän Admin eller användarterminal. Cloud Billing-kontrollen läser bara om faktureringskonto är länkat/aktiverat; ingen betalplansändring görs. Pilotkommandot är fast Hosting-only, kanal pilot, en dag och avstängd Auth-domänsynk. Hosting Admin är en projektroll; previewbegränsningen ligger i granskad kod och WIF-villkor, inte kanal-IAM. Preview delar verklig databas och saknar privat länkskydd. Expiry raderar inga rum.
 
-16 passerade lokala testposter utan skips: 12 operationstest med lokala API-fixtures, 3 appkonfigurationsprov, 1 HTTPS-prov på den byggda piloten med samtliga molnanrop interceptade. Ren npm ci med oförändrad låsfil och separat pilotbuild passerar. Två workflow-filer passerar actionlint 1.7.7; shellcheck/pyflakes är inte körda. Officiell actionlint-binär checksummeverifierad. Actionreferenser är SHA-låsta och verifierade mot officiella GitHub-taggar. Hosting REST-adresser jämförda med Googles publika Discovery-beskrivning.
+Artifactretention är tre dagar; användaren sparar backup lokalt före regeländring. Release-ID:n är metadata, ingen full gammal webbplatskopia. Manuell konsolbekräftelse förlitar sig på operatörens kontroll; API-läge ger oberoende läsning när kontoåtkomst tillåter. Använd ingen publiceringsgate som om manuell evidens vore API-verifierad.
 
-#288:s 66 manifestposter verifieras oförändrade. Spelkällor/databasregler/låsfil är byte-identiska; HTTPS-testet i nya kopian accepterar CHROMIUM_PATH för GitHub-browsern. Full emulatorregression är inte nykörd när spelbeteendet inte ändrats. GitHub-runnern, Google federation/IAM och verklig Auth/RTDB/mobilanslutning är inte verifierade.
+## Verifiering
 
-## Nästa externa steg
+20 operationstest passerar utan skips: bland annat riktig tidigare OIDC-claims-regression, felredigering utan credentials, båda evidenslägenas negativa fall och full sandboxad konsolkörning med åtta GETs där stängda regler aldrig tillåter pilot. Två workflows passerar actionlint 1.7.7; shellcheck/pyflakes inte körda. Verklig konsolkopias hash/projekt/databas/baseline validerad lokalt. Tre tidigare appconfigprov och ett interceptat HTTPS-prov är historisk oförändrad-app-evidens, inte nykörda. Inget nytt appbygge eller full emulatorregression behövs för dessa operativa ändringar; verklig mobilpilot återstår.
 
-Repo BadBagel47/buzzy är offentligt, ID 1423632612, ägar-ID 340718529. Det granskade paketets 53 filer har efter användarens uttryckliga godkännande lagts upp på main i commit 09d0e00b94a12962e5f30b5819c220a417a2517a. Båda manuella workflowfiler syns på Actions-sidan. Ingen workflowkörning är startad. ZIP har avgränsade projekt-/UI-indata, inga chattexporter, node_modules eller credentials. Därefter följer användaren webbguiden för läsande tjänstekonto och WIF/Environment, kör inventering, sparar backup och granskar resultatet före någon molnregel-/Hosting-ändring. Ingen Google IAM/WIF/API-ändring, betalplansändring eller deploy är utförd.
+## Nästa steg
 
-Miljöns tidigare Google/Firebase-nätutkast är redan aktivt i revision 7. GitHub-spåret kräver inte att samma miljöutkast godkänns igen. Den gamla Codex-login-hjälpen är historik och ska inte erbjudas som ett krav för detta spår.
+Uppdatera GitHub-sidan, välj en NY inventory-run på main med rules_source=console och bekräftelsen markerad efter kontroll av konsoltexten. Läs API-resultat och hela rapporten, inklusive faktureringskontrollen efter API-aktiveringen. Därefter görs konkret granskning av regeländringen och separat användarbeslut före publicering. Hosting-identitet/pilotmiljö och verkliga mobiltester återstår. Ingen molnregeländring eller Hosting-deploy är utförd av agenten.

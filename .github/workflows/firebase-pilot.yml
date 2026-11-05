@@ -6,6 +6,21 @@ on:
         description: SHA-256 of the reviewed proposed rules, also present in Firebase
         type: string
         required: true
+      rules_source:
+        description: Rules evidence source (console requires current-console confirmation)
+        type: choice
+        options:
+          - api
+          - console
+        default: api
+      console_rules_confirmed:
+        description: I checked current Firebase console rules match the saved snapshot and reviewed hash
+        type: boolean
+        default: false
+
+env:
+  RULES_SOURCE: ${{ inputs.rules_source }}
+  CONSOLE_RULES_CONFIRMED: ${{ inputs.console_rules_confirmed }}
 
 permissions:
   contents: read
@@ -33,6 +48,8 @@ jobs:
       - name: Install locked dependencies
         working-directory: buzzy-live-pilot
         run: npm ci --no-audit --no-fund
+      - name: Require explicit rules evidence selection
+        run: node --input-type=module -e 'import {rulesOptions} from "./ops/console-rules.mjs"; rulesOptions(process.env)'
       - name: Verify cloud-operation guards
         run: node --test tests/operations.test.mjs
       - name: Verify app configuration and build pilot

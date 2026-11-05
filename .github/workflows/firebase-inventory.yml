@@ -1,6 +1,22 @@
 name: Firebase - inspect and back up
 on:
   workflow_dispatch:
+    inputs:
+      rules_source:
+        description: Rules backup source (console uses saved copy, not a live API check)
+        type: choice
+        options:
+          - api
+          - console
+        default: api
+      console_rules_confirmed:
+        description: I checked current Firebase console rules match the saved console snapshot
+        type: boolean
+        default: false
+
+env:
+  RULES_SOURCE: ${{ inputs.rules_source }}
+  CONSOLE_RULES_CONFIRMED: ${{ inputs.console_rules_confirmed }}
 
 permissions:
   contents: read
@@ -46,7 +62,7 @@ jobs:
           access_token_scopes: https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/firebase.database,https://www.googleapis.com/auth/userinfo.email
           create_credentials_file: false
           export_environment_variables: false
-      - name: Read settings and back up rules
+      - name: Read settings and preserve selected rules evidence
         run: node ops/inventory.mjs inventory
         env:
           GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}

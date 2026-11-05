@@ -54,6 +54,12 @@ export function assertPilotReady(report, reviewedHash) {
   if (report.databaseUrl !== DATABASE_URL || report.databaseState !== 'ACTIVE') failed.push('database identity/state');
   if (report.siteDefaultUrl !== `https://${PROJECT}.web.app`) failed.push('Hosting site is missing or different');
   if (report.hostingApiEnabled !== true) failed.push('Hosting API is not already enabled');
+  if (report.rulesSource === 'api') {
+    if (report.rulesApiVerified !== true) failed.push('rules API evidence is not verified');
+  } else if (report.rulesSource === 'console-copy-confirmed') {
+    const evidence = report.consoleRulesEvidence;
+    if (evidence?.operatorConfirmed !== true || evidence.serverApiVerified !== false || evidence.projectId !== PROJECT || evidence.databaseURL !== DATABASE_URL || evidence.canonicalSha256 !== report.currentRulesSha256 || report.rulesApiVerified !== false) failed.push('manual console evidence is incomplete or unconfirmed');
+  } else failed.push('unknown rules verification source');
   if (report.currentRulesSha256 !== report.proposedRulesSha256 || report.currentRulesSha256 !== reviewedHash) failed.push('cloud rules do not match the reviewed proposed rules');
   if (failed.length) throw new Error(`Pilot blocked: ${failed.join('; ')}`);
 }
@@ -72,4 +78,10 @@ export function pilotArguments() {
 export function assertApproval(approval, env, now = Date.now()) {
   const verifiedAt = Date.parse(approval.verifiedAt);
   if (approval.sourceCommit !== env.GITHUB_SHA || approval.reviewedRulesSha256 !== env.REVIEWED_RULES_SHA256 || !Number.isFinite(verifiedAt) || now - verifiedAt > 120_000 || verifiedAt > now || approval.target !== 'pilot' || approval.databaseWritesAllowed !== false) throw new Error('Missing or stale read-only preflight approval');
+  const source = env.RULES_SOURCE || 'api';
+  if (source === 'api') {
+    if (approval.rulesSource !== 'api' || approval.rulesApiVerified !== true) throw new Error('Approval does not contain API-verified rules');
+  } else if (source === 'console') {
+    if (env.CONSOLE_RULES_CONFIRMED !== 'true' || approval.rulesSource !== 'console-copy-confirmed' || approval.rulesApiVerified !== false || approval.consoleSnapshotSha256 !== env.REVIEWED_RULES_SHA256) throw new Error('Approval does not match explicitly confirmed console rules');
+  } else throw new Error('Unknown rules source');
 }

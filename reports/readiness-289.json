@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "Google federation verified; read-only inventory blocked by rules HTTP 401 and billing HTTP 403; structured API error diagnostics prepared",
+  "status": "console rules backup preserved; explicit manual evidence mode locally verified; fresh cloud inventory still required",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -9,11 +9,11 @@
   },
   "tests": {
     "operations": {
-      "passed": 16,
+      "passed": 20,
       "failed": 0,
       "skipped": 0,
       "fixtureOnly": true,
-      "latestRun": "2026-11-05T22:38:07.378173+00:00"
+      "latestRun": "2026-11-05T22:54:32.394780+00:00"
     },
     "appConfiguration": {
       "passed": 3,
@@ -26,10 +26,10 @@
       "skipped": 0,
       "allCloudRequestsIntercepted": true
     },
-    "totalPassed": 20,
+    "totalPassed": 24,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "16 operation tests rerun for allowlisted API errors/backup reporting; previous 3 configuration + 1 intercepted HTTPS app tests not rerun"
+    "note": "20 operation tests rerun for API/manual evidence modes, explicit confirmation, baseline preservation and negative deployment gates; previous 3 appconfig + 1 intercepted HTTPS test not rerun"
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -64,7 +64,8 @@
       "sourceCommit": "a98626f5f85c73197ffa76f1f72fb7b4dfb4a4ca",
       "result": "failure before inventory",
       "error": "unauthorized_client: The given credential is rejected by the attribute condition.",
-      "nextStep": "Run updated main workflow to inspect allowlisted public OIDC selectors; do not weaken trust without evidence"
+      "nextStep": "Run updated main workflow to inspect allowlisted public OIDC selectors; do not weaken trust without evidence",
+      "resolution": "ID-qualified subject mismatch corrected; Google federation later verified"
     },
     "oidcDiagnosis": {
       "run": "42115890476",
@@ -72,7 +73,7 @@
       "actualInventorySubject": "repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory",
       "onlyMismatchingClaim": "sub",
       "allOtherConditionClaimsMatch": true,
-      "googleConfigurationCorrectionPending": true,
+      "googleConfigurationCorrectionPending": false,
       "pilotSubjectObserved": false
     },
     "googleFederationVerified": true,
@@ -93,6 +94,11 @@
       ],
       "currentRulesBackupSaved": false,
       "artifactSha256": "fecf81a8ad116394a84d1e63234769d9e2c00e69226d3e6243ad35136b4c0838"
+    },
+    "rulesEvidenceModes": {
+      "default": "api; no automatic fallback",
+      "console": "explicit rules_source=console + console_rules_confirmed=true for each run",
+      "consoleEvidenceIsApiVerified": false
     }
   },
   "repository": {
@@ -123,15 +129,20 @@
       "no live releases returned",
       "pilot channel absent"
     ],
-    "currentDatabaseRulesBackedUp": false
+    "currentDatabaseRulesBackedUp": true,
+    "currentDatabaseRulesBackupSource": "user-copied Firebase console rules; formatting normalized, not API original bytes",
+    "consoleRulesSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
+    "rulesPublished": false,
+    "billingApiActivation": "user-confirmed; new read not yet verified"
   },
   "pending": [
-    "Create read-only service account and scoped Google WIF provider in browser",
-    "Configure GitHub environment and run read-only inventory",
-    "Download rules backup and review existing/project/Auth/plan/Hosting/API metadata",
-    "After explicit review publish rules in Firebase Console if needed",
-    "Configure separate Hosting identity, then approve one-day pilot",
-    "Real host and two-mobile tests and usage monitoring"
+    "Run fresh metadata inventory on latest main using console evidence and explicit confirmation; verify billing after API activation",
+    "Review exact proposed rules against preserved closed baseline and obtain separate publication decision",
+    "After approved Firebase Console publication, collect a new current-console copy and preserve before-pilot backup",
+    "Configure separate Hosting identity and firebase-pilot environment",
+    "Require reviewed rules hash + matching selected evidence + current confirmation before one-day pilot",
+    "Real host and two-mobile tests and usage monitoring",
+    "Remove obsolete name-only inventory IAM binding after working setup is confirmed"
   ],
   "nextFreeIssueId": 290,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00"

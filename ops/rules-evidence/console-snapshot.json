@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "projectId": "buzzy-197dc",
+  "databaseURL": "https://buzzy-197dc-default-rtdb.europe-west1.firebasedatabase.app",
+  "captureMethod": "user-copied-from-firebase-console",
+  "capturedAt": "2026-11-05T23:48:30.131747+01:00",
+  "canonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
+  "beforePilotCanonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
+  "serverApiVerified": false,
+  "formattingNormalized": true,
+  "normalizationNote": "User message contained HTML whitespace entities and Markdown line escapes; JSON permissions preserved exactly. Original message retained in local backup, not claimed to be original server bytes."
+}

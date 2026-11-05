@@ -8,6 +8,7 @@ import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_
 import {RESOURCES, reader, collectInventory, main, apiFailure} from '../ops/inventory.mjs';
 import {parseRulesSource} from '../ops/rules-source.mjs';
 import {summarizeClaims, diagnose} from '../ops/oidc-diagnostics.mjs';
+import {rulesOptions, validateConsoleEvidence} from '../ops/console-rules.mjs';
 
 const proposed = JSON.parse(readFileSync(new URL('../buzzy-live-pilot/database.rules.json', import.meta.url), 'utf8'));
 function context(kind) {
@@ -26,9 +27,9 @@ function fixture() {
     rules: JSON.stringify(proposed, null, 2),
   };
 }
-async function collect(data = fixture()) {
+async function collect(data = fixture(), consoleEvidence) {
   const saved = new Map();
-  const report = await collectInventory({read: async name => {if (data[name] instanceof Error) throw data[name]; return data[name];}, proposed, save: async (name, body) => saved.set(name, body)});
+  const report = await collectInventory({read: async name => {if (data[name] instanceof Error) throw data[name]; return data[name];}, proposed, save: async (name, body) => saved.set(name, body), consoleEvidence});
   return {report, saved};
 }
 
@@ -185,9 +186,50 @@ test('Rules comments are preserved for rollback; comment markers inside expressi
 
 test('Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command', () => {
   const now = Date.now(), env = context('pilot');
-  const approval = {verifiedAt: new Date(now).toISOString(), sourceCommit: env.GITHUB_SHA, reviewedRulesSha256: env.REVIEWED_RULES_SHA256, target: 'pilot', databaseWritesAllowed: false};
+  const approval = {verifiedAt: new Date(now).toISOString(), sourceCommit: env.GITHUB_SHA, reviewedRulesSha256: env.REVIEWED_RULES_SHA256, target: 'pilot', databaseWritesAllowed: false, rulesSource: 'api', rulesApiVerified: true};
   assert.doesNotThrow(() => assertApproval(approval, env, now));
   for (const patch of [{verifiedAt: 'invalid'}, {verifiedAt: new Date(now - 120_001).toISOString()}, {verifiedAt: new Date(now + 1).toISOString()}, {sourceCommit: 'b'.repeat(40)}, {reviewedRulesSha256: 'b'.repeat(64)}, {target: 'live'}, {databaseWritesAllowed: true}]) assert.throws(() => assertApproval({...approval, ...patch}, env, now));
+});
+
+function evidenceFor(document) {
+  const source = JSON.stringify(document, null, 2), baseline = JSON.stringify({rules: {'.read': false, '.write': false}});
+  const metadata = {version: 1, projectId: PROJECT, databaseURL: DATABASE_URL, captureMethod: 'user-copied-from-firebase-console', capturedAt: '2026-11-05T23:00:00+01:00', canonicalSha256: rulesHash(document), beforePilotCanonicalSha256: rulesHash(JSON.parse(baseline)), serverApiVerified: false};
+  return validateConsoleEvidence(source, metadata, baseline);
+}
+
+test('Manual rules source is opt-in and validates project, database, snapshot and preserved baseline', () => {
+  assert.equal(rulesOptions({}).source, 'api');
+  assert.throws(() => rulesOptions({RULES_SOURCE: 'console'}));
+  assert.throws(() => rulesOptions({RULES_SOURCE: 'other', CONSOLE_RULES_CONFIRMED: 'true'}));
+  assert.equal(rulesOptions({RULES_SOURCE: 'console', CONSOLE_RULES_CONFIRMED: 'true'}).source, 'console');
+  const evidence = evidenceFor(proposed);
+  for (const patch of [{projectId: 'wrong'}, {databaseURL: 'https://wrong.invalid'}, {canonicalSha256: 'b'.repeat(64)}, {beforePilotCanonicalSha256: 'b'.repeat(64)}, {serverApiVerified: true}, {captureMethod: 'automatic'}, {capturedAt: 'invalid'}]) assert.throws(() => validateConsoleEvidence(evidence.source, {...evidence.metadata, ...patch}, evidence.baseline));
+});
+
+test('Confirmed console backup skips denied rules API, stays visibly manual and cannot deploy closed rules', async () => {
+  const data = fixture();data.rules = new Error('Rules endpoint must not be called');
+  const closed = {rules: {'.read': false, '.write': false}};
+  const {report, saved} = await collect(data, evidenceFor(closed));
+  assert.equal(report.errors.length, 0);assert.equal(report.apiReadsAttempted, 8);
+  assert.equal(report.rulesSource, 'console-copy-confirmed');assert.equal(report.rulesApiVerified, false);
+  assert.equal(report.rulesBackupSaved, true);assert.equal(report.rulesMatch, false);
+  assert.match(report.status, /not API verified/);
+  assert.deepEqual(JSON.parse(saved.get('existing-database.rules.json')), closed);
+  assert.ok(saved.has('before-pilot.rules.json'));assert.ok(saved.has('rules-evidence.json'));
+  assert.throws(() => assertPilotReady(report, rulesHash(proposed)), 'Closed baseline must never permit a pilot');
+});
+
+test('Manual pilot requires matching reviewed rules, exact evidence and repeated operator confirmation', async () => {
+  const {report} = await collect(fixture(), evidenceFor(proposed));
+  assert.doesNotThrow(() => assertPilotReady(report, rulesHash(proposed)));
+  for (const patch of [{operatorConfirmed: false}, {canonicalSha256: 'b'.repeat(64)}, {projectId: 'wrong'}, {databaseURL: 'wrong'}, {serverApiVerified: true}]) assert.throws(() => assertPilotReady({...report, consoleRulesEvidence: {...report.consoleRulesEvidence, ...patch}}, rulesHash(proposed)));
+  assert.throws(() => assertPilotReady({...report, rulesApiVerified: true}, rulesHash(proposed)));
+  const now = Date.now(), env = {...context('pilot'), RULES_SOURCE: 'console', CONSOLE_RULES_CONFIRMED: 'true'};
+  const approval = {verifiedAt: new Date(now).toISOString(), sourceCommit: env.GITHUB_SHA, reviewedRulesSha256: env.REVIEWED_RULES_SHA256, target: 'pilot', databaseWritesAllowed: false, rulesSource: 'console-copy-confirmed', rulesApiVerified: false, consoleSnapshotSha256: env.REVIEWED_RULES_SHA256};
+  assert.doesNotThrow(() => assertApproval(approval, env, now));
+  assert.throws(() => assertApproval(approval, {...env, CONSOLE_RULES_CONFIRMED: 'false'}, now));
+  assert.throws(() => assertApproval({...approval, consoleSnapshotSha256: 'b'.repeat(64)}, env, now));
+  assert.throws(() => assertApproval(approval, {...env, RULES_SOURCE: 'api'}, now));
 });
 
 test('Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync', () => {
@@ -231,6 +273,37 @@ test('Whole pilot preflight writes a raw backup and Hosting-only config, with ze
       const output = await readFile(`ci-reports/pilot/${name}`, 'utf8');
       assert.ok(!output.includes(token));assert.ok(!output.includes('DO-NOT-EXPORT'));
     }
+  } finally {
+    process.chdir(initialCwd);globalThis.fetch = initialFetch;await rm(directory, {recursive: true, force: true});
+  }
+});
+
+test('Whole console workflow preserves the supplied closed backup, makes eight GETs and cannot approve a pilot', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'buzzy-console-preflight-'));
+  const initialCwd = process.cwd(), initialFetch = globalThis.fetch;
+  const closed = {rules: {'.read': false, '.write': false}}, evidence = evidenceFor(closed), data = fixture(), requests = [];
+  try {
+    await mkdir(join(directory, 'buzzy-live-pilot'));
+    await mkdir(join(directory, 'ops/rules-evidence'), {recursive: true});
+    await writeFile(join(directory, 'buzzy-live-pilot/database.rules.json'), JSON.stringify(proposed));
+    await writeFile(join(directory, 'ops/rules-evidence/console-current.rules.json'), evidence.source);
+    await writeFile(join(directory, 'ops/rules-evidence/console-snapshot.json'), JSON.stringify(evidence.metadata));
+    await writeFile(join(directory, 'ops/rules-evidence/before-pilot.rules.json'), evidence.baseline);
+    globalThis.fetch = async (url, options) => {
+      requests.push(url);assert.equal(options.method, 'GET');assert.ok(!url.startsWith(DATABASE_URL));
+      const key = Object.keys(RESOURCES).find(name => RESOURCES[name] === url);assert.ok(key);
+      return key === 'pilot' ? {ok: false, status: 404} : {ok: true, json: async () => data[key]};
+    };
+    process.chdir(directory);
+    const env = {...context('inventory'), RULES_SOURCE: 'console', CONSOLE_RULES_CONFIRMED: 'true', GOOGLE_OAUTH_ACCESS_TOKEN: 'LOCAL-FAKE-OAUTH'};
+    const report = await main('inventory', env);
+    assert.equal(requests.length, 8);assert.equal(report.rulesApiVerified, false);assert.equal(report.rulesMatch, false);
+    assert.equal(await readFile('ci-reports/inventory/existing-database.rules.json', 'utf8'), evidence.source);
+    assert.equal(await readFile('ci-reports/inventory/before-pilot.rules.json', 'utf8'), evidence.baseline);
+    const {operatorConfirmed, serverApiVerified} = JSON.parse(await readFile('ci-reports/inventory/rules-evidence.json', 'utf8'));
+    assert.equal(operatorConfirmed, true);assert.equal(serverApiVerified, false);
+    await assert.rejects(main('pilot', {...env, ...context('pilot')}), /cloud rules do not match/);
+    await assert.rejects(readFile('ci-reports/pilot/approval.json'));
   } finally {
     process.chdir(initialCwd);globalThis.fetch = initialFetch;await rm(directory, {recursive: true, force: true});
   }

@@ -10,6 +10,14 @@ export const DATABASE_URL = `https://${DATABASE}.europe-west1.firebasedatabase.a
 export const PROVIDER = `projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/buzzy-github/providers/github`;
 export const SCOPES = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/firebase.database', 'https://www.googleapis.com/auth/userinfo.email'];
 
+// Observed in this repository's GitHub OIDC token: names are qualified with
+// immutable owner/repository IDs. Do not fall back to the older name-only sub.
+export function oidcSubject(kind) {
+  if (!['inventory', 'pilot'].includes(kind)) throw new Error('Unknown workflow kind');
+  const [owner, repository] = REPOSITORY.split('/');
+  return `repo:${owner}@${OWNER_ID}/${repository}@${REPOSITORY_ID}:environment:firebase-${kind}`;
+}
+
 function ordered(value) {
   if (Array.isArray(value)) return value.map(ordered);
   if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map(key => [key, ordered(value[key])]));

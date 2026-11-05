@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {mkdtemp, mkdir, writeFile, readFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments} from '../ops/policy.mjs';
+import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments, oidcSubject} from '../ops/policy.mjs';
 import {RESOURCES, reader, collectInventory, main} from '../ops/inventory.mjs';
 import {parseRulesSource} from '../ops/rules-source.mjs';
 import {summarizeClaims, diagnose} from '../ops/oidc-diagnostics.mjs';
@@ -52,7 +52,7 @@ test('OIDC diagnostics retain only allowed public claims and detect an actual su
 
 test('OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience', async () => {
   const env = {...context('inventory'), ACTIONS_ID_TOKEN_REQUEST_URL: 'https://run-actions-1.actions.githubusercontent.com/test/idtoken?api-version=2', ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'LOCAL-FAKE-REQUEST-SECRET'};
-  const claims = {sub: `repo:${REPOSITORY}:environment:firebase-inventory`, access_token: 'DO-NOT-EXPORT'};
+  const claims = {sub: oidcSubject('inventory'), access_token: 'DO-NOT-EXPORT'};
   const jwt = 'header.' + Buffer.from(JSON.stringify(claims)).toString('base64url') + '.signature';
   let called = 0;
   const fetchFixture = async (url, options) => {
@@ -66,6 +66,15 @@ test('OIDC diagnostics never export the token and use only the trusted GitHub en
   for (const url of ['http://run-actions-1.actions.githubusercontent.com/idtoken', 'https://attacker.invalid/idtoken', 'https://actions.githubusercontent.com.attacker.invalid/']) await assert.rejects(diagnose({...env, ACTIONS_ID_TOKEN_REQUEST_URL: url}, 'inventory', fetchFixture));
   assert.equal(called, 1);
   await assert.rejects(diagnose(env, 'inventory', async () => {throw new Error(env.ACTIONS_ID_TOKEN_REQUEST_TOKEN);}), error => !error.message.includes(env.ACTIONS_ID_TOKEN_REQUEST_TOKEN));
+});
+
+test('Actual run 42115890476 identity matches immutable IDs; legacy or different subjects are rejected', () => {
+  const claims = JSON.parse(readFileSync(new URL('./fixtures/oidc-inventory-2026-11-05.json', import.meta.url), 'utf8'));
+  const report = summarizeClaims(claims, 'inventory');
+  assert.equal(oidcSubject('inventory'), claims.sub);
+  assert.ok(Object.values(report.comparisons).every(value => value.matches));
+  for (const sub of [`repo:${REPOSITORY}:environment:firebase-inventory`, claims.sub.replace('@1423632612', '@0000000000'), claims.sub.replace('@340718529', '@000000000'), oidcSubject('pilot')]) assert.equal(summarizeClaims({...claims, sub}, 'inventory').comparisons.sub.matches, false);
+  assert.throws(() => oidcSubject('unknown'));
 });
 
 test('Rules comparison ignores object order but retains every permission/validation expression', () => {

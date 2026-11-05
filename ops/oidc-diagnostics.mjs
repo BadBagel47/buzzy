@@ -1,7 +1,7 @@
 import {mkdir, writeFile, appendFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {assertContext, REPOSITORY, REPOSITORY_ID, OWNER_ID} from './policy.mjs';
+import {assertContext, REPOSITORY, REPOSITORY_ID, OWNER_ID, oidcSubject} from './policy.mjs';
 
 // These are public identity selectors. Never print/retain the JWT, request
 // authorization, arbitrary claims or Google credentials.
@@ -12,7 +12,7 @@ export function summarizeClaims(claims, kind) {
     repository_id: REPOSITORY_ID, repository_owner_id: OWNER_ID,
     ref: 'refs/heads/main', event_name: 'workflow_dispatch',
     workflow_ref: `${REPOSITORY}/.github/workflows/firebase-${kind}.yml@refs/heads/main`,
-    sub: `repo:${REPOSITORY}:environment:firebase-${kind}`,
+    sub: oidcSubject(kind),
   };
   const visible = Object.fromEntries(PUBLIC_CLAIMS.map(key => [key, typeof claims[key] === 'string' ? claims[key] : '(missing)']));
   return {claims: visible, comparisons: Object.fromEntries(Object.entries(expected).map(([key, value]) => [key, {expected: value, matches: visible[key] === value}])), note: 'Public selector diagnostics only; not JWT signature verification and not Google authorization.'};

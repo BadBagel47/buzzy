@@ -1,0 +1,10 @@
+{
+  "repository_id": "1423632612",
+  "repository_owner_id": "340718529",
+  "ref": "refs/heads/main",
+  "event_name": "workflow_dispatch",
+  "workflow_ref": "BadBagel47/buzzy/.github/workflows/firebase-inventory.yml@refs/heads/main",
+  "sub": "repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory",
+  "environment": "firebase-inventory",
+  "aud": "https://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/providers/github"
+}

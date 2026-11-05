@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "source on GitHub; first cloud auth rejected by provider attribute condition; sanitized OIDC diagnostics prepared",
+  "status": "OIDC mismatch diagnosed from real artifact; Google provider condition and service-account principal need ID-qualified subject",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -9,11 +9,11 @@
   },
   "tests": {
     "operations": {
-      "passed": 14,
+      "passed": 15,
       "failed": 0,
       "skipped": 0,
       "fixtureOnly": true,
-      "latestRun": "2026-11-05T21:46:11.866218+00:00"
+      "latestRun": "2026-11-05T22:02:25.138897+00:00"
     },
     "appConfiguration": {
       "passed": 3,
@@ -26,10 +26,10 @@
       "skipped": 0,
       "allCloudRequestsIntercepted": true
     },
-    "totalPassed": 18,
+    "totalPassed": 19,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "Only 14 operation tests rerun for this diagnostic; 3 config and 1 intercepted HTTPS test are previous unchanged-app evidence"
+    "note": "15 operation tests rerun, including sanitized real-claim regression; previous 3 config + 1 intercepted HTTPS unchanged-app checks retained"
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -65,6 +65,15 @@
       "result": "failure before inventory",
       "error": "unauthorized_client: The given credential is rejected by the attribute condition.",
       "nextStep": "Run updated main workflow to inspect allowlisted public OIDC selectors; do not weaken trust without evidence"
+    },
+    "oidcDiagnosis": {
+      "run": "42115890476",
+      "verifiedArtifactSha256": "95f50af213a0025bcf903c8127f86a857b44d398086330e4b3ed58bc71312d03",
+      "actualInventorySubject": "repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory",
+      "onlyMismatchingClaim": "sub",
+      "allOtherConditionClaimsMatch": true,
+      "googleConfigurationCorrectionPending": true,
+      "pilotSubjectObserved": false
     }
   },
   "repository": {

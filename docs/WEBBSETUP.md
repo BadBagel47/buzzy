@@ -57,6 +57,8 @@ Lägg in följande **attribute mappings**. Varje rad är en separat mappning fr�
 | `attribute.event_name` | `assertion.event_name` |
 | `attribute.workflow_ref` | `assertion.workflow_ref` |
 
+Detta repos faktiska OIDC-subject innehåller både namn och numeriska ID:n (`BadBagel47@340718529/buzzy@1423632612`). Använd exakt formen nedan; det äldre namnformatet nekas.
+
 Klistra in hela följande i **Attribute condition**. Villkoret släpper endast in detta repo/ägare, `main` och de två namngivna manuella flödena med rätt Environment:
 
 ```text
@@ -67,11 +69,11 @@ assertion.event_name == 'workflow_dispatch' &&
 (
   (
     assertion.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-inventory.yml@refs/heads/main' &&
-    assertion.sub == 'repo:BadBagel47/buzzy:environment:firebase-inventory'
+    assertion.sub == 'repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory'
   ) ||
   (
     assertion.workflow_ref == 'BadBagel47/buzzy/.github/workflows/firebase-pilot.yml@refs/heads/main' &&
-    assertion.sub == 'repo:BadBagel47/buzzy:environment:firebase-pilot'
+    assertion.sub == 'repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-pilot'
   )
 )
 ```
@@ -85,10 +87,10 @@ projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/provid
 Öppna därefter tjänstekontot `buzzy-gpt` → **Principals with access → Grant access**. Lägg till denna principal med rollen **Workload Identity User** (`roles/iam.workloadIdentityUser`) **på tjänstekontot**, inte på hela projektet:
 
 ```text
-principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47/buzzy:environment:firebase-inventory
+principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory
 ```
 
-Om gränssnittet istället använder poolens **Grant access → Grant access using Service Account**: välj `buzzy-gpt`, matcha `google.subject` mot `repo:BadBagel47/buzzy:environment:firebase-inventory` och kontrollera samma principal i slutresultatet. Ge inte hela poolen generell åtkomst. Federation genom ett tjänstekonto behöver inte någon tjänstekontonyckel eller generell Token Creator-roll.
+Om gränssnittet istället använder poolens **Grant access → Grant access using Service Account**: välj `buzzy-gpt`, matcha `google.subject` mot `repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-inventory` och kontrollera samma principal i slutresultatet. Ge inte hela poolen generell åtkomst. Federation genom ett tjänstekonto behöver inte någon tjänstekontonyckel eller generell Token Creator-roll.
 
 Google-ändringen kan ta några minuter att slå igenom. Det är inte ett skäl att skapa en privat nyckel eller vidga åtkomsten.
 
@@ -136,7 +138,7 @@ Skapa på samma sätt ett tjänstekonto med ID **`buzzy-hosting`**, e-post `buzz
 På just detta tjänstekontos flik **Principals with access** lägger du rollen **Workload Identity User** för:
 
 ```text
-principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47/buzzy:environment:firebase-pilot
+principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-pilot
 ```
 
 Skapa GitHub Environment **`firebase-pilot`**, begränsad till `main`. Lägg samma `WIF_PROVIDER`, men `GOOGLE_SERVICE_ACCOUNT=buzzy-hosting@buzzy-197dc.iam.gserviceaccount.com`. Lägg dig själv som **Required reviewer** om inställningen finns på repots plan; lämna **Prevent self-review** av om du är ensam och själv ska kunna godkänna. Manuell Run workflow och regelhash krävs alltid, även utan reviewer-funktionen.
@@ -163,3 +165,8 @@ Prova host + två riktiga mobiler, First/Timed, sen buzz, Retry, bakgrundstimer,
 Piloten kan tas bort via Hosting-konsolens previewkanaler eller löpa ut efter en dag; tidigare huvudrelease är kvar. Databasregler återställs från den nedladdade backupen i regelredigeraren efter granskning. Avsluta egna testspel via End game så rumsdata raderas. Vid avslutad pilot kan användaren stänga provider eller ta bort kontots Workload Identity User-bindning; då kan GitHub inte längre få nya Google-token. Detta raderar inte befintliga rum eller andra Firebase-resurser.
 
 Den äldre Codex-inloggningshjälpen i buzzy-operations behövs inte för detta spår. Inga Firebase-konton eller Google-nycklar ska skickas i chatten.
+
+
+## Om en tidigare koppling gav attribute-condition-fel
+
+I körning 42115890476 matchade alla claims utom sub: den faktiska GitHub-identiteten hade @ID efter ägare och repo. Rätta båda sub-strängarna i provider-villkoret enligt steg 4, och lägg till den rättade inventory-principalen med Workload Identity User på buzzy-gpt via Principals with access. Behåll övriga repo-/ägar-/gren-/event-/workflowvillkor oförändrade. När den nya kopplingen fungerar kan den tidigare namn-only-principalen tas bort från samma konto; rör inte andra befintliga principals. Ingen bredare principalSet-, Owner-, Editor- eller Token Creator-roll behövs. Pilotidentiteten följer samma ID-kvalificerade repoformat men har ännu inte observerats i en verklig pilotkörning.

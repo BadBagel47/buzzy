@@ -30,7 +30,7 @@ export function assertContext(env, kind) {
     GITHUB_REF: 'refs/heads/main',
     GITHUB_WORKFLOW_REF: `${REPOSITORY}/.github/workflows/firebase-${kind}.yml@refs/heads/main`,
     WIF_PROVIDER: PROVIDER,
-    GOOGLE_SERVICE_ACCOUNT: `buzzy-${kind === 'inventory' ? 'reader' : 'hosting'}@${PROJECT}.iam.gserviceaccount.com`,
+    GOOGLE_SERVICE_ACCOUNT: `buzzy-${kind === 'inventory' ? 'gpt' : 'hosting'}@${PROJECT}.iam.gserviceaccount.com`,
   };
   for (const [key, expected] of Object.entries(required)) if (env[key] !== expected) throw new Error(`Unexpected or missing ${key}`);
   if (!/^[a-f0-9]{40}$/.test(env.GITHUB_SHA || '')) throw new Error('Missing source commit');

@@ -12,7 +12,8 @@
       "passed": 12,
       "failed": 0,
       "skipped": 0,
-      "fixtureOnly": true
+      "fixtureOnly": true,
+      "latestRun": "2026-11-05T19:52:35.843998+00:00"
     },
     "appConfiguration": {
       "passed": 3,
@@ -42,7 +43,9 @@
     "method": "GitHub OIDC via Workload Identity Federation and distinct service accounts",
     "privateKeysRequired": false,
     "interactiveCliRequiredFromUser": false,
-    "cloudAccessVerified": false
+    "cloudAccessVerified": false,
+    "inventoryServiceAccount": "buzzy-gpt@buzzy-197dc.iam.gserviceaccount.com",
+    "inventoryAccountNameSource": "user-reported; Google role bindings not verified"
   },
   "repository": {
     "name": "BadBagel47/buzzy",

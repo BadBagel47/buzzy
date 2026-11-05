@@ -10,7 +10,7 @@ import {parseRulesSource} from '../ops/rules-source.mjs';
 
 const proposed = JSON.parse(readFileSync(new URL('../buzzy-live-pilot/database.rules.json', import.meta.url), 'utf8'));
 function context(kind) {
-  return {GITHUB_REPOSITORY: REPOSITORY, GITHUB_REPOSITORY_ID: REPOSITORY_ID, GITHUB_REPOSITORY_OWNER_ID: OWNER_ID, GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/main', GITHUB_WORKFLOW_REF: `${REPOSITORY}/.github/workflows/firebase-${kind}.yml@refs/heads/main`, WIF_PROVIDER: PROVIDER, GOOGLE_SERVICE_ACCOUNT: `buzzy-${kind === 'inventory' ? 'reader' : 'hosting'}@${PROJECT}.iam.gserviceaccount.com`, GITHUB_SHA: 'a'.repeat(40), REVIEWED_RULES_SHA256: rulesHash(proposed)};
+  return {GITHUB_REPOSITORY: REPOSITORY, GITHUB_REPOSITORY_ID: REPOSITORY_ID, GITHUB_REPOSITORY_OWNER_ID: OWNER_ID, GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/main', GITHUB_WORKFLOW_REF: `${REPOSITORY}/.github/workflows/firebase-${kind}.yml@refs/heads/main`, WIF_PROVIDER: PROVIDER, GOOGLE_SERVICE_ACCOUNT: `buzzy-${kind === 'inventory' ? 'gpt' : 'hosting'}@${PROJECT}.iam.gserviceaccount.com`, GITHUB_SHA: 'a'.repeat(40), REVIEWED_RULES_SHA256: rulesHash(proposed)};
 }
 function fixture() {
   return {

@@ -26,9 +26,9 @@ Om konsolen kräver ett betalningskonto eller saknar behörigheter, stanna på d
 
 | Fält | Värde |
 |---|---|
-| Namn | Buzzy reader |
-| Service account ID | `buzzy-reader` |
-| E-post efter skapande | `buzzy-reader@buzzy-197dc.iam.gserviceaccount.com` |
+| Namn | Buzzy GPT |
+| Service account ID | `buzzy-gpt` |
+| E-post efter skapande | `buzzy-gpt@buzzy-197dc.iam.gserviceaccount.com` |
 | Projektroller | **Firebase Viewer** (`roles/firebase.viewer`) och **Service Usage Viewer** (`roles/serviceusage.serviceUsageViewer`) |
 
 Lämna frivillig användaråtkomst tom i skapandeguiden. **Skapa ingen key/JSON-nyckel.** Kontot får läsrättigheter; vi använder dem bara till projektinställningar och befintliga regler, inte spelar-/kontolistor. Viewer-rollen är en projektroll och kan omfatta mer läsning än våra nio fasta GET-anrop. Den är ingen dataskrivarroll.
@@ -74,13 +74,13 @@ Poolen/provider-vyn ska visa denna provider:
 projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/providers/github
 ```
 
-Öppna därefter tjänstekontot `buzzy-reader` → **Permissions → Grant access**. Lägg till denna principal med rollen **Workload Identity User** (`roles/iam.workloadIdentityUser`) **på tjänstekontot**, inte på hela projektet:
+Öppna därefter tjänstekontot `buzzy-gpt` → **Permissions → Grant access**. Lägg till denna principal med rollen **Workload Identity User** (`roles/iam.workloadIdentityUser`) **på tjänstekontot**, inte på hela projektet:
 
 ```text
 principal://iam.googleapis.com/projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/subject/repo:BadBagel47/buzzy:environment:firebase-inventory
 ```
 
-Om gränssnittet istället använder poolens **Grant access → Grant access using Service Account**: välj `buzzy-reader`, matcha `google.subject` mot `repo:BadBagel47/buzzy:environment:firebase-inventory` och kontrollera samma principal i slutresultatet. Ge inte hela poolen generell åtkomst. Federation genom ett tjänstekonto behöver inte någon tjänstekontonyckel eller generell Token Creator-roll.
+Om gränssnittet istället använder poolens **Grant access → Grant access using Service Account**: välj `buzzy-gpt`, matcha `google.subject` mot `repo:BadBagel47/buzzy:environment:firebase-inventory` och kontrollera samma principal i slutresultatet. Ge inte hela poolen generell åtkomst. Federation genom ett tjänstekonto behöver inte någon tjänstekontonyckel eller generell Token Creator-roll.
 
 Google-ändringen kan ta några minuter att slå igenom. Det är inte ett skäl att skapa en privat nyckel eller vidga åtkomsten.
 
@@ -91,7 +91,7 @@ Google-ändringen kan ta några minuter att slå igenom. Det är inte ett skäl 
 | Variabel | Värde |
 |---|---|
 | `WIF_PROVIDER` | `projects/775038676052/locations/global/workloadIdentityPools/buzzy-github/providers/github` |
-| `GOOGLE_SERVICE_ACCOUNT` | `buzzy-reader@buzzy-197dc.iam.gserviceaccount.com` |
+| `GOOGLE_SERVICE_ACCOUNT` | `buzzy-gpt@buzzy-197dc.iam.gserviceaccount.com` |
 
 Dessa är offentliga resursnamn, inga lösenord/token. Under **Settings → Actions → General** måste Actions få använda de SHA-låsta standardactionerna från `actions` och `google-github-actions`. GitHub-token ska behålla läsåtkomst; inget brett write-token behövs.
 

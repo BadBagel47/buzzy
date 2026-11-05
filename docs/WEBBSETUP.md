@@ -126,7 +126,7 @@ Om något misslyckas: läs den namngivna resursen/HTTP-statusen i rapporten. Det
 
 ## 7. Granska regler före pilot
 
-Den konkreta granskningen finns i [RULES_REVIEW_289.md](RULES_REVIEW_289.md). Run 42126629347 och artifactets hash/filer har verifierats: inga API-fel, ingen aktiverad/länkad fakturering, rätt projekt/databas/Auth/Hosting och bevarad stängd konsolkopia. Föreslagna regler matchar exakt den tidigare lokalt testade #288-versionen. Användarens beslut att publicera dem återstår.
+Den konkreta granskningen finns i [RULES_REVIEW_289.md](RULES_REVIEW_289.md). Run 42126629347 och artifactets hash/filer har verifierats: inga API-fel, ingen aktiverad/länkad fakturering, rätt projekt/databas/Auth/Hosting och bevarad stängd konsolkopia. Föreslagna regler matchar exakt den tidigare lokalt testade #288-versionen. Användaren har därefter godkänt och publicerat just filen. En ny konsolkopia matchar godkänd JSON (endast sista radbrytningen skiljer sig). Aktuell snapshot/hash/proveniens är uppdaterad; före-pilot-backupen är oförändrad. Detta är konsol-/användarverifiering, inte en regel-API-läsning. Nästa steg är Hosting-kontot och pilotmiljön enligt steg 8.
 
 Visa rapporten och regelfilerna för Codex. Kontrollera att rätt projekt/Spark/Anonymous/Hosting/RTDB har lästs, att eventuella befintliga regler är bevarade och att inga andra appar i databasen påverkas. De föreslagna reglerna ersätter hela instansens nuvarande regeluppsättning.
 
@@ -193,3 +193,10 @@ Användaren lämnade följande regler, vars JSON-formatering normaliserats men v
 ```
 
 Kanonisk SHA-256: `015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab`. Detta är en manuell konsolkopia, inte API-verifierade originalbytes. Första metadata-inventeringen i konsolläge kan slutföras med denna kopia, men pilotpubliceringen stoppas eftersom de stängda reglerna inte matchar de föreslagna spelreglerna. Ingen regelförändring är ännu utförd.
+
+
+## Aktuell publicerad konsolkopia
+
+Regelpubliceringen är användarbekräftad och kopian från Rules-editorn är granskad. Kanonisk hash är `148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a`, samma som förslaget. Snapshoten behåller exakt den mottagna texten; endast filens sista LF skiljer från den pinnade förslagsfilen. Det tidigare avsnittet om första stängda konsolbackup beskriver fortfarande den bevarade återgångspunkten, inte nuvarande publicerade regler.
+
+Nästa nya metadatakontroll kan göras av pilotflödets egen förkontroll efter att Hosting-identitet/miljö är klara; en separat inventory-run är inte nödvändig bara för att upprepa samma åtta läsningar. Piloten kräver fortsatt nytt uttryckligt beslut och dess aktuella manuella konsolbekräftelse.

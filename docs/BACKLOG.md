@@ -8,6 +8,6 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
-Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Användarens beslut om Firebase-regelpublicering är fortfarande väntande; detta nya önskemål är inte ett publiceringsgodkännande.
+Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Hosting-piloten återstår och har separat publiceringsbeslut; framtidspunkten #290 är fortsatt enbart registrerad.
 
 Nästa fria interna ID: **#291**.

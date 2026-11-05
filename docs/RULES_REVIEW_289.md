@@ -1,8 +1,8 @@
-# #289 — granskad regeländring, inväntar publiceringsbeslut
+# #289 — godkänd regeländring, publicering bekräftad via konsolkopia
 
 ## Förslag
 
-Ersätt den nuvarande helt stängda regeluppsättningen med [den granskade Buzzy-regelfilen](../buzzy-live-pilot/database.rules.json). Rotens `.read:false` och `.write:false` ligger kvar; avgränsade undantag införs under `/rooms`. Inga andra databasgrenar öppnas av förslaget. Publicering ändrar åtkomstregler, inte lagrade data. Det är en verklig molnändring och är ännu inte utförd eller godkänd för publicering.
+Ersätt den nuvarande helt stängda regeluppsättningen med [den granskade Buzzy-regelfilen](../buzzy-live-pilot/database.rules.json). Rotens `.read:false` och `.write:false` ligger kvar; avgränsade undantag införs under `/rooms`. Inga andra databasgrenar öppnas av förslaget. Publicering ändrar åtkomstregler, inte lagrade data. Användaren har uttryckligen godkänt och genomfört publiceringen i Firebase-konsolen. Därefter mottagen konsoltext matchar godkänd JSON; endast slutlig LF saknas. Det är en manuellt verifierad konsolkopia, inte en oberoende API-läsning.
 
 ## Vad beteendet innebär
 
@@ -29,6 +29,6 @@ Artifactets föreslagna fil är byte-identisk med arbetsrepots och den oföränd
 
 ## Beslut och återgång
 
-Nästa steg kräver användarens uttryckliga beslut att publicera just denna regeluppsättning i Firebase-konsolen. Ingen ändring görs av GitHub-flödet. Backupen återställs genom att publicera hela before-pilot.rules.json i samma Rules-editor; det stänger klientåtkomsten igen utan att radera data.
+Användarens uttryckliga beslut och efterföljande publicering är registrerade. GitHub-flödet skriver fortfarande inga databasregler. Backupen återställs genom att publicera hela before-pilot.rules.json i samma Rules-editor; det stänger klientåtkomsten igen utan att radera data.
 
-Efter godkänd regelpublicering behövs en ny kopia av de då aktuella konsolreglerna. Vi uppdaterar aktuell snapshot/hash/proveniens, behåller före-pilot-backupen och gör en ny läsande metadata-/evidenskontroll. Hosting-konto/pilotmiljö och separat konkret pilotbeslut återstår. Huvudkanalen publiceras inte av denna ändring.
+Den nya aktuella konsolkopian har jämförts och snapshot/hash/proveniens är uppdaterade. Före-pilot-backupen är kvar. Hosting-konto/pilotmiljö och separat konkret pilotbeslut återstår; den nya läsande metadata-/evidenskontrollen görs av pilotens förkontroll före uppladdning. Huvudkanalen publiceras inte av denna ändring.

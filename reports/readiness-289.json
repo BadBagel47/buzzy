@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "successful cloud metadata inventory reviewed; exact game rules proposal ready for user publication decision",
+  "status": "rules published by user; copied console JSON verified against approved proposal; Hosting identity and pilot approval pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -13,7 +13,7 @@
       "failed": 0,
       "skipped": 0,
       "fixtureOnly": true,
-      "latestRun": "2026-11-05T22:54:32.394780+00:00"
+      "latestRun": "2026-11-05T23:35:43.928040+00:00"
     },
     "appConfiguration": {
       "passed": 3,
@@ -29,7 +29,7 @@
     "totalPassed": 24,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "20 operation tests rerun for API/manual evidence modes, explicit confirmation, baseline preservation and negative deployment gates; previous 3 appconfig + 1 intercepted HTTPS test not rerun"
+    "note": "20 existing operation tests rerun after actual console snapshot update and hash/baseline verification; no app/rules logic changed, previous 3 config + 1 intercepted HTTPS app checks not rerun"
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -121,33 +121,39 @@
     ],
     "currentDatabaseRulesBackedUp": true,
     "currentDatabaseRulesBackupSource": "user-copied Firebase console rules; formatting normalized, not API original bytes",
-    "consoleRulesSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
-    "rulesPublished": false,
+    "consoleRulesSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
+    "rulesPublished": true,
     "billingApiActivation": "verified by successful billing read",
     "lastInventoryCheckedAt": "2026-11-05T23:03:52.572Z",
     "billingEnabled": false,
     "billingAccountLinked": false,
     "requestCountNote": "latest successful run only; prior diagnostic run reads excluded",
-    "metadataInventoryVerified": true
+    "metadataInventoryVerified": true,
+    "rulesPublicationVerification": "User reported Firebase Publish success, then supplied current Rules editor text matching approved JSON; not independent API verification",
+    "lastMetadataInventoryPredatesRulePublication": true
   },
   "pending": [
-    "Obtain explicit decision on exact reviewed rule set, then user publishes via Firebase Console",
-    "Collect new current-console rules copy after publication, preserve before-pilot backup and verify metadata/evidence",
-    "Configure separate Hosting identity and firebase-pilot environment",
-    "Approve one-day Hosting pilot and test with real host and two mobiles",
+    "Configure separate buzzy-hosting service account, subject binding and firebase-pilot environment",
+    "Obtain explicit approval for exact one-day Hosting preview; main Hosting publication not approved",
+    "Run pilot preflight for fresh metadata and matching manually confirmed console evidence before any upload",
+    "Real host and two-mobile tests and usage monitoring",
     "Remove obsolete name-only inventory IAM binding"
   ],
   "nextFreeIssueId": 291,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
-    "status": "awaiting explicit user decision; not published",
+    "status": "approved and user-published; current console copy JSON verified",
     "review": "docs/RULES_REVIEW_289.md",
     "beforeRulesSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
     "proposedRulesSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
     "proposedFileSha256": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498",
     "rulesEqualTested288": true,
     "currentRulesEvidenceSource": "console-copy-confirmed",
-    "currentRulesApiVerified": false
+    "currentRulesApiVerified": false,
+    "userApprovalDate": "2026-11-06",
+    "consoleCopyVerified": true,
+    "consoleCopyRawOnlyFinalNewlineDiffers": true,
+    "publishedRulesApiVerified": false
   },
   "futureBacklog": "docs/BACKLOG.md"
 }

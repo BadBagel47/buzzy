@@ -3,10 +3,15 @@
   "projectId": "buzzy-197dc",
   "databaseURL": "https://buzzy-197dc-default-rtdb.europe-west1.firebasedatabase.app",
   "captureMethod": "user-copied-from-firebase-console",
-  "capturedAt": "2026-11-05T23:48:30.131747+01:00",
-  "canonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
+  "capturedAt": "2026-11-06T00:34:07.124927+01:00",
+  "canonicalSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
   "beforePilotCanonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
   "serverApiVerified": false,
-  "formattingNormalized": true,
-  "normalizationNote": "User message contained HTML whitespace entities and Markdown line escapes; JSON permissions preserved exactly. Original message retained in local backup, not claimed to be original server bytes."
+  "formattingNormalized": false,
+  "normalizationNote": "Received pasted console text retained exactly. It is JSON-equal to approved proposal; only the final newline differs from that proposal.",
+  "baselineCapturedAt": "2026-11-05T23:48:30.131747+01:00",
+  "publicationConfirmedByUser": true,
+  "consoleCopyComparedToApprovedProposal": true,
+  "receivedTextRawSha256": "2e48202db322d43c9dc113e3c27cb10b7ce0e9d7f94b725cec45e95e985052c5",
+  "reviewedProposalRawSha256": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498"
 }

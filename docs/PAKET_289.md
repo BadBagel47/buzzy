@@ -12,7 +12,7 @@ Regelkopian är sparad i ops/rules-evidence/console-current.rules.json och oför
 
 Standard api kräver lyckad regel-API-läsning och faller aldrig automatiskt tillbaka vid 401. Console kräver aktivt valt rules_source=console och console_rules_confirmed=true vid varje run. Den sparade konsolkopians projekt/databas/hash och bevarade baseline valideras före användning. Flödet gör då åtta fasta metadata-GET-anrop, sparar kopior och märker rapport/artifact som console-copy-confirmed, rulesApiVerified:false. Det verifierar inte oberoende vad som är publicerat i Firebase.
 
-Inventory kan slutföra metadata och bevara den aktuella stängda konsolkopian. En grön sådan körning betyder inte redo att publicera spel: stängda regler matchar inte förslaget och pilotgaten nekar fortsatt. Först efter separat konkret regelgranskning/publiceringsbeslut kan användaren publicera via Firebase-konsolen och lämna ny aktuell konsolkopia. Den uppdateras med hash/proveniens; före-pilot-backupen ändras inte. Pilot kräver matchande snapshot/proposed/reviewed-hash, ny operatörsbekräftelse och alla övriga aktuella projekt-/plan-/Auth-/databas-/Hosting/API-kontroller.
+Inventory kan slutföra metadata och bevara den aktuella stängda konsolkopian. En grön sådan körning betyder inte redo att publicera spel: stängda regler matchar inte förslaget och pilotgaten nekar fortsatt. Regelförslaget har nu godkänts/publicerats av användaren. Den nya konsolkopian matchar godkänd JSON och snapshot/hash/proveniens har uppdaterats; före-pilot-backupen är oförändrad. Pilot kräver matchande snapshot/proposed/reviewed-hash, ny operatörsbekräftelse och alla övriga aktuella projekt-/plan-/Auth-/databas-/Hosting/API-kontroller.
 
 ## Begränsningar
 
@@ -26,4 +26,4 @@ Artifactretention är tre dagar; användaren sparar backup lokalt före regelän
 
 ## Nästa steg
 
-Läs [den konkreta regelgranskningen](RULES_REVIEW_289.md) och invänta användarens uttryckliga publiceringsbeslut. Den granskade metadata-inventeringen är nu komplett. Efter godkänd publicering i Firebase-konsolen behövs ny aktuell konsolkopia och kontroll. Separat Hosting-identitet, pilotmiljö och verkliga mobiltester återstår. Ingen molnregeländring eller Hosting-deploy är utförd av agenten.
+Regelpublicering och aktuell konsolkopia är klara enligt [regelgranskningen](RULES_REVIEW_289.md). Hosting-kontot buzzy-hosting och GitHub Environment firebase-pilot ska nu konfigureras enligt webbguiden. Separat uttryckligt pilotbeslut återstår. Pilotens förkontroll läser metadata och vald evidens före uppladdning, så separat upprepad inventory-run behövs inte. Verkliga mobiltester återstår.

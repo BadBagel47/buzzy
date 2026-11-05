@@ -1,26 +1,26 @@
-✔ Cloud identity is limited to exact repo IDs, main, manual workflow and dedicated service account (2.386098ms)
-✔ OIDC diagnostics retain only allowed public claims and detect an actual subject mismatch (0.932921ms)
-✔ OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience (1.348038ms)
-✔ Actual run 42115890476 identity matches immutable IDs; legacy or different subjects are rejected (0.396289ms)
-✔ Rules comparison ignores object order but retains every permission/validation expression (0.382028ms)
-✔ Inventory transport makes only fixed GET requests and never follows a token-bearing redirect (0.86686ms)
-✔ Inventory never exposes tokens or server error bodies; only a missing pilot channel is optional (1.080364ms)
-✔ API diagnostics distinguish disabled APIs and IAM without exporting response messages or secrets (6.013703ms)
-✔ Inventory backs up exact rules before metadata; filters Auth and release data (5.603092ms)
-✔ A failed API or backup read leaves an incomplete report; it cannot authorize deployment (12.16907ms)
-✔ Pilot stops for billing, wrong project/DB, disabled Anonymous, missing Hosting or changed rules (2.898242ms)
-✔ A different existing ruleset is retained intact and cannot be silently replaced (0.75382ms)
-✔ Rules comments are preserved for rollback; comment markers inside expressions stay untouched (2.16264ms)
-✔ Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command (0.64832ms)
-✔ Manual rules source is opt-in and validates project, database, snapshot and preserved baseline (8.184115ms)
-✔ Confirmed console backup skips denied rules API, stays visibly manual and cannot deploy closed rules (0.632967ms)
-✔ Manual pilot requires matching reviewed rules, exact evidence and repeated operator confirmation (2.926195ms)
-✔ Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync (0.531013ms)
+✔ Cloud identity is limited to exact repo IDs, main, manual workflow and dedicated service account (2.349692ms)
+✔ OIDC diagnostics retain only allowed public claims and detect an actual subject mismatch (0.758627ms)
+✔ OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience (1.279834ms)
+✔ Actual run 42115890476 identity matches immutable IDs; legacy or different subjects are rejected (0.354065ms)
+✔ Rules comparison ignores object order but retains every permission/validation expression (0.357501ms)
+✔ Inventory transport makes only fixed GET requests and never follows a token-bearing redirect (0.894613ms)
+✔ Inventory never exposes tokens or server error bodies; only a missing pilot channel is optional (0.858288ms)
+✔ API diagnostics distinguish disabled APIs and IAM without exporting response messages or secrets (7.096198ms)
+✔ Inventory backs up exact rules before metadata; filters Auth and release data (4.218538ms)
+✔ A failed API or backup read leaves an incomplete report; it cannot authorize deployment (12.051319ms)
+✔ Pilot stops for billing, wrong project/DB, disabled Anonymous, missing Hosting or changed rules (2.677317ms)
+✔ A different existing ruleset is retained intact and cannot be silently replaced (0.827651ms)
+✔ Rules comments are preserved for rollback; comment markers inside expressions stay untouched (2.132554ms)
+✔ Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command (0.665225ms)
+✔ Manual rules source is opt-in and validates project, database, snapshot and preserved baseline (10.097435ms)
+✔ Confirmed console backup skips denied rules API, stays visibly manual and cannot deploy closed rules (0.563783ms)
+✔ Manual pilot requires matching reviewed rules, exact evidence and repeated operator confirmation (3.759814ms)
+✔ Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync (0.684064ms)
 inventory complete; no changes performed; rules match: true; API reads attempted: 9
-✔ Whole pilot preflight writes a raw backup and Hosting-only config, with zero mutations or credential exports (15.794832ms)
+✔ Whole pilot preflight writes a raw backup and Hosting-only config, with zero mutations or credential exports (13.750837ms)
 metadata inventory complete; rules from operator-confirmed console copy, not API verified; rules match: false; API reads attempted: 8
 metadata inventory complete; rules from operator-confirmed console copy, not API verified; rules match: false; API reads attempted: 8
-✔ Whole console workflow preserves the supplied closed backup, makes eight GETs and cannot approve a pilot (8.931896ms)
+✔ Whole console workflow preserves the supplied closed backup, makes eight GETs and cannot approve a pilot (6.113372ms)
 ℹ tests 20
 ℹ suites 0
 ℹ pass 20
@@ -28,4 +28,4 @@ metadata inventory complete; rules from operator-confirmed console copy, not API
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 136.618117
+ℹ duration_ms 133.503335

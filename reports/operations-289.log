@@ -1,21 +1,23 @@
-✔ Cloud identity is limited to exact repo IDs, main, manual workflow and dedicated service account (2.351696ms)
-✔ Rules comparison ignores object order but retains every permission/validation expression (0.404372ms)
-✔ Inventory transport makes only fixed GET requests and never follows a token-bearing redirect (1.286505ms)
-✔ Inventory never exposes tokens or server error bodies; only a missing pilot channel is optional (0.710584ms)
-✔ Inventory backs up exact rules before metadata; filters Auth and release data (8.722999ms)
-✔ A failed API or backup read leaves an incomplete report; it cannot authorize deployment (17.492589ms)
-✔ Pilot stops for billing, wrong project/DB, disabled Anonymous, missing Hosting or changed rules (3.19438ms)
-✔ A different existing ruleset is retained intact and cannot be silently replaced (0.534098ms)
-✔ Rules comments are preserved for rollback; comment markers inside expressions stay untouched (2.050831ms)
-✔ Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command (0.75344ms)
-✔ Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync (0.663764ms)
+✔ Cloud identity is limited to exact repo IDs, main, manual workflow and dedicated service account (2.270332ms)
+✔ OIDC diagnostics retain only allowed public claims and detect an actual subject mismatch (0.701982ms)
+✔ OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience (1.457284ms)
+✔ Rules comparison ignores object order but retains every permission/validation expression (0.252452ms)
+✔ Inventory transport makes only fixed GET requests and never follows a token-bearing redirect (0.790155ms)
+✔ Inventory never exposes tokens or server error bodies; only a missing pilot channel is optional (0.547408ms)
+✔ Inventory backs up exact rules before metadata; filters Auth and release data (6.439126ms)
+✔ A failed API or backup read leaves an incomplete report; it cannot authorize deployment (11.688102ms)
+✔ Pilot stops for billing, wrong project/DB, disabled Anonymous, missing Hosting or changed rules (2.19617ms)
+✔ A different existing ruleset is retained intact and cannot be silently replaced (0.749323ms)
+✔ Rules comments are preserved for rollback; comment markers inside expressions stay untouched (2.517186ms)
+✔ Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command (0.591514ms)
+✔ Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync (0.715211ms)
 inventory complete; no changes performed; rules match: true; resources checked: 9
-✔ Whole pilot preflight writes a raw backup and Hosting-only config, with zero mutations or credential exports (13.063431ms)
-ℹ tests 12
+✔ Whole pilot preflight writes a raw backup and Hosting-only config, with zero mutations or credential exports (14.506653ms)
+ℹ tests 14
 ℹ suites 0
-ℹ pass 12
+ℹ pass 14
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 124.051711
+ℹ duration_ms 101.487094

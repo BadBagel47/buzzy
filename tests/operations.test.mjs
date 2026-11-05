@@ -7,6 +7,7 @@ import {join} from 'node:path';
 import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments} from '../ops/policy.mjs';
 import {RESOURCES, reader, collectInventory, main} from '../ops/inventory.mjs';
 import {parseRulesSource} from '../ops/rules-source.mjs';
+import {summarizeClaims, diagnose} from '../ops/oidc-diagnostics.mjs';
 
 const proposed = JSON.parse(readFileSync(new URL('../buzzy-live-pilot/database.rules.json', import.meta.url), 'utf8'));
 function context(kind) {
@@ -39,6 +40,32 @@ test('Cloud identity is limited to exact repo IDs, main, manual workflow and ded
     assert.throws(() => assertContext({...env, GITHUB_EVENT_NAME: 'pull_request'}, kind));
     assert.throws(() => assertContext({...env, GITHUB_REF: 'refs/heads/feature'}, kind));
   }
+});
+
+test('OIDC diagnostics retain only allowed public claims and detect an actual subject mismatch', () => {
+  const report = summarizeClaims({repository_id: REPOSITORY_ID, repository_owner_id: OWNER_ID, ref: 'refs/heads/main', event_name: 'workflow_dispatch', workflow_ref: context('inventory').GITHUB_WORKFLOW_REF, sub: 'different-format', environment: 'firebase-inventory', email: 'DO-NOT-RETAIN', jwt: 'DO-NOT-RETAIN', access_token: 'DO-NOT-RETAIN'}, 'inventory');
+  assert.equal(report.comparisons.sub.matches, false);
+  assert.equal(report.comparisons.repository_id.matches, true);
+  assert.ok(!JSON.stringify(report).includes('DO-NOT-RETAIN'));
+  assert.equal(summarizeClaims({}, 'inventory').claims.sub, '(missing)');
+});
+
+test('OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience', async () => {
+  const env = {...context('inventory'), ACTIONS_ID_TOKEN_REQUEST_URL: 'https://run-actions-1.actions.githubusercontent.com/test/idtoken?api-version=2', ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'LOCAL-FAKE-REQUEST-SECRET'};
+  const claims = {sub: `repo:${REPOSITORY}:environment:firebase-inventory`, access_token: 'DO-NOT-EXPORT'};
+  const jwt = 'header.' + Buffer.from(JSON.stringify(claims)).toString('base64url') + '.signature';
+  let called = 0;
+  const fetchFixture = async (url, options) => {
+    called++;assert.equal(url.searchParams.get('audience'), 'https://iam.googleapis.com/' + PROVIDER);
+    assert.equal(options.redirect, 'error');assert.equal(options.headers.Authorization, 'Bearer ' + env.ACTIONS_ID_TOKEN_REQUEST_TOKEN);
+    return {ok: true, json: async () => ({value: jwt})};
+  };
+  const report = await diagnose(env, 'inventory', fetchFixture);
+  assert.equal(called, 1);assert.equal(report.comparisons.sub.matches, true);
+  assert.ok(!JSON.stringify(report).includes(jwt));assert.ok(!JSON.stringify(report).includes('DO-NOT-EXPORT'));assert.ok(!JSON.stringify(report).includes(env.ACTIONS_ID_TOKEN_REQUEST_TOKEN));
+  for (const url of ['http://run-actions-1.actions.githubusercontent.com/idtoken', 'https://attacker.invalid/idtoken', 'https://actions.githubusercontent.com.attacker.invalid/']) await assert.rejects(diagnose({...env, ACTIONS_ID_TOKEN_REQUEST_URL: url}, 'inventory', fetchFixture));
+  assert.equal(called, 1);
+  await assert.rejects(diagnose(env, 'inventory', async () => {throw new Error(env.ACTIONS_ID_TOKEN_REQUEST_TOKEN);}), error => !error.message.includes(env.ACTIONS_ID_TOKEN_REQUEST_TOKEN));
 });
 
 test('Rules comparison ignores object order but retains every permission/validation expression', () => {

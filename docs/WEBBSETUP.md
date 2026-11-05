@@ -115,6 +115,8 @@ Artifact innehåller:
 
 Ingen speldata, användarlista, OAuth-klienthemlighet eller autentiseringsfil hämtas eller sparas. Metadata om tidigare Hosting-releaser är **inte** en full kopia av den gamla webbplatsens filer. Hämta inte hela databasroten som backup i onödan.
 
+Vid OIDC-fel före Google-inloggning visar körningens Summary även **GitHub identity selectors** och artifactet kan innehålla `oidc-selectors.json`. Där visas endast förutbestämda offentliga claims och jämförelser, ingen JWT eller token. Jämför faktisk identitet med provider-villkoret innan något ändras.
+
 Om något misslyckas: läs den namngivna resursen/HTTP-statusen i rapporten. Det kan bero på API-aktivering, IAM eller propagation. Kontrollera orsaken; ge inte kontot Owner/Editor eller databasadministration som generell lösning. Ingen deploy får göras med ofullständig inventering.
 
 ## 7. Granska regler före pilot

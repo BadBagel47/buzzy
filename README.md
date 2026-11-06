@@ -40,4 +40,4 @@ Kör `node --test tests/operations.test.mjs` från roten. I `buzzy-live-pilot`: 
 
 Officiell grund: [Google auth-action och WIF](https://github.com/google-github-actions/auth#workload-identity-federation-through-a-service-account), [Firebase Hosting-preview](https://firebase.google.com/docs/hosting/test-preview-deploy), [Google Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
 
-Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #290, utred mobilvibration vid buzz.
+Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #292, enhetlig minsta textstorlek i hostens mobilvy.

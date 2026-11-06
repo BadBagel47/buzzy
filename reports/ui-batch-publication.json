@@ -1,0 +1,196 @@
+{
+  "runId": "42295900005",
+  "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42295900005",
+  "sourceCommit": "5be3cf06ea404b0a155f65dbdebd22231686a735",
+  "verifyJob": "128160933411",
+  "pilotJob": "128161647733",
+  "allStepConclusions": "success",
+  "playerExitAndCspRegression": "success",
+  "uiBatchRegression": "success",
+  "publishStepCompletedAt": "2026-11-06T21:22:18Z",
+  "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+  "physicalAndroidBraveVerified": false,
+  "directSiteHttpChecked": false,
+  "siteUrlEvidence": "Previously user-supplied URL for the existing pilot channel; job logs/artifact URL not accessed",
+  "checkedAt": "2026-11-06T22:14:29.964675+00:00",
+  "publicJobSteps": {
+    "128160933411": [
+      {
+        "name": "Set up job",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:29Z",
+        "completed-at": "2026-11-06T21:20:30Z"
+      },
+      {
+        "name": "Check out the selected main commit",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:30Z",
+        "completed-at": "2026-11-06T21:20:30Z"
+      },
+      {
+        "name": "Select Node",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:30Z",
+        "completed-at": "2026-11-06T21:20:31Z"
+      },
+      {
+        "name": "Install locked dependencies",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:31Z",
+        "completed-at": "2026-11-06T21:20:38Z"
+      },
+      {
+        "name": "Require explicit rules evidence selection",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:38Z",
+        "completed-at": "2026-11-06T21:20:38Z"
+      },
+      {
+        "name": "Verify cloud-operation guards",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:38Z",
+        "completed-at": "2026-11-06T21:20:38Z"
+      },
+      {
+        "name": "Verify app configuration and build pilot",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:38Z",
+        "completed-at": "2026-11-06T21:20:39Z"
+      },
+      {
+        "name": "Install test browser",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:39Z",
+        "completed-at": "2026-11-06T21:20:57Z"
+      },
+      {
+        "name": "Verify HTTPS pilot with all cloud requests intercepted",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:20:57Z",
+        "completed-at": "2026-11-06T21:21:00Z"
+      },
+      {
+        "name": "Verify database fallback, room exit and UI batch with local emulators",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:00Z",
+        "completed-at": "2026-11-06T21:21:48Z"
+      },
+      {
+        "name": "Retain tested site",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:48Z",
+        "completed-at": "2026-11-06T21:21:49Z"
+      },
+      {
+        "name": "Post Select Node",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:49Z",
+        "completed-at": "2026-11-06T21:21:51Z"
+      },
+      {
+        "name": "Post Check out the selected main commit",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:51Z",
+        "completed-at": "2026-11-06T21:21:51Z"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:51Z",
+        "completed-at": "2026-11-06T21:21:51Z"
+      }
+    ],
+    "128161647733": [
+      {
+        "name": "Set up job",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:57Z",
+        "completed-at": "2026-11-06T21:21:59Z"
+      },
+      {
+        "name": "Check out the selected main commit",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:21:59Z",
+        "completed-at": "2026-11-06T21:22:00Z"
+      },
+      {
+        "name": "Select Node",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:00Z",
+        "completed-at": "2026-11-06T21:22:03Z"
+      },
+      {
+        "name": "Install locked CLI before authentication",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:03Z",
+        "completed-at": "2026-11-06T21:22:08Z"
+      },
+      {
+        "name": "Restore only the tested public site",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:08Z",
+        "completed-at": "2026-11-06T21:22:09Z"
+      },
+      {
+        "name": "Validate repository and identity selectors",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:09Z",
+        "completed-at": "2026-11-06T21:22:10Z"
+      },
+      {
+        "name": "Diagnose public GitHub identity selectors",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:10Z",
+        "completed-at": "2026-11-06T21:22:10Z"
+      },
+      {
+        "name": "Get temporary Google access",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:10Z",
+        "completed-at": "2026-11-06T21:22:11Z"
+      },
+      {
+        "name": "Back up and recheck project, plan, API and reviewed rules",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:11Z",
+        "completed-at": "2026-11-06T21:22:13Z"
+      },
+      {
+        "name": "Publish Hosting pilot only, for one day",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:13Z",
+        "completed-at": "2026-11-06T21:22:18Z"
+      },
+      {
+        "name": "Retain sanitized preflight and rules backup",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:18Z",
+        "completed-at": "2026-11-06T21:22:19Z"
+      },
+      {
+        "name": "Post Get temporary Google access",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:19Z",
+        "completed-at": "2026-11-06T21:22:19Z"
+      },
+      {
+        "name": "Post Select Node",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:19Z",
+        "completed-at": "2026-11-06T21:22:19Z"
+      },
+      {
+        "name": "Post Check out the selected main commit",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:19Z",
+        "completed-at": "2026-11-06T21:22:19Z"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success",
+        "started-at": "2026-11-06T21:22:19Z",
+        "completed-at": "2026-11-06T21:22:19Z"
+      }
+    ]
+  }
+}

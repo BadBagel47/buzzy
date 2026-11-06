@@ -65,6 +65,12 @@ jobs:
       - name: Verify HTTPS pilot with all cloud requests intercepted
         working-directory: buzzy-live-pilot
         run: npm run test:pilot
+      - name: Verify database fallback under Hosting CSP with local emulators
+        working-directory: buzzy-live-pilot
+        run: |
+          export JAVA_HOME="${JAVA_HOME_21_X64:?JDK 21 must be present on the runner}"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          npm run test:transport
       - name: Retain tested site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

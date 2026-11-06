@@ -1,0 +1,55 @@
+{
+  "issue": 293,
+  "status": "CSP correction prepared and locally verified; not deployed",
+  "checkedAt": "2026-11-06T15:00:08.977519+00:00",
+  "userReport": "New tab still hangs on first room creation after run42234619437",
+  "causeReproduced": "Production CSP omitted script/frame permission for RTDB long-polling /.lp after a remembered WebSocket failure",
+  "test": {
+    "status": "passed",
+    "checks": [
+      "Reproduced: old production CSP blocks Firebase /.lp script and room creation times out after persisted socket failure",
+      "Current CSP: forced fallback creates a room, reconnects and reloads with same identity/room and no CSP violations"
+    ],
+    "scope": "Firebase SDK against loopback Auth/RTDB under translated production CSP; no live Buzzy room operations",
+    "expectedLegacyCspBlocksObserved": 14,
+    "caseCount": 1
+  },
+  "otherChecks": {
+    "configurationAndRecoveryPassed": 5,
+    "builtInterceptedHttpsPassed": 1,
+    "operationsPassed": 20,
+    "pilotBuild": "passed",
+    "workflowYaml": "parsed; transport test before artifact upload",
+    "previous28EmulatorPosts": "passed on unchanged application JS; not rerun for header-only followup"
+  },
+  "sdkEvidence": "Firebase 13.1.0 remembers previous_websocket_failure and uses script tags and a hidden iframe for /.lp",
+  "liveReadOnlyEvidence": {
+    "request": "GET to configured database /.lp start handshake, no auth/room operations",
+    "status": 200,
+    "serverHost": "s-gke-euw1-nssi2-5.europe-west1.firebasedatabase.app",
+    "note": "Raw session identifiers not exported; does not prove user device transport or Hosting response headers"
+  },
+  "hostingPermissionAdded": {
+    "scriptSrc": [
+      "https://*.europe-west1.firebasedatabase.app/.lp"
+    ],
+    "frameSrc": [
+      "'self'",
+      "https://*.europe-west1.firebasedatabase.app/.lp"
+    ],
+    "note": "Restricted to regional RTDB protocol path; Hosting header change, no database rule edit"
+  },
+  "sourceFiles": {
+    "buzzy-live-pilot/firebase.pilot.json": "846bc41782c8b68d5fd9ee10ef5c2baf3a4c32ae57d0c362d3bdcead038fed0b",
+    "buzzy-live-pilot/package.json": "8c344dd6dec82ecb1ef6b0481c7a882bcc598d27341d72d3fa789f71dfccda5a",
+    "buzzy-live-pilot/scripts/emulators.mjs": "9a5640eef98e9b8a3b35b3a4d83d903d31216826a24ec364dc7988eebf766924",
+    "buzzy-live-pilot/tests/transport-csp.integration.mjs": "f11540d8ba48fca53b635f352a68fd8241f7664ae7e9a04e00a8ceae1a2ed1d9",
+    ".github/workflows/firebase-pilot.yml": "75fb30a494474937116281b0ab5fe8e077462460f87d8920ecb2f3d73bda5846"
+  },
+  "published": false,
+  "actualAndroidBraveRetestPassed": false,
+  "pending": [
+    "Run pilot workflow on new main revision",
+    "Reload pilot and retry room creation; then wifi/5G/reload regression"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "published to pilot; actual Android/Brave network-switch verification pending",
+  "status": "reopened after real device failure; CSP followup prepared, not yet deployed",
   "checkedAt": "2026-11-06T14:13:21.746370+00:00",
   "approval": "Vi fortsätter med att lösa 293 först. Kör",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
@@ -65,7 +65,8 @@
   "deployed": true,
   "androidBraveNetworkSwitchVerified": false,
   "pending": [
-    "Open pilot in a fresh tab and verify Android/Brave wifi to 5G and back, reload and room retry"
+    "Publish CSP correction documented in reports/transport-csp-293.json",
+    "Verify Android/Brave creation and network switches"
   ],
   "unchangedScope": [
     "No database rule edits",
@@ -88,5 +89,11 @@
     "actualSiteHttpChecked": false,
     "androidBraveNetworkSwitchVerified": false,
     "evidence": "public workflow state, source commit link and individual job-step conclusions"
-  }
+  },
+  "deviceRetest": {
+    "passed": false,
+    "observation": "User closed old tab and new tab still hung at first room creation",
+    "afterRun": "42234619437"
+  },
+  "cspFollowupReport": "reports/transport-csp-293.json"
 }

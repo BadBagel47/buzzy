@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "updated pilot including #293 published; real mobile regression test pending",
+  "status": "pilot #293 real device retest failed; CSP followup locally verified and awaiting publication",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -205,11 +205,9 @@
   },
   "pendingPilotUpdate": {
     "issue": 293,
-    "status": "published; real mobile verification pending",
-    "report": "reports/reconnect-293.json",
-    "includesExistingFix": 291,
-    "deployed": true,
-    "runId": "42234619437"
+    "status": "CSP followup prepared after failed device retest",
+    "report": "reports/transport-csp-293.json",
+    "deployed": false
   },
   "latestPilotExecution": {
     "runId": "42234619437",

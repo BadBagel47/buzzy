@@ -5,9 +5,9 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | ID | Önskemål | Status |
 |---|---|---|
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Registrerat 2026-11-06 för framtiden. Ingen utredning eller implementation körd. |
-| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Fix förberedd i pilotkällan; behöver publiceras och provas på mobil. |
+| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Registrerat för ett kommande samlat arbetspaket. Ingen implementation gjord. |
-| #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Implementerat på användarens körbeslut; lokala prov passerar. Inväntar pilotpublicering och Android/Brave-prov. Se [RECONNECT_293.md](RECONNECT_293.md). |
+| #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Implementerat, lokalt verifierat och publicerat i run42234619437. Android/Brave-prov återstår. Se [RECONNECT_293.md](RECONNECT_293.md). |
 | #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Endast registrerat. Invänta användarens egna förändringsförslag innan utformning eller implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.

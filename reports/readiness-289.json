@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "pilot deployed; user supplied actual URL; real device game test pending",
+  "status": "updated pilot including #293 published; real mobile regression test pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -154,7 +154,7 @@
     "metadataInventoryVerified": true,
     "rulesPublicationVerification": "User reported Firebase Publish success, then supplied current Rules editor text matching approved JSON; not independent API verification",
     "lastMetadataInventoryPredatesRulePublication": true,
-    "hostingDeploymentSourceCommit": "31dbd67c5d55055a2c48b8bcd14addcabf45fc31",
+    "hostingDeploymentSourceCommit": "853a95c95dd0e15ed92c238d2471add21cb1c7e5",
     "hostingChannel": "pilot",
     "mainHostingPublished": false
   },
@@ -205,9 +205,26 @@
   },
   "pendingPilotUpdate": {
     "issue": 293,
-    "status": "implemented, local checks passed; awaiting manual pilot workflow and real mobile test",
+    "status": "published; real mobile verification pending",
     "report": "reports/reconnect-293.json",
     "includesExistingFix": 291,
-    "deployed": false
+    "deployed": true,
+    "runId": "42234619437"
+  },
+  "latestPilotExecution": {
+    "runId": "42234619437",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42234619437",
+    "sourceCommit": "853a95c95dd0e15ed92c238d2471add21cb1c7e5",
+    "verifyJob": "127948919611",
+    "pilotJob": "127949244717",
+    "allStepConclusions": "success",
+    "publishStepCompletedAt": "2026-11-06T14:32:15Z",
+    "channel": "pilot",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "urlSource": "previously user supplied URL of same pilot channel; new CLI output not accessed",
+    "actualExpireTime": null,
+    "actualSiteHttpChecked": false,
+    "androidBraveNetworkSwitchVerified": false,
+    "evidence": "public workflow state, source commit link and individual job-step conclusions"
   }
 }

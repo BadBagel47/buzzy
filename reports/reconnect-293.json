@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "implemented and locally verified; not deployed",
+  "status": "published to pilot; actual Android/Brave network-switch verification pending",
   "checkedAt": "2026-11-06T14:13:21.746370+00:00",
   "approval": "Vi fortsätter med att lösa 293 först. Kör",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
@@ -62,16 +62,31 @@
     "buzzy-live-pilot/package-lock.json": "f0025f7326fc94192cdbab8ded433b3f89adbd6cb67924cdb3b936bc39d79c7d",
     "buzzy-live-pilot/database.rules.json": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498"
   },
-  "deployed": false,
+  "deployed": true,
   "androidBraveNetworkSwitchVerified": false,
   "pending": [
-    "Publish new main revision to existing pilot using manual workflow",
-    "Verify actual Android/Brave wifi to 5G and back, reload and new-room retry"
+    "Open pilot in a fresh tab and verify Android/Brave wifi to 5G and back, reload and room retry"
   ],
   "unchangedScope": [
     "No database rule edits",
     "No #292 typography implementation",
     "No #294 header redesign; only functional retry control for #293",
     "Existing #291 fix retained"
-  ]
+  ],
+  "deployment": {
+    "runId": "42234619437",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42234619437",
+    "sourceCommit": "853a95c95dd0e15ed92c238d2471add21cb1c7e5",
+    "verifyJob": "127948919611",
+    "pilotJob": "127949244717",
+    "allStepConclusions": "success",
+    "publishStepCompletedAt": "2026-11-06T14:32:15Z",
+    "channel": "pilot",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "urlSource": "previously user supplied URL of same pilot channel; new CLI output not accessed",
+    "actualExpireTime": null,
+    "actualSiteHttpChecked": false,
+    "androidBraveNetworkSwitchVerified": false,
+    "evidence": "public workflow state, source commit link and individual job-step conclusions"
+  }
 }

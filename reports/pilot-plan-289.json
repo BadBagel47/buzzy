@@ -1,6 +1,6 @@
 {
   "issue": 289,
-  "status": "deployed; actual preview URL supplied by user; real gameplay verification pending",
+  "status": "updated pilot including #293 published; actual mobile gameplay verification pending",
   "projectId": "buzzy-197dc",
   "site": "buzzy-197dc",
   "channel": "pilot",
@@ -53,5 +53,21 @@
     "evidence": "Public run/job step conclusions verified; detailed CLI output requires user GitHub login",
     "previewUrlSource": "user supplied deployment URL",
     "httpCheckAvailability": "not performed: preview host absent from enforced Codex network allowlist"
+  },
+  "latestExecution": {
+    "runId": "42234619437",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42234619437",
+    "sourceCommit": "853a95c95dd0e15ed92c238d2471add21cb1c7e5",
+    "verifyJob": "127948919611",
+    "pilotJob": "127949244717",
+    "allStepConclusions": "success",
+    "publishStepCompletedAt": "2026-11-06T14:32:15Z",
+    "channel": "pilot",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "urlSource": "previously user supplied URL of same pilot channel; new CLI output not accessed",
+    "actualExpireTime": null,
+    "actualSiteHttpChecked": false,
+    "androidBraveNetworkSwitchVerified": false,
+    "evidence": "public workflow state, source commit link and individual job-step conclusions"
   }
 }

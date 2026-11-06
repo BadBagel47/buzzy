@@ -28,4 +28,4 @@ Artifactretention är tre dagar; användaren sparar backup lokalt före regelän
 
 Användaren godkände den konkreta publika piloten. [Körning 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579) lyckades i verify/tester samt pilot/auth/förkontroll/Hosting-only-deploy. Källrevision 31dbd67c5d55055a2c48b8bcd14addcabf45fc31. Användaren har lämnat den faktiska pilotadressen: https://buzzy-197dc--pilot-mrst5vi1.web.app. Verkliga mobiltester och Usage-kontroll återstår. Huvudkanalen och nya billing-/regeländringar ingår inte i publiceringen.
 
-#293 är nu implementerat och lokalt verifierat; se [RECONNECT_293.md](RECONNECT_293.md). Första publiceringskörningen är historisk och innehåller inte fixen. Nästa steg är ny pilotkörning på aktuell main och därefter Android/Brave-prov.
+#293 är nu implementerat, lokalt verifierat och publicerat i run42234619437 (källa853a95c); se [RECONNECT_293.md](RECONNECT_293.md). Nästa steg är riktiga Android/Brave-prov med nätbyte och omladdning.

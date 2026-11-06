@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 299,
+  "nextFreeIssueId": 300,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",

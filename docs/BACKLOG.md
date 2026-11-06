@@ -13,12 +13,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #296 | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Publicerat i run42258255116; mobilprov återstår. |
 | #297 | Spelarna ska märka när hosten lämnar; tydlig gemensam status och korrekt hantering av sessionen. | Implementerat: bekräftat hostlämnande stänger för alla, med spelarbesked. Nätavbrott stänger inte rummet. Publicerat i run42258255116; mobilprov återstår. |
 | #298 | Lägg spelarens liveruta längst ner och låt buzzern växa dynamiskt efter ledig bredd och höjd mellan frågerutan och liverutan. | Registrerat inför nästa samlade körbeslut. Ingen implementation gjord. |
+| #299 | Rätta spelarens lämna-rum-ikon, vars pil ser ut som ett flygplan. Återanvänd en tydlig standardikon i befintligt linjespråk. | SVG-fel bekräftat: skaftet slutar vid x=21, pilspetsen vid x=17. Endast registrerat; ingen UI-ändring. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#299**.
+Nästa fria interna ID: **#300**.
 
 ## #293 — reproduktion och mål
 
@@ -47,3 +48,7 @@ Paketet #295–#297 är nu genomfört i källan, lokalt verifierat och publicera
 ## #298 — liveruta i botten och dynamisk buzzer
 
 Användarens mobilbild visar outnyttjad mörk yta under liverutan. Önskat: liverutan placeras längst ner i den tillgängliga spelarytan, och buzzerns storlek anpassas dynamiskt till utrymmet mellan frågerutan och liverutan. Begränsa storleken efter både tillgänglig bredd och höjd och behåll den cirkulära formen. Ta hänsyn till mobilens safe area, webbläsarens varierande höjd, korta skärmar och liggande läge så att frågetext, kontroller och liveruta inte täcks. Återanvänd befintlig buzzerdesign, typografi och animationer. Registrering enligt överenskommelsen om ID och samlade paket; inte ett genomfört ingrepp i spelarvyn.
+
+## #299 — lämna-ikonens pil
+
+Källkontroll av SVG:n bekräftar felet: M13 8l4 4-4 4 placerar pilspetsen vid (17,12), medan M9 12h12 fortsätter skaftet till (21,12). Överskjutningen ger en flygplansliknande form. Ta med en korrekt, etablerad lämna-/log-out-symbol i nästa paket tillsammans med övriga spelarjusteringar, med samma färg och linjestil som projektets övriga ikoner. Ingen implementation nu.

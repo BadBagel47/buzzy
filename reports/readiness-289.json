@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "current pilot published; #293 reopened for real player reload failure",
+  "status": "published pilot has open player reload UX (#293) and player dialog style (#296) feedback",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -231,7 +231,15 @@
   "openMobileRegression": {
     "issue": 293,
     "symptom": "Player reload stays at Connecting to your room",
-    "hostPresenceAndDurationPending": true,
-    "newImplementationMade": false
+    "hostPresenceAndDurationPending": false,
+    "newImplementationMade": false,
+    "hostSetup": "Same phone, separate background host tab; host showed Connected upon return",
+    "actualTimeoutConfirmed": false,
+    "waited30Seconds": false
+  },
+  "openPlayerDialogFeedback": {
+    "issue": 296,
+    "styleAccepted": false,
+    "followupImplemented": false
   }
 }

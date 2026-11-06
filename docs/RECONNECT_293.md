@@ -41,3 +41,5 @@ Senaste publicering: https://github.com/BadBagel47/buzzy/actions/runs/4224819839
 ## Senaste återfall: spelarens reload
 
 Efter publicering av #295–#297 rapporterar användaren att en omladdning av spelarvyn fastnar på Connecting to your room… med enbart Leave room på den mörka sidan. Rollen är player enligt aktuell layout, ingen labmärkning visas. #293 är återöppnat; orsak, hostens fortsatta närvaro och väntetid är ännu okända. Frågat om hosten är kvar och om något ändras efter30sekunder. Tidigare gröna emulatorprov ersätter inte detta verkliga mobilutfall. Endast dokumentation av återfallet nu.
+
+Användarens svar: hosten låg i en annan flik på samma mobil och visade Connected när den fliken öppnades igen. Väntade inte30sekunder. Det är en upplevd för lång/tom laddning, inte bevisad 30sekunders hängning. Spelaren ska återställas snabbt och erbjudas återkoppling/återförsök tidigare. En vilande hostflik ska inte behöva vara aktiv för att läsa tillbaka ett befintligt spelarrum.

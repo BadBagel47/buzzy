@@ -165,5 +165,10 @@
     "publishStepCompletedAt": "2026-11-06T17:06:18Z",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "physicalAndroidBraveVerified": false
+  },
+  "userDeviceFeedback": {
+    "playerLeaveDialogStyleAccepted": false,
+    "observation": "Player leave confirmation does not match established graphical style; player part of #296 reopened",
+    "implementationFollowupMade": false
   }
 }

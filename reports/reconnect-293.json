@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "reopened after actual player reload stalled on latest pilot",
+  "status": "reopened: perceived slow/blank player reload on same-mobile multi-tab setup; actual hang duration unverified",
   "checkedAt": "2026-11-06T14:13:21.746370+00:00",
   "approval": "Vi fortsätter med att lösa 293 först. Kör",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
@@ -99,11 +99,14 @@
   "latestUserObservation": {
     "view": "player",
     "action": "reload",
-    "symptom": "Empty dark page: Connecting to your room… and Leave room",
+    "symptom": "Player reload appears stuck at Connecting; duration not measured",
     "designLabVisible": false,
-    "hostStillPresent": null,
+    "hostStillPresent": true,
     "durationSeconds": null,
     "errorOrRetryAfter30Seconds": null,
-    "causeVerified": false
+    "causeVerified": false,
+    "hostSetup": "another tab on the same mobile; Connected was shown upon returning to host tab",
+    "waited30Seconds": false,
+    "userRequestsFasterFeedback": true
   }
 }

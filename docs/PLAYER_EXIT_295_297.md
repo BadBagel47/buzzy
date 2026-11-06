@@ -29,3 +29,7 @@ Slutliga lokala resultat: 30 emulatorposter, 1 byggt produktionsspelprov med res
 ## Publicerat resultat
 
 [Run42258255116](https://github.com/BadBagel47/buzzy/actions/runs/42258255116) lyckades på källa cbc130b65bb6c78c5db22d7b2ed79e02025c5848. Verify och pilot har enbart success-steg, inklusive nya spelar-/lämnaprovet och CSP-reservtransport. Publiceringssteget avslutades2026-11-06T17:06:18Z. Samma pilotkanalslänk gäller: https://buzzy-197dc--pilot-mrst5vi1.web.app. Ladda om host- och spelarvyer innan det fysiska mobilprovet. Ingen verifiering av fysisk Android/Brave-enhet påstås.
+
+## Ny användaråterkoppling: #296 återöppnat för player
+
+Användaren rapporterar att spelarens lämna-dialog inte följer satt grafisk stil. Nuvarande gemensamma studio-modal är ljus och kommer från hostgränssnittet. Player-delen ska återföras till spelarvyns etablerade formspråk, med oförändrat bekräftelse-/avbrytbeteende och tydlig semantik. Endast registrerat nu; ingen ny kodändring eller nypublicering.

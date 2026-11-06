@@ -11,7 +11,7 @@ html=html.replace('state.playerEffects={};state.coinSeen=',`if(window.BUZZY_RUNT
 // #255: the final first-button rule centers with top/bottom + auto margins.
 // Remove its obsolete individual translate fallback; CSS lowering must not revive it.
 html=html.replace('top:50%;margin:0!important;translate:0 -50%;flex:none', 'top:50%;margin:0!important;flex:none');
-html=html.replace('function render(){',"function render(){\n if(window.BUZZY_RUNTIME&&!state.networkReady)return;\n queueMicrotask(()=>window.BuzzyNetwork?.afterRender?.());");
+html=html.replace('function render(){',"function render(){\n if(window.BUZZY_RUNTIME&&!state.networkReady){captureDialogFocus();syncModal();reconcileDialogFocus();return;}\n queueMicrotask(()=>window.BuzzyNetwork?.afterRender?.());");
 html=html.replace('button.className=incoming.className;', 'button.className=incoming.className;button.disabled=incoming.disabled;');
 html=html.replace('function renderPlayer(){\n const p=me()||state.players[0],q=currentQ();',"function renderPlayer(){\n const p=me()||state.players[0];if(!p)return '<div class=\"phone\"><p>Waiting for players to join.</p></div>';const q=currentQ();");
 html=html.replace('function prototypeAction(action){',"function prototypeAction(action){if(window.BUZZY_RUNTIME&&action==='copy-link')return false;");
@@ -19,12 +19,16 @@ html=html.replace('function handle(action){',"function handle(action){\n if(wind
 html=html.replace('function buzz(id){',"function buzz(id){if(window.BuzzyNetwork&&!window.BuzzyNetwork.local)return window.BuzzyNetwork.buzz(id);");
 html=html.replace('function beginAutoPreload(){',"function beginAutoPreload(){\n if(window.BUZZY_RUNTIME)return window.BuzzyNetwork?.preload?.();");
 html=html.replace('function maybeExpire(){',"function maybeExpire(){if(window.BUZZY_RUNTIME)return window.BuzzyNetwork?.maybeExpire?.();");
+// #296: use the existing modal shell, focus lifecycle and closing animation.
+html=html.replace("function modalTitle(){", "function modalTitle(){\n if(state.modal?.startsWith('network-'))return window.BuzzyNetwork?.exitTitle(state.modal)||'Room';");
+html=html.replace("let inner='';if(state.modal.startsWith('manage:'))", "let inner='';if(state.modal==='network-leave'||state.modal==='network-end'||state.modal==='network-ended'){inner=window.BuzzyNetwork?.exitDialog(state.modal)||'';}else if(state.modal.startsWith('manage:'))");
 const api=`window.BuzzyView={state,render,handle,tip,currentQ,resolveQuestionBehavior,ensureRound,currentAttempt,finishRound,resetCurrentRound,clearPlayerPanelsForPlay,advanceQuestion,startQuickQuestion,loadQuestion,startPreparedQuestions,playSound,animateBuzzLogos,scheduleTimeoutFlip,selectTimedBuzz,nextUngradedBuzz,showJoinAnnouncement,confetti};\n`;
 html=html.replace("let previousHostTimerTick=performance.now();",api+"let previousHostTimerTick=performance.now();");
 // The frozen #287 standalone reference remains untouched.
 
 for(const role of ['host','player']){
  let app=html.replace('<html ',`<html data-network-role="${role}" `);
+ if(role==='player')app=app.replace("${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}","<div class=\"player-header-actions\">${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}<button type=\"button\" class=\"player-scores-trigger player-leave-trigger\" data-action=\"network-open-leave\" aria-label=\"Leave room\" title=\"Leave room\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 5H5v14h4M13 8l4 4-4 4M9 12h12\"/></svg></button></div>");
  app=app.replace(/<title>[\s\S]*?<\/title>/,`<title>Buzzy · ${role==='host'?'Host':'Player'}</title>`).replace('DESIGN LAB · A v7.52',role==='host'?'HOST':'PLAYER');
  app=app.replace('</head>',`<style>
  button{-webkit-tap-highlight-color:transparent}
@@ -33,6 +37,23 @@ for(const role of ['host','player']){
  html[data-network-role=host] #sidecol,html[data-network-role=player] #maincol{display:none!important}
  html[data-network-role=host] #maincol{display:block!important;width:100%}
  html[data-network-role=player] #sidecol{display:block!important;width:100%;margin:0 auto;max-width:520px}
+ /* #295: the dark player surface is the page, without the prototype phone frame. */
+ html[data-network-role=player] body.buzzy-design-lab.theme-a{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;background:#0b192d;color:#f5f9ff}
+ html[data-network-role=player] .headbar{display:none}
+ html[data-network-role=player] .shell{display:flex!important;flex:1;width:100%;max-width:none;margin:0!important;padding:0!important;gap:0}
+ html[data-network-role=player] #sidecol,html[data-network-role=player] #playercontent,html[data-network-role=player] .phonewrap{display:flex!important;flex-direction:column;flex:1;min-width:0;width:100%;max-width:none!important;position:static}
+ html[data-network-role=player] body .phone{flex:1;width:100%;max-width:520px!important;min-height:0;margin:0 auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+ html[data-network-role=player] #network-bar{width:100%;max-width:none;margin:0;background:#0b192d;color:#c8d9f2;padding:8px max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));font-size:13px;line-height:1.4}
+ html[data-network-role=player] #leave-room{flex:none}
+ html[data-network-role=player][data-network-ready] #network-bar{display:none}
+ html[data-network-role=player][data-player-status-visible] #network-bar{display:flex}
+ html[data-network-role=player][data-network-ready] #leave-room{display:none}
+ html[data-network-role=player] .player-header-actions{display:flex;align-items:center;gap:6px}
+ html[data-network-role=player] .player-header-actions .player-scores-trigger{min-height:44px;min-width:44px}
+ html[data-network-role=player] .phone .player-leave-trigger svg{color:#c8d9f2}
+
+ html[data-network-role=player] #network-retry{background:#243c60;color:#f5f9ff;border-color:#49648c}
+
  #network-bar{display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:1100px;margin:8px auto;padding:8px 16px;font-size:14px}
  #network-bar a{color:inherit;font-weight:700}html[data-network-busy] .coin-buzzer{pointer-events:none}
  [data-network-blocked]{pointer-events:none!important}

@@ -41,9 +41,11 @@ await test('Network interruption restores real emulator sessions and bounded sta
   await remove(host,freshCode);
   // Restore the old host session solely to end that test room.
   await host.evaluate(code=>sessionStorage.setItem('buzzy-spark-ui-session',JSON.stringify({code,role:'host'})),code);await host.goto('http://127.0.0.1:5173/host.html');await ready(host);
-  await remove(host,code);await host.waitForFunction(()=>/unavailable|no longer available/.test(document.querySelector('#network-status').textContent));
-  await host.locator('#network-retry').click();await host.waitForFunction(()=>/unavailable|no longer available/.test(document.querySelector('#network-status').textContent));
-  assert.equal(await read(host,`rooms/${code}/control`),null);record('Ended room gives a clear error and is never recreated by retry');
+  await remove(host,code);await host.waitForFunction(()=>document.querySelector('#network-status').textContent.includes('game has ended'));
+  assert.equal(await host.locator('#network-retry').isVisible(),false);
+  await host.reload();await host.waitForFunction(()=>document.querySelector('#network-status').textContent.includes('no longer available'));
+  await host.locator('#network-retry').click();await host.waitForFunction(()=>document.querySelector('#network-status').textContent.includes('no longer available'));
+  assert.equal(await read(host,`rooms/${code}/control`),null);record('Ended room gives an explicit notice, reload/retry never recreates it');
   const ac=await h.browser.newContext(),authPage=await ac.newPage();let releaseAuth,holdAuth=true;
   await ac.route('http://127.0.0.1:9099/**',async route=>{if(holdAuth&&route.request().url().includes('signUp')){await new Promise(resolve=>{releaseAuth=resolve;});}await route.continue();});
   await authPage.goto('http://127.0.0.1:5173');await authPage.locator('#host-entry').click();

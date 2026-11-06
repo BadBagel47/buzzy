@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "room creation user confirmed; player-view and leaving issues registered for future batch",
+  "status": "player/exit package #295-297 locally verified and awaiting pilot publication",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -204,11 +204,15 @@
     "httpCheckAvailability": "not performed: preview host absent from enforced Codex network allowlist"
   },
   "pendingPilotUpdate": {
-    "issue": 293,
-    "status": "CSP followup published; room creation confirmed; network-switch retest pending",
-    "report": "reports/transport-csp-293.json",
-    "deployed": true,
-    "runId": "42248198398"
+    "issues": [
+      295,
+      296,
+      297
+    ],
+    "status": "implemented, local checks passed; not published",
+    "report": "reports/player-exit-295-297.json",
+    "databaseRulesChanged": false,
+    "deployed": false
   },
   "latestPilotExecution": {
     "runId": "42248198398",

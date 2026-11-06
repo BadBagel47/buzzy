@@ -7,9 +7,10 @@ const cache=process.env.FIREBASE_EMULATORS_PATH||'/tmp/buzzy-firebase-emulators'
 mkdirSync(cache,{recursive:true});
 const configHome='/tmp/buzzy-firebase-config';mkdirSync(configHome,{recursive:true});
 const mode=process.argv[2];
-if(!['start','test','ui','production','transport'].includes(mode))throw new Error('Use start, test, ui, production or transport.');
+if(!['start','test','ui','production','transport','pilot-ui'].includes(mode))throw new Error('Use start, test, ui, production, transport or pilot-ui.');
 const args=['--project','demo-buzzy-ui','--config',path.join(root,'firebase.json')];
 if(mode==='test')args.unshift('emulators:exec','--only','auth,database','npm run test:integration');
+else if(mode==='pilot-ui')args.unshift('emulators:exec','--only','auth,database','node --test --test-concurrency=1 tests/room-exit.integration.mjs tests/transport-csp.integration.mjs');
 else if(mode==='transport')args.unshift('emulators:exec','--only','auth,database','node --test tests/transport-csp.integration.mjs');
 else if(mode==='ui')args.unshift('emulators:exec','--only','auth,database','node --test tests/ui.integration.mjs');
 else if(mode==='production')args.unshift('emulators:exec','--only','auth,database','node --test tests/production.integration.mjs');

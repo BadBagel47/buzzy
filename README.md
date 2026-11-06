@@ -45,3 +45,5 @@ Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #
 Återanslutningsfixen [#293](docs/RECONNECT_293.md) är implementerad, lokalt verifierad och publicerad i [run42234619437](https://github.com/BadBagel47/buzzy/actions/runs/42234619437). Återanslutning efter nätbyte, ändliga väntelägen, återförsök och korrekt Host/Player-märkning före anslutning ingår. Riktiga wifi/5G-prov kvarstår; öppna pilotlänken i en ny flik inför testet.
 
 Mobilprovet efter run42234619437 fastnade fortfarande vid rumsskapning. #293 är därför återöppnat. En lokalt reproducerad CSP-blockering av databasens reservanslutning är korrigerad i källan; ett nytt transportprov läggs före publicering i GitHub. Denna följdfix väntar på nästa pilotkörning. Se [rapporten](reports/transport-csp-293.json).
+
+Paketet [#295–#297](docs/PLAYER_EXIT_295_297.md) är implementerat och lokalt verifierat: mörk spelarsida, bekräftat lämnande och tydligt spelarbesked när hosten avslutar. Det väntar på nästa pilotpublicering; databasreglerna är oförändrade.

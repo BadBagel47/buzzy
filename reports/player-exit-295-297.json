@@ -1,0 +1,158 @@
+{
+  "issues": [
+    295,
+    296,
+    297
+  ],
+  "status": "implemented and locally verified; not published",
+  "checkedAt": "2026-11-06T16:50:51.305070+00:00",
+  "userApproval": "Kör dessa",
+  "hostLeaveDecision": "Om hosten medvetet lämnat rummet stängas ner. Detta måste framgå för både host i dialogen, och för spelarna",
+  "previousPublishedSourceCommit": "5550bcd771e759c791c3ebeb497119d8bbf8bf47",
+  "changes": {
+    "playerSurface": "full dark viewport; leave action in player header, status bar visible only when needed",
+    "confirmation": "shared studio modal lifecycle for both roles and separate End game",
+    "hostDeparture": "confirmed in-app departure deletes owned room; player receives Game ended with Back to start",
+    "transientDisconnect": "does not delete room"
+  },
+  "tests": {
+    "emulatorIntegration": {
+      "passed": 30,
+      "failed": 0
+    },
+    "builtProductionIntegration": {
+      "passed": 1,
+      "failed": 0,
+      "checks": [
+        "Landing join press keeps its green fill and layout position, tap highlight transparent and keyboard focus remains visible",
+        "Built assets serve host/player routes; no overflow at 320/390/700/1280; source label centering/typography preserved; no demo view selector",
+        "Production bundle: native Prepared start-together, keyboard First buzz and authoritative custom +2 score",
+        "Single final celebration broadcasts to host/player; repeated-burst behavior remains pending #284",
+        "Production reload retains score and does not replay historical celebration"
+      ]
+    },
+    "configurationAndRecovery": {
+      "passed": 5,
+      "failed": 0
+    },
+    "builtInterceptedHttps": {
+      "passed": 1,
+      "failed": 0,
+      "includes": "custom confirmation works before networkReady and on Auth failure"
+    },
+    "operations": {
+      "passed": 20,
+      "failed": 0
+    },
+    "workflowYaml": "parsed; pilot-ui guard runs before artifact upload",
+    "pilotBuild": "passed"
+  },
+  "newUiScenario": {
+    "status": "passed",
+    "checks": [
+      "Dark player page fills available viewport without prototype frame at 320/390/430/700/1280 widths",
+      "Player cancel/Escape preserve session, focus returns, Tab stays in reused modal and updates preserve its DOM",
+      "Confirmed player leave returns to start, preserves the game, and permits same-identity rejoin",
+      "Host cancel keeps room alive; a temporary host disconnect does not end the game",
+      "Confirmed host leave deletes once, returns host, notifies player in styled modal, disables buzz and offers Back to start",
+      "End game also uses the shared custom confirmation"
+    ],
+    "viewports": [
+      {
+        "width": 320,
+        "height": 844,
+        "bg": "rgb(11, 25, 45)",
+        "border": "0px",
+        "radius": "0px",
+        "left": 0,
+        "right": 320,
+        "bottom": 844,
+        "overflow": false,
+        "header": "none"
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "bg": "rgb(11, 25, 45)",
+        "border": "0px",
+        "radius": "0px",
+        "left": 0,
+        "right": 390,
+        "bottom": 844,
+        "overflow": false,
+        "header": "none"
+      },
+      {
+        "width": 430,
+        "height": 844,
+        "bg": "rgb(11, 25, 45)",
+        "border": "0px",
+        "radius": "0px",
+        "left": 0,
+        "right": 430,
+        "bottom": 844,
+        "overflow": false,
+        "header": "none"
+      },
+      {
+        "width": 700,
+        "height": 844,
+        "bg": "rgb(11, 25, 45)",
+        "border": "0px",
+        "radius": "0px",
+        "left": 90,
+        "right": 610,
+        "bottom": 844,
+        "overflow": false,
+        "header": "none"
+      },
+      {
+        "width": 1280,
+        "height": 844,
+        "bg": "rgb(11, 25, 45)",
+        "border": "0px",
+        "radius": "0px",
+        "left": 380,
+        "right": 900,
+        "bottom": 844,
+        "overflow": false,
+        "header": "none"
+      }
+    ],
+    "pageErrors": []
+  },
+  "databaseRules": {
+    "changed": false,
+    "rawSha256": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498",
+    "canonicalReviewedSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a"
+  },
+  "sourceFiles": {
+    "buzzy-live-pilot/src/bridge.js": "f1f05336a53cfe38a900a304191bb806d95142d84cd6528a95a6f27ab32f407b",
+    "buzzy-live-pilot/scripts/generate-ui.mjs": "315934fdeca0c03378add36201144ad4ae4bbb01c6e0be0fd8f0cac065292dc0",
+    "buzzy-live-pilot/scripts/emulators.mjs": "96f411a5401ecc9423ee8ec13903983a60e01a3d3d24cbce06c3d8ed80fa7199",
+    "buzzy-live-pilot/package.json": "21c6965876c01727ccf7f4c22638653efc37ae5046fff9f69834e97da908538a",
+    "buzzy-live-pilot/tests/room-exit.integration.mjs": "5dcbde67ab0b4a7054510d2af5e0a7eb2d9583a9a52ff42a83fce4c442016271",
+    "buzzy-live-pilot/tests/pilot-build.test.mjs": "f8d7268ffdc3514a66e57165dd40bf752430d1edb2c0a042907f542d6a20012e",
+    "buzzy-live-pilot/tests/ui.integration.mjs": "1e0a2be4fc152eb1f988c436d82564659191bba8975fba36ecb249579a3da428",
+    "buzzy-live-pilot/tests/reconnect.integration.mjs": "74753f62cfaddd096dbe8d72165c71dfc57afa1171cc3b487f6c61ebef1d163e",
+    "buzzy-live-pilot/tests/production.integration.mjs": "b152d6807c871ab374b746b1271c1d333397f316ac74203ebb48bf242159c601",
+    ".github/workflows/firebase-pilot.yml": "81c6d86125676fc02b872bcdabd11bbd5c7f047b720dd026ac8bedfca8ee0543"
+  },
+  "buildFiles": {
+    "assets/bridge-II8lEv9D.js": "5e45016a6209f44328258648831151247f837bccc7db2ceccec95046a3e5c28e",
+    "assets/client-DaAIl0JB.js": "3794b75c3b0a7b0d6dc1d2ae9996810d7b95a29886a55db8f20c0946b5076c55",
+    "assets/connection-6_P1jnbu.js": "a6b0078bcc00a6aa5bb8cc916085ea49b73439163459be1837ea5371b4c4f40c",
+    "assets/index-BxkMzKC0.js": "1e50074dae504fc08ce46a6f43ad302bd99aa2399ee6bdda5772a04d4988fa3c",
+    "host.html": "0e130644474d0b5d83f0306349b6b03a7d12746508c43d347a206742c8ed7063",
+    "index.html": "e66451b45874c156112c2bd3bbfee97a2f64653f7c509a3ea708b6cd7718d897",
+    "player.html": "3f5ebfc582dce3ce617948bf85319d747b19c03c3bf42d64d785ae4a93c02637",
+    "test-question.svg": "b34cb27f6155149343dcc35f84c65060401e554e6efcdf7b8fd67a85a21e6015"
+  },
+  "testScope": "Demo project/local emulators and intercepted SDK traffic; no live Buzzy gameplay test in this package",
+  "published": false,
+  "physicalAndroidBraveVerified": false,
+  "pending": [
+    "Manual firebase-pilot run on updated main with same reviewed hash/console confirmation",
+    "Reload actual pilot and verify player view, both cancel/confirm paths and game-ended notice on real mobiles"
+  ]
+}

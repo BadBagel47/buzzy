@@ -6,7 +6,8 @@ const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncor
 const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion'];
 const json=value=>JSON.parse(JSON.stringify(value));
 let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection;
-let blocked=false;
+let blocked=false,roomEnded=false,exitTask=null;
+const localActions=new Set(['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal','network-open-leave','network-confirm-exit','network-return-start']);
 let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGeneration=0,stopKey='',expiryKey='';
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
 function message(text,error=false){status.textContent=text;status.dataset.error=String(error);}
@@ -45,7 +46,7 @@ async function operation(fn,{save=true}={}){
 }
 async function afterIdle(fn){while(busy)await new Promise(resolve=>idleWaiters.push(resolve));return fn();}
 function scheduleSave(){
- if(!isHost||local||!s.networkReady||busy||!connected)return;
+ if(!isHost||local||!s.networkReady||busy||exitTask||!connected)return;
  const cfg=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));cfg.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);if(JSON.stringify(privateUi())===savedPrivate&&JSON.stringify(cfg)===savedSettings&&s.questionShown===!!latest.presentation?.shown)return;
  clearTimeout(saveTimer);saveTimer=setTimeout(()=>operation(async()=>{}),60);
 }
@@ -63,6 +64,7 @@ async function loadArchive(){
 }
 function activeProjection(){if(latest)project(latest);}
 function project(value){
+ if(roomEnded)return;
  latest=value;if(held)return;blocked=false;
  const c=value.control,round=value.round,display=value.presentation?.r===c.r&&value.presentation?.a===c.a?value.presentation:null;
  const oldPlayers=s.players.map(p=>({...p})),oldRound=s.countQuestion,oldAttempt=s.attemptNumber,previousPhase=s.phase;
@@ -143,13 +145,14 @@ async function preparePlayer(p){
  try{await client.command({action:'ready',code,key:p.loadKey,status:result});}catch(e){if(generation===loadGeneration)api.tip('Unable to confirm question readiness.');}
 }
 function afterRender(){
+ syncExitControls();
  if(!s.networkReady)return;
  document.documentElement.toggleAttribute('data-network-busy',busy||!connected||blocked);
  const badge=document.querySelector('.headbar .tag.desktoponly');if(badge)badge.textContent=isHost?'HOST':'PLAYER';document.title=`Buzzy · ${isHost?'Host':'Player'}`;
- const allowedLocal=a=>['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal'].includes(a);
+ const allowedLocal=a=>localActions.has(a);
  for(const el of document.querySelectorAll('[data-action],[data-pick]')){
   const a=el.dataset.action||'pick';
-  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&(busy||!connected||blocked)&&!['close-modal','show-scores','round-overview','history'].includes(a));
+  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&(busy||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a));
   el.toggleAttribute('data-network-blocked',locked);
   if(!a.startsWith('buzz:')){
    if(locked){if(!el.hasAttribute('data-network-original-aria'))el.dataset.networkOriginalAria=el.getAttribute('aria-disabled')??'__none__';el.setAttribute('aria-disabled','true');}
@@ -171,6 +174,11 @@ async function advance(action,{force=false}={}){
 }
 function handle(action){
  if(local)return false;
+ if(action==='network-open-leave'){openExit();return true;}
+ if(action==='network-confirm-exit'){confirmExit();return true;}
+ if(action==='network-return-start'){leave();return true;}
+ if(action==='close-modal'&&s.modal?.startsWith('network-'))return !!exitTask;
+
  if(!client||!s.networkReady)return true;
  if(!isHost){
   if(action.startsWith('buzz:')){buzz(action.slice(5));return true;}
@@ -202,7 +210,7 @@ function handle(action){
  if(action.startsWith('apply-adjust:')){const id=action.split(':')[1],delta=Number(document.getElementById('adjustval')?.value);operation(async()=>{await command('adjust',{playerId:id,delta,allowNegative:s.allowNegativeScores,name:s.players.find(p=>p.id===id)?.name});s.modal='';},{save:false});return true;}
  if(/^(kick|ban|unban|rejoin):/.test(action)){const [kind,id]=action.split(':');operation(async()=>{await command('moderate',{playerId:id,status:kind==='kick'?'kicked':kind==='ban'?'banned':'active'});s.modal='';},{save:false});return true;}
  if(action==='celebrate'){if(s.celebration)operation(()=>command('celebrate'),{save:false});else api.tip('Celebration effects are disabled.');return true;}
- if(action==='end-room'){if(confirm('End this game and delete its room data?'))operation(async()=>{await command('delete');leave();},{save:false});return true;}
+ if(action==='end-room'){openExit('network-end');return true;}
  return false;
 }
 function buzz(id){
@@ -210,19 +218,56 @@ function buzz(id){
  operation(async()=>{await command('buzz');},{save:false});
 }
 function maybeExpire(){
- if(!connected||blocked||busy||!latest||latest.control.phase!=='open'||latest.round.phase==='locked'||!s.timer||client.serverNow()<s.endAt)return;
+ if(!connected||blocked||busy||exitTask||!latest||latest.control.phase!=='open'||latest.round.phase==='locked'||!s.timer||client.serverNow()<s.endAt)return;
  if(!isHost){if(s.phase==='open'){s.phase='closed';s.remainingAtClose=0;s.clockStoppedAt=s.endAt;api.render();api.scheduleTimeoutFlip();}return;}
  const key=`${latest.control.r}_${latest.control.a}`;if(expiryKey===key)return;expiryKey=key;
  operation(async()=>{await command('expire');},{save:false});
 }
+function exitTitle(modal){return modal==='network-ended'?'Game ended':isHost?'End game and leave?':'Leave room?';}
+function exitDialog(modal){
+ if(modal==='network-ended')return '<p class="muted" style="margin:10px 0 18px">The host has ended this game. This room is now closed.</p><button type="button" class="btn primary full" data-action="network-return-start">Back to start</button>';
+ return `<p class="muted" style="margin:10px 0 18px">${isHost?'Leaving as host ends the game for everyone and deletes this room. Players will be told that the game has ended.':'You will leave this room and return to the start page. The game will continue for the other players.'}</p><p id="network-exit-status" class="muted sm" role="status" hidden></p><div class="grid2"><button type="button" class="btn" data-action="close-modal">Stay in room</button><button type="button" class="btn ${isHost?'danger':'primary'}" data-action="network-confirm-exit">${isHost?'End game and leave':'Leave room'}</button></div>`;
+}
+function syncExitControls(){
+ if(!isHost){
+  const member=s.players.find(p=>p.id===client?.uid);
+  document.documentElement.toggleAttribute('data-player-status-visible',!s.networkReady||!connected||blocked||roomEnded||status.dataset.error==='true'||['kicked','banned'].includes(member?.status));
+  const button=document.querySelector('[data-action="network-open-leave"]');if(button){button.setAttribute('aria-label',roomEnded?'Back to start':'Leave room');button.title=roomEnded?'Back to start':'Leave room';}
+ }
+ if(!s.modal?.startsWith('network-'))return;
+ document.querySelectorAll('#modalroot [data-action="network-confirm-exit"],#modalroot [data-action="close-modal"]').forEach(button=>{button.disabled=!!exitTask;});
+}
+function openExit(modal='network-leave'){
+ if(roomEnded){leave();return;}
+ s.modal=modal;api.render();syncExitControls();
+}
+async function confirmExit(){
+ if(exitTask)return;
+ const notice=document.getElementById('network-exit-status');
+ if(isHost&&(!client||!s.networkReady||!connected||blocked||busy)){
+  notice.hidden=false;notice.textContent=busy?'Wait for the current action to finish before ending the game.':'Wait until you are connected before ending the game for everyone.';return;
+ }
+ held=true;clearTimeout(saveTimer);exitTask=(async()=>{if(isHost)await command('delete');leave();})();syncExitControls();
+ try{await deadline(exitTask,15000,'Waiting for the connection. The game will close when your request completes.');}
+ catch(error){if(notice){notice.hidden=false;notice.textContent=error.message;}}
+ finally{
+  // A timed-out UI wait must not submit the queued room deletion a second time.
+  const pending=exitTask;pending.then(()=>{},()=>{if(exitTask===pending){exitTask=null;held=false;if(latest&&!roomEnded)project(latest);syncExitControls();}});
+ }
+}
+function ended(){
+ if(roomEnded)return;
+ roomEnded=true;blocked=true;retry.hidden=true;document.getElementById('leave-room').textContent='Back to start';message(isHost?'This game has ended.':'The host has ended the game.');
+ if(!exitTask){s.modal='network-ended';api.render();}afterRender();
+}
 function leave(){stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
-window.BuzzyNetwork={get local(){return local;},handle,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
+window.BuzzyNetwork={get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
 // Preserve controls' own disabled state: retained modal/source nodes must unlock after a request.
 for(const type of ['click','keydown'])document.addEventListener(type,event=>{
  if(type==='keydown'&&!['Enter',' '].includes(event.key))return;
  if(event.target.closest?.('[data-network-blocked]')){event.preventDefault();event.stopImmediatePropagation();}
 },true);
-document.getElementById('leave-room').addEventListener('click',e=>{e.preventDefault();leave();});
+document.getElementById('leave-room').addEventListener('click',e=>{e.preventDefault();e.currentTarget.focus({preventScroll:true});openExit();});
 for(const type of ['click','change','drop','keydown'])document.addEventListener(type,event=>{
  if(local)return;
  if(type==='keydown'&&event.key!=='Enter')return;
@@ -234,7 +279,7 @@ for(const type of ['click','change','drop','keydown'])document.addEventListener(
 });
 let starting;
 function begin(){
- return starting??=start().catch(e=>{held=false;blocked=true;message(e.message||'Unable to connect. Check your connection and try again.',true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
+ return starting??=start().catch(e=>{if(roomEnded)return;held=false;blocked=true;message(e.message||'Unable to connect. Check your connection and try again.',true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
 }
 retry.addEventListener('click',()=>{client?.reconnect();if(!s.networkReady||blocked)begin();});
 window.addEventListener('online',()=>{if(!s.networkReady||blocked)begin();});
@@ -244,7 +289,7 @@ async function start(){
  let saved;try{saved=JSON.parse(sessionStorage.getItem(sessionKey));}catch{}
  if(!saved||saved.role!==role||!/^[A-HJ-NP-Z2-9]{4}$/.test(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
  code=saved.code;client=await getClient();
- stopConnection=client.watchConnection(value=>{connected=value;retry.hidden=value&&!blocked;if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
+ stopConnection=client.watchConnection(value=>{connected=value;if(roomEnded){afterRender();return;}retry.hidden=value&&!blocked;if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
  await client.waitForConnection();
  const control=await client.read(`rooms/${code}/control`);if(!control)throw new Error('This room is no longer available.');
  latest={control,players:[],round:{id:control.r,attempt:control.a},loads:{}};
@@ -260,6 +305,6 @@ async function start(){
  }else{
   const member=await client.read(`rooms/${code}/members/${client.uid}`);if(!member)throw new Error('Join this room from the start page first.');
  }
- await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected;resolve();},e=>{message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
+ await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected;resolve();},e=>{if(e.code==='room/not-found'&&s.networkReady){ended();return;}if(roomEnded)return;message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
 }
 begin();

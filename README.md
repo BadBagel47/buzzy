@@ -40,7 +40,7 @@ Kör `node --test tests/operations.test.mjs` från roten. I `buzzy-live-pilot`: 
 
 Officiell grund: [Google auth-action och WIF](https://github.com/google-github-actions/auth#workload-identity-federation-through-a-service-account), [Firebase Hosting-preview](https://firebase.google.com/docs/hosting/test-preview-deploy), [Google Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
 
-Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #295–#297, spelarens spelyta, bekräftat lämnande och hostens frånvaro. #294 inväntar fortfarande användarens utformningsförslag.
+Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #298, liveruta i botten och dynamisk storlek på buzzern. #294 inväntar fortfarande användarens utformningsförslag.
 
 Återanslutningsfixen [#293](docs/RECONNECT_293.md) är implementerad, lokalt verifierad och publicerad i [run42234619437](https://github.com/BadBagel47/buzzy/actions/runs/42234619437). Återanslutning efter nätbyte, ändliga väntelägen, återförsök och korrekt Host/Player-märkning före anslutning ingår. Riktiga wifi/5G-prov kvarstår; öppna pilotlänken i en ny flik inför testet.
 

@@ -210,3 +210,8 @@ Användaren har bekräftat Hosting-konto/delegering och firebase-pilot-miljö me
 ## Hämta den publicerade pilotadressen
 
 Första godkända pilotkörningen är grön: [pilotjobbet](https://github.com/BadBagel47/buzzy/actions/runs/42139283579/job/127635661297#step:10:1). Öppna steget **Publish Hosting pilot only, for one day** i den egna inloggade GitHub-webbläsaren. Kopiera endast HTTPS-adressen som börjar med `https://buzzy-197dc--pilot-` och slutar på `.web.app`. Detaljloggar kräver inloggning och adressen finns inte i den offentliga jobbstegsvyn. Undvik en extra deploy enbart för att få länken; Hosting-konsolens previewkanal är också en giltig källa.
+
+
+## Aktuell pilotadress
+
+Användaren lämnade https://buzzy-197dc--pilot-mrst5vi1.web.app från publiceringen i run42139283579. Länken är sparad, men faktiskt HTTP-svar, exakt expireTime och verkligt mobilspel är ännu inte kontrollerade. Codex-miljön saknar denna previewvärd i sin aktiva nätlista; användarens egen webbläsare kan prova sidan direkt. Se första anslutningsprovet i [PILOT_RUN_289.md](PILOT_RUN_289.md). Ingen ny publicering behövs enbart för att adressen har hämtats.

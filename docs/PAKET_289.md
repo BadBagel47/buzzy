@@ -26,4 +26,4 @@ Artifactretention är tre dagar; användaren sparar backup lokalt före regelän
 
 ## Nästa steg
 
-Användaren godkände den konkreta publika piloten. [Körning 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579) lyckades i verify/tester samt pilot/auth/förkontroll/Hosting-only-deploy. Källrevision 31dbd67c5d55055a2c48b8bcd14addcabf45fc31. Den faktiska previewadressen återstår att hämta ur CLI-loggen eller Hosting-konsolen; inga adresser/suffix ska gissas. Verkliga mobiltester och Usage-kontroll återstår. Huvudkanalen och nya billing-/regeländringar ingår inte i publiceringen.
+Användaren godkände den konkreta publika piloten. [Körning 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579) lyckades i verify/tester samt pilot/auth/förkontroll/Hosting-only-deploy. Källrevision 31dbd67c5d55055a2c48b8bcd14addcabf45fc31. Användaren har lämnat den faktiska pilotadressen: https://buzzy-197dc--pilot-mrst5vi1.web.app. Verkliga mobiltester och Usage-kontroll återstår. Huvudkanalen och nya billing-/regeländringar ingår inte i publiceringen.

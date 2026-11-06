@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "pilot deployment succeeded in GitHub; awaiting actual preview URL and real device game test",
+  "status": "pilot deployed; user supplied actual URL; real device game test pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -159,7 +159,6 @@
     "mainHostingPublished": false
   },
   "pending": [
-    "Obtain actual preview URL from successful Firebase CLI output/Hosting Console",
     "Open actual preview and test with real host and two mobiles, watch Usage and End game cleanup",
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
@@ -197,9 +196,11 @@
     "pilotGoogleAuth": "success",
     "preflight": "success",
     "hostingDeploy": "success",
-    "siteUrl": null,
+    "siteUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "actualExpireTime": null,
     "actualSiteHttpChecked": false,
-    "realHostTwoMobilesTested": false
+    "realHostTwoMobilesTested": false,
+    "siteUrlSource": "user supplied deployment URL",
+    "httpCheckAvailability": "not performed: preview host absent from enforced Codex network allowlist"
   }
 }

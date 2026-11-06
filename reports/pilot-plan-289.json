@@ -1,6 +1,6 @@
 {
   "issue": 289,
-  "status": "user-approved and deployed; actual preview URL and real gameplay verification pending",
+  "status": "deployed; actual preview URL supplied by user; real gameplay verification pending",
   "projectId": "buzzy-197dc",
   "site": "buzzy-197dc",
   "channel": "pilot",
@@ -46,10 +46,12 @@
     "bothJobs": "success",
     "deploymentStep": "success",
     "deploymentStepCompletedAt": "2026-11-06T00:48:25Z",
-    "previewUrl": null,
+    "previewUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "previewExpireTime": null,
     "previewHttpVerified": false,
     "realMultiplayerVerified": false,
-    "evidence": "Public run/job step conclusions verified; detailed CLI output requires user GitHub login"
+    "evidence": "Public run/job step conclusions verified; detailed CLI output requires user GitHub login",
+    "previewUrlSource": "user supplied deployment URL",
+    "httpCheckAvailability": "not performed: preview host absent from enforced Codex network allowlist"
   }
 }

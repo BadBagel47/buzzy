@@ -37,4 +37,9 @@ Hämta den faktiska länken från körningen eller Hosting-konsolen. Prova host 
 
 ## Faktiskt resultat
 
-[Run 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579), källa `31dbd67c5d55055a2c48b8bcd14addcabf45fc31`: verify och pilot lyckades i alla steg. Hosting-auth, återställning av det testade artifactet, färsk förkontroll och Hosting-only-kommandot passerade. Deploysteget avslutades 2026-11-06T00:48:25Z. Verifierat via publika jobbsteg; exakt previewadress och expireTime kräver CLI-utskriften/Hosting-konsolen och är ännu inte hämtade. Ingen URL ska gissas. Faktisk HTTP-sida eller en full spelomgång är ännu inte verifierade.
+[Run 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579), källa `31dbd67c5d55055a2c48b8bcd14addcabf45fc31`: verify och pilot lyckades i alla steg. Hosting-auth, återställning av det testade artifactet, färsk förkontroll och Hosting-only-kommandot passerade. Deploysteget avslutades 2026-11-06T00:48:25Z. Jobbresultatet är verifierat via publika jobbsteg. Användaren har därefter lämnat den faktiska pilotadressen: https://buzzy-197dc--pilot-mrst5vi1.web.app. Exakt expireTime är ännu inte avläst. Codex-miljöns aktiva nätpolicy tillåter inte previewvärden, så inget HTTP-/webbläsarprov mot adressen har gjorts härifrån. En full verklig spelomgång är ännu inte verifierad.
+
+
+## Första manuella anslutningsprovet
+
+Öppna pilotlänken på datorn och välj **Host a game**. Öppna samma länk i mobilens Brave, ange rummets fyrteckenskod och ett namn och välj **Join game**. Kontrollera att spelaren syns i hostens Players och att båda vyerna visar anslutning. Börja med en mobil; anslut därefter en andra för buzzordning och resten av spelprovet. Avsluta egna testspel via **End game** när testet är klart. Att bara öppna startsidan initierar enligt koden inte Auth; skapa/gå med och spelhandlingar använder riktig Firebase-kvot. Detta är instruktioner, inte avklarade prov.

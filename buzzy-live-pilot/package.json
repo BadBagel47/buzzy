@@ -9,13 +9,13 @@
     "dev": "node scripts/generate-ui.mjs && vite --host 127.0.0.1",
     "test": "node scripts/emulators.mjs test",
     "emulators": "node scripts/emulators.mjs start",
-    "test:integration": "node --test --test-concurrency=1 tests/spark.integration.mjs tests/ui.integration.mjs",
+    "test:integration": "node --test --test-concurrency=1 tests/spark.integration.mjs tests/ui.integration.mjs tests/reconnect.integration.mjs",
     "build": "node scripts/generate-ui.mjs && vite build",
     "rules": "node scripts/generate-ui-rules.mjs",
     "test:ui": "node scripts/emulators.mjs ui",
     "test:production": "node scripts/emulators.mjs production",
     "build:pilot": "node scripts/build-pilot.mjs",
-    "test:config": "node --test tests/runtime.test.mjs",
+    "test:config": "node --test tests/runtime.test.mjs tests/connection.test.mjs",
     "test:pilot": "node --test tests/pilot-build.test.mjs"
   },
   "dependencies": {

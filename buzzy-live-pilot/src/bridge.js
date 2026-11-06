@@ -1,6 +1,7 @@
+import {deadline} from './connection.js';
 import {getClient} from './client.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
-const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status');
+const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores'];
 const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion'];
 const json=value=>JSON.parse(JSON.stringify(value));
@@ -231,11 +232,20 @@ for(const type of ['click','change','drop','keydown'])document.addEventListener(
  }
  queueMicrotask(scheduleSave);
 });
+let starting;
+function begin(){
+ return starting??=start().catch(e=>{held=false;blocked=true;message(e.message||'Unable to connect. Check your connection and try again.',true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
+}
+retry.addEventListener('click',()=>{client?.reconnect();if(!s.networkReady||blocked)begin();});
+window.addEventListener('online',()=>{if(!s.networkReady||blocked)begin();});
 async function start(){
+ retry.hidden=true;blocked=false;
+ stopWatch?.();stopConnection?.();
  let saved;try{saved=JSON.parse(sessionStorage.getItem(sessionKey));}catch{}
  if(!saved||saved.role!==role||!/^[A-HJ-NP-Z2-9]{4}$/.test(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
  code=saved.code;client=await getClient();
- stopConnection=client.watchConnection(value=>{connected=value;if(s.networkReady){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
+ stopConnection=client.watchConnection(value=>{connected=value;retry.hidden=value&&!blocked;if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
+ await client.waitForConnection();
  const control=await client.read(`rooms/${code}/control`);if(!control)throw new Error('This room is no longer available.');
  latest={control,players:[],round:{id:control.r,attempt:control.a},loads:{}};
  if(isHost){
@@ -246,10 +256,10 @@ async function start(){
   const previous=await client.read(`rooms/${code}/presentation`);if(previous){s.questionShown=previous.shown;savedPresentation=JSON.stringify(previous);}
   savedSettings=JSON.stringify(await client.read(`rooms/${code}/settings`)||{});
   if(control.phase!=='ready')Object.assign(s,{mode:control.mode,timer:control.timer!==false,seconds:control.ms/1000,correct:control.correct??1,incorrect:control.incorrect??0,allowNegativeScores:control.allowNegative!==false,allowRepeat:control.allowRepeat===true});
-  held=true;await publish();held=false;
+  held=true;try{await deadline(publish());}finally{held=false;}
  }else{
   const member=await client.read(`rooms/${code}/members/${client.uid}`);if(!member)throw new Error('Join this room from the start page first.');
  }
- stopWatch=client.watch(code,value=>{latest=value;project(value);},e=>{message('The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;afterRender();});
+ await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected;resolve();},e=>{message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
 }
-start().catch(e=>message(e.message,true));
+begin();

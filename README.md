@@ -41,3 +41,5 @@ Kör `node --test tests/operations.test.mjs` från roten. I `buzzy-live-pilot`: 
 Officiell grund: [Google auth-action och WIF](https://github.com/google-github-actions/auth#workload-identity-federation-through-a-service-account), [Firebase Hosting-preview](https://firebase.google.com/docs/hosting/test-preview-deploy), [Google Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
 
 Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #294, hostens sidhuvud; inväntar användarens utformningsförslag.
+
+Återanslutningsfixen [#293](docs/RECONNECT_293.md) är implementerad och lokalt verifierad, men ännu inte publicerad till pilotlänken. Återanslutning efter nätbyte, ändliga väntelägen, återförsök och korrekt Host/Player-märkning före anslutning ingår. Riktiga wifi/5G-prov kvarstår efter nästa pilotkörning.

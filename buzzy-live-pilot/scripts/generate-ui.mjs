@@ -25,6 +25,7 @@ html=html.replace("let previousHostTimerTick=performance.now();",api+"let previo
 
 for(const role of ['host','player']){
  let app=html.replace('<html ',`<html data-network-role="${role}" `);
+ app=app.replace(/<title>[\s\S]*?<\/title>/,`<title>Buzzy · ${role==='host'?'Host':'Player'}</title>`).replace('DESIGN LAB · A v7.52',role==='host'?'HOST':'PLAYER');
  app=app.replace('</head>',`<style>
  button{-webkit-tap-highlight-color:transparent}
  html[data-network-role] .shell{display:block;visibility:hidden}html[data-network-ready] .shell{visibility:visible}
@@ -36,8 +37,9 @@ for(const role of ['host','player']){
  #network-bar a{color:inherit;font-weight:700}html[data-network-busy] .coin-buzzer{pointer-events:none}
  [data-network-blocked]{pointer-events:none!important}
  #network-status[data-error=true]{color:#a31d34}
+ #network-retry[hidden]{display:none}
  </style><script>window.BUZZY_RUNTIME={role:${JSON.stringify(role)},transport:${JSON.stringify('spark-'+target)}};</script></head>`);
- app=app.replace('ROOM B7K4','ROOM —').replace('<div class="shell">','<div id="network-bar"><span id="network-status" role="status">Connecting to your room…</span><a href="/" id="leave-room">Leave room</a></div><div class="shell">');
+ app=app.replace('ROOM B7K4','ROOM —').replace('<div class="shell">','<div id="network-bar"><span id="network-status" role="status">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div><div class="shell">');
  app=app.replace(/<div class="lab-view-switch">[\s\S]*?<\/div>/,'');
  app=app.replace(/<section class="lab-controls"[\s\S]*?<div id="modalroot">/, '<div id="modalroot">');
  app=app.replace(/<div class="split" style="padding:0 7px 10px">[\s\S]*?<\/select><\/div>/,'');

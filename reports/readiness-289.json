@@ -202,5 +202,12 @@
     "realHostTwoMobilesTested": false,
     "siteUrlSource": "user supplied deployment URL",
     "httpCheckAvailability": "not performed: preview host absent from enforced Codex network allowlist"
+  },
+  "pendingPilotUpdate": {
+    "issue": 293,
+    "status": "implemented, local checks passed; awaiting manual pilot workflow and real mobile test",
+    "report": "reports/reconnect-293.json",
+    "includesExistingFix": 291,
+    "deployed": false
   }
 }

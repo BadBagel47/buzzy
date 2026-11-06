@@ -1,25 +1,29 @@
+import {deadline,connectionRecovery} from './connection.js';
 import {initializeRuntime} from './runtime-config.js';
 import {initializeApp} from 'firebase/app';
 import {getAuth,connectAuthEmulator,signInAnonymously,browserLocalPersistence,setPersistence} from 'firebase/auth';
 import {getDatabase,connectDatabaseEmulator,onValue,ref,get,set,update,serverTimestamp,goOffline,goOnline} from 'firebase/database';
-let connection;
+let connection,runtime,authentication;
 const fail=message=>{throw new Error(message);};
-export function getClient(){return connection??=connect();}
+const permissionDenied=e=>['PERMISSION_DENIED','permission-denied'].includes(e.code)||(!e.code&&e.message==='Permission denied');
+export function getClient(){return connection??=connect().catch(error=>{connection=null;throw error;});}
 async function connect(){
- const {auth,db}=initializeRuntime({initializeApp,getAuth,getDatabase,connectAuthEmulator,connectDatabaseEmulator},{target:import.meta.env.VITE_BUZZY_TARGET||'emulator',hostname:location.hostname,protocol:location.protocol});
- await setPersistence(auth,browserLocalPersistence);await auth.authStateReady();if(!auth.currentUser)await signInAnonymously(auth);
+ const {auth,db}=runtime??=initializeRuntime({initializeApp,getAuth,getDatabase,connectAuthEmulator,connectDatabaseEmulator},{target:import.meta.env.VITE_BUZZY_TARGET||'emulator',hostname:location.hostname,protocol:location.protocol});
+ await deadline(authentication??=(async()=>{await setPersistence(auth,browserLocalPersistence);await auth.authStateReady();if(!auth.currentUser)await signInAnonymously(auth);})().catch(error=>{authentication=null;throw error;}));
+ const recovery=connectionRecovery({subscribe:next=>onValue(ref(db,'.info/connected'),s=>next(s.val()===true)),disconnect:()=>goOffline(db),connect:()=>goOnline(db)});
  let serverOffset=0;onValue(ref(db,'.info/serverTimeOffset'),s=>serverOffset=s.val()||0);
  const serverNow=()=>Date.now()+serverOffset;
- const uid=auth.currentUser.uid, read=path=>get(ref(db,path)).then(s=>s.val());
+ const uid=auth.currentUser.uid, read=path=>deadline(get(ref(db,path)).then(s=>s.val()));
  const attemptKey=c=>`${c.r}_${c.a}`;
  async function command(input){
   const x={commandId:crypto.randomUUID(),...input};
   if(x.action==='create'){
+   await recovery.ready();
    for(let collision=0;collision<8;collision++){
     const bytes=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(`${uid}:${x.commandId}:${collision}`)));
     const code=[...bytes.slice(0,4)].map(n=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[n%32]).join('');
     const room={meta:{owner:uid,createdAt:serverTimestamp(),createId:x.commandId,schema:1},control:{r:1,a:1,phase:'ready',mode:'timed',startedAt:0,ms:10000,version:0,commandId:x.commandId,resultUid:''},attempts:{'1_1':{n:0}}};
-    try{await set(ref(db,`rooms/${code}`),room);return {code};}catch(e){try{const meta=await read(`rooms/${code}/meta`);if(meta?.owner===uid&&meta.createId===x.commandId)return {code};}catch{}if(collision===7)throw e;}
+    try{await set(ref(db,`rooms/${code}`),room);return {code};}catch(e){if(!permissionDenied(e))throw e;try{const meta=await read(`rooms/${code}/meta`);if(meta?.owner===uid&&meta.createId===x.commandId)return {code};}catch(error){if(!permissionDenied(error))throw error;}if(collision===7)throw e;}
    }
   }
   const code=String(x.code||'').toUpperCase();if(!/^[A-HJ-NP-Z2-9]{4}$/.test(code))fail('Four-character room code required.');
@@ -93,24 +97,27 @@ async function connect(){
   return {code};
  }
  function watch(code,next,error){
-  const base=`rooms/${code}`,values={},stops=[],dynamic=[],initialized=new Set(),fields=['members','scores','settings','presentation','selection','moderation','celebration','adjustments'];let current='',excludedRound='',loadKey='',stopLoads;
+  const base=`rooms/${code}`,values={},stops=[],dynamic=[],initialized=new Set(),fields=['members','scores','settings','presentation','selection','moderation','celebration','adjustments'];let current='',excludedRound='',loadKey='',stopLoads,failed=false;
+  // A retired attempt can lose access just before the next control snapshot arrives.
+  // Only a missing room is terminal; let valid later snapshots recover other errors.
+  const reportError=e=>{if(!failed){if(e.code==='room/not-found')failed=true;error?.(e);}};
   const emit=()=>{
-   const c=values.control;if(!c||!values.attempt||fields.some(f=>!initialized.has(f)))return;
+   const c=values.control;if(failed||!c||!values.attempt||fields.some(f=>!initialized.has(f)))return;
    const players=Object.entries(values.members||{}).map(([id,p])=>({id,name:p.name,score:values.scores?.[id]||0,status:['banned','kicked'].includes(values.moderation?.[id])?values.moderation[id]:p.fromRound<=c.r?'active':values.settings?.allowJoinDuringQuestion===false?'queued':'waiting',joined:p.at})).sort((a,b)=>a.joined-b.joined);
    const a=values.attempt, hits=c.mode==='first'?(a.first?[[a.first.uid,{...a.first,i:1}]]:[]):Object.entries(a.hits||{});
    const buzzes=hits.map(([id,h])=>({playerId:id,name:values.members?.[id]?.name||'Player',order:h.i,acceptedAt:h.at,result:a.judgments?.[id]?.kind||'pending',judgment:a.judgments?.[id]||null})).sort((a,b)=>a.order-b.order);
    next({code,revision:c.version,control:{...c},presentation:values.presentation||null,settings:values.settings||{},celebration:values.celebration||null,adjustments:values.adjustments||{},selection:values.selection||null,loads:values.loads||{},players,round:{id:c.r,attempt:c.a,phase:c.phase==='open'&&c.mode==='first'&&a.first?'locked':c.phase,mode:c.mode,deadline:c.startedAt+c.ms,excluded:Object.keys(values.excluded||{}),buzzes}});
   };
-  for(const field of fields)stops.push(onValue(ref(db,`${base}/${field}`),s=>{values[field]=s.val();initialized.add(field);if(field==='presentation'&&values.presentation?.loadKey!==loadKey){stopLoads?.();loadKey=values.presentation?.loadKey;values.loads={};if(loadKey)stopLoads=onValue(ref(db,`${base}/loads/${loadKey}`),s=>{values.loads=s.val();emit();},error);}emit();},error));
+  for(const field of fields)stops.push(onValue(ref(db,`${base}/${field}`),s=>{values[field]=s.val();initialized.add(field);if(field==='presentation'&&values.presentation?.loadKey!==loadKey){stopLoads?.();loadKey=values.presentation?.loadKey;values.loads={};if(loadKey)stopLoads=onValue(ref(db,`${base}/loads/${loadKey}`),s=>{values.loads=s.val();emit();},reportError);}emit();},reportError));
   stops.push(onValue(ref(db,`${base}/control`),s=>{
-   values.control=s.val();if(!values.control)return;
+   values.control=s.val();if(!values.control){reportError(Object.assign(new Error('This room is no longer available.'),{code:'room/not-found'}));return;}
    const key=attemptKey(values.control);
    if(key!==current){dynamic.splice(0).forEach(stop=>stop());current=key;values.attempt=null;values.excluded=null;
-    dynamic.push(onValue(ref(db,`${base}/attempts/${key}`),s=>{if(key!==current)return;values.attempt=s.val();emit();},async e=>{try{const fresh=await read(`${base}/control`);if(fresh&&attemptKey(fresh)!==key)return;}catch{}if(key===current)error?.(e);}));
-    excludedRound=String(values.control.r);dynamic.push(onValue(ref(db,`${base}/excluded/${excludedRound}`),s=>{values.excluded=s.val();emit();},error));
+    dynamic.push(onValue(ref(db,`${base}/attempts/${key}`),s=>{if(key!==current)return;values.attempt=s.val();emit();},async e=>{try{const fresh=await read(`${base}/control`);if(fresh&&attemptKey(fresh)!==key)return;}catch{}if(key===current)reportError(e);}));
+    excludedRound=String(values.control.r);dynamic.push(onValue(ref(db,`${base}/excluded/${excludedRound}`),s=>{values.excluded=s.val();emit();},reportError));
    }emit();
-  },error));
+  },reportError));
   return ()=>{stopLoads?.();stops.forEach(stop=>stop());dynamic.forEach(stop=>stop());};
  }
- return {auth,db,uid,command,read,watch,serverNow,setOnline:v=>v?goOnline(db):goOffline(db),watchConnection:next=>onValue(ref(db,'.info/connected'),s=>next(s.val()===true))};
+ return {auth,db,uid,command,read,watch,serverNow,setOnline:v=>recovery.setOnline(v),reconnect:()=>recovery.recover(),waitForConnection:()=>recovery.ready(),watchConnection:next=>recovery.watch(next)};
 }

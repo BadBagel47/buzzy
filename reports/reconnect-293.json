@@ -1,0 +1,77 @@
+{
+  "issue": 293,
+  "status": "implemented and locally verified; not deployed",
+  "checkedAt": "2026-11-06T14:13:21.746370+00:00",
+  "approval": "Vi fortsätter med att lösa 293 först. Kör",
+  "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+  "tests": {
+    "emulatorIntegration": {
+      "passed": 28,
+      "failed": 0,
+      "includes": "11 backend cases, 14 UI cases, 2 parent tests and 1 reconnect scenario"
+    },
+    "configurationAndRecovery": {
+      "passed": 5,
+      "failed": 0
+    },
+    "builtInterceptedHttps": {
+      "passed": 1,
+      "failed": 0
+    },
+    "operations": {
+      "passed": 20,
+      "failed": 0
+    },
+    "pilotBuild": "passed"
+  },
+  "reconnectScenario": {
+    "status": "passed",
+    "checks": [
+      "Host and player: offline/online restores same identity and room",
+      "Socket interruption without browser online event reconnects",
+      "Offline reload has correct live badge, finite wait, manual retry restores existing host",
+      "Repeated create command after uncertain acknowledgement returns same room",
+      "New room after network failure: finite wait, enabled retry and successful create",
+      "Ended room gives a clear error and is never recreated by retry",
+      "Stalled authentication has a finite wait and retry recovers without cached initialization failure"
+    ],
+    "realCloudRequests": 0,
+    "pageErrors": []
+  },
+  "cloudTrafficNote": "App scenarios use locked demo config and loopback emulators or intercepted HTTPS. No live Buzzy game was run; not a measured network byte counter.",
+  "buildFiles": {
+    "assets/bridge-BBIAcUgT.js": "35d73a483f82e75643effec99922d9700b522f2101c5ad883b37f352a845100e",
+    "assets/client-DaAIl0JB.js": "3794b75c3b0a7b0d6dc1d2ae9996810d7b95a29886a55db8f20c0946b5076c55",
+    "assets/connection-6_P1jnbu.js": "a6b0078bcc00a6aa5bb8cc916085ea49b73439163459be1837ea5371b4c4f40c",
+    "assets/index-BxkMzKC0.js": "1e50074dae504fc08ce46a6f43ad302bd99aa2399ee6bdda5772a04d4988fa3c",
+    "host.html": "8bf1ae23fe5736fe4dc307bc1bbca215985fb5a05794a70920fff911c84cfdba",
+    "index.html": "e66451b45874c156112c2bd3bbfee97a2f64653f7c509a3ea708b6cd7718d897",
+    "player.html": "a03b010de75836e11b53a5ad6d1f1a110352aeb3af77ac50bf83e4ead0ee2713",
+    "test-question.svg": "b34cb27f6155149343dcc35f84c65060401e554e6efcdf7b8fd67a85a21e6015"
+  },
+  "sourceFiles": {
+    "buzzy-live-pilot/src/connection.js": "71de240d349c5c4761fc2459daec0705f42ac9ca3cdbb6575fe3c35f67756a61",
+    "buzzy-live-pilot/src/client.js": "d05f69fc3264059340842b35eefaf6744a5e4bd7de7a7650eb0c9188e846f1ed",
+    "buzzy-live-pilot/src/entry.js": "fcd452db36968183fe2faaa8e2c31b57baef62f3d74b41323d9f8471398f94bd",
+    "buzzy-live-pilot/src/bridge.js": "83e7982e7246621e0b59d217c7e6e09b8d421ca181e6774ae32572039995fc61",
+    "buzzy-live-pilot/scripts/generate-ui.mjs": "5bf7a789221e2cec9e53a721dfc7a2ada0042920608a8ac992510a562a17f8cb",
+    "buzzy-live-pilot/tests/connection.test.mjs": "8963c9fa66c198d07f6c77a10eb0e1c7deb6ce1d17cd6ac9946225c7bce28ed9",
+    "buzzy-live-pilot/tests/reconnect.integration.mjs": "24400ce300fc40d94b6bb1ff015842c05110f4ec3031501c19ac3840d2f7f415",
+    "buzzy-live-pilot/tests/pilot-build.test.mjs": "c8a45f00cb5cc6297833fd8b15e6bc1c61493b3618e3c425bbc021b3f32f0ba9",
+    "buzzy-live-pilot/package.json": "4cfdeb1368967ae4291b5cc243649196c2f73cab88025f3efce253993930768c",
+    "buzzy-live-pilot/package-lock.json": "f0025f7326fc94192cdbab8ded433b3f89adbd6cb67924cdb3b936bc39d79c7d",
+    "buzzy-live-pilot/database.rules.json": "31f2cb1e3149a01bada6ef4fa8547dc51845126b22adf0aa79434a848c100498"
+  },
+  "deployed": false,
+  "androidBraveNetworkSwitchVerified": false,
+  "pending": [
+    "Publish new main revision to existing pilot using manual workflow",
+    "Verify actual Android/Brave wifi to 5G and back, reload and new-room retry"
+  ],
+  "unchangedScope": [
+    "No database rule edits",
+    "No #292 typography implementation",
+    "No #294 header redesign; only functional retry control for #293",
+    "Existing #291 fix retained"
+  ]
+}

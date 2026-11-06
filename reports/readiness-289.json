@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "pilot account/environment user-confirmed and exact one-day Hosting plan locally verified; publication approval pending",
+  "status": "pilot deployment succeeded in GitHub; awaiting actual preview URL and real device game test",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -31,7 +31,14 @@
     "totalPassed": 24,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "Latest 3 config + 1 intercepted HTTPS tests rerun from primary repository after clean locked install/build. Prior 20 operation tests unchanged and not rerun only for plan/YAML diagnostics."
+    "note": "Latest 3 config + 1 intercepted HTTPS tests rerun from primary repository after clean locked install/build. Prior 20 operation tests unchanged and not rerun only for plan/YAML diagnostics.",
+    "githubPilotVerifyJob": {
+      "runId": "42139283579",
+      "operationGuards": "success",
+      "configAndBuild": "success",
+      "interceptedHttps": "success",
+      "realGameplay": "not tested"
+    }
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -103,8 +110,9 @@
       "githubEnvironment": "firebase-pilot",
       "environmentBranches": "main",
       "variables": "WIF_PROVIDER and GOOGLE_SERVICE_ACCOUNT",
-      "evidence": "user confirmed all browser setup steps; no successful pilot auth yet"
-    }
+      "evidence": "user-confirmed setup followed by successful Get temporary Google access and Hosting-only deploy in run 42139283579"
+    },
+    "hostingIdentityCloudAuthVerified": true
   },
   "repository": {
     "name": "BadBagel47/buzzy",
@@ -123,7 +131,7 @@
     "authenticatedProjectRequestsSent": 8,
     "resourcesChanged": false,
     "billingChanged": false,
-    "hostingDeployed": false,
+    "hostingDeployed": true,
     "rulesDeployed": false,
     "verifiedReads": [
       "project identity/ACTIVE",
@@ -145,14 +153,16 @@
     "requestCountNote": "latest successful run only; prior diagnostic run reads excluded",
     "metadataInventoryVerified": true,
     "rulesPublicationVerification": "User reported Firebase Publish success, then supplied current Rules editor text matching approved JSON; not independent API verification",
-    "lastMetadataInventoryPredatesRulePublication": true
+    "lastMetadataInventoryPredatesRulePublication": true,
+    "hostingDeploymentSourceCommit": "31dbd67c5d55055a2c48b8bcd14addcabf45fc31",
+    "hostingChannel": "pilot",
+    "mainHostingPublished": false
   },
   "pending": [
-    "Obtain explicit approval for the reviewed public one-day Hosting preview in pilot channel",
-    "User starts new firebase-pilot workflow on main with reviewed hash, console source and current confirmation",
-    "Verify actual Hosting identity, fresh preflight and Hosting upload; obtain actual returned preview URL",
-    "Real host and two-mobile tests and usage monitoring",
-    "Remove obsolete name-only inventory IAM binding"
+    "Obtain actual preview URL from successful Firebase CLI output/Hosting Console",
+    "Open actual preview and test with real host and two mobiles, watch Usage and End game cleanup",
+    "Remove obsolete name-only inventory IAM binding",
+    "Main Hosting publication remains a separate decision"
   ],
   "nextFreeIssueId": 291,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
@@ -174,10 +184,22 @@
   "pilotPreparation": {
     "plan": "docs/PILOT_RUN_289.md",
     "report": "reports/pilot-plan-289.json",
-    "status": "reviewable; awaiting explicit user approval",
+    "status": "user approved; CI verify, preflight and Hosting deployment succeeded",
     "localCleanInstall": "passed",
     "freshConfigTests": 3,
     "freshInterceptedHttpsTest": 1,
     "realAppCloudRequestsDuringLocalTest": 0
+  },
+  "pilotExecution": {
+    "runId": "42139283579",
+    "sourceCommit": "31dbd67c5d55055a2c48b8bcd14addcabf45fc31",
+    "verifyJob": "success",
+    "pilotGoogleAuth": "success",
+    "preflight": "success",
+    "hostingDeploy": "success",
+    "siteUrl": null,
+    "actualExpireTime": null,
+    "actualSiteHttpChecked": false,
+    "realHostTwoMobilesTested": false
   }
 }

@@ -1,6 +1,6 @@
 # #289 — GitHub Actions med webbaserad Google-koppling
 
-**Källkod på GitHub, Googlefederation verifierad, Firebase-pilot inte publicerad.** Användaren vill arbeta helt via webben. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #291.
+**Källkod på GitHub, Googlefederation verifierad, Firebase-pilot publicerad via godkänd endagskörning.** Användaren vill arbeta helt via webben. Modell: GPT-6.1 Sol, högt resonemang. Nästa fria ID #291.
 
 ## Aktuellt
 
@@ -26,4 +26,4 @@ Artifactretention är tre dagar; användaren sparar backup lokalt före regelän
 
 ## Nästa steg
 
-Regelpublicering och aktuell konsolkopia är klara enligt [regelgranskningen](RULES_REVIEW_289.md). Hosting-kontot buzzy-hosting, dess tre roller/delegering och GitHub Environment firebase-pilot med main/variabler är användarbekräftade men pilotidentitetens molnauktorisering är ännu inte prövad. [Konkret plan för ett dygns publik Hosting-pilot](PILOT_RUN_289.md) är färdig för uttryckligt publiceringsbeslut. Primär checkout har ny ren installation, pilotbuild, tre konfigurationsprov och ett interceptat HTTPS-prov utan riktiga appmolnanrop. Pilotens förkontroll läser aktuella metadata och vald evidens före uppladdning; inga nya regel-/Auth-/billingwrites. Verkliga mobiltester återstår.
+Användaren godkände den konkreta publika piloten. [Körning 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579) lyckades i verify/tester samt pilot/auth/förkontroll/Hosting-only-deploy. Källrevision 31dbd67c5d55055a2c48b8bcd14addcabf45fc31. Den faktiska previewadressen återstår att hämta ur CLI-loggen eller Hosting-konsolen; inga adresser/suffix ska gissas. Verkliga mobiltester och Usage-kontroll återstår. Huvudkanalen och nya billing-/regeländringar ingår inte i publiceringen.

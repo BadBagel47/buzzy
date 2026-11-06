@@ -1,6 +1,6 @@
 # #289 — konkret plan för ett dygns Hosting-pilot
 
-**Förberedd och lokalt kontrollerad; inväntar användarens publiceringsgodkännande.** Reglerna är redan separat godkända, publicerade av användaren och jämförda med aktuell konsolkopia. Denna plan gäller webbplatsens första pilotuppladdning, inte någon ny regelpublicering.
+**Användaren godkände piloten; publiceringen lyckades i run 42139283579.** Reglerna är redan separat godkända, publicerade av användaren och jämförda med aktuell konsolkopia. Denna plan gäller webbplatsens första pilotuppladdning, inte någon ny regelpublicering.
 
 | Val | Exakt mål |
 |---|---|
@@ -20,7 +20,7 @@ Resultatet blir en publik HTTPS-previewadress som Firebase returnerar, på forme
 
 CLI-kommandot är låst till `hosting:channel:deploy pilot`, `--project buzzy-197dc`, `--expires 1d`, `--no-authorized-domains` och en genererad Hosting-only-konfiguration. Huvudkanalen `live`, Auth-domäner, databasregler och speldata är inte skrivmål för kommandot. Ingen betalplans-/billingändring eller API-aktivering ingår. Den aktuella stängda före-pilot-backupen bevaras. Kanalens expiry raderar inga rum eller andra databasdata.
 
-Hosting Admin är en projektroll och kan i sig påverka annan Hosting. Begränsningen till denna kanal upprätthålls av granskad kod, manuellt workflow, repo-/gren-/identitetsvillkor och vald miljö, inte en kanalbaserad IAM-roll. Användaren har skapat konto/roller/delegering/miljö enligt guiden, men den nya Hosting-identitetens faktiska Google-auktorisering är ännu inte verifierad.
+Hosting Admin är en projektroll och kan i sig påverka annan Hosting. Begränsningen till denna kanal upprätthålls av granskad kod, manuellt workflow, repo-/gren-/identitetsvillkor och vald miljö, inte en kanalbaserad IAM-roll. Användaren har skapat konto/roller/delegering/miljö enligt guiden, och Hosting-identitetens Google-auth samt förkontroll/publicering är nu verifierade i run 42139283579.
 
 ## Kontroller före varje uppladdning
 
@@ -33,3 +33,8 @@ Den nu aktuella primära checkouten har genomgått ren `npm ci` med oförändrad
 ## Efter publicering
 
 Hämta den faktiska länken från körningen eller Hosting-konsolen. Prova host och två riktiga mobiler: skapa/gå med, First/Timed, sen buzz, Retry, bakgrundstimer, reload och End game. Kontrollera faktisk användning i Firebase. Piloten kan tas bort via previewkanalen eller löpa ut; huvudrelease ändras inte. Huvudpublicering och framtidsfunktioner, exempelvis #290 vibration, är separata beslut.
+
+
+## Faktiskt resultat
+
+[Run 42139283579](https://github.com/BadBagel47/buzzy/actions/runs/42139283579), källa `31dbd67c5d55055a2c48b8bcd14addcabf45fc31`: verify och pilot lyckades i alla steg. Hosting-auth, återställning av det testade artifactet, färsk förkontroll och Hosting-only-kommandot passerade. Deploysteget avslutades 2026-11-06T00:48:25Z. Verifierat via publika jobbsteg; exakt previewadress och expireTime kräver CLI-utskriften/Hosting-konsolen och är ännu inte hämtade. Ingen URL ska gissas. Faktisk HTTP-sida eller en full spelomgång är ännu inte verifierade.

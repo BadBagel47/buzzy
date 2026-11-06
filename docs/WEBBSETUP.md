@@ -1,6 +1,6 @@
 # Buzzy — steg för steg i webbläsaren
 
-Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation och metadata-inventering har verifierats i Actions. Regelkopian kommer från manuellt bekräftad konsoltext; Hosting-pilot är inte körd.
+Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation och metadata-inventering har verifierats i Actions. Regelkopian kommer från manuellt bekräftad konsoltext; Hosting-pilot har nu körts med lyckat resultat; verklig mobilsession återstår.
 
 Vi gör kopplingen i etapper: källkod på GitHub, ett läsande Google-konto, GitHub/Google-koppling, inventering, regelgranskning och sist pilot. Inget behöver publiceras till spelets huvudsida.
 
@@ -204,4 +204,9 @@ Nästa nya metadatakontroll kan göras av pilotflödets egen förkontroll efter 
 
 ## Hosting-piloten förberedd för beslut
 
-Användaren har bekräftat Hosting-konto/delegering och firebase-pilot-miljö med main/variabler. Första faktiska Hosting-inloggningen/deployen är ännu inte provad. Se [PILOT_RUN_289.md](PILOT_RUN_289.md) för det exakta föreslagna publika endagsmålet. Ren installation, build och lokala config-/HTTPS-prov är klara från primär checkout; det lokala HTTPS-provet fångar upp samtliga externa appanrop. Invänta publiceringsbeslut före Run workflow för denna pilot.
+Användaren har bekräftat Hosting-konto/delegering och firebase-pilot-miljö med main/variabler. Första faktiska Hosting-inloggningen/deployen är ännu inte provad. Se [PILOT_RUN_289.md](PILOT_RUN_289.md) för det exakta föreslagna publika endagsmålet. Ren installation, build och lokala config-/HTTPS-prov är klara från primär checkout; det lokala HTTPS-provet fångar upp samtliga externa appanrop. Denna pilot fick därefter användarens godkännande och run 42139283579 lyckades. Nästa steg är faktisk previewadress och mobilspeltest.
+
+
+## Hämta den publicerade pilotadressen
+
+Första godkända pilotkörningen är grön: [pilotjobbet](https://github.com/BadBagel47/buzzy/actions/runs/42139283579/job/127635661297#step:10:1). Öppna steget **Publish Hosting pilot only, for one day** i den egna inloggade GitHub-webbläsaren. Kopiera endast HTTPS-adressen som börjar med `https://buzzy-197dc--pilot-` och slutar på `.web.app`. Detaljloggar kräver inloggning och adressen finns inte i den offentliga jobbstegsvyn. Undvik en extra deploy enbart för att få länken; Hosting-konsolens previewkanal är också en giltig källa.

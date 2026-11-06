@@ -1,6 +1,6 @@
 {
   "issue": 289,
-  "status": "awaiting explicit user approval; not deployed",
+  "status": "user-approved and deployed; actual preview URL and real gameplay verification pending",
   "projectId": "buzzy-197dc",
   "site": "buzzy-197dc",
   "channel": "pilot",
@@ -13,7 +13,7 @@
   "changesAuthDomains": false,
   "changesBilling": false,
   "hostingIdentityUserConfirmedConfigured": true,
-  "hostingIdentityCloudAuthVerified": false,
+  "hostingIdentityCloudAuthVerified": true,
   "reviewedRulesSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
   "rulesSource": "console",
   "requiresCurrentConsoleConfirmation": true,
@@ -36,5 +36,20 @@
     "player.html": "d0efce03f3c378e25a0da27aaad00ad11a99749f8651c56c5b4479adc04fde7f",
     "test-question.svg": "b34cb27f6155149343dcc35f84c65060401e554e6efcdf7b8fd67a85a21e6015"
   },
-  "preparedAt": "2026-11-06T00:14:21.127120+00:00"
+  "preparedAt": "2026-11-06T00:14:21.127120+00:00",
+  "execution": {
+    "runId": "42139283579",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42139283579",
+    "sourceCommit": "31dbd67c5d55055a2c48b8bcd14addcabf45fc31",
+    "verifyJob": "127635225159",
+    "pilotJob": "127635661297",
+    "bothJobs": "success",
+    "deploymentStep": "success",
+    "deploymentStepCompletedAt": "2026-11-06T00:48:25Z",
+    "previewUrl": null,
+    "previewExpireTime": null,
+    "previewHttpVerified": false,
+    "realMultiplayerVerified": false,
+    "evidence": "Public run/job step conclusions verified; detailed CLI output requires user GitHub login"
+  }
 }

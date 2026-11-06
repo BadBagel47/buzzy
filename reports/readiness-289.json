@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "player/exit package #295-297 locally verified and awaiting pilot publication",
+  "status": "player/exit package #295-297 published; physical mobile retest pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -209,22 +209,23 @@
       296,
       297
     ],
-    "status": "implemented, local checks passed; not published",
+    "status": "published; physical mobile retest pending",
     "report": "reports/player-exit-295-297.json",
     "databaseRulesChanged": false,
-    "deployed": false
+    "deployed": true,
+    "runId": "42258255116"
   },
   "latestPilotExecution": {
-    "runId": "42248198398",
-    "sourceCommit": "5550bcd771e759c791c3ebeb497119d8bbf8bf47",
-    "verifyJob": "127995925710",
-    "pilotJob": "127996558866",
+    "runId": "42258255116",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42258255116",
+    "sourceCommit": "cbc130b65bb6c78c5db22d7b2ed79e02025c5848",
+    "verifyJob": "128031118995",
+    "pilotJob": "128031774432",
     "allStepConclusions": "success",
-    "fallbackCspRegression": "success",
-    "publishStepCompletedAt": "2026-11-06T16:01:28Z",
-    "channel": "pilot",
+    "playerExitAndCspRegression": "success",
+    "publishStepCompletedAt": "2026-11-06T17:06:18Z",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
-    "actualAndroidBraveRetestPassed": false
+    "physicalAndroidBraveVerified": false
   },
   "userRoomCreationConfirmed": true
 }

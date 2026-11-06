@@ -49,3 +49,5 @@ Fixarna #291 (knappar) och #293 (återanslutning/väntelägen) är nu publicerad
 Efter mobilprovet återöppnades #293: en ny flik fastnade vid första skapandet. Följdfixen gäller Hosting-CSP för Firebase-reservtransporten och kräver ny pilotkörning på main; ingen databasregeländring. Verify-jobbet har ett nytt lokalt emulatorprov före publicering. Tidigare grönt resultat från run42234619437 bevisar inte att mobilfelet är löst.
 
 Nästa förberedda paket är #295–#297. Kör nuvarande main för att publicera detta paket till samma pilotkanal med samma granskade regelhash/console-bekräftelse. Verify-jobbet kör test:pilot-ui, som innehåller både CSP-reservtransport och lämna-/spelarvyns regression. Paketet har ännu inte publicerats; se [PLAYER_EXIT_295_297.md](PLAYER_EXIT_295_297.md).
+
+#295–#297 har nu publicerats i run42258255116 på källa cbc130b. Samtliga tester och publiceringssteg är gröna; nästa steg är mobilprov via samma speladress. Ingen ny workflowkörning behövs för detta prov.

@@ -24,4 +24,8 @@ GitHub-pilotens verify-jobb kör nu test:pilot-ui, som inkluderar både det nya 
 
 Konkreta slutresultat och filhashar sparas i reports/player-exit-295-297.json när arbetet är verifierat. Paketet måste publiceras via den manuella pilotkörningen innan den tidigare speladressen visar ändringen. Samma granskade regelhash och console-bekräftelse gäller. Efter grön publicering återstår fysisk Android/Brave-kontroll.
 
-Slutliga lokala resultat: 30 emulatorposter, 1 byggt produktionsspelprov med responsiva fönster, 5 konfigurations-/återanslutningsprov, 1 interceptat byggt HTTPS-prov och 20 operativa prov passerar. Både vanlig build och pilotbuild lyckades. Dialogskärmbilder är visuellt kontrollerade efter avslutad öppningsanimation. Databasreglernas bytes jämförda oförändrade. Paketet är ännu inte publicerat på speladressen.
+Slutliga lokala resultat: 30 emulatorposter, 1 byggt produktionsspelprov med responsiva fönster, 5 konfigurations-/återanslutningsprov, 1 interceptat byggt HTTPS-prov och 20 operativa prov passerar. Både vanlig build och pilotbuild lyckades. Dialogskärmbilder är visuellt kontrollerade efter avslutad öppningsanimation. Databasreglernas bytes jämförda oförändrade. Paketet är nu publicerat på speladressen; fysiskt mobilprov återstår.
+
+## Publicerat resultat
+
+[Run42258255116](https://github.com/BadBagel47/buzzy/actions/runs/42258255116) lyckades på källa cbc130b65bb6c78c5db22d7b2ed79e02025c5848. Verify och pilot har enbart success-steg, inklusive nya spelar-/lämnaprovet och CSP-reservtransport. Publiceringssteget avslutades2026-11-06T17:06:18Z. Samma pilotkanalslänk gäller: https://buzzy-197dc--pilot-mrst5vi1.web.app. Ladda om host- och spelarvyer innan det fysiska mobilprovet. Ingen verifiering av fysisk Android/Brave-enhet påstås.

@@ -46,4 +46,4 @@ Framtida önskemål finns i [BACKLOG.md](docs/BACKLOG.md). Senast registrerat: #
 
 Mobilprovet efter run42234619437 fastnade fortfarande vid rumsskapning. #293 är därför återöppnat. En lokalt reproducerad CSP-blockering av databasens reservanslutning är korrigerad i källan; ett nytt transportprov läggs före publicering i GitHub. Denna följdfix väntar på nästa pilotkörning. Se [rapporten](reports/transport-csp-293.json).
 
-Paketet [#295–#297](docs/PLAYER_EXIT_295_297.md) är implementerat och lokalt verifierat: mörk spelarsida, bekräftat lämnande och tydligt spelarbesked när hosten avslutar. Det väntar på nästa pilotpublicering; databasreglerna är oförändrade.
+Paketet [#295–#297](docs/PLAYER_EXIT_295_297.md) är implementerat och lokalt verifierat: mörk spelarsida, bekräftat lämnande och tydligt spelarbesked när hosten avslutar. Det är nu publicerat i [run42258255116](https://github.com/BadBagel47/buzzy/actions/runs/42258255116); databasreglerna är oförändrade och fysisk mobilkontroll återstår.

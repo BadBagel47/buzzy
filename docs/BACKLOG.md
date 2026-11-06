@@ -6,18 +6,18 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 |---|---|---|
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Registrerat 2026-11-06 för framtiden. Ingen utredning eller implementation körd. |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
-| #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Registrerat för ett kommande samlat arbetspaket. Ingen implementation gjord. |
+| #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
 | #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Återöppnat: spelarens omladdning upplevs fastna på Connecting to your room. Host i annan flik på samma mobil. Kortare väntan/återförsök behövs; ingen 30s-timeout bekräftad. Se [RECONNECT_293.md](RECONNECT_293.md). |
-| #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Användarens konkreta förslag har nu kommit och är sparade nedan. Ingår i planerat gemensamt UI-paket; ingen implementation ännu. |
+| #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
 | #295 | Spelarens mörka spelyta ska fylla själva mobilvyn, utan det omgivande prototypskalet. | Publicerat i run42258255116; mobilprov återstår. |
-| #296 | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Återöppnat för player: användaren rapporterar att dialogen inte följer spelarens grafiska stil. Rättning samlas inför nästa körning. |
+| #296 | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
 | #297 | Spelarna ska märka när hosten lämnar; tydlig gemensam status och korrekt hantering av sessionen. | Implementerat: bekräftat hostlämnande stänger för alla, med spelarbesked. Nätavbrott stänger inte rummet. Publicerat i run42258255116; mobilprov återstår. |
-| #298 | Lägg spelarens liveruta längst ner och låt buzzern växa dynamiskt efter ledig bredd och höjd mellan frågerutan och liverutan. | Registrerat inför nästa samlade körbeslut. Ingen implementation gjord. |
-| #299 | Rätta spelarens lämna-rum-ikon, vars pil ser ut som ett flygplan. Återanvänd en tydlig standardikon i befintligt linjespråk. | SVG-fel bekräftat: skaftet slutar vid x=21, pilspetsen vid x=17. Endast registrerat; ingen UI-ändring. |
-| #300 | Gemensam fullskärmsvy för QR-delning från hosthuvudet och Settings: riktig QR, webbadress och rumskod i spelarens formspråk. | Registrerat för UI-paket; ingen implementation. |
-| #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Registrerat för UI-paket; ingen implementation. |
-| #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Registrerat för UI-paket; ingen implementation. |
-| #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Registrerat för UI-paket; hela vyn flyttas, inga egna kortanimationer. |
+| #298 | Lägg spelarens liveruta längst ner och låt buzzern växa dynamiskt efter ledig bredd och höjd mellan frågerutan och liverutan. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
+| #299 | Rätta spelarens lämna-rum-ikon, vars pil ser ut som ett flygplan. Återanvänd en tydlig standardikon i befintligt linjespråk. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
+| #300 | Gemensam fullskärmsvy för QR-delning från hosthuvudet och Settings: riktig QR, webbadress och rumskod i spelarens formspråk. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
+| #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
+| #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
+| #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Lokala slutprov är gröna; pilotpublicering och mobilprov återstår. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -86,3 +86,7 @@ Hela vyn ska börja/avsluta förflyttningen vid skärmens kanter vid byte med bo
 ## Samlat UI-paket
 
 Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken modell som passar. Planerat paket: #292, #294, #296:s spelarstil, #298, #299, #300, #301, #302 och #303. Rekommendation GPT-6.1 Sol med högt resonemang. Gemensam responsiv verifiering och en pilotpublicering. #293:s upplevda player-reload/laddning är fortfarande ett öppet funktions-/återkopplingsproblem som behöver följas upp så att paketet kan provas på riktiga enheter. Frågan om paket/modell är inte i sig ett nytt genomfört implementationstillfälle; inga UI-ändringar gjorda i registreringssteget.
+
+## UI-paketet genomfört efter körbeslut
+
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #304.

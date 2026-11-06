@@ -1,7 +1,7 @@
 {
   "id": 289,
-  "status": "published pilot has open player reload UX (#293) and player dialog style (#296) feedback",
-  "checkedAt": "2026-11-05T16:20:55.814364+00:00",
+  "status": "UI batch #292/#294/#296/#298–303 implemented and locally verified; pilot publication and physical mobile review pending; player reload UX #293 remains open",
+  "checkedAt": "2026-11-06T21:09:01.342679+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -240,7 +240,8 @@
   "openPlayerDialogFeedback": {
     "issue": 296,
     "styleAccepted": false,
-    "followupImplemented": false
+    "followupImplemented": true,
+    "physicalReviewPending": true
   },
   "plannedUiBatch": {
     "issues": [
@@ -254,10 +255,21 @@
       302,
       303
     ],
-    "status": "scoped and registered; no new UI implementation",
+    "status": "implemented and locally verified; awaiting manual pilot publication and physical mobile review",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
     "headerUserProposalsReceived": true,
     "publicationPlan": "one common pilot release after shared responsive regression checks",
-    "openRelatedFunctionIssue": 293
+    "openRelatedFunctionIssue": 293,
+    "authorizedBy": "Kör dem",
+    "validationCounts": {
+      "fullEmulatorRegression": 31,
+      "configuration": 5,
+      "operationsGuards": 20,
+      "builtProductionGameAndLayout": 1,
+      "builtInterceptedHttpsPilot": 1,
+      "finalPilotUiGate": 3
+    },
+    "report": "reports/ui-batch-292-303.json",
+    "notes": "No new Firebase rules, presence, authentication or room deletion behavior. QR is local/lazy-loaded. Host role marker intentionally removed."
   }
 }

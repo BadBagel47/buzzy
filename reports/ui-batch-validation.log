@@ -1,0 +1,268 @@
+
+Full emulator regression
+
+> test
+> node scripts/emulators.mjs test
+
+i  emulators: Starting emulators: auth, database
+i  emulators: Detected demo project ID "demo-buzzy-ui", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  database: Database Emulator logging to database-debug.log
+i  Running script: npm run test:integration
+
+> test:integration
+> node --test --test-concurrency=1 tests/spark.integration.mjs tests/ui.integration.mjs tests/reconnect.integration.mjs tests/transport-csp.integration.mjs tests/room-exit.integration.mjs tests/room-ui.integration.mjs
+
+Host and player: offline/online restores same identity and room
+Socket interruption without browser online event reconnects
+Offline reload has compact live header, finite wait, manual retry restores existing host
+Repeated create command after uncertain acknowledgement returns same room
+New room after network failure: finite wait, enabled retry and successful create
+Ended room gives an explicit notice, reload/retry never recreates it
+Stalled authentication has a finite wait and retry recovers without cached initialization failure
+✔ Network interruption restores real emulator sessions and bounded startup (52488.958282ms)
+✔ Player page and confirmed room departure share the existing dialog lifecycle (5905.915372ms)
+✔ UI batch: compact host, real sharing QR, fluid player and viewport transitions (15788.590059ms)
+▶ Connected UI backend: security, ordering and lifecycle
+  ✔ Four-character room, stable create receipt, membership and private separation (145.437514ms)
+  ✔ An occupied generated room code is preserved and creation chooses another code (53.626147ms)
+  ✔ Raw hostile writes cannot forge identity, rank, timestamp, points or host (57.394907ms)
+  ✔ Concurrent Timed buzzes have permanent unique ranks; duplicate buzz and grade are idempotent (52.490875ms)
+  ✔ First mode selects one winner; Retry rejects stale attempt and incorrect responder (86.149243ms)
+  ✔ Server deadline rejects late writes, late join waits until next question (1256.005172ms)
+  ✔ Reload retains anonymous identity and room state; connection can recover (133.941182ms)
+  ✔ Countdown generates no per-second database writes; old attempt listeners detach (2202.266449ms)
+  ✔ Twelve simultaneous players keep ranks unique, and a thirteenth cannot join (4346.316032ms)
+  ✔ Custom scoring preserves existing negative totals with the zero-floor setting (139.733093ms)
+  ✔ Owner can delete completed test room; players cannot delete it (33.02505ms)
+✔ Connected UI backend: security, ordering and lifecycle (10222.510994ms)
+Observed legacy CSP block
+✔ Published security policy supports SDK fallback after a remembered WebSocket failure (17310.182035ms)
+▶ Existing Buzzy UI connected to independent Spark identities
+  ✔ Start page connects only on interaction, creates real room, joins two empty-score players (2458.871405ms)
+  ✔ Native Timed buzzes share order, automatic close and authoritative score feedback (1716.23446ms)
+  ✔ Reload restores host and player identity, question state, and saved score (359.296995ms)
+  ✔ First Buzz, incorrect answer, Retry exclusion and next-round admission use native controls (1420.869527ms)
+  ✔ Private prepared library survives reload and host-only text never reaches players (1795.717215ms)
+  ✔ Prepared custom points, zero floor and untimed First Buzz keep the prototype behavior (2972.206321ms)
+  ✔ Real image readiness, question reveal and one-second timer work across devices (3999.625416ms)
+  ✔ Player deadline locks locally while the host browser is frozen, with zero player timer writes (4327.964006ms)
+  ✔ Leaderboard sharing reaches player devices and can be shared again after dismissal (1529.412184ms)
+  ✔ Score adjustments and bans use the host UI and preserve the player identity on rejoin (2401.057856ms)
+  ✔ Offline/online disables and restores controls without losing the room (103.48513ms)
+  ✔ Host-only stored round overview is readable after reload; stationary idle writes nothing (2973.646765ms)
+  ✔ Invalid room and forged host route never fall back to a demo session (590.458177ms)
+  ✔ End game deletes the room and disables remaining player controls (875.511124ms)
+✔ Existing Buzzy UI connected to independent Spark identities (27888.59005ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131873.117387
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  database: Stopping Database Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Configuration
+
+> test:config
+> node --test tests/runtime.test.mjs tests/connection.test.mjs
+
+✔ Timeout ends UI waiting but preserves a late operation result (11.971567ms)
+✔ Lost connections retry without an online event and healthy connections stay quiet (111.843553ms)
+✔ Emulator target accepts only loopback; pilot requires approved HTTPS origin (1.05172ms)
+✔ Wrong project/region/app configuration fails before SDK initialization (0.196287ms)
+✔ Live adapter initializes actual project without any emulator hook; invalid origin invokes no SDK (1.421519ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 170.658538
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Operation guards
+✔ Cloud identity is limited to exact repo IDs, main, manual workflow and dedicated service account (2.20315ms)
+✔ OIDC diagnostics retain only allowed public claims and detect an actual subject mismatch (0.607298ms)
+✔ OIDC diagnostics never export the token and use only the trusted GitHub endpoint and intended audience (1.237651ms)
+✔ Actual run 42115890476 identity matches immutable IDs; legacy or different subjects are rejected (0.330199ms)
+✔ Rules comparison ignores object order but retains every permission/validation expression (0.277079ms)
+✔ Inventory transport makes only fixed GET requests and never follows a token-bearing redirect (0.734951ms)
+✔ Inventory never exposes tokens or server error bodies; only a missing pilot channel is optional (0.835143ms)
+✔ API diagnostics distinguish disabled APIs and IAM without exporting response messages or secrets (8.277303ms)
+✔ Inventory backs up exact rules before metadata; filters Auth and release data (3.785021ms)
+✔ A failed API or backup read leaves an incomplete report; it cannot authorize deployment (10.146418ms)
+✔ Pilot stops for billing, wrong project/DB, disabled Anonymous, missing Hosting or changed rules (2.198494ms)
+✔ A different existing ruleset is retained intact and cannot be silently replaced (0.518694ms)
+✔ Rules comments are preserved for rollback; comment markers inside expressions stay untouched (1.824227ms)
+✔ Only fresh, same-commit, same-reviewed-rules preflight can authorize the Hosting command (0.493076ms)
+✔ Manual rules source is opt-in and validates project, database, snapshot and preserved baseline (6.109867ms)
+✔ Confirmed console backup skips denied rules API, stays visibly manual and cannot deploy closed rules (0.558044ms)
+✔ Manual pilot requires matching reviewed rules, exact evidence and repeated operator confirmation (2.65276ms)
+✔ Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync (0.480987ms)
+inventory complete; no changes performed; rules match: true; API reads attempted: 9
+✔ Whole pilot preflight writes a raw backup and Hosting-only config, with zero mutations or credential exports (12.58867ms)
+metadata inventory complete; rules from operator-confirmed console copy, not API verified; rules match: false; API reads attempted: 8
+metadata inventory complete; rules from operator-confirmed console copy, not API verified; rules match: false; API reads attempted: 8
+✔ Whole console workflow preserves the supplied closed backup, makes eight GETs and cannot approve a pilot (6.201495ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.111241
+
+Build
+
+> build
+> node scripts/generate-ui.mjs && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                           7.15 kB │ gzip:  2.70 kB
+dist/player.html                        371.17 kB │ gzip: 86.07 kB
+dist/host.html                          371.46 kB │ gzip: 86.12 kB
+dist/assets/bridge-B0uxsw1D.css           8.27 kB │ gzip:  2.04 kB
+dist/assets/index-CAjXNzMo.js             2.44 kB │ gzip:  1.21 kB
+dist/assets/preload-helper-CGGNRPEI.js    3.64 kB │ gzip:  1.68 kB
+dist/assets/qrcode-Dxd6Zb0y.js           21.13 kB │ gzip:  7.58 kB
+dist/assets/bridge-BVeucJKA.js           27.13 kB │ gzip:  9.56 kB
+dist/assets/client-DYvQCFh_.js          240.67 kB │ gzip: 72.49 kB
+
+✓ built in 325ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Built production
+
+> test:production
+> node scripts/emulators.mjs production
+
+i  emulators: Starting emulators: auth, database
+i  emulators: Detected demo project ID "demo-buzzy-ui", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  database: Database Emulator logging to database-debug.log
+i  Running script: node --test tests/production.integration.mjs
+✔ Built multi-page app: native game and responsive layout (11841.5909ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12213.931991
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  database: Stopping Database Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Pilot build
+
+> build:pilot
+> node scripts/build-pilot.mjs
+
+vite v8.3.5 building client environment for pilot...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-pilot/index.html                           7.15 kB │ gzip:  2.70 kB
+dist-pilot/player.html                        371.17 kB │ gzip: 86.07 kB
+dist-pilot/host.html                          371.46 kB │ gzip: 86.12 kB
+dist-pilot/assets/bridge-B0uxsw1D.css           8.27 kB │ gzip:  2.04 kB
+dist-pilot/assets/index-CtpMxTqy.js             2.44 kB │ gzip:  1.21 kB
+dist-pilot/assets/preload-helper-CGGNRPEI.js    3.64 kB │ gzip:  1.68 kB
+dist-pilot/assets/qrcode-Ct14oc7f.js           21.13 kB │ gzip:  7.58 kB
+dist-pilot/assets/bridge-Dtn7mlVt.js           27.13 kB │ gzip:  9.56 kB
+dist-pilot/assets/client-mhToXG7Z.js          240.66 kB │ gzip: 72.49 kB
+
+✓ built in 334ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Intercepted HTTPS pilot
+
+> test:pilot
+> node --test tests/pilot-build.test.mjs
+
+✔ Built HTTPS pilot uses live Auth config, hosting headers and fails without demo fallback (2947.635361ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3251.860733
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+Final pilot UI gate
+
+> test:pilot-ui
+> node scripts/generate-ui.mjs && node scripts/emulators.mjs pilot-ui
+
+i  emulators: Starting emulators: auth, database
+i  emulators: Detected demo project ID "demo-buzzy-ui", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  database: Database Emulator logging to database-debug.log
+i  Running script: node --test --test-concurrency=1 tests/room-exit.integration.mjs tests/transport-csp.integration.mjs tests/room-ui.integration.mjs
+✔ Player page and confirmed room departure share the existing dialog lifecycle (6503.460093ms)
+✔ UI batch: compact host, real sharing QR, fluid player and viewport transitions (17383.107973ms)
+Observed legacy CSP block
+✔ Published security policy supports SDK fallback after a remembered WebSocket failure (17492.386795ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42549.883504
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  database: Stopping Database Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

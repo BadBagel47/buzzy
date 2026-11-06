@@ -1,5 +1,6 @@
 import {deadline} from './connection.js';
 import {getClient} from './client.js';
+import {installRoomUi} from './room-ui.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores'];
@@ -10,7 +11,8 @@ let blocked=false,roomEnded=false,exitTask=null;
 const localActions=new Set(['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal','network-open-leave','network-confirm-exit','network-return-start']);
 let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGeneration=0,stopKey='',expiryKey='';
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
-function message(text,error=false){status.textContent=text;status.dataset.error=String(error);}
+const roomUi=installRoomUi({api,isHost,getCode:()=>code});
+function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));
 function runLocal(fn){local=true;try{return fn();}finally{local=false;}}
@@ -145,7 +147,7 @@ async function preparePlayer(p){
  try{await client.command({action:'ready',code,key:p.loadKey,status:result});}catch(e){if(generation===loadGeneration)api.tip('Unable to confirm question readiness.');}
 }
 function afterRender(){
- syncExitControls();
+ syncExitControls();roomUi.sync();
  if(!s.networkReady)return;
  document.documentElement.toggleAttribute('data-network-busy',busy||!connected||blocked);
  const badge=document.querySelector('.headbar .tag.desktoponly');if(badge)badge.textContent=isHost?'HOST':'PLAYER';document.title=`Buzzy · ${isHost?'Host':'Player'}`;
@@ -184,7 +186,8 @@ function handle(action){
   if(action.startsWith('buzz:')){buzz(action.slice(5));return true;}
   return !['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal'].includes(action);
  }
- if(action==='copy-link'){navigator.clipboard?.writeText(`${location.origin}/?room=${code}`).then(()=>api.tip('Room link copied.'),()=>api.tip(`${location.origin}/?room=${code}`));return true;}
+ if(action==='copy-link'){roomUi.copyLink();return true;}
+ if(action==='qr'){roomUi.openShare();return true;}
  if(action==='open'||action==='present-and-open'){
   operation(async()=>{
    if(!['ready'].includes(latest.control.phase))throw new Error('This attempt has already started.');
@@ -257,7 +260,7 @@ async function confirmExit(){
 }
 function ended(){
  if(roomEnded)return;
- roomEnded=true;blocked=true;retry.hidden=true;document.getElementById('leave-room').textContent='Back to start';message(isHost?'This game has ended.':'The host has ended the game.');
+ roomUi.closeShare();roomEnded=true;blocked=true;retry.hidden=true;if(!isHost)document.getElementById('leave-room').textContent='Back to start';message(isHost?'This game has ended.':'The host has ended the game.');
  if(!exitTask){s.modal='network-ended';api.render();}afterRender();
 }
 function leave(){stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}

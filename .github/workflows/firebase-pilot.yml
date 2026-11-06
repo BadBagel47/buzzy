@@ -65,7 +65,7 @@ jobs:
       - name: Verify HTTPS pilot with all cloud requests intercepted
         working-directory: buzzy-live-pilot
         run: npm run test:pilot
-      - name: Verify database fallback and room exit UI with local emulators
+      - name: Verify database fallback, room exit and UI batch with local emulators
         working-directory: buzzy-live-pilot
         run: |
           export JAVA_HOME="${JAVA_HOME_21_X64:?JDK 21 must be present on the runner}"

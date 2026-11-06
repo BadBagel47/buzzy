@@ -24,11 +24,29 @@ html=html.replace("function modalTitle(){", "function modalTitle(){\n if(state.m
 html=html.replace("let inner='';if(state.modal.startsWith('manage:'))", "let inner='';if(state.modal==='network-leave'||state.modal==='network-end'||state.modal==='network-ended'){inner=window.BuzzyNetwork?.exitDialog(state.modal)||'';}else if(state.modal.startsWith('manage:'))");
 const api=`window.BuzzyView={state,render,handle,tip,currentQ,resolveQuestionBehavior,ensureRound,currentAttempt,finishRound,resetCurrentRound,clearPlayerPanelsForPlay,advanceQuestion,startQuickQuestion,loadQuestion,startPreparedQuestions,playSound,animateBuzzLogos,scheduleTimeoutFlip,selectTimedBuzz,nextUngradedBuzz,showJoinAnnouncement,confetti};\n`;
 html=html.replace("let previousHostTimerTick=performance.now();",api+"let previousHostTimerTick=performance.now();");
+// #303: move the whole view by viewport width and let the page clip at its edges.
+html=html.replace('translateX(${-sign*100}%)','translateX(${-sign*window.innerWidth}px)').replace('translateX(${sign*100}%)','translateX(${sign*window.innerWidth}px)');
+html=html.replace('<h2>Room ${safe(state.code)}</h2>','<h2>Room information</h2>');
+html=html.replace("$('#header-code').textContent='ROOM '+state.code;", "if($('#header-code'))$('#header-code').textContent='ROOM '+state.code;");
+const leaveSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5M21 12H9"/><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/></svg>';
+const qrSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h-3zM21 14v7h-6M12 3v3M3 12h3M12 9v5h-2M12 18v3M18 12h3"/></svg>';
+const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 13 4-4M8 16l-1 1a4.2 4.2 0 0 1-6-6l4-4a4.2 4.2 0 0 1 6 0M16 8l1-1a4.2 4.2 0 0 1 6 6l-4 4a4.2 4.2 0 0 1-6 0" transform="translate(1 0) scale(.92 1)"/></svg>';
 // The frozen #287 standalone reference remains untouched.
 
 for(const role of ['host','player']){
  let app=html.replace('<html ',`<html data-network-role="${role}" `);
  if(role==='player')app=app.replace("${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}","<div class=\"player-header-actions\">${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}<button type=\"button\" class=\"player-scores-trigger player-leave-trigger\" data-action=\"network-open-leave\" aria-label=\"Leave room\" title=\"Leave room\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 5H5v14h4M13 8l4 4-4 4M9 12h12\"/></svg></button></div>");
+ if(role==='player'){
+  app=app.replace('<path d="M9 5H5v14h4M13 8l4 4-4 4M9 12h12"/>','<path d="m16 17 5-5-5-5M21 12H9"/><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>');
+  app=app.replace("const persistentBuzzer=oldPhone.querySelector(':scope > .coin-buzzer');", "const persistentBuzzer=oldPhone.querySelector('.player-buzzer-space > .coin-buzzer');const persistentBuzzerSlot=persistentBuzzer?.parentElement;");
+  app=app.replace('child!==persistJoin&&child!==persistentBuzzer)', 'child!==persistJoin&&child!==persistentBuzzerSlot)');
+  app=app.replace("if(child.classList.contains('coin-buzzer')&&persistentBuzzer){", "if(child.classList.contains('player-buzzer-space')&&persistentBuzzer){const nextBuzzer=child.querySelector('.coin-buzzer');");
+  app=app.replace('[...child.attributes].forEach(a=>persistentBuzzer.setAttribute(a.name,a.value));','[...nextBuzzer.attributes].forEach(a=>persistentBuzzer.setAttribute(a.name,a.value));');
+  app=app.replace('persistentBuzzer.replaceChildren(...child.childNodes);','persistentBuzzer.replaceChildren(...nextBuzzer.childNodes);');
+  app=app.replace('oldPhone.insertBefore(persistentBuzzer,firstOverlay);','oldPhone.insertBefore(persistentBuzzerSlot,firstOverlay);');
+  app=app.replace('${questionHeader}${content}<button aria-label=','${questionHeader}${content}<div class="player-buzzer-space"><button aria-label=');
+  app=app.replace('</button>${liveBuzzFeed(p)}','</button></div>${liveBuzzFeed(p)}');
+ }
  app=app.replace(/<title>[\s\S]*?<\/title>/,`<title>Buzzy · ${role==='host'?'Host':'Player'}</title>`).replace('DESIGN LAB · A v7.52',role==='host'?'HOST':'PLAYER');
  app=app.replace('</head>',`<style>
  button{-webkit-tap-highlight-color:transparent}
@@ -61,6 +79,12 @@ for(const role of ['host','player']){
  #network-retry[hidden]{display:none}
  </style><script>window.BUZZY_RUNTIME={role:${JSON.stringify(role)},transport:${JSON.stringify('spark-'+target)}};</script></head>`);
  app=app.replace('ROOM B7K4','ROOM —').replace('<div class="shell">','<div id="network-bar"><span id="network-status" role="status">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div><div class="shell">');
+ if(role==='host'){
+  app=app.replace(/<header class="headbar">[\s\S]*?<\/header>/,`<header class="headbar room-host-header"><div class="headinner"><div class="brand" aria-label="Buzzy">bu<b>z</b>zy<span style="color:#315de8">.</span></div><div id="network-bar"><span id="network-status" role="status">Connecting…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button></div><div class="room-header-actions"><button type="button" class="room-icon-button" id="room-share-qr" aria-label="Show room QR" title="Show room QR">${qrSvg}</button><button type="button" class="room-icon-button" id="room-copy-link" aria-label="Copy room link" title="Copy room link">${linkSvg}</button><button type="button" class="room-icon-button" id="leave-room" aria-label="Leave room" title="Leave room">${leaveSvg}</button></div><button id="previewtoggle" hidden></button></div></header>`);
+  // The status controls now live in the header, with exactly one copy of each ID.
+  app=app.replace(/<div id="network-bar"><span id="network-status" role="status">Connecting to your room…[\s\S]*?<\/a><\/div>/,'');
+ }
+ app=app.replace('</head>','<link rel="stylesheet" href="/src/room-ui.css"></head>');
  app=app.replace(/<div class="lab-view-switch">[\s\S]*?<\/div>/,'');
  app=app.replace(/<section class="lab-controls"[\s\S]*?<div id="modalroot">/, '<div id="modalroot">');
  app=app.replace(/<div class="split" style="padding:0 7px 10px">[\s\S]*?<\/select><\/div>/,'');

@@ -1,0 +1,79 @@
+/* Network UI #292, #294, #296, #298–303. Frozen standalone styles stay intact. */
+html[data-network-role=host] { --host-small-text:14px; overflow-x:clip; }
+html[data-network-role=host] body { overflow-x:clip; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .sm,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .persondetail,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .btn.sm,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .players-sort-field label,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .players-sort-field select,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .buzz-row-subtitle,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .library-card-actions .btn,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .library-card-mode,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .library-card-meta { font-size:var(--host-small-text); line-height:1.45; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .card.settings-room-card h2 { font-size:21px;line-height:1.2;letter-spacing:-.45px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-overview-metric :is(.stat,.expire) { font-size:clamp(22px,6vw,30px);font-weight:900;letter-spacing:normal!important;line-height:1.2; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .headinner { display:flex;align-items:center;gap:10px;max-width:1130px;padding:10px 16px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .brand { flex:none; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header #network-bar { flex:1;min-width:0;max-width:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 8px;text-align:right;font-size:14px;line-height:1.3; }
+.host-room-label,.host-connection-label { display:block; }
+.host-room-label { font-weight:750; }
+.host-connection-label { color:#506783; }
+.room-header-actions { display:flex;gap:6px;flex:none; }
+.room-icon-button { display:grid;place-items:center;width:44px;min-width:44px;height:44px;padding:10px;border:1px solid #a6bdd7;border-radius:12px;background:#eff4fa;color:#365a96;cursor:pointer;transition:transform .12s; }
+.room-icon-button svg { width:22px;height:22px; }
+.room-icon-button:active { transform:scale(.98); }
+.room-icon-button:focus-visible { outline:3px solid #315de8;outline-offset:3px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content.host-push-running { overflow:visible; }
+@media(max-width:360px) {
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .headinner { padding:10px;gap:6px; }
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .brand { font-size:23px; }
+ .room-header-actions { gap:3px; }
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button { flex-direction:column;gap:3px;padding-inline:3px; }
+}
+/* The buzzer's existing rotor, hit target and face content remain the same nodes. */
+html[data-network-role=player] body.buzzy-design-lab.theme-a { height:100dvh; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .shell { min-height:0; }
+html[data-network-role=player] body #sidecol,
+html[data-network-role=player] body #playercontent,
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phonewrap { min-height:0; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone { display:flex;flex-direction:column;flex-shrink:0;min-height:min-content; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone > :is(.ph-top,.player-session-info,.ph-question,.player-feed-slot,.ph-footer) { flex-shrink:0; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone .player-buzzer-space { flex:1 0 170px;min-height:170px;display:flex;align-items:center;justify-content:center;padding:16px 0; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone .buzzbtn.coin-buzzer,
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone.qinfo-expanded .buzzbtn.coin-buzzer { width:var(--room-buzzer-size,247px)!important;height:var(--room-buzzer-size,247px)!important;min-width:0!important;min-height:0!important;max-width:none!important;margin:0!important;flex:none;transition:transform .12s!important; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone .player-feed-slot { margin-top:0;margin-bottom:0; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal { background:#10213a;color:#f1f6ff;border-color:#3a5273;box-shadow:0 20px 70px #020a1b80; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal-head h2 { color:#f1f6ff; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal .muted { color:#b5c7e0; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal :is(.studio-close,.btn:not(.primary):not(.danger)) { background:#203753;color:#f1f6ff;border-color:#3a5273; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal .btn.primary { background:#168565;border-color:#2fb88e;color:#fff; }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-modal .btn { min-height:44px; }
+/* A native dialog supplies top-layer isolation and keyboard focus containment. */
+.room-share-screen { box-sizing:border-box;position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;margin:0;border:0;padding:max(18px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));background:radial-gradient(ellipse at top,#1c3051,#0b192d 75%);color:#f1f6ff;overflow:auto; }
+.room-share-screen::backdrop { background:#0b192d; }
+.room-share-screen[open] { display:flex;flex-direction:column;align-items:center;gap:16px; }
+.room-share-top { width:100%;max-width:720px;display:flex;align-items:center;justify-content:space-between;gap:12px; }
+.room-share-screen .brand { color:#f1f6ff; }
+.room-share-screen .room-icon-button { background:#203753;color:#c8d9f2;border-color:#3a5273; }
+.room-share-content { width:100%;max-width:600px;margin:auto;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center; }
+.room-share-screen h1 { margin:0;font-size:clamp(24px,4vw,36px);letter-spacing:-.6px; }
+.room-share-screen p { margin:0;color:#b5c7e0;font-size:16px;line-height:1.5; }
+.room-share-code { font-size:clamp(40px,9vw,64px);font-weight:900;line-height:1.1; }
+.room-share-code-label { display:block;font-size:14px;font-weight:600;color:#b5c7e0;margin-bottom:6px; }
+.room-share-qr { width:min(70vw,42dvh,320px);min-width:150px;aspect-ratio:1;background:#fff;border-radius:16px;overflow:hidden; }
+.room-share-qr svg { display:block;width:100%;height:100%; }
+.room-share-url { display:block;color:#e8f1ff;font-size:clamp(16px,2.4vw,20px);line-height:1.5;overflow-wrap:anywhere;user-select:text; }
+.room-share-screen .btn { background:#203753;border-color:#3a5273;color:#f1f6ff;min-height:44px;font-size:16px; }
+.room-share-screen .room-share-notice { min-height:24px; }
+@media(prefers-reduced-motion:reduce) { .room-icon-button { transition:none; } }
+
+.room-share-screen .room-share-close { font-size:26px;line-height:1; }
+
+/* Shared minimum for secondary labels across host views and settings. */
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui :is(.eyebrow,.notice,.pill,.tag,.join-tag,.queue-counter,.library-filter-label,.questions-section-help,.label,.switchrow .bold,.duration-disabled-note,.settings-group-caption,.settings-motion-note,.buzz-count,.fact-main,.mode-short,.behavior-summary-item) { font-size:var(--host-small-text); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .play-mode-option .mode-copy { font-size:var(--host-small-text)!important;line-height:1.2!important; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #hostcontent .eyebrow { font-size:var(--host-small-text); }
+
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui :is(.library-card-overline,.library-card-preview,.library-card-meta span,.library-status,.library-filter-select,.library-actions-column .btn,.library-section-head .btn,.duration-custom-label,.setting-requires-note,.settings-group,.header-round-overview,.header-leaderboard) { font-size:var(--host-small-text); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-icon-button:disabled { opacity:.5;cursor:default; }

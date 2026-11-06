@@ -1,0 +1,446 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "hostTypography": [
+        {
+          "text": "Play",
+          "size": 14
+        },
+        {
+          "text": "Players",
+          "size": 14
+        },
+        {
+          "text": "Questions",
+          "size": 14
+        },
+        {
+          "text": "Settings",
+          "size": 14
+        },
+        {
+          "text": "0 active · Use Manage for player actions",
+          "size": 14
+        },
+        {
+          "text": "+ Simulate join",
+          "size": 14
+        },
+        {
+          "text": "No disconnected players.",
+          "size": 14
+        },
+        {
+          "text": "No banned players.",
+          "size": 14
+        }
+      ],
+      "settings": {
+        "heading": "Room information",
+        "size": "21px",
+        "other": "21px",
+        "values": [
+          {
+            "size": "23.4px",
+            "spacing": "normal",
+            "text": "URC6"
+          },
+          {
+            "size": "23.4px",
+            "spacing": "normal",
+            "text": "Until ended"
+          }
+        ]
+      }
+    },
+    "Header and Settings open the same opaque full-screen QR, independently decoded to real room URL; copy/Escape/focus verified",
+    "Viewport-distance transition, whole-view movement, rapid navigation cleanup and reduced motion verified",
+    "Player feed at bottom; circular buzzer resizes with width and height; short landscape scrolls without overlap; retained buzzer/focus and dark dialog verified"
+  ],
+  "layouts": [
+    {
+      "host": {
+        "width": 320,
+        "height": 65,
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 172,
+            "right": 216,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 219,
+            "right": 263,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 266,
+            "right": 310,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "labels": [],
+        "statuses": 1
+      }
+    },
+    {
+      "host": {
+        "width": 390,
+        "height": 65,
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 230,
+            "right": 274,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 280,
+            "right": 324,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 330,
+            "right": 374,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "labels": [],
+        "statuses": 1
+      }
+    },
+    {
+      "host": {
+        "width": 430,
+        "height": 65,
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 270,
+            "right": 314,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 320,
+            "right": 364,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 370,
+            "right": 414,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "labels": [],
+        "statuses": 1
+      }
+    },
+    {
+      "host": {
+        "width": 768,
+        "height": 65,
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 608,
+            "right": 652,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 658,
+            "right": 702,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 708,
+            "right": 752,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "labels": [],
+        "statuses": 1
+      }
+    },
+    {
+      "host": {
+        "width": 1280,
+        "height": 65,
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 1045,
+            "right": 1089,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 1095,
+            "right": 1139,
+            "width": 44,
+            "height": 44
+          },
+          {
+            "x": 1145,
+            "right": 1189,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "labels": [],
+        "statuses": 1
+      }
+    },
+    {
+      "player": {
+        "width": 320,
+        "height": 640,
+        "phone": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 640,
+          "bottom": 640
+        },
+        "question": {
+          "x": 12,
+          "y": 120,
+          "w": 296,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 12,
+          "y": 266.5,
+          "w": 296,
+          "h": 296,
+          "bottom": 562.5
+        },
+        "feed": {
+          "x": 12,
+          "y": 584,
+          "w": 296,
+          "h": 38,
+          "bottom": 622
+        },
+        "overflow": false
+      }
+    },
+    {
+      "player": {
+        "width": 390,
+        "height": 600,
+        "phone": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 600,
+          "bottom": 600
+        },
+        "question": {
+          "x": 16,
+          "y": 120,
+          "w": 358,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 61.5,
+          "y": 261,
+          "w": 267,
+          "h": 267,
+          "bottom": 528
+        },
+        "feed": {
+          "x": 16,
+          "y": 544,
+          "w": 358,
+          "h": 38,
+          "bottom": 582
+        },
+        "overflow": false
+      }
+    },
+    {
+      "player": {
+        "width": 390,
+        "height": 844,
+        "phone": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 844,
+          "bottom": 844
+        },
+        "question": {
+          "x": 16,
+          "y": 120,
+          "w": 358,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 16,
+          "y": 337.5,
+          "w": 358,
+          "h": 358,
+          "bottom": 695.5
+        },
+        "feed": {
+          "x": 16,
+          "y": 788,
+          "w": 358,
+          "h": 38,
+          "bottom": 826
+        },
+        "overflow": false
+      }
+    },
+    {
+      "player": {
+        "width": 430,
+        "height": 932,
+        "phone": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 932,
+          "bottom": 932
+        },
+        "question": {
+          "x": 16,
+          "y": 120,
+          "w": 398,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 16,
+          "y": 361.5,
+          "w": 398,
+          "h": 398,
+          "bottom": 759.5
+        },
+        "feed": {
+          "x": 16,
+          "y": 876,
+          "w": 398,
+          "h": 38,
+          "bottom": 914
+        },
+        "overflow": false
+      }
+    },
+    {
+      "player": {
+        "width": 768,
+        "height": 1024,
+        "phone": {
+          "x": 124,
+          "y": 0,
+          "w": 520,
+          "h": 1024,
+          "bottom": 1024
+        },
+        "question": {
+          "x": 140,
+          "y": 120,
+          "w": 488,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 140,
+          "y": 362.5,
+          "w": 488,
+          "h": 488,
+          "bottom": 850.5
+        },
+        "feed": {
+          "x": 140,
+          "y": 968,
+          "w": 488,
+          "h": 38,
+          "bottom": 1006
+        },
+        "overflow": false
+      }
+    },
+    {
+      "player": {
+        "width": 844,
+        "height": 390,
+        "phone": {
+          "x": 162,
+          "y": 0,
+          "w": 520,
+          "h": 471,
+          "bottom": 471
+        },
+        "question": {
+          "x": 178,
+          "y": 120,
+          "w": 488,
+          "h": 125,
+          "bottom": 245
+        },
+        "buzz": {
+          "x": 353,
+          "y": 261,
+          "w": 138,
+          "h": 138,
+          "bottom": 399
+        },
+        "feed": {
+          "x": 178,
+          "y": 415,
+          "w": 488,
+          "h": 38,
+          "bottom": 453
+        },
+        "overflow": false
+      }
+    }
+  ],
+  "errors": [],
+  "smallText": [],
+  "issues": [
+    292,
+    294,
+    296,
+    298,
+    299,
+    300,
+    301,
+    302,
+    303
+  ],
+  "checkedAt": "2026-11-06T21:09:01.342679+00:00",
+  "validationCounts": {
+    "fullEmulatorRegression": 31,
+    "configuration": 5,
+    "operationsGuards": 20,
+    "builtProductionGameAndLayout": 1,
+    "builtInterceptedHttpsPilot": 1,
+    "finalPilotUiGate": 3
+  },
+  "firebaseRulesChanged": false,
+  "physicalAndroidBraveVerified": false,
+  "batchPublished": false,
+  "publicationWorkflow": "https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml",
+  "previousPublishedRun": 42258255116,
+  "openRelatedIssue": 293
+}

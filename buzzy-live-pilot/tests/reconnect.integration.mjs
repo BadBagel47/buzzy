@@ -25,11 +25,11 @@ await test('Network interruption restores real emulator sessions and bounded sta
   record('Socket interruption without browser online event reconnects');
   // Fail only database transport, keeping the app itself reloadable (offline cached shell).
   let block=true;await hc.route('http://127.0.0.1:9000/**',route=>block?route.abort():route.continue());await hc.routeWebSocket('**',ws=>{if(block)ws.close();else ws.connectToServer();});
-  await host.reload();assert.equal(await host.locator('.headbar .tag.desktoponly').textContent(),'HOST');
+  await host.reload();assert.equal(await host.locator('.headbar .tag.desktoponly').count(),0);assert.equal(await host.locator('#leave-room').getAttribute('aria-label'),'Leave room');assert.equal(await host.title(),'Buzzy · Host');
   await host.locator('#network-retry:not([hidden])').waitFor({timeout:22000});await host.waitForFunction(()=>document.querySelector('#network-status').dataset.error==='true',{},{timeout:22000});
   assert.equal(await host.locator('.headbar').textContent().then(s=>s.includes('DESIGN LAB')),false);
   block=false;await host.locator('#network-retry').click();await ready(host);assert.equal(await identity(host),uid);assert.equal(await host.evaluate(()=>window.BuzzyView.state.code),code);
-  record('Offline reload has correct live badge, finite wait, manual retry restores existing host');
+  record('Offline reload has compact live header, finite wait, manual retry restores existing host');
   // A create acknowledgement lost to the browser must resolve to the same room on retry.
   const createId=crypto.randomUUID();const one=await call(host,{action:'create',commandId:createId});assert.equal(one.ok,true);const two=await call(host,{action:'create',commandId:createId});assert.equal(two.ok,true);assert.equal(one.data.code,two.data.code);
   await remove(host,one.data.code);

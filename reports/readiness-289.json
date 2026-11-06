@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "CSP correction published; actual mobile retest pending",
+  "status": "room creation user confirmed; player-view and leaving issues registered for future batch",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 295,
+  "nextFreeIssueId": 298,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -205,7 +205,7 @@
   },
   "pendingPilotUpdate": {
     "issue": 293,
-    "status": "CSP followup published; real device retest pending",
+    "status": "CSP followup published; room creation confirmed; network-switch retest pending",
     "report": "reports/transport-csp-293.json",
     "deployed": true,
     "runId": "42248198398"
@@ -221,5 +221,6 @@
     "channel": "pilot",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "actualAndroidBraveRetestPassed": false
-  }
+  },
+  "userRoomCreationConfirmed": true
 }

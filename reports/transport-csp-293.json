@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "CSP correction published; actual mobile retest pending",
+  "status": "published; room creation user confirmed; physical network-switch retest pending",
   "checkedAt": "2026-11-06T15:00:08.977519+00:00",
   "userReport": "New tab still hangs on first room creation after run42234619437",
   "causeReproduced": "Production CSP omitted script/frame permission for RTDB long-polling /.lp after a remembered WebSocket failure",
@@ -62,5 +62,11 @@
     "channel": "pilot",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "actualAndroidBraveRetestPassed": false
+  },
+  "userDeviceFeedback": {
+    "roomWorks": true,
+    "playerViewReached": true,
+    "networkSwitchRetestConfirmed": false,
+    "source": "User: Nu funkar rummet; then reported player shell and leave-flow observations"
   }
 }

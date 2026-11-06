@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "player/exit package #295-297 published; physical mobile retest pending",
+  "status": "current pilot published; #293 reopened for real player reload failure",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -227,5 +227,11 @@
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "physicalAndroidBraveVerified": false
   },
-  "userRoomCreationConfirmed": true
+  "userRoomCreationConfirmed": true,
+  "openMobileRegression": {
+    "issue": 293,
+    "symptom": "Player reload stays at Connecting to your room",
+    "hostPresenceAndDurationPending": true,
+    "newImplementationMade": false
+  }
 }

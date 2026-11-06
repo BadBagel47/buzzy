@@ -37,3 +37,7 @@ Korrigeringen tillåter enbart HTTPS-skript och iframes på /.lp under *.europe-
 Det nya provet ingår både i npm test och det separata npm run test:transport, som GitHub-pilotens verify-jobb nu måste köra före artifact-uppladdning och före Google-publiceringsbehörighet. Den separata lokala körningen passerade, liksom config5, byggt interceptat HTTPS1, operations20 och pilotbuild. De tidigare 28 emulatorposterna gäller oförändrad app-JS; de kördes inte om enbart för headerändringen. Se reports/transport-csp-293.json. Ingen ny regelpublicering eller miljöändring krävs. Fysisk Android/Brave-verifiering återstår efter nästa deploy.
 
 Senaste publicering: https://github.com/BadBagel47/buzzy/actions/runs/42248198398, källa5550bcd771e759c791c3ebeb497119d8bbf8bf47. Verify och pilot har enbart success-steg inklusive nya CSP-reservtransportprovet. Publiceringssteget avslutades2026-11-06T16:01:28Z. Ingen fysisk Android/Brave-verifiering påstås.
+
+## Senaste återfall: spelarens reload
+
+Efter publicering av #295–#297 rapporterar användaren att en omladdning av spelarvyn fastnar på Connecting to your room… med enbart Leave room på den mörka sidan. Rollen är player enligt aktuell layout, ingen labmärkning visas. #293 är återöppnat; orsak, hostens fortsatta närvaro och väntetid är ännu okända. Frågat om hosten är kvar och om något ändras efter30sekunder. Tidigare gröna emulatorprov ersätter inte detta verkliga mobilutfall. Endast dokumentation av återfallet nu.

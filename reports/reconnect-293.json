@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "reopened after real device failure; CSP followup prepared, not yet deployed",
+  "status": "reopened after actual player reload stalled on latest pilot",
   "checkedAt": "2026-11-06T14:13:21.746370+00:00",
   "approval": "Vi fortsätter med att lösa 293 först. Kör",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
@@ -95,5 +95,15 @@
     "observation": "User closed old tab and new tab still hung at first room creation",
     "afterRun": "42234619437"
   },
-  "cspFollowupReport": "reports/transport-csp-293.json"
+  "cspFollowupReport": "reports/transport-csp-293.json",
+  "latestUserObservation": {
+    "view": "player",
+    "action": "reload",
+    "symptom": "Empty dark page: Connecting to your room… and Leave room",
+    "designLabVisible": false,
+    "hostStillPresent": null,
+    "durationSeconds": null,
+    "errorOrRetryAfter30Seconds": null,
+    "causeVerified": false
+  }
 }

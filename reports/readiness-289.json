@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 300,
+  "nextFreeIssueId": 304,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -241,5 +241,23 @@
     "issue": 296,
     "styleAccepted": false,
     "followupImplemented": false
+  },
+  "plannedUiBatch": {
+    "issues": [
+      292,
+      294,
+      296,
+      298,
+      299,
+      300,
+      301,
+      302,
+      303
+    ],
+    "status": "scoped and registered; no new UI implementation",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "headerUserProposalsReceived": true,
+    "publicationPlan": "one common pilot release after shared responsive regression checks",
+    "openRelatedFunctionIssue": 293
   }
 }

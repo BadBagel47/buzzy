@@ -43,3 +43,5 @@ Hämta den faktiska länken från körningen eller Hosting-konsolen. Prova host 
 ## Första manuella anslutningsprovet
 
 Öppna pilotlänken på datorn och välj **Host a game**. Öppna samma länk i mobilens Brave, ange rummets fyrteckenskod och ett namn och välj **Join game**. Kontrollera att spelaren syns i hostens Players och att båda vyerna visar anslutning. Börja med en mobil; anslut därefter en andra för buzzordning och resten av spelprovet. Avsluta egna testspel via **End game** när testet är klart. Att bara öppna startsidan initierar enligt koden inte Auth; skapa/gå med och spelhandlingar använder riktig Firebase-kvot. Detta är instruktioner, inte avklarade prov.
+
+Den förberedda knappfixen #291 finns ännu bara i källan. Den befintliga pilotadressen visar publicerad version före fixen tills en ny godkänd pilotkörning slutförts.

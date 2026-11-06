@@ -106,6 +106,8 @@ jobs:
           path: buzzy-live-pilot/dist-pilot
       - name: Validate repository and identity selectors
         run: node ops/check-context.mjs pilot
+      - name: Diagnose public GitHub identity selectors
+        run: node ops/oidc-diagnostics.mjs pilot
       - name: Get temporary Google access
         id: auth
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3

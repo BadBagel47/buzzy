@@ -1,0 +1,15 @@
+
+> test:config
+> node --test tests/runtime.test.mjs
+
+✔ Emulator target accepts only loopback; pilot requires approved HTTPS origin (1.364172ms)
+✔ Wrong project/region/app configuration fails before SDK initialization (0.166361ms)
+✔ Live adapter initializes actual project without any emulator hook; invalid origin invokes no SDK (1.373557ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53.947615

@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "rules published by user; copied console JSON verified against approved proposal; Hosting identity and pilot approval pending",
+  "status": "pilot account/environment user-confirmed and exact one-day Hosting plan locally verified; publication approval pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -18,18 +18,20 @@
     "appConfiguration": {
       "passed": 3,
       "failed": 0,
-      "skipped": 0
+      "skipped": 0,
+      "latestPilotPreparationRun": "passed 3 after clean install"
     },
     "builtPilotHttps": {
       "passed": 1,
       "failed": 0,
       "skipped": 0,
-      "allCloudRequestsIntercepted": true
+      "allCloudRequestsIntercepted": true,
+      "latestPilotPreparationRun": "passed after fresh pilot build"
     },
     "totalPassed": 24,
     "fullEmulatorRegressionRerun": false,
     "realMobilePilotRun": false,
-    "note": "20 existing operation tests rerun after actual console snapshot update and hash/baseline verification; no app/rules logic changed, previous 3 config + 1 intercepted HTTPS app checks not rerun"
+    "note": "Latest 3 config + 1 intercepted HTTPS tests rerun from primary repository after clean locked install/build. Prior 20 operation tests unchanged and not rerun only for plan/YAML diagnostics."
   },
   "installation": "npm ci using unchanged lockfile passed",
   "pilotBuild": "passed from isolated package; original sources and references unchanged",
@@ -89,7 +91,20 @@
       "console": "explicit rules_source=console + console_rules_confirmed=true for each run",
       "consoleEvidenceIsApiVerified": false
     },
-    "verifiedScope": "Google federation and eight metadata reads; rules remain console-copy-confirmed, not API verified"
+    "verifiedScope": "Google federation and eight metadata reads; rules remain console-copy-confirmed, not API verified",
+    "hostingSetup": {
+      "account": "buzzy-hosting@buzzy-197dc.iam.gserviceaccount.com",
+      "projectRoles": [
+        "roles/firebasehosting.admin",
+        "roles/firebase.viewer",
+        "roles/serviceusage.serviceUsageViewer"
+      ],
+      "workloadIdentityUserBinding": "repo:BadBagel47@340718529/buzzy@1423632612:environment:firebase-pilot",
+      "githubEnvironment": "firebase-pilot",
+      "environmentBranches": "main",
+      "variables": "WIF_PROVIDER and GOOGLE_SERVICE_ACCOUNT",
+      "evidence": "user confirmed all browser setup steps; no successful pilot auth yet"
+    }
   },
   "repository": {
     "name": "BadBagel47/buzzy",
@@ -133,9 +148,9 @@
     "lastMetadataInventoryPredatesRulePublication": true
   },
   "pending": [
-    "Configure separate buzzy-hosting service account, subject binding and firebase-pilot environment",
-    "Obtain explicit approval for exact one-day Hosting preview; main Hosting publication not approved",
-    "Run pilot preflight for fresh metadata and matching manually confirmed console evidence before any upload",
+    "Obtain explicit approval for the reviewed public one-day Hosting preview in pilot channel",
+    "User starts new firebase-pilot workflow on main with reviewed hash, console source and current confirmation",
+    "Verify actual Hosting identity, fresh preflight and Hosting upload; obtain actual returned preview URL",
     "Real host and two-mobile tests and usage monitoring",
     "Remove obsolete name-only inventory IAM binding"
   ],
@@ -155,5 +170,14 @@
     "consoleCopyRawOnlyFinalNewlineDiffers": true,
     "publishedRulesApiVerified": false
   },
-  "futureBacklog": "docs/BACKLOG.md"
+  "futureBacklog": "docs/BACKLOG.md",
+  "pilotPreparation": {
+    "plan": "docs/PILOT_RUN_289.md",
+    "report": "reports/pilot-plan-289.json",
+    "status": "reviewable; awaiting explicit user approval",
+    "localCleanInstall": "passed",
+    "freshConfigTests": 3,
+    "freshInterceptedHttpsTest": 1,
+    "realAppCloudRequestsDuringLocalTest": 0
+  }
 }

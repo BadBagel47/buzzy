@@ -1,0 +1,40 @@
+{
+  "issue": 289,
+  "status": "awaiting explicit user approval; not deployed",
+  "projectId": "buzzy-197dc",
+  "site": "buzzy-197dc",
+  "channel": "pilot",
+  "expires": "1d",
+  "publicLink": true,
+  "sharesRealAuthAndDatabase": true,
+  "usesExistingSparkQuota": true,
+  "deploysMainChannel": false,
+  "changesDatabaseRules": false,
+  "changesAuthDomains": false,
+  "changesBilling": false,
+  "hostingIdentityUserConfirmedConfigured": true,
+  "hostingIdentityCloudAuthVerified": false,
+  "reviewedRulesSha256": "148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a",
+  "rulesSource": "console",
+  "requiresCurrentConsoleConfirmation": true,
+  "localChecks": {
+    "cleanLockedInstall": "passed",
+    "configTestsPassed": 3,
+    "pilotBuild": "passed",
+    "interceptedHttpsTestsPassed": 1,
+    "actualCloudAppRequestsInHttpsTest": 0,
+    "operationsTests": "previous 20 passes; unchanged guard modules, not rerun for this plan",
+    "workflowLint": "2 passed; shellcheck/pyflakes not run"
+  },
+  "buildFiles": {
+    "assets/bridge-Ddso2j8c.js": "a911374dbd58454175bb9f63acd47a826a0add2f1cce6eec4523a900c6f09bdc",
+    "assets/client-Cx3az92o.js": "5ee87ed5b827800f71c13b101f6934af02339dd7fd41982a40f3972890b716da",
+    "assets/index-0c87D406.js": "59be893ab4e616022327552955d61f6d93e11ca71c9a2f2bdd0cfe256f3143de",
+    "assets/modulepreload-polyfill-P2Xu9kJm.js": "418c206484b89b68ef5f067277831e583fc9193a62aadf4de269acaaeb12a85f",
+    "host.html": "2e84cfba178620edc2d798c2e83005d5f55497140ba74375c11c3432036711f5",
+    "index.html": "53bc07b9d35b34cf592607452f63d3240bdf45686056d220b102b887a75ef390",
+    "player.html": "d0efce03f3c378e25a0da27aaad00ad11a99749f8651c56c5b4479adc04fde7f",
+    "test-question.svg": "b34cb27f6155149343dcc35f84c65060401e554e6efcdf7b8fd67a85a21e6015"
+  },
+  "preparedAt": "2026-11-06T00:14:21.127120+00:00"
+}

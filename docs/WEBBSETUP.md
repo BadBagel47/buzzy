@@ -200,3 +200,8 @@ Kanonisk SHA-256: `015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c690342
 Regelpubliceringen är användarbekräftad och kopian från Rules-editorn är granskad. Kanonisk hash är `148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a`, samma som förslaget. Snapshoten behåller exakt den mottagna texten; endast filens sista LF skiljer från den pinnade förslagsfilen. Det tidigare avsnittet om första stängda konsolbackup beskriver fortfarande den bevarade återgångspunkten, inte nuvarande publicerade regler.
 
 Nästa nya metadatakontroll kan göras av pilotflödets egen förkontroll efter att Hosting-identitet/miljö är klara; en separat inventory-run är inte nödvändig bara för att upprepa samma åtta läsningar. Piloten kräver fortsatt nytt uttryckligt beslut och dess aktuella manuella konsolbekräftelse.
+
+
+## Hosting-piloten förberedd för beslut
+
+Användaren har bekräftat Hosting-konto/delegering och firebase-pilot-miljö med main/variabler. Första faktiska Hosting-inloggningen/deployen är ännu inte provad. Se [PILOT_RUN_289.md](PILOT_RUN_289.md) för det exakta föreslagna publika endagsmålet. Ren installation, build och lokala config-/HTTPS-prov är klara från primär checkout; det lokala HTTPS-provet fångar upp samtliga externa appanrop. Invänta publiceringsbeslut före Run workflow för denna pilot.

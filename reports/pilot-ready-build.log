@@ -1,0 +1,23 @@
+
+> build:pilot
+> node scripts/build-pilot.mjs
+
+vite v8.3.5 building client environment for pilot...
+transforming...
+✓ 29 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-pilot/index.html                                   7.15 kB │ gzip:  2.69 kB
+dist-pilot/host.html                                  368.27 kB │ gzip: 85.47 kB
+dist-pilot/player.html                                368.27 kB │ gzip: 85.47 kB
+dist-pilot/assets/modulepreload-polyfill-P2Xu9kJm.js    0.67 kB │ gzip:  0.38 kB
+dist-pilot/assets/index-0c87D406.js                     3.16 kB │ gzip:  1.52 kB
+dist-pilot/assets/bridge-Ddso2j8c.js                   19.58 kB │ gzip:  6.96 kB
+dist-pilot/assets/client-Cx3az92o.js                  239.46 kB │ gzip: 72.01 kB
+
+✓ built in 366ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

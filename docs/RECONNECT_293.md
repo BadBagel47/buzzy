@@ -1,6 +1,6 @@
 # #293 — återanslutning och väntelägen
 
-**Aktuellt: återöppnat efter misslyckat mobilprov.** Användaren stängde den gamla fliken men en ny fastnade redan vid första rumsskapningen efter run42234619437. CSP-korrigeringen nedan är lokalt verifierad men ännu inte publicerad.
+**Aktuellt: återöppnat efter misslyckat mobilprov.** Användaren stängde den gamla fliken men en ny fastnade redan vid första rumsskapningen efter run42234619437. CSP-korrigeringen nedan är nu publicerad i run42248198398; reservtransportprovet passerade även i CI. Nytt mobilprov återstår.
 
 Användaren godkände implementation med ”Vi fortsätter med att lösa 293 först. Kör”. Felet rapporterades från Android/Brave vid wifi → 5G: återanslutning uteblev även efter återgång till wifi. Reload fastnade i ”Connecting to your room…”, visade Design Lab-märkning och ett nytt rum fastnade i ”Creating room”. Exakt orsak till det enskilda mobilavbrottet är inte oberoende fastställd.
 
@@ -35,3 +35,5 @@ Nya transport-csp.integration.mjs kör verkliga SDK:t mot lokala emulatorer med 
 Korrigeringen tillåter enbart HTTPS-skript och iframes på /.lp under *.europe-west1.firebasedatabase.app, samt same-origin-iframe. Regionalt servervärdnamn kan växla, så endast ursprungligt databasnamn skulle inte räcka. Ett läsande start-handslag mot den redan tillåtna databasen gav HTTP200 och regional shardhost; inga autentiseringar eller rumsoperationer gjordes mot riktiga projektet. Session-ID:n/exporterade nycklar ingår inte i rapporten.
 
 Det nya provet ingår både i npm test och det separata npm run test:transport, som GitHub-pilotens verify-jobb nu måste köra före artifact-uppladdning och före Google-publiceringsbehörighet. Den separata lokala körningen passerade, liksom config5, byggt interceptat HTTPS1, operations20 och pilotbuild. De tidigare 28 emulatorposterna gäller oförändrad app-JS; de kördes inte om enbart för headerändringen. Se reports/transport-csp-293.json. Ingen ny regelpublicering eller miljöändring krävs. Fysisk Android/Brave-verifiering återstår efter nästa deploy.
+
+Senaste publicering: https://github.com/BadBagel47/buzzy/actions/runs/42248198398, källa5550bcd771e759c791c3ebeb497119d8bbf8bf47. Verify och pilot har enbart success-steg inklusive nya CSP-reservtransportprovet. Publiceringssteget avslutades2026-11-06T16:01:28Z. Ingen fysisk Android/Brave-verifiering påstås.

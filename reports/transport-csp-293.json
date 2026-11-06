@@ -1,6 +1,6 @@
 {
   "issue": 293,
-  "status": "CSP correction prepared and locally verified; not deployed",
+  "status": "CSP correction published; actual mobile retest pending",
   "checkedAt": "2026-11-06T15:00:08.977519+00:00",
   "userReport": "New tab still hangs on first room creation after run42234619437",
   "causeReproduced": "Production CSP omitted script/frame permission for RTDB long-polling /.lp after a remembered WebSocket failure",
@@ -46,10 +46,21 @@
     "buzzy-live-pilot/tests/transport-csp.integration.mjs": "f11540d8ba48fca53b635f352a68fd8241f7664ae7e9a04e00a8ceae1a2ed1d9",
     ".github/workflows/firebase-pilot.yml": "75fb30a494474937116281b0ab5fe8e077462460f87d8920ecb2f3d73bda5846"
   },
-  "published": false,
+  "published": true,
   "actualAndroidBraveRetestPassed": false,
   "pending": [
-    "Run pilot workflow on new main revision",
-    "Reload pilot and retry room creation; then wifi/5G/reload regression"
-  ]
+    "Reload pilot and verify room creation, wifi/5G and reload on Android/Brave"
+  ],
+  "deployment": {
+    "runId": "42248198398",
+    "sourceCommit": "5550bcd771e759c791c3ebeb497119d8bbf8bf47",
+    "verifyJob": "127995925710",
+    "pilotJob": "127996558866",
+    "allStepConclusions": "success",
+    "fallbackCspRegression": "success",
+    "publishStepCompletedAt": "2026-11-06T16:01:28Z",
+    "channel": "pilot",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "actualAndroidBraveRetestPassed": false
+  }
 }

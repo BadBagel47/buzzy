@@ -1,6 +1,6 @@
 {
   "id": 289,
-  "status": "pilot #293 real device retest failed; CSP followup locally verified and awaiting publication",
+  "status": "CSP correction published; actual mobile retest pending",
   "checkedAt": "2026-11-05T16:20:55.814364+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
@@ -205,24 +205,21 @@
   },
   "pendingPilotUpdate": {
     "issue": 293,
-    "status": "CSP followup prepared after failed device retest",
+    "status": "CSP followup published; real device retest pending",
     "report": "reports/transport-csp-293.json",
-    "deployed": false
+    "deployed": true,
+    "runId": "42248198398"
   },
   "latestPilotExecution": {
-    "runId": "42234619437",
-    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42234619437",
-    "sourceCommit": "853a95c95dd0e15ed92c238d2471add21cb1c7e5",
-    "verifyJob": "127948919611",
-    "pilotJob": "127949244717",
+    "runId": "42248198398",
+    "sourceCommit": "5550bcd771e759c791c3ebeb497119d8bbf8bf47",
+    "verifyJob": "127995925710",
+    "pilotJob": "127996558866",
     "allStepConclusions": "success",
-    "publishStepCompletedAt": "2026-11-06T14:32:15Z",
+    "fallbackCspRegression": "success",
+    "publishStepCompletedAt": "2026-11-06T16:01:28Z",
     "channel": "pilot",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
-    "urlSource": "previously user supplied URL of same pilot channel; new CLI output not accessed",
-    "actualExpireTime": null,
-    "actualSiteHttpChecked": false,
-    "androidBraveNetworkSwitchVerified": false,
-    "evidence": "public workflow state, source commit link and individual job-step conclusions"
+    "actualAndroidBraveRetestPassed": false
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": 289,
-  "status": "UI/effects batch #304–313/#283–284 published successfully in run42347839035; physical mobile review pending; #293 separate",
-  "checkedAt": "2026-11-07T06:50:23.519430+00:00",
+  "status": "Published UI/effects batch has reopened mobile layout issue #313 (floating bottom navigation and unnecessary short-view scroll); #293 remains separately open",
+  "checkedAt": "2026-11-07T07:22:57.615047+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -345,7 +345,7 @@
     ],
     "authorizedBy": "Kör de i listan",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "status": "published; physical Android/Brave review pending",
+    "status": "published; #313 reopened from physical Android/Brave feedback",
     "databaseRulesChanged": false,
     "report": "reports/ui-refinements-304-313.json",
     "physicalAndroidBraveVerified": false,
@@ -361,5 +361,22 @@
     "guide": "docs/UI_REFINEMENTS_304_313.md",
     "runId": "42347839035",
     "publicationReport": "reports/ui-refinements-publication.json"
+  },
+  "openMobileUiLayoutRegression": {
+    "issue": 313,
+    "reportedAt": "2026-11-07T07:22:57.615047+00:00",
+    "publishedSource": "97d0b4aed18229b17b786a58a9580ac1d792df76",
+    "status": "open; registered only, no new implementation",
+    "symptoms": [
+      "Bottom navigation sometimes rises above browser toolbar when scrolling upward",
+      "Empty Questions view scrolls despite content expected to fit"
+    ],
+    "codeFactorsToInvestigate": [
+      "visualViewport offset applied to both fixed bottom and content reserve",
+      "body min-height:100vh inherited from reference"
+    ],
+    "rootCauseVerified": false,
+    "deviceMetricsCaptured": false,
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
   }
 }

@@ -29,7 +29,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #310 | Flytta Launch final celebration från Session and history till Visual effects. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Återöppnat efter mobilprov av run42347839035: menyn lyfts vid skrollning och korta vyer får onödig skroll. Ingen ny rättning gjord. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -178,3 +178,14 @@ Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat
 Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är fortsatt #314.
 
 Publicering av paketet #304–313/#283–284 är verifierad i [run42347839035](https://github.com/BadBagel47/buzzy/actions/runs/42347839035), källa 97d0b4aed18229b17b786a58a9580ac1d792df76. Samtliga steg i verify/pilot är gröna; Hosting-steget klart 2026-11-07T06:40:16Z. Fysiskt mobilprov återstår.
+
+## #313 — återöppnat efter riktiga mobilbilder
+
+Två nya bilder från Android/Brave efter publiceringen av källa 97d0b4aed18229b17b786a58a9580ac1d792df76:
+
+1. Settings: när användaren skrollar upp lyfts appens bottenmeny ibland från nederkanten. Sidinnehåll syns under menyn ovanför webbläsarens nedre verktygsrad. Menyn ska vara förankrad vid den tillgängliga spelytans nederkant även när webbläsarens rader ändrar läge.
+2. Questions med tom kö: sidan går att skrolla trots att innehållet borde få plats. Det finns ett stort tomt område under kökortet, och sidhuvud/rubrik har kunnat skrollas bort. Undvik extra skrollhöjd från layoutens minhöjd, slutreserv eller dubbel kompensation. Långa vyer ska fortsatt kunna skrollas till allt innehåll med det avtalade slutmellanrummet.
+
+Behåll ID #313 för båda närliggande layoutfelen; skapa inte en ny dubblett. Läskontroll av aktuell implementation visar att skillnaden innerHeight−visualViewport.height−offsetTop används både som bottom på den redan fixerade menyn och som extra padding under innehållet. Den frysta basstilen har dessutom min-height:100vh på body. Dubbel kompensation respektive skillnaden mellan största och aktuella viewporthöjd är konkreta granskningsspår, inte fastställda rotorsaker: inga dynamiska mått från användarens telefon finns ännu.
+
+Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortfarande #314.

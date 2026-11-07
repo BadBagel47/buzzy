@@ -687,5 +687,14 @@
     "directSiteHttpChecked": false,
     "checkedAt": "2026-11-07T06:50:23.519430+00:00",
     "evidence": "Public GitHub job steps and selected source commit; known existing channel URL previously supplied by user"
+  },
+  "mobileFeedback": {
+    "issue": 313,
+    "status": "reopened",
+    "reportedAt": "2026-11-07T07:22:57.615047+00:00",
+    "bottomNavigationFloatsOnUpwardScroll": true,
+    "shortQuestionsViewHasUnwantedScroll": true,
+    "rootCauseVerified": false,
+    "followupImplemented": false
   }
 }

@@ -20,12 +20,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
 | #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
+| #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
+| #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Registrerat 2026-11-07 från mobilprov; två reproduktionsfall, ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#306**.
+Nästa fria interna ID: **#308**.
 
 ## #293 — reproduktion och mål
 
@@ -91,7 +93,7 @@ Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken model
 
 ## UI-paketet genomfört efter körbeslut
 
-Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #306.
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #308.
 
 ## #304 — bottenmenyns visuella balans och rörliga markering
 
@@ -105,4 +107,20 @@ Användaren vill använda Play-rubrikens vertikala placering som referens för m
 
 Läskontroll: vyerna delar .appbar, men Play får .appbar-play med egna layoutregler och explicit margin:0 på h1. Knapparnas höjd påverkar dessutom den radens höjd. Den exakta skillnaden i mobilens rendering ska verifieras i nästa körning. Ingen UI-ändring eller ny publicering gjord.
 
-#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #306.
+#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #308.
+
+## #306 — Quick Play-panelen saknar utfällningsanimation
+
+Användaren rapporterar att ett tryck på Quick Play för att fälla ut fler inställningar visar panelen utan synlig utfällningsanimation. Nästa körning ska verifiera och rätta panelens befintliga öppnings-/stängningsförlopp, även vid upprepade tryck och nätuppdateringar. Bevara inmatat innehåll, fokus och reduced-motion-beteende.
+
+Läskontroll: den befintliga renderaren har redan quickContentTransition och höjdanimation på .play-mode-content, samt en inträdesanimation på .quick-content-panel. Animationen är bland annat villkorad av att föregående panelhöjd är större än noll. Förekomsten av animationskod bevisar inte att den syns i livevyn; exakt orsak är ännu inte fastställd. Ingen appändring eller nytt test kört i registreringssteget.
+
+## #307 — flimmer vid inställningsbyte och leaderboard-delning
+
+Reproduktion A: öppna poängalternativet för rätt svar i Play; växla upprepade gånger mellan det och alternativet för minuspoäng/fel svar. Den utfällda rutan flimrar. Reproduktion B: tryck på switchen som visar leaderboard för alla; användaren har sett flimmer även där. Exakt vilken yta som blinkar i B är ännu inte avgränsat. Kontrollera vid implementation båda tillstånden och om snabba växlingar/nätåterkoppling förstärker problemet.
+
+Läskontroll: patchHostQuickControls kan ersätta editorns innerHTML vid panelbyte och animerar höjd tillsammans med opacity från .7 till 1. setLeaderboardShare renderar vid ändring, och vid avstängning finns dessutom en render efter stängningstiden. Nätbryggans operation/project kan ge ytterligare renderingar efter publicering av ändrade inställningar. Detta är granskningsspår, inte verifierade rotorsaker till mobilflimret.
+
+Målet är stabil, sammanhängande målning med bibehållna panelnoder där det behövs, utan synliga återstarter eller korta blinkningar när inställningen ändras. Behåll önskade befintliga övergångar, korrekt delning till deltagarna och deras egna öppnings-/stängningsförlopp. Samma krav som tidigare gäller: kort och listposter ska ligga still inom en vyanimation; lägg inte till egna kortanimationer.
+
+#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat. Nästa fria ID är #308.

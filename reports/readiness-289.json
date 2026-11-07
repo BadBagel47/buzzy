@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 306,
+  "nextFreeIssueId": 308,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -460,11 +460,22 @@
   "newMobileUiFeedback": {
     "issues": [
       304,
-      305
+      305,
+      306,
+      307
     ],
     "registeredAt": "2026-11-07T00:58:04.319846+00:00",
     "status": "registered only; no UI implementation or new publication",
     "source": "User mobile screenshot/report after run42295900005",
-    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "updatedAt": "2026-11-07T01:03:16.682772+00:00",
+    "animationFeedback": {
+      "306": "Quick Play expansion lacks visible animation",
+      "307": [
+        "Repeated correct/incorrect points editor switching flickers",
+        "Sharing leaderboard to all flickers; affected surface not yet isolated"
+      ],
+      "rootCausesVerified": false
+    }
   }
 }

@@ -20,7 +20,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnad efter mobilbild: Play-knappens innehåll upplevs fortfarande inte centrerat. |
 | #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Uppföljning publicerad i run42370960695; fysisk visuell bekräftelse återstår. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -294,6 +294,10 @@ Användaren ser att rubriken och innehållskorten hamnar en bit längre ned för
 ## #321 — Hostens sidhuvud förskjuts vid inladdning
 
 Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+
+## #304 — återöppnad efter nytt mobilprov
+
+Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upplevs förskjutna åt vänster inom den markerade knappen. Behåll #304: jämför innehållets visuella placering med markeringens kanter och övriga knappar både i valt och ovalt läge samt på relevanta mobilbredder. Den aktiva CSS-koden har särskilda horisontella förskjutningar på ikonen och texten; de är ett granskningsspår, inte en fastställd orsak. Registrerat utan appändring eller publicering. Rekommenderad modell för rättningen: GPT-6.1 Terra; Luna kan användas för mindre avgränsade ändringar och registreringar.
 
 
 ## Samlad rättning #317, #320 och #321

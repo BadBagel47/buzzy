@@ -7,7 +7,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Första implementationen publicerad i run42410517841. Användaren provar Chrome innan fortsatt felsökning. Ingen extra Firebase-trafik. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
-| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
+| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad i run42234619437. Uppföljning: Buzz results-raden får en bakgrund när spelaren väljs; källan visar att detta är vald-spelare-markering, skild från borttagen browser-tap-flash. Granska om markeringen ska behållas eller göras diskretare. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Återöppnat: spelarens omladdning upplevs fastna på Connecting to your room. Host i annan flik på samma mobil. Kortare väntan/återförsök behövs; ingen 30s-timeout bekräftad. Se [RECONNECT_293.md](RECONNECT_293.md). |
 | #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -40,15 +40,16 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Ändrat i källan från 96 till 288 partiklar; build passerad. Publicering och mobilkontroll återstår. |
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
-| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning och placering används överallt och att inget stängkryss missas. | Källinventering klar: hittade modal-, leaderboard/round overview/buzz order-, snabbinställnings- och QR-delning-kryss. Visuell kontroll och rättning väntar. |
+| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning, placering och temafärger används överallt och att inget stängkryss missas. | Källinventering klar. Round overview-krysset har uttryckligt ljusblå/vit knappstil trots mörkt modaltema; visuell kontroll och rättning väntar. |
 | #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Registrerat: föreslagen placering är på samma rad som Buzz results. Nuvarande data visar aktiva deltagare, inte säker live-närvaro för varje telefon; välj korrekt etikett utan extra Firebase-trafik. |
 | #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Registrerat. Ingen appändring gjord. |
+| #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Reproduceras i dump: spelaren fick Incorrect 0 pts och raden visar Incorrect, men rundstatusen säger “Buzzers stopped · Awaiting scoring”. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#327**.
+Nästa fria interna ID: **#328**.
 
 ## #293 — reproduktion och mål
 
@@ -306,7 +307,7 @@ Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upp
 
 ## #324 — centrerade stängkryss
 
-Mobilbilden på ”Move to the next question?” visar ett kryss vars placering upplevs felcentrerad. Gör en full inventering av alla aktiva stängknappar innan rättning: `.studio-close` i vanliga dialoger, `.lb-close` i leaderboard/round overview/buzz order, `.mini-close` i snabbinställningspaneler och `.room-share-close` i QR-delningens helskärmsvy. Kontrollera också alternativa roll-/temastilar, responsiva storlekar, själva glyphens visuella centrum i tryckytan samt tryckytans storlek och placering i rubraden. Samordna dem utan att missa tillgänglighetsnamn eller stängbeteende. Läskontrollen hittade att `.mini-close` saknar uttrycklig grid/centrering och att `.lb-close` har flera temavarianter; detta är granskningsspår, inte fastställd rotorsak för alla kryss. Ingen UI-ändring eller visuell körning gjord. Rekommenderad modell för audit och rättning: GPT-6.1 Terra.
+Mobilbilden på ”Move to the next question?” visar ett kryss vars placering upplevs felcentrerad. Round overview-bilden visar dessutom att close-knappen har en ljus yta och blått kryss mot mörkt modaltema; den aktiva CSS-regeln sätter uttryckligen dessa färger. Gör en full inventering av alla aktiva stängknappar innan rättning: `.studio-close` i vanliga dialoger, `.lb-close` i leaderboard/round overview/buzz order, `.mini-close` i snabbinställningspaneler och `.room-share-close` i QR-delningens helskärmsvy. Kontrollera alternativa roll-/temastilar, responsiva storlekar, glyphens visuella centrum i tryckytan samt tryckytans storlek och placering i rubraden. Samordna färger med varje dialogs aktiva tema utan att missa tillgänglighetsnamn eller stängbeteende. Läskontrollen hittade att `.mini-close` saknar uttrycklig grid/centrering och att `.lb-close` har flera temavarianter; detta är granskningsspår, inte fastställd rotorsak för alla kryss. Ingen UI-ändring eller visuell körning gjord. Rekommenderad modell för audit och rättning: GPT-6.1 Terra.
 
 ## #325 — antal spelare i Play
 
@@ -315,6 +316,10 @@ Visa en kompakt spelarräkning kvar på hostens Play-vy. Förslag: lägg en lite
 ## #326 — fullbreddsknapp för ny fråga
 
 I Questions-vyn ligger “+ New question” nu bredvid introduktionstexten. Flytta knappen till en egen rad ovanför texten i samma ruta och använd den befintliga fullbreddsmallen för åtgärdsknappar. Ta bort plustecknet om det behövs för att följa samma knappstil och etiketter som övriga vyer. Behåll befintlig åtgärd och formulär. Ingen kodändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
+
+## #327 — Round overview bedömningsstatus
+
+I mobilbilden av Round overview visas `No points awarded` och rundstatusen `Buzzers stopped · Awaiting scoring`, medan samma försök redan visar spelaren som `Incorrect (0 pts)`. Spelarvyn visar också `answered incorrectly`, och hostens Buzz results visar `1/1 buzzes` samt inga berättigade retry-spelare. Dessa flödesdelar är förenliga med ett felaktigt svar utan poäng; statusetiketten “Awaiting scoring” är det som inte stämmer. I `buzzy-live-pilot/src/bridge.js` sätts stängd rond till Awaiting scoring när `winner` saknas, utan att först kontrollera om det finns obesvarade/pending bedömningar. Ändra status så att den bara säger Awaiting scoring vid faktiska obesvarade bedömningar; färdigbedömda felaktiga svar ska få korrekt färdigstatus. `No points awarded` och 0 poäng behålls om inget poängbelopp delats ut. Ingen appändring gjord. Rekommenderad modell: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

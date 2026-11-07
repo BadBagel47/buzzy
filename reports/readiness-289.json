@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 308,
+  "nextFreeIssueId": 309,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -462,13 +462,14 @@
       304,
       305,
       306,
-      307
+      307,
+      308
     ],
     "registeredAt": "2026-11-07T00:58:04.319846+00:00",
     "status": "registered only; no UI implementation or new publication",
     "source": "User mobile screenshot/report after run42295900005",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "updatedAt": "2026-11-07T01:03:16.682772+00:00",
+    "updatedAt": "2026-11-07T01:05:25.307497+00:00",
     "animationFeedback": {
       "306": "Quick Play expansion lacks visible animation",
       "307": [
@@ -476,6 +477,7 @@
         "Sharing leaderboard to all flickers; affected surface not yet isolated"
       ],
       "rootCausesVerified": false
-    }
+    },
+    "removeDuplicateQrEntry": "Remove Settings Room information Show QR only; keep header sharing screen"
   }
 }

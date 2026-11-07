@@ -36,8 +36,9 @@ const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="c
 // The frozen #287 standalone reference remains untouched.
 
 html=applyUiBatch(html);
-const arrowIcon=direction=>`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="${direction==='up'?'M12 19V5M6 11l6-6 6 6':'M12 5v14M6 13l6 6 6-6'}"/></svg>`;
-html=html.replaceAll('>↑</button>',`>${arrowIcon('up')}</button>`).replaceAll('>↓</button>',`>${arrowIcon('down')}</button>`);
+const arrowPaths={up:'M12 19V5M6 11l6-6 6 6',down:'M12 5v14M6 13l6 6 6-6',right:'M5 12h14M13 6l6 6-6 6',diagonal:'M5 19L19 5M9 5h10v10',left:'M19 12H5M11 6l-6 6 6 6'};
+const arrowIcon=direction=>`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="${arrowPaths[direction]}"/></svg>`;
+html=html.replaceAll('>↑</button>',`>${arrowIcon('up')}</button>`).replaceAll('>↓</button>',`>${arrowIcon('down')}</button>`).replaceAll('➜',arrowIcon('right')).replaceAll('↗',arrowIcon('diagonal')).replace("actionButton('← Back to Play'",`actionButton('${arrowIcon('left')} Back to Play'`);
 html=html.replace("actionButton('+ New question','new-question','btn sm primary')", "actionButton('New question','new-question','btn primary full')");
 html=html.replace('<span class="buzz-count">${new Set(state.buzzes.map(b=>b.id)).size}/${activePlayers().length} buzzes</span>', '<span class="buzz-count">${new Set(state.buzzes.map(b=>b.id)).size}/${activePlayers().length} buzzes · ${activePlayers().length} active</span>');
 for(const role of ['host','player']){

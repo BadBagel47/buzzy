@@ -1,7 +1,7 @@
 {
   "id": 289,
   "status": "Follow-up UI batch #304/#305/#313/#314/#315 published; real Android/Brave review pending; #293 separate",
-  "checkedAt": "2026-11-07T12:23:56Z",
+  "checkedAt": "2026-11-07T12:31:57Z",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 316,
+  "nextFreeIssueId": 318,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -485,7 +485,7 @@
     "status": "published; all GitHub verify and pilot steps passed; physical mobile review pending",
     "settingsAccordionSpacingPreserved": true,
     "databaseRulesChanged": false,
-    "nextFreeIssueId": 316,
+    "nextFreeIssueId": 318,
     "sourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
     "runId": "42370960695",
     "validation": {
@@ -496,5 +496,25 @@
       "hostingPublished": true
     },
     "physicalAndroidBraveVerified": false
+  },
+  "pendingLandingFeedback": {
+    "issues": [
+      316,
+      317
+    ],
+    "registeredAt": "2026-11-07T12:31:57Z",
+    "status": "registered only; no app changes or tests",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "roomNotFound": {
+      "currentBehavior": "Raw Room not found error is shown in the general entry-status after the host option, rather than next to the room-code input",
+      "recommendation": "Use a clear inline field error, preserve the code and explain checking the four characters or confirming the room remains open",
+      "exampleCopy": "We couldn’t find a room with that code. Check the 4-character code with your host, or ask if the room is still open."
+    },
+    "roomCodeAlignment": {
+      "symptom": "Placeholder dots and/or insertion caret appear off-center",
+      "sourceClue": "Room-code input has text-indent and centered text; placeholder and entered value use different letter-spacing",
+      "uncertainty": "No new screenshot or browser measurement to distinguish dots from caret"
+    },
+    "nextFreeIssueId": 318
   }
 }

@@ -20,8 +20,8 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnat efter mobilprov: texten i Play-knappen upplevs fortfarande ocentrerad. Ingen ny rättning gjord. |
-| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Återöppnat/förtydligat: samordna både sidrubrik och första kortets start i alla vyer; även Play ska ligga något lägre. Ingen ny rättning gjord. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
+| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Uppföljning publicerad i run42370960695; fysisk visuell bekräftelse återstår. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -29,9 +29,11 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #310 | Flytta Launch final celebration från Session and history till Visual effects. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Återöppnat efter mobilprov av run42347839035: menyn lyfts vid skrollning och korta vyer får onödig skroll. Ingen ny rättning gjord. |
-| #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Registrerat 2026-11-07. Bedömt som begränsad lokal effektändring; ingen implementation. |
-| #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Registrerat 2026-11-07; ingen implementation. |
+| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
+| #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
+| #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
+| #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Registrerat nu; ingen implementation. |
+| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Registrerat nu; exakt källa behöver jämföras i tomt, fokuserat och ifyllt fält. Ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -239,3 +241,18 @@ Vid källändringen var dessa ändringar ännu inte testade eller publicerade. D
 ### Publiceringsstatus för uppföljningsbatchen
 
 Publicerad efter körbeslut i [run42370960695](https://github.com/BadBagel47/buzzy/actions/runs/42370960695) från källa `975b94b0b8f28a75ac0043037b0d58fc174793c0`. Verify-jobbet (14 steg) och pilotjobbet (15 steg) passerade; Hosting-steget slutfördes 2026-11-07T12:08:37Z. Publiceringens kanal är https://buzzy-197dc--pilot-mrst5vi1.web.app. Ingen Firebase-regeländring ingick. Fysisk Android/Brave-kontroll återstår.
+
+
+## #316 — Room not found är otydligt
+
+Användaren upplever att ”Room not found” inte tydligt förklarar vad som hänt eller vad deltagaren ska göra. Läsgranskning visar att klienten returnerar råtexten `Room not found.` från room lookup och `entry.js` visar fångat fel i en generell sidstatus efter host-alternativet. Det är inte kopplat visuellt till rumskodsfältet.
+
+Rekommenderad lösning vid implementation: visa ett kort, mänskligt besked direkt under rumskoden, markera fältet ogiltigt och behåll den inmatade koden. Exempel på engelska som passar spelets UI: “We couldn’t find a room with that code. Check the 4-character code with your host, or ask if the room is still open.” Behåll generell status för host-/anslutningsfel. Beskedet ska ge ett begripligt nästa steg utan att påstå att orsaken säkert är felskrivning eller att rummet stängts. Ingen appändring eller test gjord.
+
+## #317 — visuell centrering i rumskodsfältet
+
+När tomrummets punkter/markörer visas upplevs insättningsmarkören eller själva punktgruppen inte ligga i centrum. Användaren vet inte vilken av dem som ger intrycket. Källgranskning hittar i frysta landing-stilarna centrerad text plus `text-indent` och separata `letter-spacing`-värden för riktig kod (`.22em`) respektive placeholder (`.3em`). Generatorn för livevyn kortar placeholdern till fyra punkter. Detta gör de olika måtten till ett konkret spår, men orsaken är inte fastställd utan visuell jämförelse.
+
+Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter), tomt ofokuserat fält och delvis/fullt ifylld kod på mobil. Samordna centreringen så placeholder och faktisk kod delar samma visuella mitt; undvik att dekorativa tecken flyttar insättningsmarkören. Ingen CSS-, generator- eller teständring gjord.
+
+#316–317 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #318.

@@ -663,7 +663,7 @@
     "interceptedHttpsPilot": 1,
     "finalPilotUiGate": 4
   },
-  "batchPublished": false,
+  "batchPublished": true,
   "physicalAndroidBraveVerified": false,
   "firebaseRulesChanged": false,
   "previousPublishedRun": 42295900005,
@@ -672,5 +672,20 @@
     293,
     290
   ],
-  "validationNote": "Full 32-case regression passed; after final closing-clone/snapshot safeguards, the complete 15-case native UI regression, targeted refinements, production build/game, intercepted HTTPS and final four-case pilot gate passed again."
+  "validationNote": "Full 32-case regression passed; after final closing-clone/snapshot safeguards, the complete 15-case native UI regression, targeted refinements, production build/game, intercepted HTTPS and final four-case pilot gate passed again.",
+  "publication": {
+    "runId": "42347839035",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42347839035",
+    "sourceCommit": "97d0b4aed18229b17b786a58a9580ac1d792df76",
+    "verifyJob": "128329342482",
+    "pilotJob": "128329819965",
+    "allStepConclusions": "success",
+    "uiRefinementsRegression": "success",
+    "publishStepCompletedAt": "2026-11-07T06:40:16Z",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "physicalAndroidBraveVerified": false,
+    "directSiteHttpChecked": false,
+    "checkedAt": "2026-11-07T06:50:23.519430+00:00",
+    "evidence": "Public GitHub job steps and selected source commit; known existing channel URL previously supplied by user"
+  }
 }

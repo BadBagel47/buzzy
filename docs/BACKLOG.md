@@ -41,12 +41,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Ändrat i källan från 96 till 288 partiklar; build passerad. Publicering och mobilkontroll återstår. |
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
 | #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning och placering används överallt och att inget stängkryss missas. | Källinventering klar: hittade modal-, leaderboard/round overview/buzz order-, snabbinställnings- och QR-delning-kryss. Visuell kontroll och rättning väntar. |
+| #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Registrerat: föreslagen placering är på samma rad som Buzz results. Nuvarande data visar aktiva deltagare, inte säker live-närvaro för varje telefon; välj korrekt etikett utan extra Firebase-trafik. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#325**.
+Nästa fria interna ID: **#326**.
 
 ## #293 — reproduktion och mål
 
@@ -305,6 +306,10 @@ Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upp
 ## #324 — centrerade stängkryss
 
 Mobilbilden på ”Move to the next question?” visar ett kryss vars placering upplevs felcentrerad. Gör en full inventering av alla aktiva stängknappar innan rättning: `.studio-close` i vanliga dialoger, `.lb-close` i leaderboard/round overview/buzz order, `.mini-close` i snabbinställningspaneler och `.room-share-close` i QR-delningens helskärmsvy. Kontrollera också alternativa roll-/temastilar, responsiva storlekar, själva glyphens visuella centrum i tryckytan samt tryckytans storlek och placering i rubraden. Samordna dem utan att missa tillgänglighetsnamn eller stängbeteende. Läskontrollen hittade att `.mini-close` saknar uttrycklig grid/centrering och att `.lb-close` har flera temavarianter; detta är granskningsspår, inte fastställd rotorsak för alla kryss. Ingen UI-ändring eller visuell körning gjord. Rekommenderad modell för audit och rättning: GPT-6.1 Terra.
+
+## #325 — antal spelare i Play
+
+Visa en kompakt spelarräkning kvar på hostens Play-vy. Förslag: lägg en liten etikett på befintlig Buzz results-rubrikrad, bredvid resultat-/buzzräkningen, så ingen ny kortyta eller vertikal höjd tillkommer. Källan har redan `activePlayers()` och visar samma tal som nämnaren i `x/y buzzes`; detta avser aktiva rumsdeltagare. Den läser inte tillförlitlig närvaro för varje enhet just nu, så märk inte talet som telefoner som bevisligen är online. Lösningen bör inte lägga till nya Firebase-lyssnare eller trafik. Ingen UI-ändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

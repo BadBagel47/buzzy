@@ -8,7 +8,7 @@ export function createCelebration(enabled){
   clear();if(motion.matches||!enabled())return;
   const root=document.getElementById('confetti');if(!root)return;
   const token=serial,{width,height}=root.getBoundingClientRect(),colors=['#315de8','#28b589','#f0b64a','#df6897','#9a80ea'];let finish=0;
-  for(let i=0;i<96;i++){
+  for(let i=0;i<288;i++){
    const side=i%2===0?'left':'right',direction=side==='left'?1:-1;
    const startX=side==='left'?-9:width+9,startY=height+12;
    const distance=width*(.62+Math.random()*.85),lift=height*(.72+Math.random()*.34),rotation=Math.random()*360;

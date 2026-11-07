@@ -44,12 +44,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Registrerat: föreslagen placering är på samma rad som Buzz results. Nuvarande data visar aktiva deltagare, inte säker live-närvaro för varje telefon; välj korrekt etikett utan extra Firebase-trafik. |
 | #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Registrerat. Ingen appändring gjord. |
 | #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Reproduceras i dump: spelaren fick Incorrect 0 pts och raden visar Incorrect, men rundstatusen säger “Buzzers stopped · Awaiting scoring”. |
+| #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | Registrerat. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#328**.
+Nästa fria interna ID: **#329**.
 
 ## #293 — reproduktion och mål
 
@@ -320,6 +321,10 @@ I Questions-vyn ligger “+ New question” nu bredvid introduktionstexten. Flyt
 ## #327 — Round overview bedömningsstatus
 
 I mobilbilden av Round overview visas `No points awarded` och rundstatusen `Buzzers stopped · Awaiting scoring`, medan samma försök redan visar spelaren som `Incorrect (0 pts)`. Spelarvyn visar också `answered incorrectly`, och hostens Buzz results visar `1/1 buzzes` samt inga berättigade retry-spelare. Dessa flödesdelar är förenliga med ett felaktigt svar utan poäng; statusetiketten “Awaiting scoring” är det som inte stämmer. I `buzzy-live-pilot/src/bridge.js` sätts stängd rond till Awaiting scoring när `winner` saknas, utan att först kontrollera om det finns obesvarade/pending bedömningar. Ändra status så att den bara säger Awaiting scoring vid faktiska obesvarade bedömningar; färdigbedömda felaktiga svar ska få korrekt färdigstatus. `No points awarded` och 0 poäng behålls om inget poängbelopp delats ut. Ingen appändring gjord. Rekommenderad modell: GPT-6.1 Terra.
+
+## #328 — tydligare domän i QR-delningen
+
+I QR-delningens helskärmsvy ska adressraden visa endast aktuell domän/host, utan `http://`/`https://`, path eller `?room=...`. Visa domänen som tydlig, större och typografiskt välformad text, inte som en länk. QR-koden fortsätter bära hela rumslänken. Behåll Copy room link-knappen, som fortsatt kopierar den fullständiga adressen med rumskoden och beter sig som idag. Ingen ändring gjord. Rekommenderad modell: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

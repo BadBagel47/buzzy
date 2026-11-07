@@ -383,10 +383,13 @@
     "issue": 314,
     "registeredAt": "2026-11-07T07:25:51.550983+00:00",
     "status": "registered only; no implementation",
-    "request": "More/larger particles and whole-screen spread; preserve ascent speed and slightly slow descent",
+    "request": "More confetti and primarily wider/full-screen spread; modestly larger individual pieces are welcome but secondary; preserve ascent pace and slightly slow descent",
     "effortAssessment": "Limited local particle sizing, spread and timing adjustment in existing effect",
     "condition": "User would skip if a major change were necessary; current code review indicates that is not necessary",
     "mobilePerformanceToVerify": true,
-    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "clarifiedAt": "2026-11-07T07:27:21.343138+00:00",
+    "spreadPriority": "primary",
+    "particleSizePriority": "secondary, modest increase welcome"
   }
 }

@@ -30,7 +30,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Återöppnat efter mobilprov av run42347839035: menyn lyfts vid skrollning och korta vyer får onödig skroll. Ingen ny rättning gjord. |
-| #314 | Mer och större konfetti med spridning över hela skärmen; behåll snabb uppflygning och gör nedfärden något långsammare. | Registrerat 2026-11-07. Bedömt som begränsad lokal effektändring; ingen implementation. |
+| #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Registrerat 2026-11-07. Bedömt som begränsad lokal effektändring; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -200,3 +200,7 @@ Läskontroll: src/celebration.js styr redan hela effekten lokalt med 64 partikla
 Vid genomförandet: öka mängd/storlek och spridning med en rimlig partikelbudget för mobil. Behåll de två nedre ursprungen, färgpaletten, reducerad rörelse/avstängning och skyddet för upprepade utlösningar. Städning ska följa den nya faktiska sluttiden. Öka inte bara total varaktighet för hela banan, eftersom det även skulle sakta ner uppflygningen. Verifiera banornas täckning, oförändrad uppflygningstid och längre nedfärd samt att den större effekten känns jämn på mobil.
 
 #314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+
+### Förtydligande till #314
+
+Med ”större” avsåg användaren främst spridningen över skärmen. Prioritera bredare/högre täckning framför större enskilda bitar. En måttlig ökning av bitarnas storlek är också välkommen, men är sekundär och behöver inte bli dramatisk. Önskemålen om mer konfetti, snabb uppflygning och något långsammare dalning kvarstår. Detta är ett förtydligande av samma #314, ingen ny punkt eller nytt körbeslut.

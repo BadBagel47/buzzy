@@ -30,12 +30,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Återöppnat efter mobilprov av run42347839035: menyn lyfts vid skrollning och korta vyer får onödig skroll. Ingen ny rättning gjord. |
+| #314 | Mer och större konfetti med spridning över hela skärmen; behåll snabb uppflygning och gör nedfärden något långsammare. | Registrerat 2026-11-07. Bedömt som begränsad lokal effektändring; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#314**.
+Nästa fria interna ID: **#315**.
 
 ## #293 — reproduktion och mål
 
@@ -175,7 +176,7 @@ Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat
 
 ## Genomfört paket efter ”Kör de i listan”
 
-Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är fortsatt #314.
+Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är #315.
 
 Publicering av paketet #304–313/#283–284 är verifierad i [run42347839035](https://github.com/BadBagel47/buzzy/actions/runs/42347839035), källa 97d0b4aed18229b17b786a58a9580ac1d792df76. Samtliga steg i verify/pilot är gröna; Hosting-steget klart 2026-11-07T06:40:16Z. Fysiskt mobilprov återstår.
 
@@ -188,4 +189,14 @@ Två nya bilder från Android/Brave efter publiceringen av källa 97d0b4aed18229
 
 Behåll ID #313 för båda närliggande layoutfelen; skapa inte en ny dubblett. Läskontroll av aktuell implementation visar att skillnaden innerHeight−visualViewport.height−offsetTop används både som bottom på den redan fixerade menyn och som extra padding under innehållet. Den frysta basstilen har dessutom min-height:100vh på body. Dubbel kompensation respektive skillnaden mellan största och aktuella viewporthöjd är konkreta granskningsspår, inte fastställda rotorsaker: inga dynamiska mått från användarens telefon finns ännu.
 
-Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortfarande #314.
+Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+
+## #314 — fylligare konfetti och långsammare nedfärd
+
+Användaren vill ha mer och större konfetti som sprids över hela skärmen. Utkasten från de nedre hörnen ska fortfarande gå upp lika snabbt, men partiklarna ska dala något långsammare efter toppen. Användaren vill avstå om detta kräver ett stort ingrepp.
+
+Läskontroll: src/celebration.js styr redan hela effekten lokalt med 64 partiklar, separata banors höjd/sidled samt WAAPI-nyckelrutor. Storleken ligger i src/room-ui.css (nu 8×14px). Upp-/nedfärd kan få olika tidsfördelning genom nyckelrutornas offsets och total varaktighet, så uppflygningens faktiska tid hålls kvar medan nedfärden förlängs. Det räcker alltså med en begränsad ändring i den befintliga effekten; någon ny server-/spelfunktion behövs inte. Ingen fix genomförd eller ny effekt provad vid denna bedömning.
+
+Vid genomförandet: öka mängd/storlek och spridning med en rimlig partikelbudget för mobil. Behåll de två nedre ursprungen, färgpaletten, reducerad rörelse/avstängning och skyddet för upprepade utlösningar. Städning ska följa den nya faktiska sluttiden. Öka inte bara total varaktighet för hela banan, eftersom det även skulle sakta ner uppflygningen. Verifiera banornas täckning, oförändrad uppflygningstid och längre nedfärd samt att den större effekten känns jämn på mobil.
+
+#314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.

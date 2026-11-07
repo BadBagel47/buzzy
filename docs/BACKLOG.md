@@ -40,12 +40,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Ändrat i källan från 96 till 288 partiklar; build passerad. Publicering och mobilkontroll återstår. |
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
+| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning och placering används överallt och att inget stängkryss missas. | Källinventering klar: hittade modal-, leaderboard/round overview/buzz order-, snabbinställnings- och QR-delning-kryss. Visuell kontroll och rättning väntar. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#324**.
+Nästa fria interna ID: **#325**.
 
 ## #293 — reproduktion och mål
 
@@ -300,6 +301,10 @@ Vid första inladdning eller omladdning visas hostens sidhuvud först på en pos
 ## #304 — återöppnad efter nytt mobilprov
 
 Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upplevs förskjutna åt vänster inom den markerade knappen. Senaste observationen preciserar ett synligt fel: det saknas mellanrum mellan blixtsymbolen och Play-texten, fastän övriga bottenknappar har mellanrum. Jämför ikon/textplacering med markeringens kanter i valt och ovalt läge och återställ ett enhetligt mellanrum på relevanta mobilbredder. Den aktiva CSS-koden har särskilda horisontella förskjutningar på ikonen och texten; de är ett granskningsspår, inte en fastställd orsak. Registrerat utan appändring eller publicering. Rekommenderad modell för rättningen: GPT-6.1 Terra; Luna kan användas för mindre avgränsade ändringar och registreringar.
+
+## #324 — centrerade stängkryss
+
+Mobilbilden på ”Move to the next question?” visar ett kryss vars placering upplevs felcentrerad. Gör en full inventering av alla aktiva stängknappar innan rättning: `.studio-close` i vanliga dialoger, `.lb-close` i leaderboard/round overview/buzz order, `.mini-close` i snabbinställningspaneler och `.room-share-close` i QR-delningens helskärmsvy. Kontrollera också alternativa roll-/temastilar, responsiva storlekar, själva glyphens visuella centrum i tryckytan samt tryckytans storlek och placering i rubraden. Samordna dem utan att missa tillgänglighetsnamn eller stängbeteende. Läskontrollen hittade att `.mini-close` saknar uttrycklig grid/centrering och att `.lb-close` har flera temavarianter; detta är granskningsspår, inte fastställd rotorsak för alla kryss. Ingen UI-ändring eller visuell körning gjord. Rekommenderad modell för audit och rättning: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

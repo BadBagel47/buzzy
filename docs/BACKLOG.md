@@ -18,12 +18,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
+| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#304**.
+Nästa fria interna ID: **#306**.
 
 ## #293 — reproduktion och mål
 
@@ -89,4 +91,18 @@ Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken model
 
 ## UI-paketet genomfört efter körbeslut
 
-Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #304.
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #306.
+
+## #304 — bottenmenyns visuella balans och rörliga markering
+
+Användaren rapporterar efter senaste UI-publiceringen att lika breda knappar känns ojämnt balanserade när ikon/text tar olika mycket plats. Tillåt innehållsanpassade bredder, med enhetlig luft runt innehållet och en centrerad ikon/textgrupp i varje knapp. Kontrollera särskilt Play, som upplevs ocentrerad. Den aktiva bakgrundsmarkeringen ska följa den faktiska knappens läge OCH bredd och animera båda vid byte, även mellan korta och långa etiketter. Behåll textens nya miniminivå, läsbara etiketter, tryckytor, safe area, reduced motion och stabilitet vid snabba upprepade tryck/rotation. Prova främst Android/Brave och smala mobilbredder.
+
+Läskontroll: den frysta generatorbasen har grid-template-columns:repeat(4,minmax(0,1fr)). Markeringen använder en fast fjärdedelsbredd och --nav-index för förflyttningen; transition omfattar endast transform. Ikon/text centreras med flex, men markeringens verkliga geometri och Play-symbolens optiska centrering behöver mätas vid implementation. Bilden ensam bevisar inte vilken av dessa som orsakar centreringsintrycket. Ingen ändring gjord i generator, CSS eller app.
+
+## #305 — sidrubrikernas höjd
+
+Användaren vill använda Play-rubrikens vertikala placering som referens för motsvarande översta rubrik i övriga hostvyer. Play har knappar till höger; deras närvaro ska inte göra att rubrikens höjd skiljer sig från Players, Questions och Settings. Använd en gemensam rubrikrad/vertikal inpassning och konsekventa marginaler utan att lägga till onödigt utrymme. Behåll stillastående kort inom vyanimeringen och samma slutliga avstånd till innehållet.
+
+Läskontroll: vyerna delar .appbar, men Play får .appbar-play med egna layoutregler och explicit margin:0 på h1. Knapparnas höjd påverkar dessutom den radens höjd. Den exakta skillnaden i mobilens rendering ska verifieras i nästa körning. Ingen UI-ändring eller ny publicering gjord.
+
+#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #306.

@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 304,
+  "nextFreeIssueId": 306,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -456,5 +456,15 @@
     "report": "reports/ui-batch-292-303.json",
     "notes": "No new Firebase rules, presence, authentication or room deletion behavior. QR is local/lazy-loaded. Host role marker intentionally removed.",
     "runId": "42295900005"
+  },
+  "newMobileUiFeedback": {
+    "issues": [
+      304,
+      305
+    ],
+    "registeredAt": "2026-11-07T00:58:04.319846+00:00",
+    "status": "registered only; no UI implementation or new publication",
+    "source": "User mobile screenshot/report after run42295900005",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
   }
 }

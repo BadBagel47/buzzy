@@ -36,6 +36,10 @@ const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="c
 // The frozen #287 standalone reference remains untouched.
 
 html=applyUiBatch(html);
+const arrowIcon=direction=>`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="${direction==='up'?'M12 19V5M6 11l6-6 6 6':'M12 5v14M6 13l6 6 6-6'}"/></svg>`;
+html=html.replaceAll('>↑</button>',`>${arrowIcon('up')}</button>`).replaceAll('>↓</button>',`>${arrowIcon('down')}</button>`);
+html=html.replace("actionButton('+ New question','new-question','btn sm primary')", "actionButton('New question','new-question','btn primary full')");
+html=html.replace('<span class="buzz-count">${new Set(state.buzzes.map(b=>b.id)).size}/${activePlayers().length} buzzes</span>', '<span class="buzz-count">${new Set(state.buzzes.map(b=>b.id)).size}/${activePlayers().length} buzzes · ${activePlayers().length} active</span>');
 for(const role of ['host','player']){
  let app=html.replace('<html ',`<html data-network-role="${role}" `);
  if(role==='player')app=app.replace("${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}","<div class=\"player-header-actions\">${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}<button type=\"button\" class=\"player-scores-trigger player-leave-trigger\" data-action=\"network-open-leave\" aria-label=\"Leave room\" title=\"Leave room\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 5H5v14h4M13 8l4 4-4 4M9 12h12\"/></svg></button></div>");

@@ -112,8 +112,8 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button
 }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button svg { width:18px;height:18px;flex:none; }
 /* Keep Play's label optically centered while its icon stays to the left. */
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] svg { transform:translateX(-6px); }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] span { position:relative;left:-12px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] svg { transform:none; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] span { position:relative;left:0; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav::before {
  left:0;top:var(--nav-highlight-top,7px);bottom:auto;width:var(--nav-highlight-width,0px);height:var(--nav-highlight-height,48px);
  transform:translateX(var(--nav-highlight-left,0px));transition:none;
@@ -132,3 +132,28 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-
 }
 /* The global celebration uses its own upward trajectories, not the old fall. */
 .confetti i.celebration-particle { left:0;top:0;width:9px;height:16px;animation:none;will-change:transform,opacity; }
+
+label { -webkit-tap-highlight-color:transparent; }
+.room-share-url { font-size:clamp(18px,5vw,26px);font-weight:800;overflow-wrap:anywhere;text-align:center; }
+html[data-network-role=host] .questions-split-heading .library-section-head { display:flex;flex-direction:column-reverse;align-items:stretch;gap:14px; }
+html[data-network-role=host] .questions-split-heading .library-section-head .btn { width:100%; }
+html[data-network-role=host] .question-move { margin-right:8px; }
+html[data-network-role=host] .move-btn { display:grid;place-items:center;font-size:20px;font-weight:800;line-height:1; }
+:is(.studio-close,.lb-close,.mini-close,.room-share-close) { display:grid;place-items:center;line-height:1;padding:0; }
+
+html[data-network-role=host] .move-btn svg { width:20px;height:20px;display:block; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-sheet,
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay .player-leaderboard-sheet.lb-v5 { background:#e3ebf5!important;color:#172c46!important;border-color:#9eb6d2!important; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui :is(.round-overview-modal-head,.lb-share-row) { border-color:#b9cce1; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui :is(.round-overview-modal-title,.round-overview-modal-head h2,.lb-head h2,.lb-share-copy strong) { color:#172c46; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui :is(.round-overview-modal-title svg,.lb-title-icon) { color:#365a96;stroke:#365a96; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui :is(.round-overview-overlay,.host-leaderboard-overlay) .lb-close { background:#eff4fa;color:#365a96;border-color:#a6bdd7; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-entry,
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay .lb-entry { background:#d6e3f1;color:#172c46;border-color:#a6bdd7; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-body { background:#eaf1f9;color:#172c46;border-color:#b9cce1; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll :is(.overview-title,.overview-table th,.overview-table td) { color:#172c46;border-color:#b9cce1; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui :is(.round-overview-scroll .overview-subtitle,.round-overview-scroll .overview-meta,.round-overview-scroll .muted,.lb-columns,.lb-pts,.lb-share-copy small,.lb-rank) { color:#506783; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-status { color:#23446d;background:#d2e0ef; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-source { color:#23446d;background:#d2e0ef;border-color:#a6bdd7; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-positive { color:#167553; }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-negative { color:#ad344b; }

@@ -80,6 +80,8 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
    const qr=await share.locator('.room-share-qr svg').evaluate(async svg=>{const source=new XMLSerializer().serializeToString(svg),img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(source);await img.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=600;const c=canvas.getContext('2d');c.drawImage(img,0,0,600,600);return [...c.getImageData(0,0,600,600).data];});
    const decoded=jsQR(Uint8ClampedArray.from(qr),600,600);assert.equal(decoded?.data,`http://127.0.0.1:5173/?room=${code}`);
    assert.equal(await share.locator('.room-share-code').textContent(),code);
+   assert.equal(await share.locator('.room-share-url').textContent(),'127.0.0.1:5173');
+   assert.equal(await share.locator('a.room-share-url').count(),0);
    shareLogo=await share.locator('.brand').evaluate(e=>({word:getComputedStyle(e).color,dot:getComputedStyle(e.querySelector('span:last-child')).color}));
    assert.equal(shareLogo.dot,'rgb(128, 168, 255)');
    const geometry=await share.evaluate(d=>{const r=d.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,topLayer:d.matches(':modal'),bg:getComputedStyle(d).backgroundColor};});assert.deepEqual([geometry.x,geometry.y,geometry.w,geometry.h],[0,0,390,844]);assert.equal(geometry.topLayer,true);

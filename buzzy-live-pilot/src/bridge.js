@@ -114,7 +114,7 @@ function project(value){
   let a=r.attempts.find(a=>a.number===c.a);if(!a){a={number:c.a,startedAt:c.startedAt,buzzes:[]};r.attempts.push(a);}
   a.buzzes=round.buzzes.map(b=>({id:b.playerId,name:b.name,order:b.order,time:Math.max(0,(b.acceptedAt-c.startedAt)/1000),result:b.result==='pending'?null:b.result,points:b.judgment?.delta||0}));
   r.awards=r.attempts.flatMap(a=>a.buzzes.filter(b=>b.result).map(b=>({id:b.id,name:b.name,result:b.result,points:b.points})));r.scoresAfter=Object.fromEntries(s.players.map(p=>[p.id,p.score]));
-  if(['closed','finished'].includes(c.phase)){r.archived=true;r.status=winner?'Correct answer':'Buzzers stopped · Awaiting scoring';if(!s.roundOverview.some(x=>x.id===r.id))s.roundOverview.push(r);}
+  if(['closed','finished'].includes(c.phase)){r.archived=true;r.status=winner?'Correct answer':round.buzzes.some(b=>b.result==='pending')?'Buzzers stopped · Awaiting scoring':round.buzzes.length?'Buzzers stopped · Scoring complete':'Buzzers stopped · No buzzes';if(!s.roundOverview.some(x=>x.id===r.id))s.roundOverview.push(r);}
  }
  s.attempts=(s.activeRound?.attempts||[]).filter(x=>x.number<c.a).map(x=>({number:x.number,buzzes:x.buzzes.map(b=>({...b}))}));
  for(const b of decisions){

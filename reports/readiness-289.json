@@ -1,7 +1,7 @@
 {
   "id": 289,
   "status": "Follow-up UI batch #304/#305/#313/#314/#315 published; real Android/Brave review pending; #293 separate",
-  "checkedAt": "2026-11-07T12:31:57Z",
+  "checkedAt": "2026-11-07T12:44:00Z",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 318,
+  "nextFreeIssueId": 320,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -485,7 +485,7 @@
     "status": "published; all GitHub verify and pilot steps passed; physical mobile review pending",
     "settingsAccordionSpacingPreserved": true,
     "databaseRulesChanged": false,
-    "nextFreeIssueId": 318,
+    "nextFreeIssueId": 320,
     "sourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
     "runId": "42370960695",
     "validation": {
@@ -515,6 +515,31 @@
       "sourceClue": "Room-code input has text-indent and centered text; placeholder and entered value use different letter-spacing",
       "uncertainty": "No new screenshot or browser measurement to distinguish dots from caret"
     },
-    "nextFreeIssueId": 318
+    "nextFreeIssueId": 320
+  },
+  "pendingLogoConsistency": {
+    "issue": 318,
+    "registeredAt": "2026-11-07T12:41:50Z",
+    "status": "registered only; no app, CSS, generator, test, or deployment changes",
+    "request": "Use the normal logo text color for z in every Buzzy logo variant; keep the dot accent-colored",
+    "sourceFindings": {
+      "landing": "The frozen landing reference wraps both z and the dot in spans colored by the same .brand span rule",
+      "host": "The live host generator wraps z in a bold element colored by .brand b and colors the dot separately",
+      "qrShare": "The QR share logo already renders z in the normal text color and colors only the dot"
+    },
+    "scope": "Normalize active logo render/generation paths while preserving logo text, size, spacing, shape, and the colored dot; do not edit the frozen landing reference",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "nextFreeIssueId": 320
+  },
+  "pendingPlayerReloadPresentation": {
+    "issue": 319,
+    "relatedFunctionalIssue": 293,
+    "registeredAt": "2026-11-07T12:44:00Z",
+    "status": "registered only; no app, CSS, test, or deployment changes",
+    "request": "Provide a calm player reload/reconnect state with a centered Buzzy logo and persistent, actionable failure messages",
+    "observed": "A blank dark page briefly shows Connecting to your room… and Leave room before changing state; the status is not readable in time",
+    "separation": "Issue 319 covers presentation and readable feedback during the transition; issue 293 covers successful session restoration and functional reconnect/error handling",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "nextFreeIssueId": 320
   }
 }

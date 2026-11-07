@@ -34,12 +34,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
 | #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Registrerat nu; ingen implementation. |
 | #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Registrerat nu; exakt källa behöver jämföras i tomt, fokuserat och ifyllt fält. Ingen implementation. |
+| #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Registrerat nu; källställen identifierade, ingen implementation. |
+| #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Registrerat nu, kopplat till funktionella återanslutningskrav i #293; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#316**.
+Nästa fria interna ID: **#320**.
 
 ## #293 — reproduktion och mål
 
@@ -255,4 +257,20 @@ När tomrummets punkter/markörer visas upplevs insättningsmarkören eller sjä
 
 Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter), tomt ofokuserat fält och delvis/fullt ifylld kod på mobil. Samordna centreringen så placeholder och faktisk kod delar samma visuella mitt; undvik att dekorativa tecken flyttar insättningsmarkören. Ingen CSS-, generator- eller teständring gjord.
 
-#316–317 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #318.
+#316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+
+## #318 — enhetlig färg på Buzzy-logotypen
+
+Ta bort den separata färgen från bokstaven z i alla aktiva Buzzy-logotyper, så att z har samma grundfärg som de övriga bokstäverna. Behåll punkten som färgad accent. Ändra inte logotypens text, storlek, avstånd eller övriga form.
+
+Källkontroll hittade tre olika varianter: förstasidans markup färgar både z och punkten genom två generella `.brand span`-element; hostens genererade header färgar z med `.brand b` och punkten separat; QR-delningens logotyp har redan omärkt z och accentfärgad punkt. Normalisera aktiva vyer/genereringsvägar mot det sistnämnda färgbeteendet. Den frysta förstasidan i `buzzy-output/buzzy_landing_v1.html` är referensmaterial och ska inte ändras som del av den senare fixen. Ingen app-, CSS- eller generatorändring, test eller publicering gjord vid registreringen.
+
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+
+## #319 — tydligare vänteläge vid omladdning av spelarvyn
+
+Vid omladdning av en spelarvy som tidigare var ansluten blinkar en tom mörk sida till med statusen ”Connecting to your room…” och en Leave room-länk. Statusen hinner inte läsas innan sidan byter läge. Användaren önskar ett avsiktligt, lugnt vänteläge med Buzzy-logotypen centrerad. Om återinloggning/återanslutning inte lyckas ska det relevanta beskedet ligga kvar tillräckligt länge och förklara nästa steg, till exempel återförsök eller att kontrollera om rummet fortfarande är öppet.
+
+Det visuella vänteläget ska samordnas med #293:s funktionella återställning av spelarens befintliga rumssession efter omladdning/nätbyte. Det här ID:t gäller läsbar status och presentationen under övergången; #293 fortsätter att gälla lyckad återanslutning och korrekt felhantering. Ta inte bort eller maskera ett slutligt fel med en evigt laddande logotyp. Ingen app/CSS-ändring, test eller publicering gjord vid registreringen.
+
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.

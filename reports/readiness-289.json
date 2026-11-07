@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 309,
+  "nextFreeIssueId": 311,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -463,13 +463,15 @@
       305,
       306,
       307,
-      308
+      308,
+      309,
+      310
     ],
     "registeredAt": "2026-11-07T00:58:04.319846+00:00",
     "status": "registered only; no UI implementation or new publication",
     "source": "User mobile screenshot/report after run42295900005",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "updatedAt": "2026-11-07T01:05:25.307497+00:00",
+    "updatedAt": "2026-11-07T01:09:12.301617+00:00",
     "animationFeedback": {
       "306": "Quick Play expansion lacks visible animation",
       "307": [
@@ -478,6 +480,20 @@
       ],
       "rootCausesVerified": false
     },
-    "removeDuplicateQrEntry": "Remove Settings Room information Show QR only; keep header sharing screen"
+    "removeDuplicateQrEntry": "Remove Settings Room information Show QR only; keep header sharing screen",
+    "settingsFeedback": {
+      "309": "All Room settings accordion sections collapsed by default",
+      "310": "Move Launch final celebration into Visual effects"
+    }
+  },
+  "pendingCelebrationRequests": {
+    "issues": [
+      283,
+      284
+    ],
+    "status": "previously registered and still unimplemented; not a regression from a completed fix",
+    "checkedSourceCommit": "5be3cf06ea404b0a155f65dbdebd22231686a735",
+    "report": "docs/CONFETTI_283_284.md",
+    "newTestsRun": false
   }
 }

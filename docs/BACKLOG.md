@@ -4,6 +4,8 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 
 | ID | Önskemål | Status |
 |---|---|---|
+| #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Tidigare registrerat, fortfarande ej genomfört. Källan till publicerad liveversion kontrollerad 2026-11-07; se CONFETTI_283_284.md. |
+| #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Tidigare reproducerat i oförändrad prototyp, fortfarande ej rättat i aktuell källa. Ingen ny ID behövs. |
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Registrerat 2026-11-06 för framtiden. Ingen utredning eller implementation körd. |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -23,12 +25,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Registrerat 2026-11-07 från mobilprov; två reproduktionsfall, ingen implementation. |
 | #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Registrerat 2026-11-07; samlas inför nästa körning, ingen implementation. |
+| #309 | Alla utfällbara sektioner under Room settings ska vara hopfällda som standard. | Registrerat 2026-11-07; ingen implementation. |
+| #310 | Flytta Launch final celebration från Session and history till Visual effects. | Registrerat 2026-11-07; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#309**.
+Nästa fria interna ID: **#311**.
 
 ## #293 — reproduktion och mål
 
@@ -94,7 +98,7 @@ Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken model
 
 ## UI-paketet genomfört efter körbeslut
 
-Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #309.
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #311.
 
 ## #304 — bottenmenyns visuella balans och rörliga markering
 
@@ -108,7 +112,7 @@ Användaren vill använda Play-rubrikens vertikala placering som referens för m
 
 Läskontroll: vyerna delar .appbar, men Play får .appbar-play med egna layoutregler och explicit margin:0 på h1. Knapparnas höjd påverkar dessutom den radens höjd. Den exakta skillnaden i mobilens rendering ska verifieras i nästa körning. Ingen UI-ändring eller ny publicering gjord.
 
-#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #309.
+#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #311.
 
 ## #306 — Quick Play-panelen saknar utfällningsanimation
 
@@ -124,10 +128,24 @@ Läskontroll: patchHostQuickControls kan ersätta editorns innerHTML vid panelby
 
 Målet är stabil, sammanhängande målning med bibehållna panelnoder där det behövs, utan synliga återstarter eller korta blinkningar när inställningen ändras. Behåll önskade befintliga övergångar, korrekt delning till deltagarna och deras egna öppnings-/stängningsförlopp. Samma krav som tidigare gäller: kort och listposter ska ligga still inom en vyanimation; lägg inte till egna kortanimationer.
 
-#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat. Nästa fria ID är #309.
+#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat. Nästa fria ID är #311.
 
 ## #308 — ta bort dubblerad QR-ingång i Settings
 
 Användaren vill ta bort QR under Room information eftersom funktionen nu finns i sidhuvudet. Detta avser Show QR-knappen i Settings-kortet. Behåll QR-knappen i sidhuvudet och dess befintliga fullskärmsvy med QR/webbadress/rumskod. Övrig rumsinformation och länkkopiering omfattas inte av borttagningen. Samlas med #304–307 enligt det etablerade arbetssättet; ingen UI-ändring gjord nu. Vid implementation ska motsvarande test som väntar på Settings QR-ingång uppdateras, medan headerns QR-funktion och fullskärmsprov bevaras.
 
-Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #309.
+Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #311.
+
+## #309 — Room settings hopfällt från start
+
+Alla utfällbara sektioner under Room settings ska börja hopfällda: Game and room, Display samt Sounds and effects. Källan initialiserar nu settingsOpen till game:true, display:true, effects:false. Ändringen gäller standardläget; användarens öppning/stängning ska sedan behållas under den aktuella vyn/sessionen och inte återställas av nätuppdateringar eller renderingar. Behåll befintliga tillgänglighetsattribut och jämna utfällningsanimationer. Ingen implementation gjord nu.
+
+## #310 — placera firandeknappen vid Visual effects
+
+Flytta den befintliga Launch final celebration-knappen från Session and history till Visual effects under Sounds and effects, tillsammans med inställningarna för firandet. Behåll en enda knapp och befintligt utlösnings-, av/på- och reduced-motion-beteende. Historikdelen ska fortsatt ha historikfunktionen. Ingen UI-ändring gjord nu.
+
+## #283–284 — konfettistatus förtydligad 2026-11-07
+
+På frågan om hörnutkastet redan är fixat: nej. Det tidigare underlaget i buzzy-output/BUZZY_CONFETTI_283_284.md säger uttryckligen att ingen produktändring körts. Underlaget har nu kopierats till [CONFETTI_283_284.md](CONFETTI_283_284.md) så att punkterna finns i den gemensamma repolistan. Kontroll av generatorbas, generator och genererad app bekräftar att confetti() fortfarande skapar partiklar över hela bredden som faller uppifrån, och att städtimern inte avbryter/ogiltigförklarar tidigare anrop. Detta är alltså väntande arbete, inte ett verifierat återfall efter en tidigare rättning. Det gamla diagnosprovet för #284 är historisk evidens; inga nya tester eller appändringar kördes nu. Behåll de ursprungliga ID-numren.
+
+Samlat väntande UI/effektarbete är nu #304–310 samt de tidigare ogjorda #283–284. #293 kvarstår som separat funktionsärende. Modell för nästa samlade körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #311.

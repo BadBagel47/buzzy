@@ -223,3 +223,7 @@ Användaren upplever olika mycket utrymme i botten INUTI korten i Players. Disco
 Läskontroll: Disconnected och Banned använder en direkt p.muted i tomt läge. CSS .theme-a .card.dynamic-player-card>.muted lägger 12px vertikal padding på den texten utöver kortets egen padding. Connected har tomtexten inuti .connected-player-list och träffas inte av samma direktbarnsregel. Detta är en konkret skillnad att kontrollera vid nästa körning; exakt visuellt bidrag har inte mätts i ett nytt browserprov nu.
 
 Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är #316.
+
+### Uttryckligt undantag till #315
+
+Användaren förtydligar att de utfällbara sektionerna under Settings har andra avstånd, men att dessa är korrekta och INTE ska ändras. Undanta deras befintliga padding, mellanrum och öppna/hopfällda layout från normaliseringen i #315. Använd inte en generell kortregel som även träffar Settings-accordionernas interna avstånd. #315 gäller den rapporterade obalansen i Players-korten, med övriga vanliga kort som jämförelse. Undantaget ändrar inte de separat rapporterade problemen med vyernas inledande placering (#305) eller den yttre slutmarginalen mot bottenmenyn (#313). Detta är ett förtydligande av samma punkt, inte ett nytt ID eller körbeslut.

@@ -414,6 +414,9 @@
     "request": "Consistent internal bottom spacing in Players cards, especially excessive empty Disconnected card space",
     "codeDifference": "Direct muted empty-state paragraph has additional 12px vertical padding; Connected empty-state paragraph is nested",
     "browserMeasurementMade": false,
-    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "clarifiedAt": "2026-11-07T07:37:48.778950+00:00",
+    "explicitExclusion": "Existing internal padding/spacing and expanded/collapsed layout of Settings accordion sections are correct and must remain unchanged",
+    "scopeNote": "Target Players card imbalance; separate outer viewport/heading alignment issues remain in #313/#305"
   }
 }

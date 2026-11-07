@@ -4,7 +4,7 @@
     320,
     321
   ],
-  "status": "implemented and verified locally; pilot publication pending",
+  "status": "published to pilot; physical Android/Brave verification pending",
   "previousPublishedSource": "1d2d4102147ee937e2ebe8cf51484e048cbe21f3",
   "codeFieldPixels": [
     {
@@ -285,5 +285,14 @@
     "buzzy-live-pilot/src/room-ui.css": "dec320aa417fa17ec5b6c007c9521d4ceaebbed8778ff1c68714aae3ae9808f4",
     "buzzy-live-pilot/src/bridge.js": "13eb6d547b500d36b6fde977e65b975e833ecfad38f7d646929343b2039205f0",
     "buzzy-live-pilot/tests/room-ui.integration.mjs": "5e39b3863b54b9d432fb4d6479d43c36e12fb0f288ae4797655e7a31f15f6d5d"
+  },
+  "publication": {
+    "runId": "42395979402",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42395979402",
+    "sourceCommit": "31aaf0c9301afe3c175a247075d1663fbab81cd3",
+    "workflowConclusion": "success",
+    "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
+    "evidence": "public workflow conclusion and exact source commit link",
+    "directSiteHttpVerified": false
   }
 }

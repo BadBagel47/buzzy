@@ -31,12 +31,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Återöppnat efter mobilprov av run42347839035: menyn lyfts vid skrollning och korta vyer får onödig skroll. Ingen ny rättning gjord. |
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Registrerat 2026-11-07. Bedömt som begränsad lokal effektändring; ingen implementation. |
+| #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Registrerat 2026-11-07; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#315**.
+Nästa fria interna ID: **#316**.
 
 ## #293 — reproduktion och mål
 
@@ -214,3 +215,11 @@ Med ”större” avsåg användaren främst spridningen över skärmen. Priorit
 Läskontroll: den frysta basen har margin-bottom:19px på .appbar men 12px på .appbar.appbar-play. Det senaste paketet enhetliggjorde rubrikens minhöjd men ersatte inte dessa olika underkanter. Den tidigare geometrikontrollen jämförde rubrikboxarnas centerhöjd och slutmarginalen, inte första kortets startkoordinat. Utöka nästa prov med rubrik och första innehållsruta relativt samma sidhuvud, samt visuell kontroll av Play-texten. Dessa kodfynd är verifierade; någon ny browserreproduktion eller UI-rättning har inte körts i registreringssteget.
 
 Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortsatt #315.
+
+## #315 — enhetligt inre bottenutrymme i Players-korten
+
+Användaren upplever olika mycket utrymme i botten INUTI korten i Players. Disconnected players verkar ha för mycket luft jämfört med andra kort både i Players och övriga vyer. Samordna avståndet från sista synliga innehållet till kortets nederkant enligt det etablerade kortmåttet, med hänsyn till olika innehåll. Detta gäller kortens inre luft; #313 avser i stället mellanrummet utanför sista kortet mot bottenmenyn och #305 de översta positionerna.
+
+Läskontroll: Disconnected och Banned använder en direkt p.muted i tomt läge. CSS .theme-a .card.dynamic-player-card>.muted lägger 12px vertikal padding på den texten utöver kortets egen padding. Connected har tomtexten inuti .connected-player-list och träffas inte av samma direktbarnsregel. Detta är en konkret skillnad att kontrollera vid nästa körning; exakt visuellt bidrag har inte mätts i ett nytt browserprov nu.
+
+Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är #316.

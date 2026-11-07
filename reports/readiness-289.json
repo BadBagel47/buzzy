@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 315,
+  "nextFreeIssueId": 316,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -405,6 +405,15 @@
     ],
     "confirmedSourceDifference": "General appbar margin-bottom 19px versus Play 12px; current override changes min-height only",
     "previousTestGap": "Compared heading center geometry, not first-card start or optical text centering",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
+  },
+  "pendingPlayerCardSpacing": {
+    "issue": 315,
+    "registeredAt": "2026-11-07T07:35:43.885447+00:00",
+    "status": "registered only; no implementation",
+    "request": "Consistent internal bottom spacing in Players cards, especially excessive empty Disconnected card space",
+    "codeDifference": "Direct muted empty-state paragraph has additional 12px vertical padding; Connected empty-state paragraph is nested",
+    "browserMeasurementMade": false,
     "modelRecommendation": "GPT-6.1 Sol, high reasoning"
   }
 }

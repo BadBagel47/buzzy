@@ -5,17 +5,53 @@ import jsQR from 'jsqr';
 import {browserHarness} from './browser-support.mjs';
 const report={status:'running',checks:[],layouts:[],errors:[]};
 const ready=p=>p.waitForFunction(()=>window.BuzzyView?.state.networkReady&&!document.documentElement.hasAttribute('data-network-busy'));
+async function fieldPixels(page,focused){
+ const field=page.locator('#room-code');await field.fill('');
+ if(focused)await field.focus();else await field.blur();
+ const png=await field.screenshot({caret:focused?'initial':'hide'});
+ return page.evaluate(async encoded=>{
+  const img=new Image();img.src='data:image/png;base64,'+encoded;await img.decode();
+  const canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;
+  const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);const {data}=ctx.getImageData(0,0,img.width,img.height);
+  const dots=[],caret=[];for(let y=16;y<img.height-16;y++)for(let x=8;x<img.width-8;x++){
+   const i=(y*img.width+x)*4,r=data[i],g=data[i+1],b=data[i+2];
+   if(Math.abs(r-111)<5&&Math.abs(g-136)<5&&Math.abs(b-173)<5)dots.push(x);
+   if(r>220&&g>230&&b>240)caret.push(x);
+  }
+  const offset=xs=>xs.length?(Math.min(...xs)+Math.max(...xs)+1)/2-img.width/2:null;
+  return {dots:offset(dots),caret:offset(caret),width:img.width};
+ },png.toString('base64'));
+}
 await test('UI batch: compact host, real sharing QR, fluid player and viewport transitions',async()=>{
  const h=await browserHarness();
  try{
   const host=await h.page();host.on('pageerror',e=>report.errors.push(e.message));
   const landingBrand=await host.evaluate(()=>{const logo=document.querySelector('.brand'),parts=logo.querySelectorAll('span'),input=document.querySelector('#room-code');return {word:getComputedStyle(logo).color,z:getComputedStyle(parts[0]).color,dot:getComputedStyle(parts[1]).color,indent:getComputedStyle(input).textIndent,letterSpacing:getComputedStyle(input).letterSpacing,placeholderSpacing:getComputedStyle(input,'::placeholder').letterSpacing,placeholderIndent:getComputedStyle(input,'::placeholder').textIndent};});
-  assert.equal(landingBrand.z,landingBrand.word);assert.equal(landingBrand.dot,'rgb(128, 168, 255)');assert.equal(landingBrand.indent,'0px');assert.equal(landingBrand.placeholderIndent,'0px');assert.equal(landingBrand.placeholderSpacing,landingBrand.letterSpacing);
+  assert.equal(landingBrand.z,landingBrand.word);assert.equal(landingBrand.dot,'rgb(128, 168, 255)');assert.equal(landingBrand.indent,'0px');assert.equal(landingBrand.placeholderIndent,landingBrand.placeholderSpacing);assert.equal(landingBrand.placeholderSpacing,landingBrand.letterSpacing);
+  report.codePixels=[];for(const width of [320,390,430]){await host.setViewportSize({width,height:844});report.codePixels.push({width,blurred:await fieldPixels(host,false),focused:await fieldPixels(host,true)});if(width===390)await host.locator('#room-code').screenshot({path:'reports/room-code-centered.png',caret:'initial'});}await host.setViewportSize({width:390,height:844});
   const badRoom=await h.page();await badRoom.locator('#room-code').fill('ZZZZ');await badRoom.locator('#player-name').fill('Wrong code');await badRoom.locator('.join-button').click();await badRoom.locator('#code-error').waitFor();
   assert.equal(await badRoom.locator('#room-code').inputValue(),'ZZZZ');assert.equal(await badRoom.locator('#room-code').getAttribute('aria-invalid'),'true');assert.match(await badRoom.locator('#code-error').textContent(),/couldn’t find a room.*Check the 4-character code/i);
   await badRoom.locator('#room-code').fill('ABCD');assert.equal(await badRoom.locator('#code-error').isVisible(),false);assert.equal(await badRoom.locator('#room-code').getAttribute('aria-invalid'),'false');
   report.checks.push({landingLogoAndRoomCode:landingBrand,roomNotFound:'Inline, actionable, keeps code, clears while editing'});
+  await host.addInitScript(()=>{window.headerSamples=[];function sample(){const header=document.querySelector('.room-host-header');if(header?.querySelector('.brand')&&document.querySelector('#network-retry')){const b=header.querySelector('.brand').getBoundingClientRect(),r=header.getBoundingClientRect();window.headerSamples.push({height:r.height,x:b.x,y:b.y,retry:!document.querySelector('#network-retry').hidden});}if(!window.stopHeaderSamples)requestAnimationFrame(sample);}requestAnimationFrame(sample);});
   await host.locator('#host-entry').click();await ready(host);const code=await host.evaluate(()=>window.BuzzyView.state.code);
+  await host.evaluate(()=>window.stopHeaderSamples=true);report.headerCold=await host.evaluate(()=>window.headerSamples);
+  await host.reload();await ready(host);await host.evaluate(()=>window.stopHeaderSamples=true);report.headerStartup=await host.evaluate(()=>window.headerSamples);
+  report.transitionStability=[];
+  for(const tab of ['players','questions','more','play']){
+   await host.locator(`[data-nav="${tab}"]`).click();
+   report.transitionStability.push(await host.evaluate(()=>{
+    const root=document.querySelector('#host-view-content'),incoming=root.querySelector('.host-push-incoming');
+    const boxes=scope=>{const bar=scope.querySelector('.appbar'),card=scope.querySelector('.card,.questions-split-heading');return {title:bar.querySelector('h1').getBoundingClientRect().y,card:card.getBoundingClientRect().y};};
+    if(!incoming)throw new Error('Expected view animation');
+    const animation=incoming.getAnimations()[0];animation.pause();animation.currentTime=279.99;const before=boxes(incoming);animation.finish();
+    return new Promise((resolve,reject)=>requestAnimationFrame(()=>requestAnimationFrame(()=>{try{resolve({tab:root.dataset.hostTab,before,after:boxes(document.querySelector('#host-view-content'))});}catch(error){reject(error);}})));
+   }));
+  }
+  assert.ok(report.codePixels.every(p=>p.blurred.dots!==null&&p.focused.dots!==null&&Math.abs(p.blurred.dots)<=1&&Math.abs(p.focused.dots)<=1&&p.focused.caret!==null&&Math.abs(p.focused.caret)<=1),JSON.stringify(report.codePixels));
+  assert.ok(report.transitionStability.every(p=>Math.abs(p.before.title-p.after.title)<.5&&Math.abs(p.before.card-p.after.card)<.5),JSON.stringify(report.transitionStability));
+  assert.ok(report.headerCold.length&&report.headerStartup.length);
+  assert.ok([...report.headerCold,...report.headerStartup].every(p=>Math.abs(p.height-report.headerStartup[0].height)<.5&&Math.abs(p.x-report.headerStartup[0].x)<.5&&Math.abs(p.y-report.headerStartup[0].y)<.5),JSON.stringify(report.headerStartup));
   const hostLogo=await host.evaluate(()=>{const e=document.querySelector('.room-host-header .brand'),z=e.querySelector('b'),dot=e.querySelector('span');return {word:getComputedStyle(e).color,z:getComputedStyle(z).color,dot:getComputedStyle(dot).color};});
   assert.equal(hostLogo.z,hostLogo.word);assert.equal(hostLogo.dot,'rgb(128, 168, 255)');
   await host.locator('[data-nav="questions"]').click();await host.locator('[data-action="new-question"]').click();await host.locator('#qtitle').fill('UI sample question');await host.locator('#qtext').fill('A prepared question for typography review');await host.locator('[data-action="save-question"]').click();await ready(host);

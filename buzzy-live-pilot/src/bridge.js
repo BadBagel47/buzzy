@@ -305,7 +305,8 @@ async function start(){
  let saved;try{saved=JSON.parse(sessionStorage.getItem(sessionKey));}catch{}
  if(!saved||saved.role!==role||!/^[A-HJ-NP-Z2-9]{4}$/.test(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
  code=saved.code;client=await getClient();
- stopConnection=client.watchConnection(value=>{connected=value;if(roomEnded){afterRender();return;}retry.hidden=value&&!blocked;if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
+ // Initial connection is pending, not a failure: keep retry out of the header until needed.
+ stopConnection=client.watchConnection(value=>{connected=value;if(roomEnded){afterRender();return;}retry.hidden=!blocked&&(!s.networkReady||value);if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
  await client.waitForConnection();
  const control=await client.read(`rooms/${code}/control`);if(!control)throw new Error('This room is no longer available.');
  latest={control,players:[],round:{id:control.r,attempt:control.a},loads:{}};

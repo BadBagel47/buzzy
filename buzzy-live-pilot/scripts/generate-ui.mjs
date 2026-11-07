@@ -83,6 +83,7 @@ for(const role of ['host','player']){
  </style><script>window.BUZZY_RUNTIME={role:${JSON.stringify(role)},transport:${JSON.stringify('spark-'+target)}};</script></head>`);
  app=app.replace('ROOM B7K4','ROOM —').replace('<div class="shell">','<div id="network-bar"><span id="network-status" role="status">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div><div class="shell">');
  if(role==='host'){
+  app=app.replace('<body class="buzzy-design-lab theme-a studio-ui ">','<body class="buzzy-design-lab theme-a studio-ui lab-host-view prototype-production">');
   app=app.replace(/<header class="headbar">[\s\S]*?<\/header>/,`<header class="headbar room-host-header"><div class="headinner"><div class="brand" aria-label="Buzzy">bu<b>z</b>zy<span style="color:#315de8">.</span></div><div id="network-bar"><span id="network-status" role="status">Connecting…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button></div><div class="room-header-actions"><button type="button" class="room-icon-button" id="room-share-qr" aria-label="Show room QR" title="Show room QR">${qrSvg}</button><button type="button" class="room-icon-button" id="room-copy-link" aria-label="Copy room link" title="Copy room link">${linkSvg}</button><button type="button" class="room-icon-button" id="leave-room" aria-label="Leave room" title="Leave room">${leaveSvg}</button></div><button id="previewtoggle" hidden></button></div></header>`);
   // The status controls now live in the header, with exactly one copy of each ID.
   app=app.replace(/<div id="network-bar"><span id="network-status" role="status">Connecting to your room…[\s\S]*?<\/a><\/div>/,'');
@@ -108,7 +109,9 @@ landing=landing.replace(/<title>[\s\S]*?<\/title>/,'<title>Buzzy · Join a game<
 landing=landing.replace(/<script>[\s\S]*?<\/script>/g,'').replace(/<dialog[\s\S]*?<\/dialog>/,'');
 landing=landing.replace('.brand span{color:var(--accent)}','.brand span:last-child{color:var(--accent)}');
 landing=landing.replace('letter-spacing:.22em;text-indent:.22em;text-align:center;', 'letter-spacing:.22em;text-indent:0;text-align:center;');
-landing=landing.replace('.room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}', '.room-code::placeholder{color:#6f88ad;letter-spacing:.22em;text-indent:0}');
+// Native letter-spacing includes trailing advance: offset the placeholder's ink,
+// while leaving the empty input's native caret at its true center.
+landing=landing.replace('.room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}', '.room-code::placeholder{color:#6f88ad;letter-spacing:.22em;text-indent:.22em}');
 landing=landing.replaceAll('6 characters','4 characters').replace('maxlength="12"','maxlength="4"').replace('placeholder="······"','placeholder="····"');
 landing=landing.replace('.join-button:active{transform:translateY(1px);filter:brightness(.94)}','.join-button:active{transform:scale(.98)}button{-webkit-tap-highlight-color:transparent}');
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');

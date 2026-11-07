@@ -100,8 +100,10 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .shell {
  margin-bottom:0;padding-bottom:calc(var(--host-nav-height) + var(--host-card-gap));
 }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content > .stack { gap:var(--host-card-gap); }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content { padding-top:3px; }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content > .appbar { margin-bottom:19px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content { --host-view-inset:3px;padding-top:var(--host-view-inset); }
+/* The animated wrappers and settled children must share the same geometry. */
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content :is(.host-push-incoming,.host-push-outgoing) { top:var(--host-view-inset); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { margin-bottom:19px; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav {
  display:flex;gap:4px;bottom:0;padding:7px 8px calc(7px + env(safe-area-inset-bottom));
 }

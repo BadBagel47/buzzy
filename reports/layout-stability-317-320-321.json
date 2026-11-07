@@ -1,0 +1,289 @@
+{
+  "issues": [
+    317,
+    320,
+    321
+  ],
+  "status": "implemented and verified locally; pilot publication pending",
+  "previousPublishedSource": "1d2d4102147ee937e2ebe8cf51484e048cbe21f3",
+  "codeFieldPixels": [
+    {
+      "width": 320,
+      "blurred": {
+        "dots": -0.5,
+        "caret": null,
+        "width": 246
+      },
+      "focused": {
+        "dots": -0.5,
+        "caret": 0.5,
+        "width": 246
+      }
+    },
+    {
+      "width": 390,
+      "blurred": {
+        "dots": 0,
+        "caret": null,
+        "width": 292
+      },
+      "focused": {
+        "dots": 0,
+        "caret": 0.5,
+        "width": 292
+      }
+    },
+    {
+      "width": 430,
+      "blurred": {
+        "dots": 0,
+        "caret": null,
+        "width": 332
+      },
+      "focused": {
+        "dots": 0,
+        "caret": 0.5,
+        "width": 332
+      }
+    }
+  ],
+  "hostTransitionGeometry": [
+    {
+      "tab": "players",
+      "before": {
+        "title": 76,
+        "card": 135
+      },
+      "after": {
+        "title": 76,
+        "card": 135
+      }
+    },
+    {
+      "tab": "questions",
+      "before": {
+        "title": 76,
+        "card": 135
+      },
+      "after": {
+        "title": 76,
+        "card": 135
+      }
+    },
+    {
+      "tab": "more",
+      "before": {
+        "title": 76,
+        "card": 135
+      },
+      "after": {
+        "title": 76,
+        "card": 135
+      }
+    },
+    {
+      "tab": "play",
+      "before": {
+        "title": 76,
+        "card": 184
+      },
+      "after": {
+        "title": 76,
+        "card": 184
+      }
+    }
+  ],
+  "hostFirstLoadFrames": [
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    }
+  ],
+  "hostReloadFrames": [
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    },
+    {
+      "height": 65,
+      "x": 16,
+      "y": 15.5,
+      "retry": false
+    }
+  ],
+  "checks": {
+    "configuration": "5 passed",
+    "pilotBuild": "passed",
+    "interceptedHttps": "1 passed; cloud requests intercepted",
+    "pilotUiGate": "4 passed",
+    "finalRoomUi": "passed"
+  },
+  "realAndroidBraveVerified": false,
+  "firebaseRulesChanged": false,
+  "sourceSha256": {
+    "buzzy-live-pilot/scripts/generate-ui.mjs": "ff373f4cadde9e5f67c49f533862e4846961578e609bdb4091692b6615c978b5",
+    "buzzy-live-pilot/src/room-ui.css": "dec320aa417fa17ec5b6c007c9521d4ceaebbed8778ff1c68714aae3ae9808f4",
+    "buzzy-live-pilot/src/bridge.js": "13eb6d547b500d36b6fde977e65b975e833ecfad38f7d646929343b2039205f0",
+    "buzzy-live-pilot/tests/room-ui.integration.mjs": "5e39b3863b54b9d432fb4d6479d43c36e12fb0f288ae4797655e7a31f15f6d5d"
+  }
+}

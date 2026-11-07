@@ -33,11 +33,11 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
 | #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Publicerat i run42380847677; mobilprov återstår. |
-| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Återöppnad efter publicering i run42380847677: användaren ser fortfarande att markören eller prickarna inte är centrerade. |
+| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning implementerad och verifierad med faktiska bildpunkter; inväntar publicering och mobilprov. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
-| #320 | Förhindra att hostens rubrik och innehåll flyttar sig nedåt när vybytesanimationen är färdig. | Registrerat efter mobilprov; ingen implementation. |
-| #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Registrerat efter mobilprov; ingen implementation. |
+| #320 | Förhindra att hostens rubrik och innehåll flyttar sig nedåt när vybytesanimationen är färdig. | Implementerat och verifierat lokalt; inväntar publicering och mobilprov. |
+| #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Implementerat och verifierat lokalt; inväntar publicering och mobilprov. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -294,3 +294,14 @@ Användaren ser att rubriken och innehållskorten hamnar en bit längre ned för
 ## #321 — Hostens sidhuvud förskjuts vid inladdning
 
 Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+
+
+## Samlad rättning #317, #320 och #321
+
+Genomförd efter användarens ”Kör den samlade rättningen”. #317: mätning av den renderade bilden visade att markören låg i mitten men att prickarnas grupp låg 3–4px till vänster. Endast placeholderns textindrag kompenserar nu för teckenavståndets avslutande bredd; insättningsmarkören behåller sitt ursprungliga centrum. Faktiska bildpunkter verifieras i tomt fokuserat/ofokuserat fält vid 320, 390 och 430px. Prickarnas centrumavvikelse är högst 0,5px, liksom markörens.
+
+#320: de tillfälliga absolutpositionerade animationsbehållarna startade före rotens 3px-padding och den direkta appbar-selektorn träffade inte rubrikraden under animationen. Behållarna får samma toppinpassning och appbar-regeln gäller även under övergången. Prov pausar den verkliga inkommande animationen strax före slutet och jämför rubrik och första kort före/efter upprensning för samtliga fyra hostvyer. Ingen mätbar vertikal förflyttning kvarstår i provet.
+
+#321: anslutningslyssnaren visade kort Try again redan under normal första anslutning, vilket ändrade huvudet från 65px till cirka 79,5px och tillbaka. Knappen förblir dold under den första väntan och visas fortfarande vid fel eller avbrott i en etablerad session. Hostens roll-/produktionsklasser finns också i den genererade HTML-koden före första rendering. Bildruteprov under första laddning och omladdning visar oförändrad huvudhöjd och logotypposition.
+
+Verifiering: config 5/5, pilotbygge, interceptat HTTPS-prov 1/1 och pilot-UI-gate 4/4 passerar. Se reports/layout-stability-317-320-321.json. Samtliga prov använde lokal emulator eller avlyssnade anrop. Ingen Firebase-regeländring ingår. Faktiskt Android/Brave-prov kvarstår efter publicering; de automatiska proven bevisar inte resultat på användarens enhet. Rättningen är ännu inte publicerad. Rekommenderad modell för detta samlade paket var GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.

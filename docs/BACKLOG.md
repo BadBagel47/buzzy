@@ -39,12 +39,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #320 | Förhindra att hostens rubrik och innehåll flyttar sig efter vybytesanimationen. | Återöppnad: vid byte till Questions flyttar Question queue-kortet uppåt när animationen är klar. Undersök geometrin före/efter övergången. |
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Registrerat efter mobilprov. Nuvarande källa skapar 96 partiklar; 200% mer tolkas som 288 totalt. Inte implementerat. |
+| #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#323**.
+Nästa fria interna ID: **#324**.
 
 ## #293 — reproduktion och mål
 

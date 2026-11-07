@@ -227,3 +227,10 @@ Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått
 ### Uttryckligt undantag till #315
 
 Användaren förtydligar att de utfällbara sektionerna under Settings har andra avstånd, men att dessa är korrekta och INTE ska ändras. Undanta deras befintliga padding, mellanrum och öppna/hopfällda layout från normaliseringen i #315. Använd inte en generell kortregel som även träffar Settings-accordionernas interna avstånd. #315 gäller den rapporterade obalansen i Players-korten, med övriga vanliga kort som jämförelse. Undantaget ändrar inte de separat rapporterade problemen med vyernas inledande placering (#305) eller den yttre slutmarginalen mot bottenmenyn (#313). Detta är ett förtydligande av samma punkt, inte ett nytt ID eller körbeslut.
+
+
+## Uppföljningsbatch #304, #305, #313, #314 och #315 efter ”Kör”
+
+Källändringarna är genomförda. #304: Play-etiketten centreras optiskt genom att justera dess ikon/textplacering; knappbredderna fortsätter följa innehållet och markeringen använder knapparnas faktiska geometri. #305: Play-radens bottenmarginal matchar övriga vyer och alla rubriker/första kort flyttas gemensamt 3px ned. #313: bottenmenyn har fast `bottom:0`, scrollberoende visualViewport-offset borttagen och hostens ärvda `min-height:100vh` upphävd; slutreserven baseras fortsatt på uppmätt menyhöjd plus samma kortmellanrum. #314: konfettin ökas från 64 till 96 bitar, får bredare/högre banor och måttligt större bitar; uppflygningen behåller 800–1000ms medan nedfärden blir 1100–1350ms. #315: extra 12px vertikal padding tas bort endast från tomma direkta muted-paragrafer i Players-kort. Settings-accordionernas befintliga avstånd/layout lämnas helt orörda.
+
+Källan är ännu inte testad eller publicerad efter dessa ändringar. De befintliga partikelantalspåståendena i integrationerna har uppdaterats till 96 för att motsvara det nya beteendet. Nästa fria ID är fortsatt #316; #293 och #290 ligger separat.

@@ -4,9 +4,6 @@ export function installHostLayout(){
  const root=document.documentElement,motion=matchMedia('(prefers-reduced-motion: reduce)');
  function update(){
   frame=null;if(!nav?.isConnected)return;
-  const viewport=window.visualViewport;
-  const bottom=viewport&&viewport.scale===1?Math.max(0,innerHeight-viewport.height-viewport.offsetTop):0;
-  root.style.setProperty('--host-visual-bottom',`${bottom}px`);
   const active=nav.querySelector('[data-nav].active');if(!active)return;
   const box=nav.getBoundingClientRect(),button=active.getBoundingClientRect(),style=getComputedStyle(nav);
   root.style.setProperty('--host-nav-height',`${box.height}px`);
@@ -25,7 +22,7 @@ export function installHostLayout(){
   if(current!==nav){observer?.disconnect();animation?.cancel();nav=current;target=null;if(nav){observer=new ResizeObserver(schedule);observer.observe(nav);nav.querySelectorAll('[data-nav]').forEach(b=>observer.observe(b));}}
   update();
  }
- addEventListener('resize',schedule);window.visualViewport?.addEventListener('resize',schedule);window.visualViewport?.addEventListener('scroll',schedule);
+ addEventListener('resize',schedule);
  document.fonts?.ready.then(schedule);motion.addEventListener('change',()=>{animation?.cancel();schedule();});
  return {sync};
 }

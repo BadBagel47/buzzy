@@ -1,4 +1,4 @@
-// #283–284: two corner bursts; a new launch owns its particles and cleanup.
+// #283–284, #314: broad corner bursts; a new launch owns its particles and cleanup.
 export function createCelebration(enabled){
  let cleanup,serial=0;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -8,13 +8,13 @@ export function createCelebration(enabled){
   clear();if(motion.matches||!enabled())return;
   const root=document.getElementById('confetti');if(!root)return;
   const token=serial,{width,height}=root.getBoundingClientRect(),colors=['#315de8','#28b589','#f0b64a','#df6897','#9a80ea'];let finish=0;
-  for(let i=0;i<64;i++){
+  for(let i=0;i<96;i++){
    const side=i%2===0?'left':'right',direction=side==='left'?1:-1;
-   const startX=side==='left'?-8:width+8,startY=height+12;
-   const distance=width*(.6+Math.random()*.35),lift=height*(.55+Math.random()*.35),rotation=Math.random()*360;
-   const duration=1600+Math.random()*400,delay=Math.random()*180;
+   const startX=side==='left'?-9:width+9,startY=height+12;
+   const distance=width*(.62+Math.random()*.85),lift=height*(.72+Math.random()*.34),rotation=Math.random()*360;
+   const ascent=800+Math.random()*200,descent=1100+Math.random()*250,duration=ascent+descent,delay=Math.random()*180;
    const particle=document.createElement('i');particle.className='celebration-particle';particle.dataset.origin=side;particle.style.background=colors[i%colors.length];root.append(particle);
-   const frames=Array.from({length:17},(_,n)=>{const t=n/16;return {offset:t,transform:`translate(${startX+direction*distance*t}px,${startY-4*lift*t*(1-t)}px) rotate(${rotation+direction*720*t}deg)`,opacity:t===0||t===1?0:1};});
+   const frames=Array.from({length:17},(_,n)=>{const t=n/16,offset=t<=.5?2*t*ascent/duration:(ascent+2*(t-.5)*descent)/duration;return {offset,transform:`translate(${startX+direction*distance*t}px,${startY-4*lift*t*(1-t)}px) rotate(${rotation+direction*720*t}deg)`,opacity:t===0||t===1?0:1};});
    particle.animate(frames,{duration,delay,easing:'linear',fill:'both'});finish=Math.max(finish,duration+delay);
   }
   cleanup=setTimeout(()=>{if(serial===token)clear();},finish+80);

@@ -29,3 +29,18 @@ Slutkontrollerna är gröna: 32 poster i full emulatorregression, 5 config/recov
 #313 är återöppnat: användarens Android/Brave-bilder visar att bottenmenyn ibland lyfts från nederkanten när man skrollar upp, och att en kort Questions-vy med tom kö får onödig skrollning. Tidigare automatiska prov är fortfarande giltig historisk evidens för de körda viewportfallen, men täckte inte detta verkliga browserförlopp. Se BACKLOG.md. Ingen ny appändring genomförd för återkopplingen ännu.
 
 Även #304 och #305 är återöppnade från fortsatta mobilbilder: Play-knappens text upplevs ocentrerad; rubrik och första kortets start behöver samordnas över alla vyer och placeras något lägre även i Play. Basens olika .appbar-marginaler (19px generellt, 12px i Play) kvarstod efter ändrad minhöjd. Tidigare prov mätte rubrikboxens center men inte första kortets start. Se BACKLOG.md; ingen ny UI-rättning genomförd ännu.
+
+
+## Uppföljning efter Android/Brave-bilderna — #304, #305 och #313
+
+Efter det senare ”Kör” är källan justerad: Play-etiketten flyttas till optiskt centrum i knappens visuella grupp utan att ändra innehållsanpassade knappbredder eller den uppmätta markeringen. Alla hostvyer får samma appbar-undermarginal; Play hade tidigare 12px mot 19px i övriga vyer. Hela rubrik-/kortinnehållet sänks gemensamt 3px. Bottenmenyn ligger vid `bottom:0`; JavaScript flyttar den inte längre när `visualViewport` scrollar. Den extra 100vh-minhöjden tas bort för hostläget, och innehållets slutreserv består av den uppmätta menyhöjden plus 14px.
+
+## #314 — bredare konfetti
+
+Partikelmängden ökas från 64 till 96. Startpunkterna är fortsatt de nedre hörnen; banorna sprids bredare över X-led och högre över skärmen, och bitarna ändras måttligt från 8×14 till 9×16px. Tiden till banans topp behåller 800–1000ms. Nedfärden får 1100–1350ms genom WAAPI-offsets och städtimern följer den nya sluttiden. Av/på, reduced-motion och skydd mot äldre timers som rensar en ny effekt behålls.
+
+## #315 — avstånd i Players-kort
+
+Tilläggspaddingen för tomma direkta `.muted`-texter i Players-kort tas bort. Regeln är avgränsad till `.dynamic-player-card` och träffar inte Settings-accordionernas inre avstånd eller öppna/hopfällda layout, som användaren uttryckligen vill behålla.
+
+Dessa uppföljningsändringar finns nu i källan. De har **inte** verifierats med browser-/emulatortest och är **inte** publicerade ännu. Den tidigare gröna verifierings-/publiceringshistoriken i denna guide avser källan `97d0b4a`; den ersätter inte kontroll av uppföljningen. Verklig Android/Brave-kontroll av verktygsrad och safe-area återstår också.

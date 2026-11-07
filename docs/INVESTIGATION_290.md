@@ -1,6 +1,6 @@
 # #290 — vibration vid spelarens buzz
 
-Utredning 2026-11-07. Modell vald för avgränsad research: Luna. Ingen appkod ändrad enbart genom denna utredning.
+Utredning 2026-11-07. Modell vald för avgränsad research: Luna. Efterföljande implementation använder en enda 40 ms lokal puls vid spelarens giltiga buzztryck.
 
 ## Slutsats
 
@@ -16,9 +16,11 @@ Spelarens knapp är `.coin-buzzer` och dess buzz-händelse går via `buzz(id)` i
 
 API:t är progressiv förbättring: kontrollera att `navigator.vibrate` finns och anropa det endast för ett giltigt spelartryck. Om API saknas eller anropet misslyckas ska spelets nuvarande visuella och ljudmässiga återkoppling fortsätta utan fel eller ändrat spelbeteende. Mönster bör hållas korta och enkla, exempelvis en enda puls på cirka 30–50 ms; undvik långa eller upprepade pulser. Ingen vibration ska läggas på hostens kontroller.
 
-## Rekommenderat nästa steg
+## Implementerat
 
-Om punkten godkänns för implementation: lägg till en kort lokal puls på Android där API finns, med befintlig knapp-feedback som fallback. Bekräfta på riktig Android/Brave-telefon att det fungerar vid tryck och inte vid låsta/otillgängliga knappar. Kontrollera också att iPhone/Safari fortsätter fungera normalt utan vibration. Beslut om en av/på-inställning är ännu inte taget.
+I `buzzy-live-pilot/src/bridge.js` görs anropet direkt när spelarens giltiga buzztryck hanteras och före det asynkrona Firebase-kommandot. Om API:t saknas eller kastar fel ignoreras det och spelet fortsätter oförändrat. Ingen vibration begärs från hostkontroller och ingen databastrafik tillkommer.
+
+Riktig Android/Brave-provning behövs för att bekräfta haptik på enheten. iPhone/Safari ska fortsätta fungera normalt utan vibration. En separat av/på-inställning har inte lagts till.
 
 ## Referenser
 

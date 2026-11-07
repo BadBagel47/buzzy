@@ -222,6 +222,9 @@ function handle(action){
 }
 function buzz(id){
  if(isHost||id!==client?.uid){api.tip('Buzz from your own player view.');return;}
+ // Give immediate local feedback from the user's tap; unsupported or disabled
+ // vibration must never interfere with sending the buzz to Firebase.
+ if(typeof navigator!=='undefined'&&typeof navigator.vibrate==='function')try{navigator.vibrate(40);}catch{}
  operation(async()=>{await command('buzz');},{save:false});
 }
 function maybeExpire(){

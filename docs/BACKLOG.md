@@ -45,7 +45,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | New question ligger ovanför texten som fullbreddsknapp i källan. |
 | #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Rundstatus skiljer nu pending-bedömningar från färdigbedömda felaktiga svar i källan. |
 | #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | QR-vyn visar domän som text; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
-| #329 | Dubbla tiden som konfettin skjuts ut, med oförändrat partikelantal och samma uppflygning och dalning. | Registrerat. Dagens slumpade startfördröjning är 0–180 ms; dubbelt innebär 0–360 ms. Ingen appändring gjord. |
+| #329 | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Registrerat. Startfördröjningen 0–180 ms ökas till 0–360 ms och antalet 288 till 432 bitar. ”Bussar” tolkas som konfettibitar. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 

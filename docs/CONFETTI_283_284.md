@@ -1,3 +1,7 @@
+# Senare status: rättning i källan
+
+#283–284 har nu genomförts efter användarens körbeslut för det samlade paketet. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Publicering/mobilprov återstår. Underlaget nedan beskriver den tidigare ogjorda statusen och diagnosen före rättningen.
+
 # Statuskontroll 2026-11-07
 
 #283 och #284 är fortfarande ogjorda i källan till den publicerade liveversionen (5be3cf06ea404b0a155f65dbdebd22231686a735). Nedan följer det tidigare underlaget, oförändrat. Dess hänvisning till nästa ID285 gäller den tidpunkten; aktuell lista finns i BACKLOG.md. Inga nya tester eller produktändringar kördes vid denna statuskontroll.

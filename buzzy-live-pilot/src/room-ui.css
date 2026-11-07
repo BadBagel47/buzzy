@@ -77,3 +77,31 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #hostconten
 
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui :is(.library-card-overline,.library-card-preview,.library-card-meta span,.library-status,.library-filter-select,.library-actions-column .btn,.library-section-head .btn,.duration-custom-label,.setting-requires-note,.settings-group,.header-round-overview,.header-leaderboard) { font-size:var(--host-small-text); }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-icon-button:disabled { opacity:.5;cursor:default; }
+
+/* #304–305, #312–313: shared host geometry and standard button hierarchy. */
+html[data-network-role=host] { --host-card-gap:14px;--host-nav-height:70px;--host-visual-bottom:0px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .shell {
+ margin-bottom:0;padding-bottom:calc(var(--host-nav-height) + var(--host-visual-bottom) + var(--host-card-gap));
+}
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content > .stack { gap:var(--host-card-gap); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav {
+ display:flex;gap:4px;bottom:var(--host-visual-bottom);padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+}
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button {
+ flex:1 1 auto;min-width:0;width:auto;padding:8px;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+}
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button svg { width:18px;height:18px;flex:none; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav::before {
+ left:0;top:var(--nav-highlight-top,7px);bottom:auto;width:var(--nav-highlight-width,0px);height:var(--nav-highlight-height,48px);
+ transform:translateX(var(--nav-highlight-left,0px));transition:none;
+}
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav:not([data-nav-geometry-ready])::before { visibility:hidden; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { min-height:40px;align-items:center; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar > h1 { display:flex;align-items:center;min-height:40px;margin:0;line-height:1.2; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui [data-action="end-room"] { border:1px solid var(--red);color:var(--red);background:#fff; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui [data-action="celebrate"] { border:1px solid #a6bdd7;background:#eff4fa;color:#23446d; }
+@media(max-width:360px) {
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button { flex-direction:column;padding-inline:4px;gap:3px; }
+}
+/* The global celebration uses its own upward trajectories, not the old fall. */
+.confetti i.celebration-particle { left:0;top:0;width:8px;height:14px;animation:none;will-change:transform,opacity; }

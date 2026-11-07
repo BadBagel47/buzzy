@@ -7,10 +7,11 @@ const cache=process.env.FIREBASE_EMULATORS_PATH||'/tmp/buzzy-firebase-emulators'
 mkdirSync(cache,{recursive:true});
 const configHome='/tmp/buzzy-firebase-config';mkdirSync(configHome,{recursive:true});
 const mode=process.argv[2];
-if(!['start','test','ui','production','transport','pilot-ui','room-ui'].includes(mode))throw new Error('Use start, test, ui, production, transport, pilot-ui or room-ui.');
+if(!['start','test','ui','production','transport','pilot-ui','room-ui','refinements'].includes(mode))throw new Error('Use start, test, ui, production, transport, pilot-ui, room-ui or refinements.');
 const args=['--project','demo-buzzy-ui','--config',path.join(root,'firebase.json')];
 if(mode==='test')args.unshift('emulators:exec','--only','auth,database','npm run test:integration');
-else if(mode==='pilot-ui')args.unshift('emulators:exec','--only','auth,database','node --test --test-concurrency=1 tests/room-exit.integration.mjs tests/transport-csp.integration.mjs tests/room-ui.integration.mjs');
+else if(mode==='pilot-ui')args.unshift('emulators:exec','--only','auth,database','node --test --test-concurrency=1 tests/room-exit.integration.mjs tests/transport-csp.integration.mjs tests/room-ui.integration.mjs tests/ui-refinements.integration.mjs');
+else if(mode==='refinements')args.unshift('emulators:exec','--only','auth,database','node --test tests/ui-refinements.integration.mjs');
 else if(mode==='room-ui')args.unshift('emulators:exec','--only','auth,database','node --test tests/room-ui.integration.mjs');
 else if(mode==='transport')args.unshift('emulators:exec','--only','auth,database','node --test tests/transport-csp.integration.mjs');
 else if(mode==='ui')args.unshift('emulators:exec','--only','auth,database','node --test tests/ui.integration.mjs');

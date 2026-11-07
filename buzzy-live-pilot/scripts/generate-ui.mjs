@@ -1,5 +1,6 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {applyUiBatch} from './ui-batch-304-313.mjs';
 const target=process.env.VITE_BUZZY_TARGET||'emulator';if(!['emulator','pilot'].includes(target))throw new Error('Invalid build target');
 const output=new URL('../../buzzy-output/',import.meta.url);
 const base=readFileSync(new URL('buzzy_midnight_studio_v7_51.html',output),'utf8');
@@ -33,6 +34,7 @@ const qrSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="cur
 const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 13 4-4M8 16l-1 1a4.2 4.2 0 0 1-6-6l4-4a4.2 4.2 0 0 1 6 0M16 8l1-1a4.2 4.2 0 0 1 6 6l-4 4a4.2 4.2 0 0 1-6 0" transform="translate(1 0) scale(.92 1)"/></svg>';
 // The frozen #287 standalone reference remains untouched.
 
+html=applyUiBatch(html);
 for(const role of ['host','player']){
  let app=html.replace('<html ',`<html data-network-role="${role}" `);
  if(role==='player')app=app.replace("${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}","<div class=\"player-header-actions\">${state.leaderboard&&p.status!=='queued'?`<button class=\"player-scores-trigger\" data-action=\"player-leaderboard\" type=\"button\" aria-label=\"Open leaderboard\" title=\"Leaderboard\">${trophyIcon()}</button>`:''}<button type=\"button\" class=\"player-scores-trigger player-leave-trigger\" data-action=\"network-open-leave\" aria-label=\"Leave room\" title=\"Leave room\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 5H5v14h4M13 8l4 4-4 4M9 12h12\"/></svg></button></div>");

@@ -61,7 +61,7 @@ await test('Existing Buzzy UI connected to independent Spark identities',async t
    const deny=await a.evaluate(async code=>{const c=await import('/src/client.js').then(m=>m.getClient());try{await c.read(`rooms/${code}/private/ui`);return false;}catch{return true;}},code);assert.equal(deny,true);
   });
   await step('Prepared custom points, zero floor and untimed First Buzz keep the prototype behavior',async()=>{
-   await host.locator('[data-nav="more"]').click();await host.locator('[data-toggle="allowNegativeScores"]').uncheck();await idle(host);await host.locator('[data-nav="play"]').click();
+   await host.locator('[data-nav="more"]').click();await host.locator('[data-action="toggle-settings-section:game"]').click();await host.locator('[data-toggle="allowNegativeScores"]').uncheck();await idle(host);await host.locator('[data-nav="play"]').click();
    if((await state(host)).mode!=='first')await host.locator('[data-action="switch-mode"]').click();
    await host.locator('[data-action="option:timer"]').click();await host.locator('#play-custom-seconds').fill('1');await host.locator('#play-custom-seconds').press('Tab');await host.locator('[data-action="set-timer:0"]').click();
    await host.waitForFunction(()=>window.BuzzyView.state.timer===false);await new Promise(r=>setTimeout(r,120));await idle(host);await host.locator('.quickplay-main[data-action="open"]').click();

@@ -4,8 +4,8 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 
 | ID | Önskemål | Status |
 |---|---|---|
-| #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Tidigare registrerat, fortfarande ej genomfört. Källan till publicerad liveversion kontrollerad 2026-11-07; se CONFETTI_283_284.md. |
-| #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Tidigare reproducerat i oförändrad prototyp, fortfarande ej rättat i aktuell källa. Ingen ny ID behövs. |
+| #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Registrerat 2026-11-06 för framtiden. Ingen utredning eller implementation körd. |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -20,16 +20,16 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
-| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
-| #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Registrerat 2026-11-07 från mobilprov; ingen implementation. |
-| #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Registrerat 2026-11-07 från mobilprov; två reproduktionsfall, ingen implementation. |
-| #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Registrerat 2026-11-07; samlas inför nästa körning, ingen implementation. |
-| #309 | Alla utfällbara sektioner under Room settings ska vara hopfällda som standard. | Registrerat 2026-11-07; ingen implementation. |
-| #310 | Flytta Launch final celebration från Session and history till Visual effects. | Registrerat 2026-11-07; ingen implementation. |
-| #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Registrerat 2026-11-07; kopplat till flytten i #310, ingen implementation. |
-| #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Registrerat 2026-11-07; ingen implementation. |
-| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Registrerat 2026-11-07 med två mobilbilder; ingen implementation. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #309 | Alla utfällbara sektioner under Room settings ska vara hopfällda som standard. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #310 | Flytta Launch final celebration från Session and history till Visual effects. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #312 | Ge End game en tydligt röd knappkant i stället för den färg användaren upplever som gulorange. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
+| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Genomfört i det godkända paketet; slutprov är gröna. Publicering och mobilprov återstår. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -172,3 +172,7 @@ Vid full nedskrollning av längre innehåll ska hela sista kortet och dess nedre
 Läskontroll: nuvarande källa kombinerar en position:fixed-bottenmeny med safe-area-padding, flera responsiva shell-paddingregler och en separat 30px-slutspacer från renderaren. Registrera dessa som granskningsspår; exakt samspel med Android/Braves dynamiska webbläsarverktygsrad är inte verifierat i detta steg. Ingen app/CSS-ändring, testkörning eller ny publicering gjord.
 
 Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat. Rekommenderad modell vid nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+
+## Genomfört paket efter ”Kör de i listan”
+
+Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är fortsatt #314.

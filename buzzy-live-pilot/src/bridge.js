@@ -1,6 +1,8 @@
 import {deadline} from './connection.js';
 import {getClient} from './client.js';
 import {installRoomUi} from './room-ui.js';
+import {patchHostMarkup} from './host-markup.js';
+import {createCelebration} from './celebration.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores'];
@@ -11,6 +13,7 @@ let blocked=false,roomEnded=false,exitTask=null;
 const localActions=new Set(['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal','network-open-leave','network-confirm-exit','network-return-start']);
 let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGeneration=0,stopKey='',expiryKey='';
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
+const celebration=createCelebration(()=>s.celebration);
 const roomUi=installRoomUi({api,isHost,getCode:()=>code});
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
@@ -147,7 +150,7 @@ async function preparePlayer(p){
  try{await client.command({action:'ready',code,key:p.loadKey,status:result});}catch(e){if(generation===loadGeneration)api.tip('Unable to confirm question readiness.');}
 }
 function afterRender(){
- syncExitControls();roomUi.sync();
+ syncExitControls();roomUi.sync();celebration.sync();
  if(!s.networkReady)return;
  document.documentElement.toggleAttribute('data-network-busy',busy||!connected||blocked);
  const badge=document.querySelector('.headbar .tag.desktoponly');if(badge)badge.textContent=isHost?'HOST':'PLAYER';document.title=`Buzzy · ${isHost?'Host':'Player'}`;
@@ -208,6 +211,7 @@ function handle(action){
  if(['next-question','next-quick'].includes(action)){
   if(s.phase==='open'||(s.buzzes.length&&s.lastDecision!=='correct'))return false;advance(action);return true;
  }
+ if(action==='set-play-mode:quick'&&s.quickQuestion)return false;
  if(action.startsWith('set-play-mode:')&&!['open','locked','closed'].includes(s.phase)&&!s.buzzes.length){operation(async()=>runLocal(()=>api.handle(action)));return true;}
  if(action==='round-overview'||action==='history'||action==='export-history'){afterIdle(()=>operation(async()=>{await loadArchive();runLocal(()=>api.handle(action));},{save:false}));return true;}
  if(action.startsWith('apply-adjust:')){const id=action.split(':')[1],delta=Number(document.getElementById('adjustval')?.value);operation(async()=>{await command('adjust',{playerId:id,delta,allowNegative:s.allowNegativeScores,name:s.players.find(p=>p.id===id)?.name});s.modal='';},{save:false});return true;}
@@ -264,7 +268,7 @@ function ended(){
  if(!exitTask){s.modal='network-ended';api.render();}afterRender();
 }
 function leave(){stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
-window.BuzzyNetwork={get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
+window.BuzzyNetwork={patchHostPage:(root,markup)=>patchHostMarkup(root,markup,root.id==='host-view-content'?s.hostTab:undefined),celebrateVisual:celebration.launch,get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
 // Preserve controls' own disabled state: retained modal/source nodes must unlock after a request.
 for(const type of ['click','keydown'])document.addEventListener(type,event=>{
  if(type==='keydown'&&!['Enter',' '].includes(event.key))return;

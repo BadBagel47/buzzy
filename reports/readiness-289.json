@@ -1,7 +1,7 @@
 {
   "id": 289,
-  "status": "UI batch published successfully in run42295900005; physical mobile review pending; player reload UX #293 remains open",
-  "checkedAt": "2026-11-06T22:14:29.964675+00:00",
+  "status": "UI/effects batch #304–313/#283–284 implemented and locally verified; pilot publication and physical mobile review pending; #293 separate",
+  "checkedAt": "2026-11-07T01:40:16.467129+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -471,7 +471,7 @@
       313
     ],
     "registeredAt": "2026-11-07T00:58:04.319846+00:00",
-    "status": "registered only; no UI implementation or new publication",
+    "status": "implemented and locally verified after explicit approval; publication/mobile review pending",
     "source": "User mobile screenshot/report after run42295900005",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
     "updatedAt": "2026-11-07T01:13:36.269415+00:00",
@@ -504,9 +504,41 @@
       283,
       284
     ],
-    "status": "previously registered and still unimplemented; not a regression from a completed fix",
+    "status": "implemented and locally verified; publication/mobile review pending",
     "checkedSourceCommit": "5be3cf06ea404b0a155f65dbdebd22231686a735",
     "report": "docs/CONFETTI_283_284.md",
     "newTestsRun": false
+  },
+  "uiRefinementsBatch": {
+    "issues": [
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312,
+      313,
+      283,
+      284
+    ],
+    "authorizedBy": "Kör de i listan",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning",
+    "status": "implemented and locally verified; manual pilot publication and physical mobile review pending",
+    "databaseRulesChanged": false,
+    "report": "reports/ui-refinements-304-313.json",
+    "physicalAndroidBraveVerified": false,
+    "validationCounts": {
+      "fullEmulatorRegression": 32,
+      "finalNativeUiRegression": 15,
+      "configuration": 5,
+      "operationsGuards": 20,
+      "builtProductionGameAndLayout": 1,
+      "interceptedHttpsPilot": 1,
+      "finalPilotUiGate": 4
+    },
+    "guide": "docs/UI_REFINEMENTS_304_313.md"
   }
 }

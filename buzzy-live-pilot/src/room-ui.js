@@ -1,6 +1,8 @@
+import {installHostLayout} from './host-layout.js';
 // UI-only helpers. Room permissions, membership and exit semantics stay in bridge.js.
 export function installRoomUi({api,isHost,getCode}) {
  let observed,observer,share,returnFocus,returnFocusSelector,previousOverflow,shareGeneration=0;
+ const hostLayout=isHost?installHostLayout():null;
  const url=()=>`${location.origin}/?room=${getCode()}`;
  function resizeBuzzer(){
   if(!observed?.isConnected)return;
@@ -9,7 +11,7 @@ export function installRoomUi({api,isHost,getCode}) {
   const phone=observed.closest('.phone');phone.style.setProperty('--room-buzzer-size',`${size}px`);phone.style.setProperty('--buzzy-content-scale',String(Math.max(0,(size-10)/237)));
  }
  function sync(){
-  if(isHost){for(const id of ['room-share-qr','room-copy-link'])document.getElementById(id).disabled=!api.state.networkReady;return;}
+  if(isHost){for(const id of ['room-share-qr','room-copy-link'])document.getElementById(id).disabled=!api.state.networkReady;hostLayout.sync();return;}
   const slot=document.querySelector('.player-buzzer-space');
   if(slot!==observed){observer?.disconnect();observed=slot;if(slot){observer=new ResizeObserver(resizeBuzzer);observer.observe(slot);}}
   resizeBuzzer();

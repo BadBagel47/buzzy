@@ -1,7 +1,7 @@
 {
   "id": 289,
   "status": "Follow-up UI batch #304/#305/#313/#314/#315 published; real Android/Brave review pending; #293 separate",
-  "checkedAt": "2026-11-07T12:44:00Z",
+  "checkedAt": "2026-11-07T12:55:26Z",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -523,13 +523,16 @@
     "status": "registered only; no app, CSS, generator, test, or deployment changes",
     "request": "Use the normal logo text color for z in every Buzzy logo variant; keep the dot accent-colored",
     "sourceFindings": {
-      "landing": "The frozen landing reference wraps both z and the dot in spans colored by the same .brand span rule",
+      "landing": "The active landing page is generated from the frozen v1 HTML reference; its .brand span rule accents both the z and the dot",
       "host": "The live host generator wraps z in a bold element colored by .brand b and colors the dot separately",
       "qrShare": "The QR share logo already renders z in the normal text color and colors only the dot"
     },
-    "scope": "Normalize active logo render/generation paths while preserving logo text, size, spacing, shape, and the colored dot; do not edit the frozen landing reference",
+    "scope": "Normalize active logo render/generation paths, including the live landing page, while preserving logo text, size, spacing, shape, and the colored dot",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "nextFreeIssueId": 320
+    "nextFreeIssueId": 320,
+    "clarifiedAt": "2026-11-07T12:55:26Z",
+    "activeLandingConfirmedInScope": true,
+    "implementationNote": "Keep the frozen v1 reference unchanged; adjust the generator styling so the active landing page renders an unaccented z and accented dot"
   },
   "pendingPlayerReloadPresentation": {
     "issue": 319,

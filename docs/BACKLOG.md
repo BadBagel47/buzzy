@@ -263,7 +263,7 @@ Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter)
 
 Ta bort den separata färgen från bokstaven z i alla aktiva Buzzy-logotyper, så att z har samma grundfärg som de övriga bokstäverna. Behåll punkten som färgad accent. Ändra inte logotypens text, storlek, avstånd eller övriga form.
 
-Källkontroll hittade tre olika varianter: förstasidans markup färgar både z och punkten genom två generella `.brand span`-element; hostens genererade header färgar z med `.brand b` och punkten separat; QR-delningens logotyp har redan omärkt z och accentfärgad punkt. Normalisera aktiva vyer/genereringsvägar mot det sistnämnda färgbeteendet. Den frysta förstasidan i `buzzy-output/buzzy_landing_v1.html` är referensmaterial och ska inte ändras som del av den senare fixen. Ingen app-, CSS- eller generatorändring, test eller publicering gjord vid registreringen.
+Källkontroll hittade tre olika varianter: den aktiva landningssidan genereras från `buzzy-output/buzzy_landing_v1.html`, där markupen färgar både z och punkten genom två generella `.brand span`-element; hostens genererade header färgar z med `.brand b` och punkten separat; QR-delningens logotyp har redan omärkt z och accentfärgad punkt. Användaren har bekräftat att även den aktiva landningssidan ska rättas. Normalisera aktiva vyer/genereringsvägar mot QR-logotypens färgbeteende. Bevara den frysta v1-referensfilen och justera landningssidans stil i generatorn, så aktivt resultat får ofärgat z och fortsatt färgad punkt. Ingen app-, CSS- eller generatorändring, test eller publicering gjord vid registreringen.
 
 Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
 

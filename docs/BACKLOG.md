@@ -33,7 +33,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
 | #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Publicerat i run42380847677; mobilprov återstår. |
-| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Publicerat i run42380847677; mobilprov återstår. |
+| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Återöppnad efter publicering i run42380847677: användaren ser fortfarande att markören eller prickarna inte är centrerade. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
 
@@ -256,6 +256,10 @@ Rekommenderad lösning vid implementation: visa ett kort, mänskligt besked dire
 När tomrummets punkter/markörer visas upplevs insättningsmarkören eller själva punktgruppen inte ligga i centrum. Användaren vet inte vilken av dem som ger intrycket. Källgranskning hittar i frysta landing-stilarna centrerad text plus `text-indent` och separata `letter-spacing`-värden för riktig kod (`.22em`) respektive placeholder (`.3em`). Generatorn för livevyn kortar placeholdern till fyra punkter. Detta gör de olika måtten till ett konkret spår, men orsaken är inte fastställd utan visuell jämförelse.
 
 Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter), tomt ofokuserat fält och delvis/fullt ifylld kod på mobil. Samordna centreringen så placeholder och faktisk kod delar samma visuella mitt; undvik att dekorativa tecken flyttar insättningsmarkören. Ingen CSS-, generator- eller teständring gjord.
+
+### #317 återöppnad efter publicering
+
+Efter publicering i run42380847677 upplever användaren fortfarande att insättningsmarkören på förstasidan inte hamnar i mitten, alternativt att punktgruppen i fältet är förskjuten. Den tidigare ändringen tog bort extra `text-indent` och matchade teckenavståndet mellan placeholder och riktig kod. Det tillhörande testet verifierar CSS-värdena, men inte den faktiskt renderade positionen för markör/glyfer. Rotorsaken är därför fortfarande okänd. Bevara den frysta v1-referensen; granska den aktiva genererade sidan och jämför tomt ofokuserat, tomt fokuserat och ifyllt fält i riktig mobilvy innan en riktad rättning. Ingen kodändring eller ny publicering gjord i denna uppföljning. Rekommenderad modell för den avgränsade visuella korrigeringen: GPT-6.1 Luna Max.
 
 #316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
 

@@ -1,7 +1,7 @@
 {
   "id": 289,
   "status": "Follow-up UI batch #304/#305/#313/#314/#315 published; real Android/Brave review pending; #293 separate",
-  "checkedAt": "2026-11-07T12:55:26Z",
+  "checkedAt": "2026-11-07T12:59:19Z",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -521,18 +521,18 @@
     "issue": 318,
     "registeredAt": "2026-11-07T12:41:50Z",
     "status": "registered only; no app, CSS, generator, test, or deployment changes",
-    "request": "Use the normal logo text color for z in every Buzzy logo variant; keep the dot accent-colored",
+    "request": "Let z inherit the local logo text color for contrast; use the landing-page accent color #80a8ff for the dot at every active logo location",
     "sourceFindings": {
-      "landing": "The active landing page is generated from the frozen v1 HTML reference; its .brand span rule accents both the z and the dot",
-      "host": "The live host generator wraps z in a bold element colored by .brand b and colors the dot separately",
-      "qrShare": "The QR share logo already renders z in the normal text color and colors only the dot"
+      "landing": "Active page is generated from frozen v1 HTML; .brand span colors both z and dot using --accent #80a8ff",
+      "hostAndPlayer": "Base header colors z with .brand b (--blue #315de8) and currently colors the dot #315de8",
+      "qrShare": "QR share colors only the dot, currently #67a5ff"
     },
-    "scope": "Normalize active logo render/generation paths, including the live landing page, while preserving logo text, size, spacing, shape, and the colored dot",
+    "scope": "Normalize active logo render/generation paths in landing, host, player and QR sharing; preserve each context’s text contrast and use the landing accent #80a8ff for the dot; preserve logo shape, sizing and spacing",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
     "nextFreeIssueId": 320,
-    "clarifiedAt": "2026-11-07T12:55:26Z",
+    "clarifiedAt": "2026-11-07T12:59:19Z",
     "activeLandingConfirmedInScope": true,
-    "implementationNote": "Keep the frozen v1 reference unchanged; adjust the generator styling so the active landing page renders an unaccented z and accented dot"
+    "implementationNote": "Do not force one text color everywhere. Remove the separate z accent so it inherits the word color; change the active dot color values to #80a5ff. Keep the frozen v1 source as reference and adjust active generation/rendering paths."
   },
   "pendingPlayerReloadPresentation": {
     "issue": 319,

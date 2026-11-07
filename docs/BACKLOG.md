@@ -36,12 +36,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Återöppnad efter publicering i run42380847677: användaren ser fortfarande att markören eller prickarna inte är centrerade. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
+| #320 | Förhindra att hostens rubrik och innehåll flyttar sig nedåt när vybytesanimationen är färdig. | Registrerat efter mobilprov; ingen implementation. |
+| #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Registrerat efter mobilprov; ingen implementation. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; framtidspunkten #290 är fortsatt enbart registrerad.
 
-Nästa fria interna ID: **#320**.
+Nästa fria interna ID: **#322**.
 
 ## #293 — reproduktion och mål
 
@@ -284,3 +286,11 @@ Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 
 Efter användarens ”Kör” är #316–319 implementerade i källan. #316 visar Room not found direkt under rumskoden, behåller den inmatade koden och ger ett tydligt nästa steg. #317 tar bort den extra textindragningen och ger platshållaren samma teckenavstånd som den riktiga koden. #318 låter z:et ärva logotypens lokala textfärg och använder landningssidans accentfärg `#80a8ff` på punkten vid landning, host, spelare och QR-delning; den frysta v1-referensen är orörd. #319 visar under omladdning en centrerad logotyp och beständig status, med återförsök och lämna-länk när anslutningen misslyckas. Detta är endast återkoppling och presentation; funktionell återanslutning i #293 är inte ändrad.
 
 Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Publicerad som pilot i [run42380847677](https://github.com/BadBagel47/buzzy/actions/runs/42380847677), från källcommit `1d2d4102147ee937e2ebe8cf51484e048cbe21f3`; workflowet slutfördes framgångsrikt. Endast pilotkanalen publicerades, med ett dygns giltighet; inga databasregler ändrades. Android/Brave-mobilprov återstår. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+
+## #320 — Hostvyn flyttar sig efter vybytesanimation
+
+Användaren ser att rubriken och innehållskorten hamnar en bit längre ned först när animationen mellan hostvyerna har avslutats. Registrera som ett eget stabilitetsfel efter övergången. Jämför slutlig rubrik-/kortgeometri före och efter Play, Players, Questions och Settings-vybyten, inklusive upprepade/snabba byten och både visad och dold mobil-webbläsarrad. Ingen CSS- eller animationsändring gjord. Rekommenderad modell tillsammans med #321: GPT-6.1 Sol med högt resonemang.
+
+## #321 — Hostens sidhuvud förskjuts vid inladdning
+
+Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.

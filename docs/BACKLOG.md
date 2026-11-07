@@ -20,7 +20,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnad igen: senaste mobilbilden visar att Play-innehållet fortfarande upplevs förskjutet. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnad igen: ikon och Play saknar mellanrum, till skillnad från övriga knappar; innehållets centrering behöver också rättas. |
 | #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Uppföljning publicerad i run42370960695; fysisk visuell bekräftelse återstår. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -36,7 +36,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning publicerad i run42395979402; mobilprov återstår. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
-| #320 | Förhindra att hostens rubrik och innehåll flyttar sig nedåt när vybytesanimationen är färdig. | Publicerat i run42395979402; mobilprov återstår. |
+| #320 | Förhindra att hostens rubrik och innehåll flyttar sig efter vybytesanimationen. | Återöppnad: vid byte till Questions flyttar Question queue-kortet uppåt när animationen är klar. Undersök geometrin före/efter övergången. |
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Registrerat efter mobilprov. Nuvarande källa skapar 96 partiklar; 200% mer tolkas som 288 totalt. Inte implementerat. |
 
@@ -290,7 +290,7 @@ Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med fel
 
 ## #320 — Hostvyn flyttar sig efter vybytesanimation
 
-Användaren ser att rubriken och innehållskorten hamnar en bit längre ned först när animationen mellan hostvyerna har avslutats. Registrera som ett eget stabilitetsfel efter övergången. Jämför slutlig rubrik-/kortgeometri före och efter Play, Players, Questions och Settings-vybyten, inklusive upprepade/snabba byten och både visad och dold mobil-webbläsarrad. Ingen CSS- eller animationsändring gjord. Rekommenderad modell tillsammans med #321: GPT-6.1 Sol med högt resonemang.
+Användaren ser att rubriken och innehållskorten hamnar en bit längre ned först när animationen mellan hostvyerna har avslutats. Ny observation: vid byte till Questions rör sig Question queue-kortet uppåt efter animationen. Jämför rubrikens och första kortets slutgeometri före och efter Play, Players, Questions och Settings-vybyten, inklusive upprepade/snabba byten och både visad och dold mobil-webbläsarrad. Ingen CSS- eller animationsändring gjord. Rekommenderad modell för felsökning/rättning: GPT-6.1 Sol med högt resonemang, eftersom förskjutningen uppträder i övergångens slutskede.
 
 ## #321 — Hostens sidhuvud förskjuts vid inladdning
 
@@ -298,7 +298,7 @@ Vid första inladdning eller omladdning visas hostens sidhuvud först på en pos
 
 ## #304 — återöppnad efter nytt mobilprov
 
-Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upplevs förskjutna åt vänster inom den markerade knappen. Behåll #304: jämför innehållets visuella placering med markeringens kanter och övriga knappar både i valt och ovalt läge samt på relevanta mobilbredder. Den aktiva CSS-koden har särskilda horisontella förskjutningar på ikonen och texten; de är ett granskningsspår, inte en fastställd orsak. Registrerat utan appändring eller publicering. Rekommenderad modell för rättningen: GPT-6.1 Terra; Luna kan användas för mindre avgränsade ändringar och registreringar.
+Användarens nya mobilbild visar att Play-knappens ikon och text fortfarande upplevs förskjutna åt vänster inom den markerade knappen. Senaste observationen preciserar ett synligt fel: det saknas mellanrum mellan blixtsymbolen och Play-texten, fastän övriga bottenknappar har mellanrum. Jämför ikon/textplacering med markeringens kanter i valt och ovalt läge och återställ ett enhetligt mellanrum på relevanta mobilbredder. Den aktiva CSS-koden har särskilda horisontella förskjutningar på ikonen och texten; de är ett granskningsspår, inte en fastställd orsak. Registrerat utan appändring eller publicering. Rekommenderad modell för rättningen: GPT-6.1 Terra; Luna kan användas för mindre avgränsade ändringar och registreringar.
 
 
 ## Samlad rättning #317, #320 och #321

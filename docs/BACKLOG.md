@@ -42,12 +42,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
 | #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning och placering används överallt och att inget stängkryss missas. | Källinventering klar: hittade modal-, leaderboard/round overview/buzz order-, snabbinställnings- och QR-delning-kryss. Visuell kontroll och rättning väntar. |
 | #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Registrerat: föreslagen placering är på samma rad som Buzz results. Nuvarande data visar aktiva deltagare, inte säker live-närvaro för varje telefon; välj korrekt etikett utan extra Firebase-trafik. |
+| #326 | I Questions-vyn ska knappen för ny fråga ligga under instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Registrerat. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#326**.
+Nästa fria interna ID: **#327**.
 
 ## #293 — reproduktion och mål
 
@@ -310,6 +311,10 @@ Mobilbilden på ”Move to the next question?” visar ett kryss vars placering 
 ## #325 — antal spelare i Play
 
 Visa en kompakt spelarräkning kvar på hostens Play-vy. Förslag: lägg en liten etikett på befintlig Buzz results-rubrikrad, bredvid resultat-/buzzräkningen, så ingen ny kortyta eller vertikal höjd tillkommer. Källan har redan `activePlayers()` och visar samma tal som nämnaren i `x/y buzzes`; detta avser aktiva rumsdeltagare. Den läser inte tillförlitlig närvaro för varje enhet just nu, så märk inte talet som telefoner som bevisligen är online. Lösningen bör inte lägga till nya Firebase-lyssnare eller trafik. Ingen UI-ändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
+
+## #326 — fullbreddsknapp för ny fråga
+
+I Questions-vyn ligger “+ New question” nu bredvid introduktionstexten. Flytta knappen till en egen rad direkt under texten i samma ruta och använd den befintliga fullbreddsmallen för åtgärdsknappar. Ta bort plustecknet om det behövs för att följa samma knappstil och etiketter som övriga vyer. Behåll befintlig åtgärd och formulär. Ingen kodändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

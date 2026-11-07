@@ -1,7 +1,7 @@
 {
   "id": 289,
-  "status": "Source follow-up implemented for #304/#305/#313/#314/#315; validation and publication pending; #293 remains separate",
-  "checkedAt": "2026-11-07T07:48:33Z",
+  "status": "Follow-up UI batch #304/#305/#313/#314/#315 published; real Android/Brave review pending; #293 separate",
+  "checkedAt": "2026-11-07T12:23:56Z",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -216,19 +216,20 @@
     "runId": "42258255116"
   },
   "latestPilotExecution": {
-    "runId": "42347839035",
-    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42347839035",
-    "sourceCommit": "97d0b4aed18229b17b786a58a9580ac1d792df76",
-    "verifyJob": "128329342482",
-    "pilotJob": "128329819965",
+    "runId": "42370960695",
+    "runUrl": "https://github.com/BadBagel47/buzzy/actions/runs/42370960695",
+    "sourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "verifyJob": "128398801475",
+    "pilotJob": "128399301776",
     "allStepConclusions": "success",
-    "uiRefinementsRegression": "success",
-    "publishStepCompletedAt": "2026-11-07T06:40:16Z",
+    "verifyStepCount": 14,
+    "pilotStepCount": 15,
+    "publishStepCompletedAt": "2026-11-07T12:08:37Z",
     "knownChannelUrl": "https://buzzy-197dc--pilot-mrst5vi1.web.app",
     "physicalAndroidBraveVerified": false,
     "directSiteHttpChecked": false,
-    "checkedAt": "2026-11-07T06:50:23.519430+00:00",
-    "evidence": "Public GitHub job steps and selected source commit; known existing channel URL previously supplied by user"
+    "checkedAt": "2026-11-07T12:23:56Z",
+    "evidence": "Public GitHub run page and all 14 verify/15 pilot job steps; pilot source commit matches the UI follow-up commit"
   },
   "userRoomCreationConfirmed": true,
   "openMobileRegression": {
@@ -345,7 +346,7 @@
     ],
     "authorizedBy": "Kör de i listan",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "status": "Prior source published; mobile-feedback follow-up implemented in source, validation/publication pending",
+    "status": "Follow-up for #304/#305/#313/#314/#315 published; physical Android/Brave review pending",
     "databaseRulesChanged": false,
     "report": "reports/ui-refinements-304-313.json",
     "physicalAndroidBraveVerified": false,
@@ -368,15 +369,23 @@
       314,
       315
     ],
-    "followupSourceCommit": "pending commit",
+    "followupSourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
     "followupTestsRun": false,
-    "followupPublished": false
+    "followupPublished": true,
+    "followupRunId": "42370960695",
+    "followupValidation": {
+      "verifySteps": 14,
+      "pilotSteps": 15,
+      "allConclusions": "success",
+      "localTestsRun": false,
+      "workflowValidation": "passed"
+    }
   },
   "openMobileUiLayoutRegression": {
     "issue": 313,
     "reportedAt": "2026-11-07T07:22:57.615047+00:00",
     "publishedSource": "97d0b4aed18229b17b786a58a9580ac1d792df76",
-    "status": "source adjustment implemented; validation and publication pending",
+    "status": "published; physical Android/Brave recheck pending",
     "symptoms": [
       "Bottom navigation sometimes rises above browser toolbar when scrolling upward",
       "Empty Questions view scrolls despite content expected to fit"
@@ -392,12 +401,15 @@
       "Fixed bottom navigation at bottom:0; removed visualViewport scroll-derived offset",
       "Removed inherited host min-height:100vh; retained measured navigation clearance plus card gap"
     ],
-    "physicalAndroidBraveVerified": false
+    "physicalAndroidBraveVerified": false,
+    "publishedSourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "publishedRunId": "42370960695",
+    "physicalReviewComplete": false
   },
   "pendingCelebrationRefinement": {
     "issue": 314,
     "registeredAt": "2026-11-07T07:25:51.550983+00:00",
-    "status": "implemented in source; validation and publication pending",
+    "status": "published; physical mobile review pending",
     "request": "More confetti and primarily wider/full-screen spread; modestly larger individual pieces are welcome but secondary; preserve ascent pace and slightly slow descent",
     "effortAssessment": "Limited local particle sizing, spread and timing adjustment in existing effect",
     "condition": "User would skip if a major change were necessary; current code review indicates that is not necessary",
@@ -414,7 +426,10 @@
       "descentMs": "1100–1350, increased",
       "spread": "Wider horizontal travel and higher arcs"
     },
-    "testsRun": false
+    "testsRun": false,
+    "publishedSourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "publishedRunId": "42370960695",
+    "physicalReviewComplete": false
   },
   "openMobileUiAlignmentFeedback": {
     "issues": [
@@ -422,7 +437,7 @@
       305
     ],
     "reportedAt": "2026-11-07T07:32:07.458261+00:00",
-    "status": "source adjustment implemented; validation and publication pending",
+    "status": "published; physical visual confirmation pending",
     "symptoms": [
       "Play bottom-navigation text still appears off-center",
       "Heading and first-card positions should match across views; move common start slightly lower including Play"
@@ -435,12 +450,15 @@
       "Shared 19px appbar bottom margin",
       "Shared host content shifted down 3px"
     ],
-    "testsRun": false
+    "testsRun": false,
+    "publishedSourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "publishedRunId": "42370960695",
+    "physicalReviewComplete": false
   },
   "pendingPlayerCardSpacing": {
     "issue": 315,
     "registeredAt": "2026-11-07T07:35:43.885447+00:00",
-    "status": "implemented in source; validation and publication pending",
+    "status": "published; physical visual confirmation pending",
     "request": "Consistent internal bottom spacing in Players cards, especially excessive empty Disconnected card space",
     "codeDifference": "Direct muted empty-state paragraph has additional 12px vertical padding; Connected empty-state paragraph is nested",
     "browserMeasurementMade": false,
@@ -450,7 +468,10 @@
     "scopeNote": "Target Players card imbalance; separate outer viewport/heading alignment issues remain in #313/#305",
     "implementation": "Removed extra vertical padding only from direct muted paragraphs inside Players dynamic cards",
     "settingsAccordionChanged": false,
-    "testsRun": false
+    "testsRun": false,
+    "publishedSourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "publishedRunId": "42370960695",
+    "physicalReviewComplete": false
   },
   "followupBatch": {
     "issues": [
@@ -461,9 +482,19 @@
       315
     ],
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "status": "source changes ready on main; tests/build/publication pending",
+    "status": "published; all GitHub verify and pilot steps passed; physical mobile review pending",
     "settingsAccordionSpacingPreserved": true,
     "databaseRulesChanged": false,
-    "nextFreeIssueId": 316
+    "nextFreeIssueId": 316,
+    "sourceCommit": "975b94b0b8f28a75ac0043037b0d58fc174793c0",
+    "runId": "42370960695",
+    "validation": {
+      "verifySteps": 14,
+      "pilotSteps": 15,
+      "allSteps": "success",
+      "localTestsRun": false,
+      "hostingPublished": true
+    },
+    "physicalAndroidBraveVerified": false
   }
 }

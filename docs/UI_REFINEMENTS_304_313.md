@@ -43,4 +43,9 @@ Partikelmängden ökas från 64 till 96. Startpunkterna är fortsatt de nedre h�
 
 Tilläggspaddingen för tomma direkta `.muted`-texter i Players-kort tas bort. Regeln är avgränsad till `.dynamic-player-card` och träffar inte Settings-accordionernas inre avstånd eller öppna/hopfällda layout, som användaren uttryckligen vill behålla.
 
-Dessa uppföljningsändringar finns nu i källan. De har **inte** verifierats med browser-/emulatortest och är **inte** publicerade ännu. Den tidigare gröna verifierings-/publiceringshistoriken i denna guide avser källan `97d0b4a`; den ersätter inte kontroll av uppföljningen. Verklig Android/Brave-kontroll av verktygsrad och safe-area återstår också.
+Vid registreringen av uppföljningsändringarna hade de ännu inte verifierats eller publicerats; statusen uppdateras i avsnittet nedan. Den tidigare gröna verifieringshistoriken gäller källan `97d0b4a` och ersätter inte kontroll av uppföljningen. Verklig Android/Brave-kontroll av verktygsrad och safe-area återstår.
+
+
+## Uppföljningsbatchen publicerad
+
+GitHub Actions [run42370960695](https://github.com/BadBagel47/buzzy/actions/runs/42370960695) byggde och verifierade källan `975b94b0b8f28a75ac0043037b0d58fc174793c0`. Verify-jobbets 14 steg och pilotjobbets 15 steg passerade. Hosting-publiceringen slutfördes 2026-11-07T12:08:37Z till den befintliga pilotkanalen: https://buzzy-197dc--pilot-mrst5vi1.web.app. Den här körningen publicerade Hosting; inga databasregler ändrades. Automatiska CI-kontroller passerade, men verkligt Android/Brave-prov av bottenmenyn, scrollning och spacing återstår.

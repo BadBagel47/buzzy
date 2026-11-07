@@ -233,4 +233,9 @@ Användaren förtydligar att de utfällbara sektionerna under Settings har andra
 
 Källändringarna är genomförda. #304: Play-etiketten centreras optiskt genom att justera dess ikon/textplacering; knappbredderna fortsätter följa innehållet och markeringen använder knapparnas faktiska geometri. #305: Play-radens bottenmarginal matchar övriga vyer och alla rubriker/första kort flyttas gemensamt 3px ned. #313: bottenmenyn har fast `bottom:0`, scrollberoende visualViewport-offset borttagen och hostens ärvda `min-height:100vh` upphävd; slutreserven baseras fortsatt på uppmätt menyhöjd plus samma kortmellanrum. #314: konfettin ökas från 64 till 96 bitar, får bredare/högre banor och måttligt större bitar; uppflygningen behåller 800–1000ms medan nedfärden blir 1100–1350ms. #315: extra 12px vertikal padding tas bort endast från tomma direkta muted-paragrafer i Players-kort. Settings-accordionernas befintliga avstånd/layout lämnas helt orörda.
 
-Källan är ännu inte testad eller publicerad efter dessa ändringar. De befintliga partikelantalspåståendena i integrationerna har uppdaterats till 96 för att motsvara det nya beteendet. Nästa fria ID är fortsatt #316; #293 och #290 ligger separat.
+Vid källändringen var dessa ändringar ännu inte testade eller publicerade. De befintliga partikelantalspåståendena i integrationerna uppdaterades till 96 för att motsvara det nya beteendet. Nästa fria ID är fortsatt #316; #293 och #290 ligger separat.
+
+
+### Publiceringsstatus för uppföljningsbatchen
+
+Publicerad efter körbeslut i [run42370960695](https://github.com/BadBagel47/buzzy/actions/runs/42370960695) från källa `975b94b0b8f28a75ac0043037b0d58fc174793c0`. Verify-jobbet (14 steg) och pilotjobbet (15 steg) passerade; Hosting-steget slutfördes 2026-11-07T12:08:37Z. Publiceringens kanal är https://buzzy-197dc--pilot-mrst5vi1.web.app. Ingen Firebase-regeländring ingick. Fysisk Android/Brave-kontroll återstår.

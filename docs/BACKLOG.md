@@ -42,7 +42,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Registrerat utifrån mobilbild. Ingen appändring gjord. |
 | #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ att samma visuella riktning och placering används överallt och att inget stängkryss missas. | Källinventering klar: hittade modal-, leaderboard/round overview/buzz order-, snabbinställnings- och QR-delning-kryss. Visuell kontroll och rättning väntar. |
 | #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Registrerat: föreslagen placering är på samma rad som Buzz results. Nuvarande data visar aktiva deltagare, inte säker live-närvaro för varje telefon; välj korrekt etikett utan extra Firebase-trafik. |
-| #326 | I Questions-vyn ska knappen för ny fråga ligga under instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Registrerat. Ingen appändring gjord. |
+| #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Registrerat. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
@@ -314,7 +314,7 @@ Visa en kompakt spelarräkning kvar på hostens Play-vy. Förslag: lägg en lite
 
 ## #326 — fullbreddsknapp för ny fråga
 
-I Questions-vyn ligger “+ New question” nu bredvid introduktionstexten. Flytta knappen till en egen rad direkt under texten i samma ruta och använd den befintliga fullbreddsmallen för åtgärdsknappar. Ta bort plustecknet om det behövs för att följa samma knappstil och etiketter som övriga vyer. Behåll befintlig åtgärd och formulär. Ingen kodändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
+I Questions-vyn ligger “+ New question” nu bredvid introduktionstexten. Flytta knappen till en egen rad ovanför texten i samma ruta och använd den befintliga fullbreddsmallen för åtgärdsknappar. Ta bort plustecknet om det behövs för att följa samma knappstil och etiketter som övriga vyer. Behåll befintlig åtgärd och formulär. Ingen kodändring gjord. Rekommenderad modell för denna avgränsade UI-ändring: GPT-6.1 Terra.
 
 
 ## Samlad rättning #317, #320 och #321

@@ -163,7 +163,7 @@
     "Remove obsolete name-only inventory IAM binding",
     "Main Hosting publication remains a separate decision"
   ],
-  "nextFreeIssueId": 313,
+  "nextFreeIssueId": 314,
   "sourceUploadCheckedAt": "2026-11-05T19:34:44.806412+00:00",
   "rulesPublicationProposal": {
     "status": "approved and user-published; current console copy JSON verified",
@@ -467,13 +467,14 @@
       309,
       310,
       311,
-      312
+      312,
+      313
     ],
     "registeredAt": "2026-11-07T00:58:04.319846+00:00",
     "status": "registered only; no UI implementation or new publication",
     "source": "User mobile screenshot/report after run42295900005",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "updatedAt": "2026-11-07T01:10:34.416953+00:00",
+    "updatedAt": "2026-11-07T01:13:36.269415+00:00",
     "animationFeedback": {
       "306": "Quick Play expansion lacks visible animation",
       "307": [
@@ -490,6 +491,12 @@
     "buttonFeedback": {
       "311": "Rename to Launch celebration for all and use normal host button colors; combine with #310 move",
       "312": "End game normal button border red; preserve focus and confirmation behavior"
+    },
+    "bottomSpacingFeedback": {
+      "issue": 313,
+      "requirement": "At full scroll, last card clears app bottom navigation by the same gap used between cards; consistent across host tabs with browser toolbar visible or hidden",
+      "evidence": "Two user Android/Brave screenshots",
+      "rootCauseVerified": false
     }
   },
   "pendingCelebrationRequests": {

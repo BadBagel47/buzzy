@@ -6,7 +6,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 |---|---|---|
 | #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Implementerat: en lokal puls på 40 ms vid giltigt buzztryck när webbläsaren stöder Vibration API. Ingen extra Firebase-trafik. Buildkontroll återstår; riktig mobilprovning krävs för att bekräfta enhetsstöd. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
+| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Första implementationen publicerad i run42410517841. Användaren märker ingen vibration i Brave; kontrollera att testet gjordes på spelarens aktiva buzzer och felsök sedan enheten/webbläsaren. Ingen extra Firebase-trafik. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerad tillsammans med #293 i run42234619437; mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Återöppnat: spelarens omladdning upplevs fastna på Connecting to your room. Host i annan flik på samma mobil. Kortare väntan/återförsök behövs; ingen 30s-timeout bekräftad. Se [RECONNECT_293.md](RECONNECT_293.md). |
@@ -20,7 +20,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnad efter mobilbild: Play-knappens innehåll upplevs fortfarande inte centrerat. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnad igen: senaste mobilbilden visar att Play-innehållet fortfarande upplevs förskjutet. |
 | #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Uppföljning publicerad i run42370960695; fysisk visuell bekräftelse återstår. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -38,12 +38,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
 | #320 | Förhindra att hostens rubrik och innehåll flyttar sig nedåt när vybytesanimationen är färdig. | Publicerat i run42395979402; mobilprov återstår. |
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
+| #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Registrerat efter mobilprov. Nuvarande källa skapar 96 partiklar; 200% mer tolkas som 288 totalt. Inte implementerat. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#322**.
+Nästa fria interna ID: **#323**.
 
 ## #293 — reproduktion och mål
 

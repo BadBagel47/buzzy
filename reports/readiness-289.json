@@ -1,7 +1,7 @@
 {
   "id": 289,
-  "status": "Published UI/effects batch has reopened mobile layout issue #313 (floating bottom navigation and unnecessary short-view scroll); #293 remains separately open",
-  "checkedAt": "2026-11-07T07:22:57.615047+00:00",
+  "status": "Published UI/effects batch has reopened mobile feedback #304, #305 and #313; #314 celebration refinement registered; #293 separate",
+  "checkedAt": "2026-11-07T07:32:07.458261+00:00",
   "modelRecommendation": "GPT-6.1 Sol, high reasoning",
   "original288Manifest": {
     "files": 66,
@@ -345,7 +345,7 @@
     ],
     "authorizedBy": "Kör de i listan",
     "modelRecommendation": "GPT-6.1 Sol, high reasoning",
-    "status": "published; #313 reopened from physical Android/Brave feedback",
+    "status": "published; #304/#305/#313 reopened from physical mobile feedback",
     "databaseRulesChanged": false,
     "report": "reports/ui-refinements-304-313.json",
     "physicalAndroidBraveVerified": false,
@@ -391,5 +391,20 @@
     "clarifiedAt": "2026-11-07T07:27:21.343138+00:00",
     "spreadPriority": "primary",
     "particleSizePriority": "secondary, modest increase welcome"
+  },
+  "openMobileUiAlignmentFeedback": {
+    "issues": [
+      304,
+      305
+    ],
+    "reportedAt": "2026-11-07T07:32:07.458261+00:00",
+    "status": "open; registered only, no new implementation",
+    "symptoms": [
+      "Play bottom-navigation text still appears off-center",
+      "Heading and first-card positions should match across views; move common start slightly lower including Play"
+    ],
+    "confirmedSourceDifference": "General appbar margin-bottom 19px versus Play 12px; current override changes min-height only",
+    "previousTestGap": "Compared heading center geometry, not first-card start or optical text centering",
+    "modelRecommendation": "GPT-6.1 Sol, high reasoning"
   }
 }

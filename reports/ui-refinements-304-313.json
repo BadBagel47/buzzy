@@ -696,5 +696,15 @@
     "shortQuestionsViewHasUnwantedScroll": true,
     "rootCauseVerified": false,
     "followupImplemented": false
+  },
+  "alignmentFeedback": {
+    "issues": [
+      304,
+      305
+    ],
+    "reportedAt": "2026-11-07T07:32:07.458261+00:00",
+    "status": "reopened",
+    "firstCardPositionComparisonMissingFromPriorTest": true,
+    "followupImplemented": false
   }
 }

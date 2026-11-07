@@ -20,8 +20,8 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Återöppnat efter mobilprov: texten i Play-knappen upplevs fortfarande ocentrerad. Ingen ny rättning gjord. |
+| #305 | Ge sidrubrikerna i Players, Questions och Settings samma vertikala placering som Play-rubriken. | Återöppnat/förtydligat: samordna både sidrubrik och första kortets start i alla vyer; även Play ska ligga något lägre. Ingen ny rättning gjord. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -204,3 +204,13 @@ Vid genomförandet: öka mängd/storlek och spridning med en rimlig partikelbudg
 ### Förtydligande till #314
 
 Med ”större” avsåg användaren främst spridningen över skärmen. Prioritera bredare/högre täckning framför större enskilda bitar. En måttlig ökning av bitarnas storlek är också välkommen, men är sekundär och behöver inte bli dramatisk. Önskemålen om mer konfetti, snabb uppflygning och något långsammare dalning kvarstår. Detta är ett förtydligande av samma #314, ingen ny punkt eller nytt körbeslut.
+
+## #304–305 — återöppnat efter jämförande mobilbilder
+
+#304: användaren upplever att TEXTEN i bottenmenyns Play-knapp fortfarande inte är centrerad. Kontrollera faktisk optisk textcentrering med ikonens plats och den aktiva markeringen, både vald och ovald. Att hela ikon/textgruppen eller markeringens rektangel är matematiskt centrerad räcker inte som enda godkännandemått. Behåll innehållsanpassade olika knappbredder och fungerande animering av markeringens position/bredd. Ingen ny ID behövs.
+
+#305: jämför både sidrubrikernas placering och första kortets övre kant mellan Play, Players, Questions och Settings. Användaren förklarar att rubrikerna upplevs ligga olika eftersom korten börjar på olika ställen. Play är fortfarande bästa referensen, men ligger själv något för högt: justera den gemensamma inledande placeringen något nedåt och samordna samtliga vyer. Behåll konsekvent marginal mellan sidhuvud, rubrikrad och första innehållsruta, med snygg inpassning även när Play har knappar till höger. Ingen ny ID behövs.
+
+Läskontroll: den frysta basen har margin-bottom:19px på .appbar men 12px på .appbar.appbar-play. Det senaste paketet enhetliggjorde rubrikens minhöjd men ersatte inte dessa olika underkanter. Den tidigare geometrikontrollen jämförde rubrikboxarnas centerhöjd och slutmarginalen, inte första kortets startkoordinat. Utöka nästa prov med rubrik och första innehållsruta relativt samma sidhuvud, samt visuell kontroll av Play-texten. Dessa kodfynd är verifierade; någon ny browserreproduktion eller UI-rättning har inte körts i registreringssteget.
+
+Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortsatt #315.

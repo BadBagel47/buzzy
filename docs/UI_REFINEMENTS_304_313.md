@@ -27,3 +27,5 @@ Slutkontrollerna är gröna: 32 poster i full emulatorregression, 5 config/recov
 ## Mobilåterkoppling efter publicering
 
 #313 är återöppnat: användarens Android/Brave-bilder visar att bottenmenyn ibland lyfts från nederkanten när man skrollar upp, och att en kort Questions-vy med tom kö får onödig skrollning. Tidigare automatiska prov är fortfarande giltig historisk evidens för de körda viewportfallen, men täckte inte detta verkliga browserförlopp. Se BACKLOG.md. Ingen ny appändring genomförd för återkopplingen ännu.
+
+Även #304 och #305 är återöppnade från fortsatta mobilbilder: Play-knappens text upplevs ocentrerad; rubrik och första kortets start behöver samordnas över alla vyer och placeras något lägre även i Play. Basens olika .appbar-marginaler (19px generellt, 12px i Play) kvarstod efter ändrad minhöjd. Tidigare prov mätte rubrikboxens center men inte första kortets start. Se BACKLOG.md; ingen ny UI-rättning genomförd ännu.

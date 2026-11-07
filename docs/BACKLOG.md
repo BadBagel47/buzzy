@@ -32,10 +32,10 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
-| #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Registrerat nu; ingen implementation. |
-| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Registrerat nu; exakt källa behöver jämföras i tomt, fokuserat och ifyllt fält. Ingen implementation. |
-| #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Registrerat nu; källställen identifierade, ingen implementation. |
-| #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Registrerat nu, kopplat till funktionella återanslutningskrav i #293; ingen implementation. |
+| #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Implementerat och verifierat lokalt; inte publicerat. |
+| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Centreringen samordnad och verifierad i webbläsartest; inte publicerad. |
+| #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Implementerat på aktiva logotypställen och verifierat; inte publicerat. |
+| #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen implementerad och verifierad lokalt; inte publicerad. Funktionell återanslutning ligger kvar i #293. |
 
 För #290 ska utredningen skilja på faktisk funktion på riktiga mobiler och enbart tillgängligt webbläsar-API. Dokumentera eventuella krav på användarinteraktion och hur spelet fungerar när vibration inte stöds. Utformning/inställningsval beslutas när punkten tas upp.
 
@@ -274,3 +274,9 @@ Vid omladdning av en spelarvy som tidigare var ansluten blinkar en tom mörk sid
 Det visuella vänteläget ska samordnas med #293:s funktionella återställning av spelarens befintliga rumssession efter omladdning/nätbyte. Det här ID:t gäller läsbar status och presentationen under övergången; #293 fortsätter att gälla lyckad återanslutning och korrekt felhantering. Ta inte bort eller maskera ett slutligt fel med en evigt laddande logotyp. Ingen app/CSS-ändring, test eller publicering gjord vid registreringen.
 
 Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+
+## Genomförande #316–319
+
+Efter användarens ”Kör” är #316–319 implementerade i källan. #316 visar Room not found direkt under rumskoden, behåller den inmatade koden och ger ett tydligt nästa steg. #317 tar bort den extra textindragningen och ger platshållaren samma teckenavstånd som den riktiga koden. #318 låter z:et ärva logotypens lokala textfärg och använder landningssidans accentfärg `#80a8ff` på punkten vid landning, host, spelare och QR-delning; den frysta v1-referensen är orörd. #319 visar under omladdning en centrerad logotyp och beständig status, med återförsök och lämna-länk när anslutningen misslyckas. Detta är endast återkoppling och presentation; funktionell återanslutning i #293 är inte ändrad.
+
+Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Ändringarna är ännu inte publicerade och behöver ett separat publiceringsbeslut. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.

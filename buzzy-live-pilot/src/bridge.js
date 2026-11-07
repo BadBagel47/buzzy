@@ -285,8 +285,17 @@ for(const type of ['click','change','drop','keydown'])document.addEventListener(
  queueMicrotask(scheduleSave);
 });
 let starting;
+function playerStartupMessage(error){
+ const code=String(error?.code||'');
+ if(error?.message==='This room is no longer available.')return 'This room is no longer available. Ask your host for a new room code.';
+ if(error?.message==='You are banned from this session.')return 'You can’t rejoin this room. Ask your host for help.';
+ if(error?.message==='No room selected. Return to the start page to create or join a room.'||error?.message==='Join this room from the start page first.')return 'Your room session could not be restored. Return to the start page and join the room again.';
+ if(code.startsWith('auth/'))return 'We couldn’t sign in to reconnect to this room. Check your connection and try again.';
+ if(code==='network/timeout'||/taking too long|network-request-failed|NetworkError/i.test(error?.message||''))return 'We couldn’t reconnect to the room. Check your connection and try again.';
+ return error?.message||'We couldn’t reconnect to the room. Try again or return to the start page.';
+}
 function begin(){
- return starting??=start().catch(e=>{if(roomEnded)return;held=false;blocked=true;message(e.message||'Unable to connect. Check your connection and try again.',true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
+ return starting??=start().catch(e=>{if(roomEnded)return;held=false;blocked=true;message(isHost?(e.message||'Unable to connect. Check your connection and try again.'):playerStartupMessage(e),true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
 }
 retry.addEventListener('click',()=>{client?.reconnect();if(!s.networkReady||blocked)begin();});
 window.addEventListener('online',()=>{if(!s.networkReady||blocked)begin();});

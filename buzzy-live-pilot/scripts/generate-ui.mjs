@@ -6,6 +6,7 @@ const output=new URL('../../buzzy-output/',import.meta.url);
 const base=readFileSync(new URL('buzzy_midnight_studio_v7_51.html',output),'utf8');
 if(createHash('sha256').update(base).digest('hex')!=='f5438b101f32c1f93f5d094c2a8f3d6513b0b3dc417a961585f6d0acf669e017')throw new Error('Unexpected reference; preserve and review before regenerating.');
 let html=base.replaceAll('v7.51','v7.52').replaceAll('Date.now()','gameNow()');
+html=html.replace('.brand b{color:var(--blue)}','.brand b{color:inherit}').replaceAll('style="color:#315de8">.</span>','style="color:#80a8ff">.</span>');
 html=html.replace("const BUZZY_BUILD='development';", "function gameNow(){return window.BuzzyNetwork?.now?.()??Date.now();}\nconst BUZZY_BUILD=window.BUZZY_RUNTIME?'network':'development';");
 html=html.replace("code:'B7K4'", "code:'B7K4',codeSource:'demo'");
 html=html.replace('state.playerEffects={};state.coinSeen=',`if(window.BUZZY_RUNTIME){Object.assign(state,{devUi:false,code:'',codeSource:'server',players:[],questions:[],selected:null,viewAs:null,preview:window.BUZZY_RUNTIME.role==='player'});}\nstate.playerEffects={};state.coinSeen=`);
@@ -86,6 +87,11 @@ for(const role of ['host','player']){
   // The status controls now live in the header, with exactly one copy of each ID.
   app=app.replace(/<div id="network-bar"><span id="network-status" role="status">Connecting to your room…[\s\S]*?<\/a><\/div>/,'');
  }
+ if(role==='player'){
+  app=app.replace('<div id="network-bar"><span id="network-status" role="status">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div>',
+   '<div id="network-bar" class="player-connect-screen"><div class="brand" aria-label="Buzzy">buzzy<span style="color:#80a8ff">.</span></div><span id="network-status" role="status" aria-live="polite">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div>');
+ }
+ app=app.replaceAll('style="color:#315de8">.</span>','style="color:#80a8ff">.</span>');
  app=app.replace('</head>','<link rel="stylesheet" href="/src/room-ui.css"></head>');
  app=app.replace(/<div class="lab-view-switch">[\s\S]*?<\/div>/,'');
  app=app.replace(/<section class="lab-controls"[\s\S]*?<div id="modalroot">/, '<div id="modalroot">');
@@ -100,6 +106,9 @@ for(const role of ['host','player']){
 let landing=readFileSync(new URL('buzzy_landing_v1.html',output),'utf8');
 landing=landing.replace(/<title>[\s\S]*?<\/title>/,'<title>Buzzy · Join a game</title>');
 landing=landing.replace(/<script>[\s\S]*?<\/script>/g,'').replace(/<dialog[\s\S]*?<\/dialog>/,'');
+landing=landing.replace('.brand span{color:var(--accent)}','.brand span:last-child{color:var(--accent)}');
+landing=landing.replace('letter-spacing:.22em;text-indent:.22em;text-align:center;', 'letter-spacing:.22em;text-indent:0;text-align:center;');
+landing=landing.replace('.room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}', '.room-code::placeholder{color:#6f88ad;letter-spacing:.22em;text-indent:0}');
 landing=landing.replaceAll('6 characters','4 characters').replace('maxlength="12"','maxlength="4"').replace('placeholder="······"','placeholder="····"');
 landing=landing.replace('.join-button:active{transform:translateY(1px);filter:brightness(.94)}','.join-button:active{transform:scale(.98)}button{-webkit-tap-highlight-color:transparent}');
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');

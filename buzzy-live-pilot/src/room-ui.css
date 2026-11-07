@@ -70,6 +70,21 @@ html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .studio-m
 
 .room-share-screen .room-share-close { font-size:26px;line-height:1; }
 
+/* #319: keep player reload/reconnect feedback centered, visible and readable. */
+html[data-network-role=player] #network-bar.player-connect-screen {
+ position:fixed;inset:0;z-index:80;box-sizing:border-box;width:100%;height:100vh;height:100dvh;max-width:none;margin:0;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+ padding:max(24px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left));
+ background:radial-gradient(ellipse at top,#152b49,#0b192d 72%);color:#c8d9f2;text-align:center;font-size:16px;line-height:1.5;
+}
+html[data-network-role=player] #network-bar.player-connect-screen .brand { margin:0;color:#f5f9ff;font-size:40px;line-height:1.1;letter-spacing:-1.8px; }
+html[data-network-role=player] #network-bar.player-connect-screen #network-status { width:min(100%,34rem);min-height:24px;color:#c8d9f2;font-size:16px;line-height:1.5;overflow-wrap:anywhere; }
+html[data-network-role=player] #network-bar.player-connect-screen #network-status[data-error=true] { color:#ffc8ce; }
+html[data-network-role=player] #network-bar.player-connect-screen #network-retry { min-height:46px;padding:10px 20px;border:1px solid #49648c;border-radius:12px;background:#243c60;color:#f5f9ff;font-size:16px;font-weight:700; }
+html[data-network-role=player] #network-bar.player-connect-screen #leave-room { color:#c8d9f2;font-size:15px;font-weight:650;text-underline-offset:3px; }
+html[data-network-role=player][data-network-ready] #network-bar.player-connect-screen { display:none; }
+html[data-network-role=player][data-player-status-visible] #network-bar.player-connect-screen { display:flex; }
+
 /* Shared minimum for secondary labels across host views and settings. */
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui :is(.eyebrow,.notice,.pill,.tag,.join-tag,.queue-counter,.library-filter-label,.questions-section-help,.label,.switchrow .bold,.duration-disabled-note,.settings-group-caption,.settings-motion-note,.buzz-count,.fact-main,.mode-short,.behavior-summary-item) { font-size:var(--host-small-text); }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .play-mode-option .mode-copy { font-size:var(--host-small-text)!important;line-height:1.2!important; }

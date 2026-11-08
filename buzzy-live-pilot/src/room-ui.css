@@ -112,9 +112,8 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button
  flex:1 1 auto;min-width:0;width:auto;padding:8px;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
 }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button svg { width:18px;height:18px;flex:none; }
-/* Keep Play's label optically centered while its icon stays to the left. */
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] svg { transform:none; }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] span { position:relative;left:0; }
+/* Center the visible bolt and label together, accounting for the SVG's inset. */
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] :is(svg,span) { transform:translateX(-1.5px); }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav::before {
  left:0;top:var(--nav-highlight-top,7px);bottom:auto;width:var(--nav-highlight-width,0px);height:var(--nav-highlight-height,48px);
  transform:translateX(var(--nav-highlight-left,0px));transition:none;
@@ -128,8 +127,7 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui [data-actio
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .dynamic-player-card > p.muted { padding:0;margin:0; }
 @media(max-width:360px) {
  html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button { flex-direction:column;padding-inline:4px;gap:3px; }
- html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] svg { transform:none; }
- html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] span { left:auto; }
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button[data-nav="play"] :is(svg,span) { transform:none; }
 }
 /* The global celebration uses its own upward trajectories, not the old fall. */
 .confetti i.celebration-particle { left:0;top:0;width:9px;height:16px;animation:none;will-change:transform,opacity; }

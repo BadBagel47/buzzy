@@ -5,7 +5,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Aktiv arbetskopia: `/workspace/buzzy`, gren `main`, repo `BadBagel47/buzzy` på GitHub. Kontrollera `git status` före ändringar.
-- Senaste verifierade kodpublicering: `61997189e512da16d327b1c93c934a38a676c26a`, [run42480785493](https://github.com/BadBagel47/buzzy/actions/runs/42480785493), status success. Senare dokumentationscommits kan finnas på main utan att kräva ny pilot.
+- Senaste verifierade kodpublicering: `ca4b60ea96a28f8bb77a153ce652056a91971db5`, [run42520516709](https://github.com/BadBagel47/buzzy/actions/runs/42520516709), status success. Senare dokumentationscommits kan finnas på main utan att kräva ny pilot.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -16,7 +16,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Nästa steg och pausade spår
 
 1. Invänta mobilåterkoppling på #305/#320 och övriga nyligen publicerade UI-ändringar. #293 är godkänd enligt senaste användaråterkoppling.
-   #304 är justerad i källan: ikon/text flyttas 1,5 CSS-px åt vänster i horisontell layout. Run42508028844 misslyckades i återanslutningstestet vid nytt rum efter nätavbrott; timeoutens rotorsak är okänd. Hostfliken sätts nu i förgrunden inför den användarlika testinteraktionen och testet loggar diagnostik vid timeout. Lokalt passerade hela pilot-UI-paketet 5/5. Ny publicering och mobilprov återstår.
+   #304 är publicerad i run42520516709: ikon/text flyttas 1,5 CSS-px åt vänster i horisontell layout. Tidigare run42508028844 misslyckades i återanslutningstestet; timeoutens rotorsak är okänd. Hostfliken sätts nu i förgrunden inför testinteraktionen och testet loggar diagnostik vid timeout. Mobilprov återstår.
 2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
    #335: ett extra UI-prov visar att en avstängd spelares statusyta täcker lämna-knappen och dess egen länk är dold. Ingen apprättning gjord; se backloggen.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.

@@ -1,5 +1,7 @@
 # Buzzy — framtida ändringar
 
+För övergripande mål se [PLAN.md](PLAN.md), för arbetssätt [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md) och för återstart [HANDOFF.md](HANDOFF.md). Tabellen nedan visar aktuell status; äldre avsnitt bevarar historiska beslut.
+
 Nya önskemål får ett eget internt ID och samlas före implementation. Att ett önskemål registreras är inte ett klartecken att implementera det eller ändra det pågående publiceringssteget.
 
 | ID | Önskemål | Status |
@@ -7,7 +9,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Första implementationen publicerad i run42410517841. Användaren provar Chrome innan fortsatt felsökning. Ingen extra Firebase-trafik. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
-| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Etiketters mobila tryckmarkering avstängd i källan; tangentbordsfokus och switcharnas valda läge behålls. Mobilprov återstår. |
+| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerat i run42421937554: etiketters mobila tryckmarkering avstängd, tangentbordsfokus och switcharnas valda läge bevaras. Mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Uppföljning publicerad i run42471953022: återkoppling/återförsök efter 4 s, snabbare transportförsök vid avbrott och automatisk startåterhämtning efter nät-timeout. Samma rum/identitet verifierat med pausad hostflik. Fysiskt nätbytesprov återstår. Se [RECONNECT_293.md](RECONNECT_293.md). |
 | #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -20,7 +22,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Ikonens och textens särskilda vänsterförskjutningar borttagna i källan. Mobilprov av centrering och mellanrum återstår. |
+| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Publicerat i run42421937554: ikonens och textens särskilda vänsterförskjutningar borttagna. Mobilprov av centrering och mellanrum återstår. |
 | #305 | Samordna sidrubriker och första kortens vertikala placering mellan Players, Questions och Settings med Play. | Publicerat i run42471953022: 14 px både ovanför första kortet och mellan korten, med gemensamt reserverat utrymme för Play-raden. Samma första kortposition verifierad mellan vyerna på 320/390/430/768/1280 px. Mobilprov återstår. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -41,19 +43,20 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Publicerat i piloten; efterföljande #329 ökade antalet ytterligare. |
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Publicerat i run42425734815: frågekön, buzzordning, spelarens liveflöde och tillbaka-knappen använder samordnade riktningspilar. Mobilprov återstår. |
 | #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ konsekvent placering och att hostdialoger följer ljust tema medan spelarens leaderboard behåller mörkt tema. | Publicerat i run42433666616: hostens tomma Leaderboard använder befintlig sekundärtextfärg och minst 14 px. Spelarens mörka tema är lokalt kontrollerat; mobilprov återstår. |
-| #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Kompakt antal aktiva deltagare visas vid Buzz results i källan utan nya Firebase-anrop; faktisk onlinenärvaro garanteras inte. |
-| #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | New question ligger ovanför texten som fullbreddsknapp i källan. |
-| #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Rundstatus skiljer nu pending-bedömningar från färdigbedömda felaktiga svar i källan. |
-| #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | QR-vyn visar domän som text; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
+| #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Publicerat i run42421937554: kompakt antal aktiva deltagare vid Buzz results, utan nya Firebase-anrop. Faktisk onlinenärvaro garanteras inte. |
+| #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Publicerat i run42421937554: New question ovanför texten som fullbreddsknapp. |
+| #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Publicerat i run42421937554: rundstatus skiljer pending-bedömningar från färdigbedömda felaktiga svar. |
+| #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | Publicerat i run42421937554: QR-vyn visar domäntext; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
 | #329 | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Publicerat i run42425734815: startfördröjning 0–360 ms och 432 bitar. Mobilprov återstår. |
 | #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
-| #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Användaren arbetar på admininloggning med engångslänkar i ett annat projekt. Utvärdera lösningen för Buzzy när underlaget finns och anpassa/testa den mot Firebase-regler och direkta API-anrop, kvot och öppet deltagande. Ingen implementation eller regeländring gjord. |
+| #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Pausat enligt användaren i väntan på engångslänkslösningen från ett annat projekt. Anpassning och tester mot Firebase och kvot krävs före ett framtida genomförande. |
+| #332 | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
 
-För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
+För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Fortsatt felsökning avvaktar användarens Chrome-prov. #331 avvaktar engångslänkslösningen från det andra projektet.
 
-Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
+Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#332**.
+Nästa fria interna ID: **#333**.
 
 ## #293 — reproduktion och mål
 

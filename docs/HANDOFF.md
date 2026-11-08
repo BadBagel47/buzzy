@@ -9,14 +9,14 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
-- Återanslutning verifierades lokalt med pausad hostflik och fördröjd/blockerad spelartransport, samma identitet/rum och automatiskt återförsök efter timeout. Verklig rotorsak till det ursprungliga Android/Brave-utfallet är inte säkert fastställd.
+- Användaren bekräftar nu att återanslutningen i #293 verkar fungera. Den ursprungliga rotorsaken på Android/Brave fastställdes inte separat.
 - Senaste verifiering: konfiguration 5/5, pilot-UI 5/5 (inklusive återanslutning), pilotbygge och interceptat HTTPS-prov. Aktuell fysisk wifi/5G- och layoutkontroll återstår.
 - Ingen pågående appändring är beställd i den senaste dokumentationsuppgiften. Nya önskemål samlas före körbesked.
 
 ## Nästa steg och pausade spår
 
-1. Invänta mobilåterkoppling på #293/#305/#320 och övriga nyligen publicerade UI-ändringar. Bevara nya besked med berört ID.
-2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck. Brave gav ingen märkbar vibration; användaren vill först prova Chrome. Pausat, ändra inte nu.
+1. Invänta mobilåterkoppling på #305/#320 och övriga nyligen publicerade UI-ändringar. #293 är godkänd enligt senaste användaråterkoppling.
+2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. Nästa lediga ID hämtas alltid från backloggen.

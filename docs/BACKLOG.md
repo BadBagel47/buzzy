@@ -8,10 +8,10 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 |---|---|---|
 | #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Första implementationen publicerad i run42410517841. Användaren provar Chrome innan fortsatt felsökning. Ingen extra Firebase-trafik. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
+| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Implementationen publicerad i run42410517841, men användaren rapporterar ingen vibration i Android Brave eller Chrome. Felsökning på faktisk enhet återstår. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerat i run42421937554: etiketters mobila tryckmarkering avstängd, tangentbordsfokus och switcharnas valda läge bevaras. Mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Uppföljning publicerad i run42471953022: återkoppling/återförsök efter 4 s, snabbare transportförsök vid avbrott och automatisk startåterhämtning efter nät-timeout. Samma rum/identitet verifierat med pausad hostflik. Fysiskt nätbytesprov återstår. Se [RECONNECT_293.md](RECONNECT_293.md). |
+| #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Uppföljningen är publicerad i run42471953022. Användaren bekräftar att #293 nu verkar fungera; mobilprov godkänt enligt senaste återkopplingen. Se [RECONNECT_293.md](RECONNECT_293.md). |
 | #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #295 | Spelarens mörka spelyta ska fylla själva mobilvyn, utan det omgivande prototypskalet. | Publicerat i run42258255116; mobilprov återstår. |
 | #296 | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -51,12 +51,14 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
 | #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Pausat enligt användaren i väntan på engångslänkslösningen från ett annat projekt. Anpassning och tester mot Firebase och kvot krävs före ett framtida genomförande. |
 | #332 | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
+| #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Källgranskning: hostraden lägger till `✓` när buzzet är bedömt, oavsett om resultatet är `correct` eller `incorrect`. Väntar på körbeslut. |
+| #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Förstudie: Firebase Hosting har stöd för `cleanUrls`; undersök påverkan på host-/player-navigering, gamla `.html`-adresser och pilotpubliceringen innan genomförande. Väntar på körbeslut. |
 
-För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Fortsatt felsökning avvaktar användarens Chrome-prov. #331 avvaktar engångslänkslösningen från det andra projektet.
+För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#333**.
+Nästa fria interna ID: **#335**.
 
 ## #293 — reproduktion och mål
 
@@ -331,6 +333,14 @@ I mobilbilden av Round overview visas `No points awarded` och rundstatusen `Buzz
 ## #328 — tydligare domän i QR-delningen
 
 I QR-delningens helskärmsvy ska adressraden visa endast aktuell domän/host, utan `http://`/`https://`, path eller `?room=...`. Visa domänen som tydlig, större och typografiskt välformad text, inte som en länk. QR-koden fortsätter bära hela rumslänken. Behåll Copy room link-knappen, som fortsatt kopierar den fullständiga adressen med rumskoden och beter sig som idag. Ingen ändring gjord. Rekommenderad modell: GPT-6.1 Terra.
+
+## #333 — korrekt markering av buzzresultat
+
+Användaren rapporterar att hostens Buzz results alltid visar en bock även när spelaren svarat fel. Det är rätt att visa bock för `correct` och kryss för `incorrect`; en bock för varje bedömt svar blir missvisande. Källspåret i den genererade hostvyn lägger till `✓` när buzzet är bedömt (`done`), utan att kontrollera om resultatet var rätt eller fel. Uppdatera den aktiva generator-/renderingsvägen så ikonen följer bedömningen; obedömda buzz ska inte få en korrekthetsikon. Ingen appändring eller test gjord. Väntar på körbeslut.
+
+## #334 — rena adresser för host och spelare
+
+Användaren vill att varken hostens eller spelarens URL ska sluta på `.html`. Båda rollerna navigerar idag till `/${role}.html` från `src/entry.js`; Hosting innehåller separata `host.html` och `player.html`. Firebase Hosting har `cleanUrls` för att publicera HTML-dokument med rena adresser. Vid implementation aktivera funktionen i pilotkonfigurationen, ändra navigeringen till `/host` och `/player`, och verifiera både nya adresser och befintliga `.html`-adresser i Hosting Emulator/pilot. Bekräfta att rumsparametrar och direktlänkar fortfarande fungerar. Ingen konfigurations- eller appändring gjord; väntar på körbeslut.
 
 
 ## Samlad rättning #317, #320 och #321

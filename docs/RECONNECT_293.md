@@ -51,3 +51,5 @@ Efter publicering av #295–#297 rapporterar användaren att en omladdning av sp
 Användarens svar: hosten låg i en annan flik på samma mobil och visade Connected när den fliken öppnades igen. Väntade inte30sekunder. Det är en upplevd för lång/tom laddning, inte bevisad 30sekunders hängning. Spelaren ska återställas snabbt och erbjudas återkoppling/återförsök tidigare. En vilande hostflik ska inte behöva vara aktiv för att läsa tillbaka ett befintligt spelarrum.
 
 Uppföljningen publicerades i [run42471953022](https://github.com/BadBagel47/buzzy/actions/runs/42471953022), med källa `168ca076d473eab8ebcad3b7f5f6833a88d26a78`. Körningens offentliga status är success. Verkligt mobilprov återstår.
+
+Senaste användaråterkoppling: ”293 verkar funka”. Markera den praktiska återanslutningen som godkänd i nuläget; ingen ytterligare mobilfelsökning efter denna bekräftelse är beställd.

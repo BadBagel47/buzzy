@@ -20,7 +20,7 @@ API:t är progressiv förbättring: kontrollera att `navigator.vibrate` finns oc
 
 I `buzzy-live-pilot/src/bridge.js` görs anropet direkt när spelarens giltiga buzztryck hanteras och före det asynkrona Firebase-kommandot. Om API:t saknas eller kastar fel ignoreras det och spelet fortsätter oförändrat. Ingen vibration begärs från hostkontroller och ingen databastrafik tillkommer.
 
-Första implementationen publicerades i [run42410517841](https://github.com/BadBagel47/buzzy/actions/runs/42410517841). Användaren rapporterar att vibration inte märks i Brave och provar Chrome innan fortsatt felsökning. Den ska ske vid tryck på spelarens aktiva buzzer; hostens knapp för att aktivera buzzrar ger ingen vibration. Om den uteblir även i Chrome behöver felsökas på den faktiska Android-versionen och enhetens vibrationsinställningar. Ingen sådan felsökning är gjord ännu.
+Första implementationen publicerades i [run42410517841](https://github.com/BadBagel47/buzzy/actions/runs/42410517841). Användaren har nu provat både Brave och Chrome på Android och rapporterar att vibration inte fungerar i någon av dem. Felsök den verkliga enhetens API-/browserinställningar och om webbläsaren tar emot begäran från spelarens aktiva buzzer; beteendet är inte bekräftat av API-stöd på plattformsnivå. Ingen sådan felsökning är gjord ännu. Hostens knapp för att aktivera buzzrar ska inte vibrera.
 
 iPhone/Safari ska fortsätta fungera normalt utan vibration. En separat av/på-inställning har inte lagts till.
 

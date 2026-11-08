@@ -1,9 +1,23 @@
 // Content-sized navigation and one measured clearance for every host tab.
 export function installHostLayout(){
- let nav,observer,animation,target,lastWidth=innerWidth,frame;
+ let nav,observer,animation,target,lastWidth=innerWidth,frame,headerTemplate,headerKey;
  const root=document.documentElement,motion=matchMedia('(prefers-reduced-motion: reduce)');
+ function syncHeader(){
+  const page=document.getElementById('host-view-content'),bar=page?.querySelector(':scope > .host-push-incoming .appbar')||page?.querySelector(':scope > .appbar');if(!bar)return;
+  if(bar.classList.contains('appbar-play'))headerTemplate=bar.cloneNode(true);
+  if(!headerTemplate)return;
+  const width=bar.getBoundingClientRect().width,key=width+':'+headerTemplate.outerHTML;
+  if(key===headerKey)return;headerKey=key;
+  // Measure Play's natural toolbar height without inheriting the reserved height.
+  // Other tabs reserve this same space, including after a viewport resize.
+  const probe=headerTemplate.cloneNode(true);probe.inert=true;probe.setAttribute('aria-hidden','true');
+  probe.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
+  Object.assign(probe.style,{position:'fixed',visibility:'hidden',pointerEvents:'none',width:width+'px',minHeight:'40px',height:'auto',top:'0',left:'0'});
+  page.append(probe);const height=probe.getBoundingClientRect().height;probe.remove();
+  root.style.setProperty('--host-appbar-height',height+'px');
+ }
  function update(){
-  frame=null;if(!nav?.isConnected)return;
+  frame=null;syncHeader();if(!nav?.isConnected)return;
   const active=nav.querySelector('[data-nav].active');if(!active)return;
   const box=nav.getBoundingClientRect(),button=active.getBoundingClientRect(),style=getComputedStyle(nav);
   root.style.setProperty('--host-nav-height',`${box.height}px`);
@@ -23,6 +37,6 @@ export function installHostLayout(){
   update();
  }
  addEventListener('resize',schedule);
- document.fonts?.ready.then(schedule);motion.addEventListener('change',()=>{animation?.cancel();schedule();});
+ document.fonts?.ready.then(()=>{headerKey=null;schedule();});motion.addEventListener('change',()=>{animation?.cancel();schedule();});
  return {sync};
 }

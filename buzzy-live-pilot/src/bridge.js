@@ -267,10 +267,11 @@ async function confirmExit(){
 }
 function ended(){
  if(roomEnded)return;
+ clearTimeout(startupRetry);
  roomUi.closeShare();roomEnded=true;blocked=true;retry.hidden=true;if(!isHost)document.getElementById('leave-room').textContent='Back to start';message(isHost?'This game has ended.':'The host has ended the game.');
  if(!exitTask){s.modal='network-ended';api.render();}afterRender();
 }
-function leave(){stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
+function leave(){roomEnded=true;clearTimeout(startupRetry);stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
 window.BuzzyNetwork={patchHostPage:(root,markup)=>patchHostMarkup(root,markup,root.id==='host-view-content'?s.hostTab:undefined),celebrateVisual:celebration.launch,get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
 // Preserve controls' own disabled state: retained modal/source nodes must unlock after a request.
 for(const type of ['click','keydown'])document.addEventListener(type,event=>{
@@ -287,7 +288,7 @@ for(const type of ['click','change','drop','keydown'])document.addEventListener(
  }
  queueMicrotask(scheduleSave);
 });
-let starting;
+let starting,startupRetry,startupRetryDelay=2000;
 function playerStartupMessage(error){
  const code=String(error?.code||'');
  if(error?.message==='This room is no longer available.')return 'This room is no longer available. Ask your host for a new room code.';
@@ -298,7 +299,16 @@ function playerStartupMessage(error){
  return error?.message||'We couldn’t reconnect to the room. Try again or return to the start page.';
 }
 function begin(){
- return starting??=start().catch(e=>{if(roomEnded)return;held=false;blocked=true;message(isHost?(e.message||'Unable to connect. Check your connection and try again.'):playerStartupMessage(e),true);retry.hidden=false;afterRender();}).finally(()=>{starting=null;});
+ if(starting||roomEnded)return starting;
+ clearTimeout(startupRetry);
+ // Offer recovery early while the same SDK work continues in the background.
+ const slow=setTimeout(()=>{if(!roomEnded&&!s.networkReady){message('Still connecting. Check your connection or try again.');retry.hidden=false;afterRender();}},4000);
+ return starting=start().then(()=>{startupRetryDelay=2000;}).catch(e=>{
+  if(roomEnded)return;held=false;blocked=true;message(isHost?(e.message||'Unable to connect. Check your connection and try again.'):playerStartupMessage(e),true);retry.hidden=false;afterRender();
+  if(e.code==='network/timeout'||e.code==='auth/network-request-failed'){
+   startupRetry=setTimeout(()=>{client?.reconnect();begin();},startupRetryDelay);startupRetryDelay=Math.min(10000,startupRetryDelay*2);
+  }
+ }).finally(()=>{clearTimeout(slow);starting=null;});
 }
 retry.addEventListener('click',()=>{client?.reconnect();if(!s.networkReady||blocked)begin();});
 window.addEventListener('online',()=>{if(!s.networkReady||blocked)begin();});

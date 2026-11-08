@@ -46,19 +46,29 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
    await host.locator(`[data-nav="${tab}"]`).click();
    report.transitionStability.push(await host.evaluate(()=>{
     const root=document.querySelector('#host-view-content'),incoming=root.querySelector('.host-push-incoming');
-    const boxes=scope=>{const bar=scope.querySelector('.appbar'),card=scope.querySelector('.card,.questions-split-heading');return {title:bar.querySelector('h1').getBoundingClientRect().y,card:card.getBoundingClientRect().y};};
+    const boxes=scope=>{const bar=scope.querySelector('.appbar'),card=scope.querySelector('.card,.questions-split-heading');const queue=scope.querySelector('.questions-section-card');return {title:bar.querySelector('h1').getBoundingClientRect().y,card:card.getBoundingClientRect().y,queue:queue?.getBoundingClientRect().y??null};};
     if(!incoming)throw new Error('Expected view animation');
     const animation=incoming.getAnimations()[0];animation.pause();animation.currentTime=279.99;const before=boxes(incoming);animation.finish();
     return new Promise((resolve,reject)=>requestAnimationFrame(()=>requestAnimationFrame(()=>{try{resolve({tab:root.dataset.hostTab,before,after:boxes(document.querySelector('#host-view-content'))});}catch(error){reject(error);}})));
    }));
   }
   assert.ok(report.codePixels.every(p=>p.blurred.dots!==null&&p.focused.dots!==null&&Math.abs(p.blurred.dots)<=1&&Math.abs(p.focused.dots)<=1&&p.focused.caret!==null&&Math.abs(p.focused.caret)<=1),JSON.stringify(report.codePixels));
-  assert.ok(report.transitionStability.every(p=>Math.abs(p.before.title-p.after.title)<.5&&Math.abs(p.before.card-p.after.card)<.5),JSON.stringify(report.transitionStability));
+  assert.ok(report.transitionStability.every(p=>Math.abs(p.before.title-p.after.title)<.5&&Math.abs(p.before.card-p.after.card)<.5&&(p.before.queue===null||Math.abs(p.before.queue-p.after.queue)<.5)),JSON.stringify(report.transitionStability));
   assert.ok(report.headerCold.length&&report.headerStartup.length);
   assert.ok([...report.headerCold,...report.headerStartup].every(p=>Math.abs(p.height-report.headerStartup[0].height)<.5&&Math.abs(p.x-report.headerStartup[0].x)<.5&&Math.abs(p.y-report.headerStartup[0].y)<.5),JSON.stringify(report.headerStartup));
   const hostLogo=await host.evaluate(()=>{const e=document.querySelector('.room-host-header .brand'),z=e.querySelector('b'),dot=e.querySelector('span');return {word:getComputedStyle(e).color,z:getComputedStyle(z).color,dot:getComputedStyle(dot).color};});
   assert.equal(hostLogo.z,hostLogo.word);assert.equal(hostLogo.dot,'rgb(128, 168, 255)');
   await host.locator('[data-nav="questions"]').click();await host.locator('[data-action="new-question"]').click();await host.locator('#qtitle').fill('UI sample question');await host.locator('#qtext').fill('A prepared question for typography review');await host.locator('[data-action="save-question"]').click();await ready(host);
+  await host.emulateMedia({reducedMotion:'reduce'});report.sharedCardGeometry=[];
+  for(const width of [320,390,430,768,1280]){
+   await host.setViewportSize({width,height:844});const positions=[];
+   for(const tab of ['play','players','questions','more']){
+    await host.locator(`[data-nav="${tab}"]`).click();await host.waitForTimeout(80);
+    positions.push(await host.evaluate(()=>{const root=document.getElementById('host-view-content'),bar=root.querySelector('.appbar'),stack=root.querySelector(':scope > .stack'),cards=[...stack.children].filter(e=>e.matches('.card,.questions-split-heading,.questions-section-card'));const a=cards[0].getBoundingClientRect(),b=cards[1]?.getBoundingClientRect();return {top:a.top,above:a.top-bar.getBoundingClientRect().bottom,between:b?b.top-a.bottom:null};}));
+   }
+   assert.ok(positions.every(p=>Math.abs(p.top-positions[0].top)<.5&&Math.abs(p.above-14)<.5&&(p.between===null||Math.abs(p.between-14)<.5)),JSON.stringify({width,positions}));report.sharedCardGeometry.push({width,positions});
+  }
+  await host.locator('[data-nav="questions"]').click();await host.emulateMedia({reducedMotion:'no-preference'});
   for(const width of [320,390,430,768,1280]){
    await host.setViewportSize({width,height:844});
    const header=await host.evaluate(()=>{const h=document.querySelector('.headbar').getBoundingClientRect();return {width:innerWidth,height:h.height,overflow:document.documentElement.scrollWidth>innerWidth+1,buttons:[...document.querySelectorAll('.room-header-actions button')].map(b=>{const r=b.getBoundingClientRect();return {x:r.x,right:r.right,width:r.width,height:r.height};}),labels:[...document.querySelectorAll('.headbar .tag')].map(b=>b.textContent),statuses:document.querySelectorAll('#network-status').length};});

@@ -99,11 +99,12 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui { min-heigh
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .shell {
  margin-bottom:0;padding-bottom:calc(var(--host-nav-height) + var(--host-card-gap));
 }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content > .stack { gap:var(--host-card-gap); }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content { --host-view-inset:3px;padding-top:var(--host-view-inset); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content > .stack,
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content :is(.host-push-incoming,.host-push-outgoing) > .stack { gap:var(--host-card-gap); }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content { --host-view-inset:8px;padding-top:var(--host-view-inset); }
 /* The animated wrappers and settled children must share the same geometry. */
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content :is(.host-push-incoming,.host-push-outgoing) { top:var(--host-view-inset); }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { margin-bottom:19px; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { margin-bottom:var(--host-card-gap); }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav {
  display:flex;gap:4px;bottom:0;padding:7px 8px calc(7px + env(safe-area-inset-bottom));
 }
@@ -119,7 +120,7 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav::befor
  transform:translateX(var(--nav-highlight-left,0px));transition:none;
 }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav:not([data-nav-geometry-ready])::before { visibility:hidden; }
-html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { min-height:40px;align-items:center; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar { min-height:var(--host-appbar-height,40px);align-items:flex-start; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-content .appbar > h1 { display:flex;align-items:center;min-height:40px;margin:0;line-height:1.2; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui [data-action="end-room"] { border:1px solid var(--red);color:var(--red);background:#fff; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui [data-action="celebrate"] { border:1px solid #a6bdd7;background:#eff4fa;color:#23446d; }

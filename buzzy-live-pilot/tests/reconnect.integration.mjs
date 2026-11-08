@@ -20,6 +20,18 @@ await test('Network interruption restores real emulator sessions and bounded sta
    await context.setOffline(false);await ready(page);assert.equal(await identity(page),id);assert.equal(await page.evaluate(()=>window.BuzzyView.state.code),code);
   }
   record('Host and player: offline/online restores same identity and room');
+  // A suspended host tab is not needed to restore an existing player session.
+  const hostDebugger=await hc.newCDPSession(host);await hostDebugger.send('Debugger.enable');await hostDebugger.send('Debugger.pause');
+  let holdPlayer=true;await pc.routeWebSocket('**',ws=>{if(holdPlayer)ws.close();else ws.connectToServer();});
+  await pc.route('http://127.0.0.1:9000/**',route=>holdPlayer?route.abort():route.continue());
+  try{
+   const started=Date.now();await player.reload();await player.locator('#network-retry:not([hidden])').waitFor({timeout:6500});
+   assert.ok(Date.now()-started<6500,'Recovery is offered before the previous 15-second wait');
+   assert.match(await player.locator('#network-status').textContent(),/Still connecting/);
+   holdPlayer=false;await player.locator('#network-retry').click();await ready(player);
+   assert.equal(await identity(player),playerId);assert.equal(await player.evaluate(()=>window.BuzzyView.state.code),code);
+  }finally{holdPlayer=false;await hostDebugger.send('Debugger.resume');await hostDebugger.detach();await pc.unroute('http://127.0.0.1:9000/**');}
+  record('Slow player reload offers recovery after four seconds and restores the same session with a suspended host');
   await host.evaluate(()=>{window.onlineEvents=0;window.addEventListener('online',()=>window.onlineEvents++);});
   sockets.at(-1).close();await ready(host);assert.equal(await identity(host),uid);assert.equal(await host.evaluate(()=>window.onlineEvents),0);
   record('Socket interruption without browser online event reconnects');
@@ -28,8 +40,8 @@ await test('Network interruption restores real emulator sessions and bounded sta
   await host.reload();assert.equal(await host.locator('.headbar .tag.desktoponly').count(),0);assert.equal(await host.locator('#leave-room').getAttribute('aria-label'),'Leave room');assert.equal(await host.title(),'Buzzy · Host');
   await host.locator('#network-retry:not([hidden])').waitFor({timeout:22000});await host.waitForFunction(()=>document.querySelector('#network-status').dataset.error==='true',{},{timeout:22000});
   assert.equal(await host.locator('.headbar').textContent().then(s=>s.includes('DESIGN LAB')),false);
-  block=false;await host.locator('#network-retry').click();await ready(host);assert.equal(await identity(host),uid);assert.equal(await host.evaluate(()=>window.BuzzyView.state.code),code);
-  record('Offline reload has compact live header, finite wait, manual retry restores existing host');
+  block=false;await ready(host);assert.equal(await identity(host),uid);assert.equal(await host.evaluate(()=>window.BuzzyView.state.code),code);
+  record('Offline reload has finite waiting and recovers the existing host automatically after a timeout');
   // A create acknowledgement lost to the browser must resolve to the same room on retry.
   const createId=crypto.randomUUID();const one=await call(host,{action:'create',commandId:createId});assert.equal(one.ok,true);const two=await call(host,{action:'create',commandId:createId});assert.equal(two.ok,true);assert.equal(one.data.code,two.data.code);
   await remove(host,one.data.code);

@@ -3,7 +3,7 @@ export function deadline(promise,ms=15000,message='Connection is taking too long
  let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error(message),{code:'network/timeout'})),ms);})]).finally(()=>clearTimeout(timer));
 }
 
-export function connectionRecovery({subscribe,disconnect,connect,events=window,visibility=document,network=navigator,retryMs=8000}){
+export function connectionRecovery({subscribe,disconnect,connect,events=window,visibility=document,network=navigator,retryMs=4000}){
  let connected=false,paused=false,timer,delay=retryMs,lastKick=0,hiddenAt=0;
  const listeners=new Set();
  const notify=value=>{connected=value;for(const next of listeners)next(value);};

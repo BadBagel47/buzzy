@@ -1,6 +1,12 @@
 # #293 — återanslutning och väntelägen
 
-**Aktuellt: återöppnat efter misslyckat mobilprov.** Användaren stängde den gamla fliken men en ny fastnade redan vid första rumsskapningen efter run42234619437. CSP-korrigeringen nedan är nu publicerad i run42248198398; reservtransportprovet passerade även i CI. Nytt mobilprov återstår.
+## Uppföljning 2026-11-08
+
+Spelarens vänteläge erbjuder nu återförsök och läsbar återkoppling efter fyra sekunder medan samma startoperation fortsätter. Första automatiska transportåterförsöket vid avbrott sker efter fyra i stället för åtta sekunder; friska anslutningar gör inga sådana försök. Om startförloppet får en nät-timeout försöker rumsvyn automatiskt igen med ökande intervall 2–10 sekunder. Avslutade/otillgängliga rum ska inte utlösa denna automatiska startloop. Rumsskapnings-ID och användaridentitet återanvänds som tidigare.
+
+Det utökade emulatorprovet pausar hostflikens JavaScript och blockerar spelarens transport vid reload. Det verifierar tidigt återförsök och återställning av samma rum/identitet utan aktiv host. Ytterligare prov täcker automatisk återhämtning efter timeout, nätbyte/offline-online och att avslutade rum inte återskapas. Återanslutningsprovet ingår nu i pilotens CI-gate. Detta verifierar de kontrollerade fallen, inte att en bestämd rotorsak till det tidigare Android/Brave-utfallet har hittats. Fysiskt wifi/5G-prov återstår efter publicering.
+
+**Tidigare återfall och publiceringar.** Användaren stängde den gamla fliken men en ny fastnade redan vid första rumsskapningen efter run42234619437. CSP-korrigeringen nedan publicerades i run42248198398; reservtransportprovet passerade även i CI. Senaste uppföljningen beskrivs ovan.
 
 Användaren godkände implementation med ”Vi fortsätter med att lösa 293 först. Kör”. Felet rapporterades från Android/Brave vid wifi → 5G: återanslutning uteblev även efter återgång till wifi. Reload fastnade i ”Connecting to your room…”, visade Design Lab-märkning och ett nytt rum fastnade i ”Creating room”. Exakt orsak till det enskilda mobilavbrottet är inte oberoende fastställd.
 

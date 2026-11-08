@@ -57,12 +57,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #336 | Låt konfettin falla långsammare efter uppskjutningen. | Publicerat till live i run42524163679: nedfärd 1,7–2,0 s och oförändrad uppfärd 0,8–1,0 s. Mobilprov återstår. |
 | #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase har verifierat domänen och användaren bekräftar att den nu fungerar. Live-körning 42524163679 lyckades; användaren bekräftar att `live` valdes. Specifika host-/spelarflöden på domänen är inte separat bekräftade. |
 | #338 | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
+| #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Registrerat från användarens desktopbild; väntar på körbesked. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#339**.
+Nästa fria interna ID: **#340**.
+
+#339: användaren ser på desktop att hosthuvudets logotyp och knappar ligger bredare än navigeringen och innehållskorten. Begränsa och centrera sidhuvudets innehåll så att det följer huvudinnehållets verkliga bredd och kanter även vid olika fönsterbredder; bevara responsiv mobilplacering och sidhuvudets befintliga funktioner. Läskontroll visar en separat `max-width:1130px` för hosthuvudets `.headinner` medan hostens `.maincol` har en snävare maxbredd, men exakt inpassning behöver mätas inklusive padding. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell: GPT-6.1 Terra.
 
 #338: användaren upplever att konfettin skjuts för långt över mitten, vilket lämnar ett hål nedtill i mitten. Prova en måttlig förändring av banorna/spridningen från båda hörnen, med täckning även i nedre mitten och bibehållen effekt över hela skärmen. Jämför mobil och bred skärm och bevara upp- och nedfärdens tidigare överenskomna tempo. Ingen appändring gjord.
 

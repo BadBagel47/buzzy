@@ -58,12 +58,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase har verifierat domänen och användaren bekräftar att den nu fungerar. Live-körning 42524163679 lyckades; användaren bekräftar att `live` valdes. Specifika host-/spelarflöden på domänen är inte separat bekräftade. |
 | #338 | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
 | #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Registrerat från användarens desktopbild; väntar på körbesked. |
+| #340 | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Registrerat från användarens observation; väntar på körbesked. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#340**.
+Nästa fria interna ID: **#341**.
+
+#340: när användaren skapar ett rum upplevs förstasidans innehåll hoppa upp ett steg. Undersök och stabilisera placeringen under väntan, utan att dölja viktig status eller försämra felmeddelanden och tillgänglighet. Kontrollera även anslutning till rum, smala och korta skärmar samt normala och långsamma anslutningar. Källan visar att statusmeddelandet blir synligt i den vertikalt centrerade `.landing`-behållaren vid skapande; ändrad innehållshöjd är ett möjligt spår men hoppets exakta orsak är inte uppmätt. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell: GPT-6.1 Terra.
 
 #336 återöppnad efter användarens prov: konfettin verkar sakta in redan före nedfärden och känslan blir att den stannar upp. Justera tidskurvan så att uppskjutningen känns snabb längre och övergången till den långsammare nedfärden ser naturlig ut utan en synlig paus. Bevara tidigare överenskommen långsammare nedfärd, spridning, flera skurar och reduced motion. Koden använder i dag en parabel där vertikalhastigheten närmar sig noll vid toppen och tidsätter upp- och nedfärd olika; detta är en möjlig förklaring som behöver jämföras visuellt, inte en fastställd rotorsak. Ingen appändring gjord. Rekommenderad modell: GPT-6.1 Terra high.
 

@@ -11,13 +11,13 @@ Uppdaterad 2026-11-08. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Spelbar Firebase-pilot är publicerad. Senast verifierad publicering är [run42520516709](https://github.com/BadBagel47/buzzy/actions/runs/42520516709), källa `ca4b60ea96a28f8bb77a153ce652056a91971db5`. Användaren uppger att återanslutningen i #293 verkar fungera. Senast publicerad justering av Play-knappen inväntar mobilbedömning.
+Hosting-körning [run42524163679](https://github.com/BadBagel47/buzzy/actions/runs/42524163679) lyckades från `53f7d688f05ad9590d8e3ede497f7f47308b7aa0`; användaren bekräftar att live valdes. Firebase har verifierat `buzzy.trythis.one` och utfärdar certifikatet; faktisk domänåtkomst återstår att prova. Användaren uppger att återanslutningen i #293 verkar fungera.
 
-Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som den riktiga tjänsten. Den är ingen isolerad testdatabas. Ingen skarp huvudpublicering eller domänkoppling har genomförts i detta arbetsflöde.
+Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som live-versionen. Den är ingen isolerad testdatabas. Live har publicerats; domänens certifikat och användarprov återstår.
 
 ## Närmast
 
-1. #284/#336: genomför överlappande konfettiskurar och långsammare nedfall. #337: förbered `buzzy.trythis.one` och publicering till live-kanalen.
+1. #284/#336 är publicerade och väntar på mobilprov. #337: invänta certifikatet för `buzzy.trythis.one` och prova anslutning och spelflöden.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.

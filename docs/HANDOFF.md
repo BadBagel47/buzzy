@@ -5,7 +5,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Aktiv arbetskopia: `/workspace/buzzy`, gren `main`, repo `BadBagel47/buzzy` på GitHub. Kontrollera `git status` före ändringar.
-- Senaste verifierade kodpublicering: `ca4b60ea96a28f8bb77a153ce652056a91971db5`, [run42520516709](https://github.com/BadBagel47/buzzy/actions/runs/42520516709), status success. Senare dokumentationscommits kan finnas på main utan att kräva ny pilot.
+- Senaste kodpublicering: `53f7d688f05ad9590d8e3ede497f7f47308b7aa0`, [run42524163679](https://github.com/BadBagel47/buzzy/actions/runs/42524163679), status success. Användaren bekräftar att `live` valdes. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -19,8 +19,8 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
    #304 är publicerad i run42520516709: ikon/text flyttas 1,5 CSS-px åt vänster i horisontell layout. Tidigare run42508028844 misslyckades i återanslutningstestet; timeoutens rotorsak är okänd. Hostfliken sätts nu i förgrunden inför testinteraktionen och testet loggar diagnostik vid timeout. Mobilprov återstår.
 2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
    #335: ett extra UI-prov visar att en avstängd spelares statusyta täcker lämna-knappen och dess egen länk är dold. Ingen apprättning gjord; se backloggen.
-   #284 och #336: ändrat i källan till oberoende överlappande konfettiskurar och längre nedfall; upprepade hosttryck köas. Publicering och mobilprov återstår.
-   #337: `buzzy.trythis.one` är tillåten i källan. Användaren har lagt till Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app`, DNS only, och bekräftat att Firebase verifierat domänen. Run42524163679 för commit `53f7d688f05ad9590d8e3ede497f7f47308b7aa0` lyckades, men vald Hosting-kanal kan inte avläsas på den offentliga runsidan. Invänta faktiskt domänprov och bekräftelse av live-kanalen innan live-status anges.
+   #284 och #336: publicerat till live i run42524163679; oberoende överlappande konfettiskurar och längre nedfall, upprepade hosttryck köas. Mobilprov återstår.
+   #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only och Firebase har verifierat domänen. Firebase visar Minting certificate; vänta tills klart och prova HTTPS, host och spelare. Användaren fick certifikat-/anslutningsfel medan certifikatet utfärdas.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. Nästa lediga ID hämtas alltid från backloggen.

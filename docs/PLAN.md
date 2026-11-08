@@ -17,7 +17,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 
 ## Närmast
 
-1. #284/#336 är publicerade och väntar på mobilprov. #337: invänta certifikatet för `buzzy.trythis.one` och prova anslutning och spelflöden.
+1. #284/#338 har en lokal uppföljning för många konfettitryck och nedre mitten; publicering och verkligt prov återstår. #337: invänta certifikatet för `buzzy.trythis.one` och prova anslutning och spelflöden.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.

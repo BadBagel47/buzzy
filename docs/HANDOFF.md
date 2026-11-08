@@ -20,7 +20,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
    #335: ett extra UI-prov visar att en avstängd spelares statusyta täcker lämna-knappen och dess egen länk är dold. Ingen apprättning gjord; se backloggen.
    #284 och #336: ändrat i källan till oberoende överlappande konfettiskurar och längre nedfall; upprepade hosttryck köas. Publicering och mobilprov återstår.
-   #337: `buzzy.trythis.one` är tillåten i källan. Workflowet har uttryckligt pilot-/live-val, samma preflight och Hosting-only för båda. Firebase-domänverifiering, Cloudflare DNS och live-publicering återstår; invänta Firebase-genererade DNS-poster från användaren.
+   #337: `buzzy.trythis.one` är tillåten i källan. Workflowet har uttryckligt pilot-/live-val, samma preflight och Hosting-only för båda. Användaren har lagt till domänen i Firebase och visat Cloudflare-posten CNAME `buzzy` → `buzzy-197dc.web.app`, DNS only. Firebase rapporterade först att posten inte upptäckts; lyckad verifiering, TLS och live-publicering återstår.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. Nästa lediga ID hämtas alltid från backloggen.

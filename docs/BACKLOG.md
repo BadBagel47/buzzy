@@ -55,7 +55,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
 | #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Upptäckt i extra emulatorprov: statusytan täcker spelarens vanliga lämna-knapp, medan länken i statusytan är dold. Inte fysiskt mobilverifierat; ingen apprättning gjord. |
 | #336 | Låt konfettin falla långsammare efter uppskjutningen. | Ändrat i källan: nedfärd 1,7–2,0 s och oförändrad uppfärd 0,8–1,0 s. Publicering och mobilprov återstår. |
-| #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Domänen tillåts i källan och workflowet har separata manuella pilot/live-val. Firebase-verifiering, DNS, live-publicering och faktiskt domänprov återstår. |
+| #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase-domän och Cloudflare CNAME till `buzzy-197dc.web.app` är tillagda enligt användarens bilder; Firebase hade ännu inte upptäckt posten. Verifiering, TLS, live-publicering och domänprov återstår. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 

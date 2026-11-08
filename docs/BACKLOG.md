@@ -21,7 +21,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
 | #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Ikonens och textens särskilda vänsterförskjutningar borttagna i källan. Mobilprov av centrering och mellanrum återstår. |
-| #305 | Samordna sidrubriker och första kortens vertikala placering mellan Players, Questions och Settings med Play. | Återöppnad: rutorna på samtliga hostvyer börjar fortfarande för långt ner. |
+| #305 | Samordna sidrubriker och första kortens vertikala placering mellan Players, Questions och Settings med Play. | Återöppnad: samma avstånd önskas mellan knapparna ovanför första Play-rutan och rutan som mellan första och andra rutan; första rutan på övriga vyer ska följa den angivna Play-referensen. Senaste meddelandet saknade en synlig ny dump, så exakta mått återstår att bekräfta. |
 | #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
 | #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
@@ -47,12 +47,13 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | QR-vyn visar domän som text; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
 | #329 | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Publicerat i run42425734815: startfördröjning 0–360 ms och 432 bitar. Mobilprov återstår. |
 | #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
+| #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Registrerat för vidare arkitekturval: överväg Cloudflare Access och Firebase-inloggning/regler, kontrollera att Firebase skyddar direkta API-anrop och utvärdera App Check/begränsning av försök. Ingen implementation eller regeländring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#331**.
+Nästa fria interna ID: **#332**.
 
 ## #293 — reproduktion och mål
 

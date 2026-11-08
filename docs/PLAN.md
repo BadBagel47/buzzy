@@ -11,13 +11,13 @@ Uppdaterad 2026-11-08. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Hosting-körning [run42524163679](https://github.com/BadBagel47/buzzy/actions/runs/42524163679) lyckades från `53f7d688f05ad9590d8e3ede497f7f47308b7aa0`; användaren bekräftar att live valdes och att `buzzy.trythis.one` nu fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade. Användaren uppger att återanslutningen i #293 verkar fungera.
+Hosting-körning [run42529524063](https://github.com/BadBagel47/buzzy/actions/runs/42529524063) lyckades från `5cadbca20e5ea3b91d660309c00f1c9bc92ac634`; användaren bekräftar att live valdes och att `buzzy.trythis.one` nu fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade. Användaren uppger att återanslutningen i #293 verkar fungera.
 
 Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som live-versionen. Den är ingen isolerad testdatabas. Live är publicerat och användaren bekräftar att domänen fungerar.
 
 ## Närmast
 
-1. #284/#338 har en lokal uppföljning för många konfettitryck och nedre mitten; publicering och verkligt prov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
+1. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.

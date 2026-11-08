@@ -16,7 +16,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Nästa steg och pausade spår
 
 1. Invänta mobilåterkoppling på #305/#320 och övriga nyligen publicerade UI-ändringar. #293 är godkänd enligt senaste användaråterkoppling.
-   #304 är justerad i källan efter körbesked: ikon/text flyttas 1,5 CSS-px åt vänster i horisontell layout. Lokala prov passerade, men publiceringskörning 42508028844 misslyckades i verifieringssteget för UI/återanslutning i lokala emulatorer. Detaljerad fellogg kräver GitHub-inloggning; invänta felloggen. Publicering och mobilprov återstår.
+   #304 är justerad i källan: ikon/text flyttas 1,5 CSS-px åt vänster i horisontell layout. Run42508028844 misslyckades i återanslutningstestet vid nytt rum efter nätavbrott; timeoutens rotorsak är okänd. Hostfliken sätts nu i förgrunden inför den användarlika testinteraktionen och testet loggar diagnostik vid timeout. Lokalt passerade hela pilot-UI-paketet 5/5. Ny publicering och mobilprov återstår.
 2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
    #335: ett extra UI-prov visar att en avstängd spelares statusyta täcker lämna-knappen och dess egen länk är dold. Ingen apprättning gjord; se backloggen.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.

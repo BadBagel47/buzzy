@@ -5,7 +5,7 @@ import {browserHarness,identity,read,call} from './browser-support.mjs';
 const report={status:'running',checks:[],realCloudRequests:0,pageErrors:[]};
 const record=message=>{report.checks.push(message);console.log(message);};
 const remove=async(p,code)=>{const c=await read(p,`rooms/${code}/control`);const result=await call(p,{action:'delete',code,roundId:c.r,attempt:c.a});assert.equal(result.ok,true,JSON.stringify(result));};
-const ready=p=>p.waitForFunction(()=>window.BuzzyView?.state.networkReady&&!document.documentElement.hasAttribute('data-network-busy'),{},{timeout:30000});
+const ready=async p=>{try{return await p.waitForFunction(()=>window.BuzzyView?.state.networkReady&&!document.documentElement.hasAttribute('data-network-busy'),{},{timeout:30000});}catch(e){console.error('Room readiness timeout:',await p.evaluate(()=>({path:location.pathname,visibility:document.visibilityState,entry:document.querySelector('#entry-status')?.textContent,status:document.querySelector('#network-status')?.textContent,networkReady:!!window.BuzzyView?.state.networkReady,busy:document.documentElement.hasAttribute('data-network-busy')})).catch(()=>({pageUnavailable:true})));throw e;}};
 await test('Network interruption restores real emulator sessions and bounded startup',async()=>{
  const h=await browserHarness();let debugPage;
  try{
@@ -46,7 +46,7 @@ await test('Network interruption restores real emulator sessions and bounded sta
   const createId=crypto.randomUUID();const one=await call(host,{action:'create',commandId:createId});assert.equal(one.ok,true);const two=await call(host,{action:'create',commandId:createId});assert.equal(two.ok,true);assert.equal(one.data.code,two.data.code);
   await remove(host,one.data.code);
   record('Repeated create command after uncertain acknowledgement returns same room');
-  await host.goto('http://127.0.0.1:5173');block=true;await host.locator('#host-entry').click();await host.waitForFunction(()=>!document.querySelector('#host-entry').disabled,{},{timeout:25000});
+  await host.bringToFront();await host.goto('http://127.0.0.1:5173');block=true;await host.locator('#host-entry').click();await host.waitForFunction(()=>!document.querySelector('#host-entry').disabled,{},{timeout:25000});
   assert.match(await host.locator('#entry-status').textContent(),/connection|Connection/);const pendingId=await host.evaluate(()=>sessionStorage.getItem('buzzy-pending-room-create'));assert.ok(pendingId);
   block=false;await host.locator('#host-entry').click();await ready(host);assert.equal(await identity(host),uid);const freshCode=await host.evaluate(()=>window.BuzzyView.state.code);assert.notEqual(freshCode,code);assert.equal(await host.evaluate(()=>sessionStorage.getItem('buzzy-pending-room-create')),null);
   record('New room after network failure: finite wait, enabled retry and successful create');

@@ -26,6 +26,10 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
  const h=await browserHarness();
  try{
   const host=await h.page();host.on('pageerror',e=>report.errors.push(e.message));
+  for(const [width,height] of [[320,640],[390,844],[1280,800]]){
+   const p=await h.page();await p.setViewportSize({width,height});await p.evaluate(async()=>{const c=await import('/src/client.js').then(m=>m.getClient());c.waitForConnection=()=>new Promise(()=>{});});
+   const before=await p.locator('.brand').boundingBox();await p.locator('#host-entry').click();await p.locator('#entry-status').waitFor();const after=await p.locator('.brand').boundingBox();assert.ok(Math.abs(before.y-after.y)<.5,JSON.stringify({width,height,before,after}));assert.match(await p.locator('#entry-status').textContent(),/Creating/);await p.close();
+  }
   const landingBrand=await host.evaluate(()=>{const logo=document.querySelector('.brand'),parts=logo.querySelectorAll('span'),input=document.querySelector('#room-code');return {word:getComputedStyle(logo).color,z:getComputedStyle(parts[0]).color,dot:getComputedStyle(parts[1]).color,indent:getComputedStyle(input).textIndent,letterSpacing:getComputedStyle(input).letterSpacing,placeholderSpacing:getComputedStyle(input,'::placeholder').letterSpacing,placeholderIndent:getComputedStyle(input,'::placeholder').textIndent};});
   assert.equal(landingBrand.z,landingBrand.word);assert.equal(landingBrand.dot,'rgb(128, 168, 255)');assert.equal(landingBrand.indent,'0px');assert.equal(landingBrand.placeholderIndent,landingBrand.placeholderSpacing);assert.equal(landingBrand.placeholderSpacing,landingBrand.letterSpacing);
   report.codePixels=[];for(const width of [320,390,430]){await host.setViewportSize({width,height:844});const sizes=await host.evaluate(()=>['#code-hint','#code-error','#name-error','.host-option','.intro'].map(s=>parseFloat(getComputedStyle(document.querySelector(s)).fontSize)));assert.ok(sizes.every(size=>size>=14),JSON.stringify({width,sizes}));report.codePixels.push({width,blurred:await fieldPixels(host,false),focused:await fieldPixels(host,true)});if(width===390)await host.locator('#room-code').screenshot({path:'reports/room-code-centered.png',caret:'initial'});}await host.setViewportSize({width:390,height:844});
@@ -41,6 +45,7 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
   await host.locator('.host-leaderboard-overlay [data-action="show-scores"]').click();await host.locator('.host-leaderboard-overlay').waitFor({state:'detached'});
   await host.evaluate(()=>window.stopHeaderSamples=true);report.headerCold=await host.evaluate(()=>window.headerSamples);
   await host.reload();await ready(host);await host.evaluate(()=>window.stopHeaderSamples=true);report.headerStartup=await host.evaluate(()=>window.headerSamples);
+  for(const width of [1280,1920]){await host.setViewportSize({width,height:844});const edges=await host.evaluate(()=>{const logo=document.querySelector('.room-host-header .brand').getBoundingClientRect(),last=document.querySelector('.room-header-actions button:last-child').getBoundingClientRect(),main=document.querySelector('.maincol').getBoundingClientRect();return {left:logo.left-main.left,right:last.right-main.right};});assert.ok(Math.abs(edges.left)<1&&Math.abs(edges.right)<1,JSON.stringify({width,edges}));}await host.setViewportSize({width:390,height:844});
   report.transitionStability=[];
   for(const tab of ['players','questions','more','play']){
    await host.locator(`[data-nav="${tab}"]`).click();

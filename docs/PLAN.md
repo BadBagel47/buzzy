@@ -18,6 +18,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 ## Närmast
 
 1. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
+   #335/#336/#339/#340 är ändrade och verifierade lokalt efter körbesked; publicering och riktiga visuella prov återstår.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.
@@ -27,10 +28,10 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 - Bekräfta relevanta mobilflöden, tillgänglighet och verklig användning av gratiskvoten. Respektera att #253:s manuella skärmläsarprov är pausat; det har inte gjorts till nytt ovillkorligt lanseringskrav.
 - Bestäm vilka som får vara host och hur behörigheten säkras även vid direkta Firebase-anrop. Deltagare ska kunna spela utan synligt inloggningssteg.
 - Gå igenom lagring av spelarnamn, UID, spelhistorik, konton och övergivna rum. Rummet raderas vid bekräftat hostavslut; automatisk gallring av övergivna rum är inte implementerad.
-- Publicera till `buzzy.trythis.one` via Firebase Hosting och Cloudflare enligt #337. Cloudflare-skydd på domänen ersätter inte Firebase-regler.
+- Prova flödena på `buzzy.trythis.one`, som är publicerad via Firebase Hosting och Cloudflare enligt #337. Cloudflare-skydd på domänen ersätter inte Firebase-regler.
 - Kontrollera leverantörsvillkor, relevanta gratisnivåer, personuppgiftsansvar och eventuella tredjepartsbilder före beslut.
 
-Användaren har godkänt #284, #336 och #337. Övriga planerade steg följer separata körbesked; inga betalplans- eller regeländringar ingår i domänarbetet.
+Användaren har godkänt #335/#336/#339/#340. Övriga planerade steg följer separata körbesked; inga betalplans- eller regeländringar ingår i detta paket.
 
 ## Senare och historik
 

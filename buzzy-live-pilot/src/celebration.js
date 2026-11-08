@@ -18,7 +18,7 @@ export function createCelebration(enabled){
    const distance=width*(.47+Math.random()*.65),lift=height*(.72+Math.random()*.34),rotation=Math.random()*360;
    const ascent=800+Math.random()*200,descent=1700+Math.random()*300,duration=ascent+descent,delay=Math.random()*360;
    const particle=document.createElement('i');particle.className='celebration-particle';particle.dataset.origin=side;particle.style.background=colors[i%colors.length];root.append(particle);batch.particles.push(particle);
-   const frames=Array.from({length:17},(_,n)=>{const t=n/16,offset=t<=.5?2*t*ascent/duration:(ascent+2*(t-.5)*descent)/duration;return {offset,transform:`translate(${startX+direction*distance*t}px,${startY-4*lift*t*(1-t)}px) rotate(${rotation+direction*720*t}deg)`,opacity:t===0||t===1?0:1};});
+   const frames=Array.from({length:17},(_,n)=>{const t=n/16,offset=t<=.5?2*t*ascent/duration:(ascent+2*(t-.5)*descent)/duration,arc=t<=.5?1-Math.pow(1-2*t,1.15):1-Math.pow(2*t-1,1.6);return {offset,transform:`translate(${startX+direction*distance*t}px,${startY-lift*arc}px) rotate(${rotation+direction*720*t}deg)`,opacity:t===0||t===1?0:1};});
    particle.animate(frames,{duration,delay,easing:'linear',fill:'both'});finish=Math.max(finish,duration+delay);
   }
   batch.timer=setTimeout(()=>{remove(batch);if(queued){queued=false;launch();}},finish+80);

@@ -150,22 +150,25 @@ principal://iam.googleapis.com/projects/775038676052/locations/global/workloadId
 
 Skapa GitHub Environment **`firebase-pilot`**, begränsad till `main`. Lägg samma `WIF_PROVIDER`, men `GOOGLE_SERVICE_ACCOUNT=buzzy-hosting@buzzy-197dc.iam.gserviceaccount.com`. Lägg dig själv som **Required reviewer** om inställningen finns på repots plan; lämna **Prevent self-review** av om du är ensam och själv ska kunna godkänna. Manuell Run workflow och regelhash krävs alltid, även utan reviewer-funktionen.
 
-Hosting Admin är en projektroll som kan påverka även huvudsidan. Begränsningen till preview ligger i de granskade workflow-/scriptfilerna och behörigheten till just dem. Det är ingen Google IAM-isolering till en enda kanal. Ändra inte filerna till live-deploy eller lägg till automatiska triggers utan ny granskning.
+Hosting Admin är en projektroll som kan påverka även huvudsidan. Workflowet erbjuder nu efter användarens beslut både preview och live som uttryckliga manuella val; det är ingen Google IAM-isolering till en enda kanal. Lägg inte till automatiska triggers utan ny granskning.
 
 ## 9. Publicera den konkreta piloten när du är redo
 
-På Actions väljer du **Firebase - publish reviewed pilot → Run workflow → main**. Ange den granskade hashsträngen i `reviewed_rules_sha256`. Använd samma `rules_source` som granskats. Konsolläge kräver att `console_rules_confirmed` markeras efter en ny aktuell konsolkontroll; en gammal snapshot/ett godkännande från en tidigare run räcker inte som bekräftelse för en ny run. Bygget och lokalt interceptat HTTPS-prov körs först utan Google-behörighet. Godkänn därefter eventuell Environment-granskning. En ny läsande metadatakontroll och kontroll av vald regelevidens körs innan `pilot` laddas upp med giltighet **en dag**.
+På Actions väljer du **Firebase - publish reviewed Hosting → Run workflow → main**. Välj `hosting_target=pilot` för preview med en dags giltighet, eller `hosting_target=live` för den ordinarie publika Hosting-versionen. Ange den granskade hashsträngen i `reviewed_rules_sha256`. Använd samma `rules_source` som granskats. Konsolläge kräver att `console_rules_confirmed` markeras efter en ny aktuell konsolkontroll; en gammal snapshot/ett godkännande från en tidigare run räcker inte som bekräftelse för en ny run. Bygget och lokala kontroller körs först utan Google-behörighet. Godkänn därefter eventuell Environment-granskning. En ny läsande metadatakontroll och kontroll av vald regelevidens körs före uppladdning. Live-valet publicerar endast Hosting-innehåll, inte databasregler eller Auth-inställningar.
+
+För `buzzy.trythis.one`: lägg till den exakta underdomänen i Firebase Hosting och följ de verifierings- och DNS-poster som Firebase visar. Lägg in dessa i Cloudflare efter att befintliga poster för underdomänen kontrollerats; använd DNS only under verifiering och certifikatutfärdande. Bekräfta HTTPS och att host och spelare kan ansluta efter live-publicering. Hitta inte på DNS-värden och ändra inte andra poster på `trythis.one`.
 
 Körningen får inte:
 
 - skriva databasregler eller speldata,
 - synka Auth-domäner,
-- skapa/uppgradera billing eller aktivera API:er,
-- ersätta huvudkanalen `live`.
+- skapa/uppgradera billing eller aktivera API:er.
+
+Endast valet `hosting_target=live` ersätter den ordinarie Hosting-versionen. `pilot` lämnar live-kanalen orörd.
 
 Den faktiska adressen visas av Firebase-utskriften och i Hosting-konsolen. Den ska följa `https://buzzy-197dc--pilot-….web.app`. Använd den faktiska länken; gissa inte suffixet. Preview kan vara offentligt nåbar för den som har länken; det är inget privat inloggningsskydd. Anonymous Auth behöver inte någon popup-inloggning. Om API-nyckeln har egna referensbegränsningar måste previewadressen tillåtas uttryckligen efter granskning i webbkonsolen.
 
-Prova host + två riktiga mobiler, First/Timed, sen buzz, Retry, bakgrundstimer, reload och End game. Följ faktisk Firebase-användning. Länken räknar mot samma projekt/databas som huvudappen; den isolerar inte data och raderar inte rum vid expiry. Huvudpublicering är ett senare separat beslut.
+Prova host + två riktiga mobiler, First/Timed, sen buzz, Retry, bakgrundstimer, reload och End game. Följ faktisk Firebase-användning. Pilotlänken räknar mot samma projekt/databas som huvudappen; den isolerar inte data och raderar inte rum vid expiry.
 
 ## Återgång och stängning
 

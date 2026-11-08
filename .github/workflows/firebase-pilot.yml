@@ -1,7 +1,15 @@
-name: Firebase - publish reviewed pilot
+name: Firebase - publish reviewed Hosting
 on:
   workflow_dispatch:
     inputs:
+      hosting_target:
+        description: Hosting destination (live publishes the public site)
+        type: choice
+        options:
+          - pilot
+          - live
+        default: pilot
+        required: true
       reviewed_rules_sha256:
         description: SHA-256 of the reviewed proposed rules, also present in Firebase
         type: string
@@ -91,6 +99,7 @@ jobs:
       WIF_PROVIDER: ${{ vars.WIF_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT: ${{ vars.GOOGLE_SERVICE_ACCOUNT }}
       REVIEWED_RULES_SHA256: ${{ inputs.reviewed_rules_sha256 }}
+      HOSTING_TARGET: ${{ inputs.hosting_target }}
     steps:
       - name: Check out the selected main commit
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -130,7 +139,7 @@ jobs:
         run: node ops/inventory.mjs pilot
         env:
           GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
-      - name: Publish Hosting pilot only, for one day
+      - name: Publish selected Hosting destination
         run: node ops/deploy-pilot.mjs
       - name: Retain sanitized preflight and rules backup
         if: always()

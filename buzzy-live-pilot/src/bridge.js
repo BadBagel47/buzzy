@@ -157,7 +157,7 @@ function afterRender(){
  const allowedLocal=a=>localActions.has(a);
  for(const el of document.querySelectorAll('[data-action],[data-pick]')){
   const a=el.dataset.action||'pick';
-  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&(busy||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a));
+  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a));
   el.toggleAttribute('data-network-blocked',locked);
   if(!a.startsWith('buzz:')){
    if(locked){if(!el.hasAttribute('data-network-original-aria'))el.dataset.networkOriginalAria=el.getAttribute('aria-disabled')??'__none__';el.setAttribute('aria-disabled','true');}
@@ -216,7 +216,7 @@ function handle(action){
  if(action==='round-overview'||action==='history'||action==='export-history'){afterIdle(()=>operation(async()=>{await loadArchive();runLocal(()=>api.handle(action));},{save:false}));return true;}
  if(action.startsWith('apply-adjust:')){const id=action.split(':')[1],delta=Number(document.getElementById('adjustval')?.value);operation(async()=>{await command('adjust',{playerId:id,delta,allowNegative:s.allowNegativeScores,name:s.players.find(p=>p.id===id)?.name});s.modal='';},{save:false});return true;}
  if(/^(kick|ban|unban|rejoin):/.test(action)){const [kind,id]=action.split(':');operation(async()=>{await command('moderate',{playerId:id,status:kind==='kick'?'kicked':kind==='ban'?'banned':'active'});s.modal='';},{save:false});return true;}
- if(action==='celebrate'){if(s.celebration)operation(()=>command('celebrate'),{save:false});else api.tip('Celebration effects are disabled.');return true;}
+ if(action==='celebrate'){if(s.celebration)afterIdle(()=>{if(s.celebration&&s.networkReady&&!exitTask) return operation(()=>command('celebrate'),{save:false});});else api.tip('Celebration effects are disabled.');return true;}
  if(action==='end-room'){openExit('network-end');return true;}
  return false;
 }

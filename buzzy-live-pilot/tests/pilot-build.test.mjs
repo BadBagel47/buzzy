@@ -6,7 +6,7 @@ const config=JSON.parse(readFileSync('config/firebase.buzzy-197dc.json','utf8'))
 await test('Built HTTPS pilot uses live Auth config, hosting headers and fails without demo fallback',async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox'],headless:true});
  try{
-  for(const hostname of ['buzzy-197dc.web.app','buzzy-197dc--pilot-abc123.web.app']){
+  for(const hostname of ['buzzy-197dc.web.app','buzzy-197dc--pilot-abc123.web.app','buzzy.trythis.one']){
    const context=await browser.newContext(),page=await context.newPage(),errors=[],external=[];page.on('pageerror',e=>errors.push(e.message));await page.routeWebSocket('**',ws=>{ws.close();});
    await page.route('**/*',async route=>{
     const url=new URL(route.request().url());

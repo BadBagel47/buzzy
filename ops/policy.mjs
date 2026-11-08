@@ -75,6 +75,13 @@ export function pilotArguments() {
   return ['hosting:channel:deploy', 'pilot', '--project', PROJECT, '--config', 'firebase.hosting-ci.json', '--expires', '1d', '--no-authorized-domains', '--non-interactive', '--json'];
 }
 
+// Both targets use the same reviewed Hosting-only build and preflight.
+export function hostingArguments(target) {
+  if (target === 'pilot') return pilotArguments();
+  if (target === 'live') return ['deploy', '--only', 'hosting', '--project', PROJECT, '--config', 'firebase.hosting-ci.json', '--non-interactive', '--json'];
+  throw new Error('Unknown Hosting target');
+}
+
 export function assertApproval(approval, env, now = Date.now()) {
   const verifiedAt = Date.parse(approval.verifiedAt);
   if (approval.sourceCommit !== env.GITHUB_SHA || approval.reviewedRulesSha256 !== env.REVIEWED_RULES_SHA256 || !Number.isFinite(verifiedAt) || now - verifiedAt > 120_000 || verifiedAt > now || approval.target !== 'pilot' || approval.databaseWritesAllowed !== false) throw new Error('Missing or stale read-only preflight approval');

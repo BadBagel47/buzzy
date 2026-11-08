@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {mkdtemp, mkdir, writeFile, readFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments, oidcSubject} from '../ops/policy.mjs';
+import {PROJECT, PROJECT_NUMBER, DATABASE_URL, PROVIDER, REPOSITORY, REPOSITORY_ID, OWNER_ID, assertContext, assertPilotReady, assertApproval, rulesHash, hostingOnlyConfig, pilotArguments, hostingArguments, oidcSubject} from '../ops/policy.mjs';
 import {RESOURCES, reader, collectInventory, main, apiFailure} from '../ops/inventory.mjs';
 import {parseRulesSource} from '../ops/rules-source.mjs';
 import {summarizeClaims, diagnose} from '../ops/oidc-diagnostics.mjs';
@@ -232,7 +232,7 @@ test('Manual pilot requires matching reviewed rules, exact evidence and repeated
   assert.throws(() => assertApproval(approval, {...env, RULES_SOURCE: 'api'}, now));
 });
 
-test('Deploy configuration and arguments cannot select database, Functions, live channel or Auth sync', () => {
+test('Hosting targets are explicit and cannot deploy database, Functions or Auth configuration', () => {
   const source = JSON.parse(readFileSync(new URL('../buzzy-live-pilot/firebase.pilot.json', import.meta.url), 'utf8'));
   const config = hostingOnlyConfig(source), args = pilotArguments();
   assert.deepEqual(Object.keys(config), ['hosting']);
@@ -240,6 +240,9 @@ test('Deploy configuration and arguments cannot select database, Functions, live
   assert.equal(args[0], 'hosting:channel:deploy');assert.equal(args[1], 'pilot');assert.ok(args.includes('--no-authorized-domains'));
   assert.equal(args[args.indexOf('--expires') + 1], '1d');
   assert.ok(!args.includes('deploy'));assert.ok(!args.includes('live'));assert.ok(!args.includes('--force'));
+  assert.deepEqual(hostingArguments('pilot'),args);
+  assert.deepEqual(hostingArguments('live'),['deploy','--only','hosting','--project',PROJECT,'--config','firebase.hosting-ci.json','--non-interactive','--json']);
+  for(const target of ['', 'production', 'database', '../live'])assert.throws(()=>hostingArguments(target));
   assert.deepEqual(config.hosting.headers, source.hosting.headers);
   for (const hosting of [{...source.hosting, public: '..'}, {...source.hosting, rewrites: []}, {...source.hosting, frameworksBackend: {}}]) assert.throws(() => hostingOnlyConfig({hosting}));
 });

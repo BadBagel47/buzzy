@@ -11,14 +11,14 @@ Uppdaterad 2026-11-08. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Spelbar Firebase-pilot är publicerad. Senast verifierad publicering är [run42471953022](https://github.com/BadBagel47/buzzy/actions/runs/42471953022), källa `168ca076d473eab8ebcad3b7f5f6833a88d26a78`. Senaste förbättringarna gäller #293, #305 och #320. Lokala prov och CI är gröna; verkliga wifi/5G-byten och aktuell layout på användarens mobil återstår att bekräfta.
+Spelbar Firebase-pilot är publicerad. Senast verifierad publicering är [run42520516709](https://github.com/BadBagel47/buzzy/actions/runs/42520516709), källa `ca4b60ea96a28f8bb77a153ce652056a91971db5`. Användaren uppger att återanslutningen i #293 verkar fungera. Senast publicerad justering av Play-knappen inväntar mobilbedömning.
 
 Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som den riktiga tjänsten. Den är ingen isolerad testdatabas. Ingen skarp huvudpublicering eller domänkoppling har genomförts i detta arbetsflöde.
 
 ## Närmast
 
-1. Samla mobilutfall från senaste pilot: återanslutning, kortplacering och Questions-animation. Återöppna berörda ID:n om något kvarstår; starta inte om färdiga paket.
-2. #290: invänta användarens Chrome-prov av vibration innan fortsatt felsökning.
+1. #284/#336: genomför överlappande konfettiskurar och långsammare nedfall. #337: förbered `buzzy.trythis.one` och publicering till live-kanalen.
+2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.
 
@@ -27,10 +27,10 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 - Bekräfta relevanta mobilflöden, tillgänglighet och verklig användning av gratiskvoten. Respektera att #253:s manuella skärmläsarprov är pausat; det har inte gjorts till nytt ovillkorligt lanseringskrav.
 - Bestäm vilka som får vara host och hur behörigheten säkras även vid direkta Firebase-anrop. Deltagare ska kunna spela utan synligt inloggningssteg.
 - Gå igenom lagring av spelarnamn, UID, spelhistorik, konton och övergivna rum. Rummet raderas vid bekräftat hostavslut; automatisk gallring av övergivna rum är inte implementerad.
-- Planera huvudpublicering och anpassad domän. Domänen ligger hos Cloudflare; Firebase Hosting är nuvarande hosting. Cloudflare-skydd på domänen ersätter inte Firebase-regler.
+- Publicera till `buzzy.trythis.one` via Firebase Hosting och Cloudflare enligt #337. Cloudflare-skydd på domänen ersätter inte Firebase-regler.
 - Kontrollera leverantörsvillkor, relevanta gratisnivåer, personuppgiftsansvar och eventuella tredjepartsbilder före beslut.
 
-Detta är planerade steg, inte automatiska klartecken för kod-, domän-, kostnads- eller regeländringar.
+Användaren har godkänt #284, #336 och #337. Övriga planerade steg följer separata körbesked; inga betalplans- eller regeländringar ingår i domänarbetet.
 
 ## Senare och historik
 

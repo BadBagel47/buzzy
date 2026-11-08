@@ -1,5 +1,5 @@
 import publicConfig from '../config/firebase.buzzy-197dc.json' with {type:'json'};
-export const PILOT_HOSTS=['buzzy-197dc.web.app','buzzy-197dc.firebaseapp.com'];
+export const PILOT_HOSTS=['buzzy-197dc.web.app','buzzy-197dc.firebaseapp.com','buzzy.trythis.one'];
 export function resolveRuntime({target,hostname,protocol},config=publicConfig){
  if(target==='emulator'){
   if(!['localhost','127.0.0.1'].includes(hostname))throw new Error('This local build requires the local test environment.');

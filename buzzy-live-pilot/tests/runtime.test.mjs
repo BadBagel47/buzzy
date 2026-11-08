@@ -5,7 +5,7 @@ test('Emulator target accepts only loopback; pilot requires approved HTTPS origi
  for(const host of ['localhost','127.0.0.1'])assert.equal(resolveRuntime({target:'emulator',hostname:host,protocol:'http:'}).target,'emulator');
  for(const hostname of [...PILOT_HOSTS,'evil.example'])assert.throws(()=>resolveRuntime({target:'emulator',hostname,protocol:'https:'}));
  for(const hostname of [...PILOT_HOSTS,'buzzy-197dc--pilot-abc123.web.app']){assert.equal(resolveRuntime({target:'pilot',hostname,protocol:'https:'}).config.projectId,'buzzy-197dc');assert.throws(()=>resolveRuntime({target:'pilot',hostname,protocol:'http:'}));}
- for(const hostname of ['localhost','127.0.0.1','evil.example','buzzy-197dc.web.app.evil.example'])assert.throws(()=>resolveRuntime({target:'pilot',hostname,protocol:'https:'}));
+ for(const hostname of ['localhost','127.0.0.1','evil.example','buzzy-197dc.web.app.evil.example','trythis.one','buzzy.trythis.one.evil.example'])assert.throws(()=>resolveRuntime({target:'pilot',hostname,protocol:'https:'}));
  assert.throws(()=>resolveRuntime({target:'unknown',hostname:'localhost',protocol:'http:'}));
 });
 test('Wrong project/region/app configuration fails before SDK initialization',()=>{

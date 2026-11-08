@@ -160,3 +160,7 @@ html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-over
 html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-source { color:#23446d;background:#d2e0ef;border-color:#a6bdd7; }
 html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-positive { color:#167553; }
 html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-negative { color:#ad344b; }
+/* #312, #324: reuse host theme colors and the established secondary-text minimum. */
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .btn.danger { border-color:var(--red);color:var(--red); }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay .lb-empty { color:#506783;font-size:var(--host-small-text); }
+html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay :is(.lb-columns,.lb-pts,.lb-share-copy strong,.lb-share-copy small) { font-size:var(--host-small-text); }

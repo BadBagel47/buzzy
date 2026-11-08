@@ -119,6 +119,8 @@ landing=landing.replace('letter-spacing:.22em;text-indent:.22em;text-align:cente
 landing=landing.replace('.room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}', '.room-code::placeholder{color:#6f88ad;letter-spacing:.22em;text-indent:.22em}');
 landing=landing.replaceAll('6 characters','4 characters').replace('maxlength="12"','maxlength="4"').replace('placeholder="······"','placeholder="····"');
 landing=landing.replace('.join-button:active{transform:translateY(1px);filter:brightness(.94)}','.join-button:active{transform:scale(.98)}button{-webkit-tap-highlight-color:transparent}');
+// #330: keep landing helper and error text at the established readable minimum.
+landing=landing.replace('</head>','<style>.field-hint,.field-error,.noscript{font-size:14px}</style></head>');
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');
 landing=landing.replace('Design preview. Download and open this file in your browser to try the controls.','Enable JavaScript to create or join a room.');
 writeFileSync('index.html',landing);

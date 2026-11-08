@@ -40,18 +40,19 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
 | #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Publicerat i piloten; efterföljande #329 ökade antalet ytterligare. |
 | #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Publicerat i run42425734815: frågekön, buzzordning, spelarens liveflöde och tillbaka-knappen använder samordnade riktningspilar. Mobilprov återstår. |
-| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ konsekvent placering och att hostdialoger följer ljust tema medan spelarens leaderboard behåller mörkt tema. | Återöppnad efter mobilprov: hostens ljusa Leaderboard visar “No scores yet” med för låg kontrast. Förbättra texten i hosttemat och behåll läsbarheten i spelarens mörka tema. |
+| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ konsekvent placering och att hostdialoger följer ljust tema medan spelarens leaderboard behåller mörkt tema. | Återöppnad efter mobilprov: “No scores yet” behöver bättre kontrast i hostens ljusa Leaderboard. Återanvänd befintlig färgmall och kontrollera minsta textstorlek enligt #292 (14 px för hostens sekundärtext). Behåll spelarens mörka tema. |
 | #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Kompakt antal aktiva deltagare visas vid Buzz results i källan utan nya Firebase-anrop; faktisk onlinenärvaro garanteras inte. |
 | #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | New question ligger ovanför texten som fullbreddsknapp i källan. |
 | #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Rundstatus skiljer nu pending-bedömningar från färdigbedömda felaktiga svar i källan. |
 | #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | QR-vyn visar domän som text; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
 | #329 | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Publicerat i run42425734815: startfördröjning 0–360 ms och 432 bitar. Mobilprov återstår. |
+| #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Registrerat. Källkontroll visar bland annat 12 px för rumskodens hjälptext och 13 px för feltext; jämför med tidigare 14 px-riktmärke. Ingen appändring gjord. |
 
 För #290-utredningen och kvarstående beslut, se [INVESTIGATION_290.md](INVESTIGATION_290.md). En eventuell inställning och exakt feedback bestäms innan implementation.
 
 Pågående #289 fortsätter enligt [regelgranskningen](RULES_REVIEW_289.md). Regelpubliceringen har senare godkänts och bekräftats via ny konsolkopia. Första Hosting-piloten har publicerats; #293:s CSP-följdfix är publicerad och rumsskapandet användarbekräftat; #290 har nu en separat teknisk utredning, utan implementation.
 
-Nästa fria interna ID: **#330**.
+Nästa fria interna ID: **#331**.
 
 ## #293 — reproduktion och mål
 

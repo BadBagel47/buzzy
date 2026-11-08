@@ -7,7 +7,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | ID | Önskemål | Status |
 |---|---|---|
 | #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #284 | Upprepade utlösningar av vinstkonfetti får inte kapas av tidigare städtimer. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #284 | Upprepade tryck på konfettiknappen ska lägga till nya konfettiskurar utan att avbryta pågående skurar. | Återöppnad: nuvarande effekt rensar tidigare partiklar vid varje ny utlösning. Väntar på körbesked. |
 | #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Implementationen publicerad i run42410517841, men användaren rapporterar ingen vibration i Android Brave eller Chrome. Felsökning på faktisk enhet återstår. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
 | #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerat i run42421937554: etiketters mobila tryckmarkering avstängd, tangentbordsfokus och switcharnas valda läge bevaras. Mobilprov återstår. |
 | #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
@@ -54,12 +54,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Publicerat i run42480785493; mobilprov återstår. |
 | #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
 | #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Upptäckt i extra emulatorprov: statusytan täcker spelarens vanliga lämna-knapp, medan länken i statusytan är dold. Inte fysiskt mobilverifierat; ingen apprättning gjord. |
+| #336 | Låt konfettin falla långsammare efter uppskjutningen. | Registrerat; välj en måttlig förlängning av nedfärden och behåll uppskjutningens tempo. Väntar på körbesked. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#336**.
+Nästa fria interna ID: **#337**.
+
+Uppföljning #284 och ny #336: varje tryck ska kunna ge en ny skur samtidigt som tidigare konfetti fullföljer sin animation. `createCelebration().launch()` anropar idag `clear()` först, vilket avbryter alla pågående animationer. Separera skurarnas livstid och städning, behåll reduced motion och inställningen för effekter, och undersök även att snabba tryck och vidareförmedling till spelarna inte tappas: hostens gemensamma `operation` ignorerar anrop medan den är upptagen och databasen lagrar senaste firandehändelsen. För #336 ska nedfärden göras långsammare utan att sakta ned uppskjutningen. Undersök resursanvändning vid flera samtidiga skurar. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell för detta paket: GPT-6.1 Terra high.
 
 Källändringarna #316/#333/#334 är publicerade i [run42480785493](https://github.com/BadBagel47/buzzy/actions/runs/42480785493), från commit `61997189e512da16d327b1c93c934a38a676c26a`. Körningen lyckades. Hosting-emulatorn svarade på `/host` och `/player`, omdirigerade de äldre `.html`-adresserna och behöll frågeparametrar samt `no-store` för `/host`. Mobilprov återstår.
 

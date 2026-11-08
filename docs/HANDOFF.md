@@ -5,13 +5,13 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Aktiv arbetskopia: `/workspace/buzzy`, gren `main`, repo `BadBagel47/buzzy` på GitHub. Kontrollera `git status` före ändringar.
-- Senaste verifierade kodpublicering: `168ca076d473eab8ebcad3b7f5f6833a88d26a78`, [run42471953022](https://github.com/BadBagel47/buzzy/actions/runs/42471953022), status success. Senare dokumentationscommits kan finnas på main utan att kräva ny pilot.
+- Senaste verifierade kodpublicering: `61997189e512da16d327b1c93c934a38a676c26a`, [run42480785493](https://github.com/BadBagel47/buzzy/actions/runs/42480785493), status success. Senare dokumentationscommits kan finnas på main utan att kräva ny pilot.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
 - Användaren bekräftar nu att återanslutningen i #293 verkar fungera. Den ursprungliga rotorsaken på Android/Brave fastställdes inte separat.
 - Senaste verifiering: konfiguration 5/5, pilot-UI 5/5 (inklusive återanslutning), pilotbygge och interceptat HTTPS-prov. Aktuell fysisk wifi/5G- och layoutkontroll återstår.
-- #316, #333 och #334 är ändrade efter körbesked och väntar på publicering. Rena `/host` och `/player` samt vidarebefordring av gamla `.html`-adresser är kontrollerade i Hosting-emulatorn. Se aktuell teststatus i backloggen.
+- #316, #333 och #334 är publicerade. Rena `/host` och `/player` samt vidarebefordring av gamla `.html`-adresser är kontrollerade i Hosting-emulatorn; mobilprov återstår. Se aktuell teststatus i backloggen.
 
 ## Nästa steg och pausade spår
 

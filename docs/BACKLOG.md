@@ -34,7 +34,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
-| #316 | Visa det kortare Room not found-beskedet: “We couldn’t find a room with that code.” | Ändrat i källan efter körbesked; ännu inte publicerat. |
+| #316 | Visa det kortare Room not found-beskedet: “We couldn’t find a room with that code.” | Publicerat i run42480785493. |
 | #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning publicerad i run42395979402; mobilprov återstår. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
@@ -51,8 +51,8 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
 | #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Pausat enligt användaren i väntan på engångslänkslösningen från ett annat projekt. Anpassning och tester mot Firebase och kvot krävs före ett framtida genomförande. |
 | #332 | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
-| #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Ändrat i källan efter körbesked; ännu inte publicerat. |
-| #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Ändrat i källan; Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade. Ännu inte publicerat. |
+| #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Publicerat i run42480785493; mobilprov återstår. |
+| #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
 | #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Upptäckt i extra emulatorprov: statusytan täcker spelarens vanliga lämna-knapp, medan länken i statusytan är dold. Inte fysiskt mobilverifierat; ingen apprättning gjord. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
@@ -61,7 +61,7 @@ Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting
 
 Nästa fria interna ID: **#336**.
 
-Källändringarna #316/#333/#334 är genomförda efter användarens körbesked. Pilotbygget, konfigurationsproven och det riktade room-UI-provet passerade. Hosting-emulatorn svarade på `/host` och `/player`, omdirigerade de äldre `.html`-adresserna och behöll frågeparametrar samt `no-store` för `/host`. Den ordinarie pilot-UI-körningen hade fyra godkända delar; room-UI-delen hade en inaktuell förväntning på den långa feltexten, och passerade efter uppdatering i en separat körning. Publicering återstår.
+Källändringarna #316/#333/#334 är publicerade i [run42480785493](https://github.com/BadBagel47/buzzy/actions/runs/42480785493), från commit `61997189e512da16d327b1c93c934a38a676c26a`. Körningen lyckades. Hosting-emulatorn svarade på `/host` och `/player`, omdirigerade de äldre `.html`-adresserna och behöll frågeparametrar samt `no-store` för `/host`. Mobilprov återstår.
 
 Det extra `test:ui`-provet bekräftade korrekt och felaktig resultatikon, men hela provet misslyckades vid separat scenario med avstängd spelare: statusytan fångar trycket och dess egen lämna-länk syns inte. Detta följs upp i #335.
 

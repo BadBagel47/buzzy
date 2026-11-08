@@ -34,7 +34,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
 | #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
 | #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
-| #316 | Gör Room not found tydligare och knyt felbeskedet till rumsfälten med ett begripligt nästa steg. | Publicerat i run42380847677; mobilprov återstår. |
+| #316 | Visa det kortare Room not found-beskedet: “We couldn’t find a room with that code.” | Återöppnad för copyjustering; den nuvarande andra meningen ska tas bort. Väntar på körbeslut. |
 | #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning publicerad i run42395979402; mobilprov återstår. |
 | #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
 | #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
@@ -264,7 +264,7 @@ Publicerad efter körbeslut i [run42370960695](https://github.com/BadBagel47/buz
 
 Användaren upplever att ”Room not found” inte tydligt förklarar vad som hänt eller vad deltagaren ska göra. Läsgranskning visar att klienten returnerar råtexten `Room not found.` från room lookup och `entry.js` visar fångat fel i en generell sidstatus efter host-alternativet. Det är inte kopplat visuellt till rumskodsfältet.
 
-Rekommenderad lösning vid implementation: visa ett kort, mänskligt besked direkt under rumskoden, markera fältet ogiltigt och behåll den inmatade koden. Exempel på engelska som passar spelets UI: “We couldn’t find a room with that code. Check the 4-character code with your host, or ask if the room is still open.” Behåll generell status för host-/anslutningsfel. Beskedet ska ge ett begripligt nästa steg utan att påstå att orsaken säkert är felskrivning eller att rummet stängts. Ingen appändring eller test gjord.
+Den publicerade implementationen visar ett felbesked direkt under rumskoden, markerar fältet ogiltigt och behåller den inmatade koden. Användaren vill nu korta själva texten till endast: “We couldn’t find a room with that code.” Ta bort den efterföljande meningen. Behåll fältkopplingen och övrigt felbeteende. Detta är en återöppning av #316, inte ett nytt ID. Ingen appändring eller test gjord för copyjusteringen; inväntar körbeslut enligt arbetssättet.
 
 ## #317 — visuell centrering i rumskodsfältet
 

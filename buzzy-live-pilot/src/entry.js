@@ -29,12 +29,12 @@ async function enter(role){
    if(pending!==attempt)return;
    sessionStorage.setItem('buzzy-spark-ui-session',JSON.stringify({code:result.code,role}));
    if(role==='host')sessionStorage.removeItem(createKey);
-   location.assign(`/${role}.html`);
+   location.assign(`/${role}`);
   })().catch(error=>{attempt.task=null;throw error;});
   await deadline(attempt.task,20000);
  }catch(e){
   if(role==='player'&&e.message==='Room not found.'){
-   error(code,'code-error',"We couldn’t find a room with that code. Check the 4-character code with your host, or ask if the room is still open.");
+   error(code,'code-error',"We couldn’t find a room with that code.");
    status.textContent='';status.hidden=true;code.focus({preventScroll:true});
   }else status.textContent=e.code==='PERMISSION_DENIED'?'Unable to join this room. Check the code with your host.':e.message;
   busy=false;host.disabled=false;form.querySelector('button').disabled=false;

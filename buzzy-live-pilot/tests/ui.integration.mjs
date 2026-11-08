@@ -31,6 +31,7 @@ await test('Existing Buzzy UI connected to independent Spark identities',async t
    await a.waitForFunction(()=>window.BuzzyView.state.buzzes.length===2);assert.deepEqual((await state(a)).buzzes,hs.buzzes);
    const winner=hs.buzzes[0].id;await host.locator('[data-action="correct"]').first().click();
    for(const p of [host,a,b])await p.waitForFunction(id=>window.BuzzyView.state.players.find(p=>p.id===id)?.score===1,winner);
+   await host.waitForFunction(id=>document.querySelector(`[data-pick="${id}"] strong`)?.textContent.includes('✓'),winner);
    assert.equal(await a.evaluate(()=>window.originalBuzzer===document.querySelector('.coin-buzzer')),true,'Retain actual buzzer DOM node');
    assert.equal((await state(a)).lastDecision,'correct');
    const other=hs.buzzes[1].id;await idle(host);await host.locator(`[data-pick="${other}"]`).click();await idle(host);await host.locator('[data-action="correct"]').first().click();for(const p of [host,a,b])await p.waitForFunction(()=>window.BuzzyView.state.players.every(p=>p.score===1));
@@ -45,6 +46,7 @@ await test('Existing Buzzy UI connected to independent Spark identities',async t
    await host.locator('[data-action="switch-mode"]').click();await host.waitForFunction(()=>window.BuzzyView.state.mode==='first');await idle(host);
    await host.locator('.quickplay-main[data-action="open"]').click();await a.waitForFunction(()=>window.BuzzyView.state.phase==='open');await a.locator('.coin-buzzer').click();
    await host.waitForFunction(()=>window.BuzzyView.state.phase==='locked');await idle(host);await host.locator('[data-action="incorrect"]').first().click();await host.waitForFunction(()=>window.BuzzyView.state.lastDecision==='incorrect');await idle(host);
+   assert.match(await host.locator('.buzz-result-row strong').first().innerText(),/✕$/);
    await host.locator('.quickplay-main[data-action="reset"]').click();await host.waitForFunction(()=>window.BuzzyView.state.attemptNumber===2);assert.equal(await host.locator('.previous-attempts').count(),1);assert.deepEqual((await state(host)).playerEffects,{});assert.equal((await state(host)).feedDecision,null);await idle(host);await host.locator('.quickplay-main[data-action="open"]').click();
    await a.waitForFunction(()=>window.BuzzyView.state.attemptNumber===2&&window.BuzzyView.state.phase==='open');assert.equal(await a.locator('.coin-buzzer').getAttribute('aria-disabled'),'true');
    const blocked=await call(a,{action:'buzz',code,roundId:2,attempt:2});assert.equal(blocked.ok,false);

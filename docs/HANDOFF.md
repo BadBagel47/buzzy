@@ -20,6 +20,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 2. #290 vibration: 40 ms begärs vid spelarens aktiva buzztryck, men användaren får ingen vibration i Android Brave eller Chrome. Fortsatt felsökning på den verkliga enheten återstår.
    #335: ett extra UI-prov visar att en avstängd spelares statusyta täcker lämna-knappen och dess egen länk är dold. Ingen apprättning gjord; se backloggen.
    #284 och #336: användaren vill kunna lägga nya konfettiskurar ovanpå pågående och få långsammare nedfall. Registrerat, inväntar körbesked.
+   #337: användaren vill använda `trythis.one` hos Cloudflare. Planera live-kanal, Firebase-domänverifiering/DNS och appens HTTPS-värdlista; domänen är inte kopplad. Inväntar körbesked.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. Nästa lediga ID hämtas alltid från backloggen.

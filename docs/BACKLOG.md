@@ -55,12 +55,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
 | #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Upptäckt i extra emulatorprov: statusytan täcker spelarens vanliga lämna-knapp, medan länken i statusytan är dold. Inte fysiskt mobilverifierat; ingen apprättning gjord. |
 | #336 | Låt konfettin falla långsammare efter uppskjutningen. | Registrerat; välj en måttlig förlängning av nedfärden och behåll uppskjutningens tempo. Väntar på körbesked. |
+| #337 | Förbered Buzzy på domänen `trythis.one`, som hanteras hos Cloudflare. | Registrerat inför publicering. Firebase Hosting kör i dag pilotkanalen; appens tillåtna HTTPS-värdar omfattar ännu inte domänen. Kontrollera DNS och publiceringsväg före genomförande. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#337**.
+Nästa fria interna ID: **#338**.
+
+#337: utgå från `trythis.one` som huvuddomän; fråga innan eventuell befintlig DNS-konfiguration ersätts och hantera `www` bara om det önskas. Förbered appens godkända HTTPS-värdar och prov för domänen; nuvarande `runtime-config.js` avvisar den. Planera en separat publicering till Firebase Hostings live-kanal, då den nuvarande piloten är en tidsbegränsad preview-kanal. Anslut domänen via Firebase Hostings anvisade verifierings- och DNS-poster i Cloudflare; använd de värden Firebase visar, kontrollera TLS och appens flöden. Både Firebase och Cloudflare kräver tillgång som inte finns via nuvarande verktyg. Ingen kod-, DNS-, regel- eller publiceringsändring gjord; inväntar körbesked enligt arbetssättet.
 
 Uppföljning #284 och ny #336: varje tryck ska kunna ge en ny skur samtidigt som tidigare konfetti fullföljer sin animation. `createCelebration().launch()` anropar idag `clear()` först, vilket avbryter alla pågående animationer. Separera skurarnas livstid och städning, behåll reduced motion och inställningen för effekter, och undersök även att snabba tryck och vidareförmedling till spelarna inte tappas: hostens gemensamma `operation` ignorerar anrop medan den är upptagen och databasen lagrar senaste firandehändelsen. För #336 ska nedfärden göras långsammare utan att sakta ned uppskjutningen. Undersök resursanvändning vid flera samtidiga skurar. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell för detta paket: GPT-6.1 Terra high.
 

@@ -1,10 +1,10 @@
 # Buzzy — läs först vid fortsatt arbete
 
-Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
+Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
 
 ## Aktuellt läge
 
-- Aktiv arbetskopia: `/workspace/buzzy`, gren `main`, repo `BadBagel47/buzzy` på GitHub. Kontrollera `git status` före ändringar.
+- Arbetet sker sedan 2026-11-10 med Claude i en tillfällig klon av `BadBagel47/buzzy`, gren `main` (senast `/home/claude/buzzy`). Hämta senaste `main` och kontrollera `git status` före ändringar; pusha för att något ska finnas kvar till nästa session.
 - Senaste kodpublicering: `5cadbca20e5ea3b91d660309c00f1c9bc92ac634`, [run42529524063](https://github.com/BadBagel47/buzzy/actions/runs/42529524063), status success. Användaren bekräftar att `live` valdes. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
@@ -48,7 +48,7 @@ Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ```
 
 - Ingen databasregel-/billing-/domänändring ingår automatiskt i Hosting-publiceringen. Regeln ovan är ingen ny verifiering av aktuellt molntillstånd.
-- Git-push fungerar i senaste sessionen; Actions-dispatch saknade tillgängligt verktyg/fungerande auth. Användaren gör vid behov Run workflow i webben. Kontrollera möjligheterna på nytt vid ändrad miljö.
+- Git-push via Claude GitHub-appen. Workflowlistan kan läsas, men Actions-dispatch saknar fungerande auth i Claude-sessionen. Användaren gör vid behov Run workflow i webben. Kontrollera möjligheterna på nytt vid ändrad miljö.
 - Publik status kan läsas från GitHubs workflow-/Actions-sida. Om workflowadressen ger 504 har `/BadBagel47/buzzy/actions` fungerat som reserv. Bekräfta både success och commit i run-sidan innan du rapporterar publicerat.
 
 ## Viktiga gränser

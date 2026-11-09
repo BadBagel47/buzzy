@@ -53,20 +53,31 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #332 | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
 | #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Publicerat i run42480785493; mobilprov återstår. |
 | #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
-| #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Ändrat och provat lokalt: statusvyns lämna-länk visas och öppnar bekräftelsen. Publicering och mobilprov återstår. |
-| #336 | Låt konfettin falla långsammare efter uppskjutningen. | Uppföljning ändrad i källan: snabbare uppfärd nära toppen och långsammare nedfärd. Publicering och visuellt prov återstår. |
+| #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Lokalt prov och run42536777864 lyckades. Vald kanal och mobilprov inväntar bekräftelse. |
+| #336 | Låt konfettin falla långsammare efter uppskjutningen. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
 | #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase har verifierat domänen och användaren bekräftar att den nu fungerar. Live-körning 42524163679 lyckades; användaren bekräftar att `live` valdes. Specifika host-/spelarflöden på domänen är inte separat bekräftade. |
 | #338 | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
-| #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Ändrat och uppmätt lokalt på breda skärmar. Publicering och visuellt prov återstår. |
-| #340 | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Ändrat och uppmätt lokalt på tre skärmstorlekar. Publicering och visuellt prov återstår. |
+| #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
+| #340 | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
+| #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Registrerat från användarens desktopbild; väntar på körbesked. |
+| #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Registrerat från användarens bild; väntar på körbesked. |
+| #343 | Justera Join-knappens optiska textplacering på förstasidan. | Registrerat från användarens observation; väntar på körbesked. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#341**.
+Nästa fria interna ID: **#344**.
+
+#341: på breda fönster ser spelarens bakgrundstoning ut att sluta vid den begränsade spelytans kanter. Låt toningen täcka hela tillgängliga fönstret och behåll dess nuvarande utseende på mobil och smala fönster. Spelinnehållets bredd och funktioner ska fortsatt vara anpassade för spelaren. Källan visar att gradienten ligger på `.phone` medan den omgivande sidan har en enfärgad bakgrund; verifiera visuell övergång och dimensionering vid implementation. Ingen appändring gjord.
+
+#342: markeringen runt pilen för spelarens frågeinformation upplevs för stor och felcentrerad, och täcker närliggande text. Centrera den synliga markeringen över pilen och gör den mindre, samtidigt som träffytan förblir användbar och tangentbordsfokus tydligt synligt. Kontrollera både öppet och stängt läge och tangentbord/mus/touch. Källan har en fokusmarkering på knappen och en separat horisontell förskjutning på pilens SVG; den exakta orsaken är ännu inte uppmätt. Ingen appändring gjord.
+
+#343: texten på förstasidans Join-knapp upplevs optiskt för långt åt vänster och något för långt ned. Jämför i första hand textens visuella placering i själva knappen, även med pilen närvarande, och justera försiktigt åt höger och uppåt efter visuell mätning. Behåll knappens storlek, funktion, fokus och responsiva beteende. Ingen appändring gjord. Rekommenderad modell för #341–343: GPT-6.1 Terra high.
 
 Efter körbesked #335/#336/#339/#340: statusvyn visar lämna-länken även när en spelare är avstängd; ett emulatorprov bekräftar lämna-dialog, återgång och återanslutning efter hävd avstängning. Konfettins uppfärd har mindre tidig inbromsning och nedfärden behåller sin längre tid. Hosthuvudets innehåll linjerar med huvudkolumnen på breda skärmar, och förstasidans status visas utan att flytta den centrerade huvuddelen. Pilot-UI-kontroll 5/5, konfigurationsprov 5/5, pilotbygge och interceptat HTTPS-prov passerade. Riktig visuell kontroll och publicering återstår. #290 och #331 avvaktas fortsatt.
+
+Uppdatering: run42536777864 för källcommit `07cfa644ec1bc945ff846be526cf948bfca59662` lyckades. Den offentliga körningssidan visar inte vald Hosting-kanal; live-valet inväntar användarens bekräftelse och faktiskt visuellt prov återstår.
 
 #340: när användaren skapar ett rum upplevs förstasidans innehåll hoppa upp ett steg. Undersök och stabilisera placeringen under väntan, utan att dölja viktig status eller försämra felmeddelanden och tillgänglighet. Kontrollera även anslutning till rum, smala och korta skärmar samt normala och långsamma anslutningar. Källan visar att statusmeddelandet blir synligt i den vertikalt centrerade `.landing`-behållaren vid skapande; ändrad innehållshöjd är ett möjligt spår men hoppets exakta orsak är inte uppmätt. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell: GPT-6.1 Terra.
 

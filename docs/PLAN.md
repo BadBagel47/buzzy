@@ -17,7 +17,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 
 ## Närmast
 
-1. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
+1. #341–343 är ändrade och verifierade lokalt; publicering och visuellt användarprov återstår. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
    #335/#336/#339/#340 är ändrade och verifierade lokalt efter körbesked; publicering och riktiga visuella prov återstår.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.

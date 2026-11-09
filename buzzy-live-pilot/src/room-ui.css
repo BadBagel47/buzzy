@@ -34,6 +34,9 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-
 }
 /* The buzzer's existing rotor, hit target and face content remain the same nodes. */
 html[data-network-role=player] body.buzzy-design-lab.theme-a { height:100dvh; }
+/* The player gradient belongs to the viewport rather than the narrow game column. */
+html[data-network-role=player] body.buzzy-design-lab.theme-a { background-color:#0b192d;background-image:radial-gradient(circle at 50% -15%,rgba(99,134,255,.27),transparent 55%),linear-gradient(175deg,#081327,#101d33 70%,#0b192d); }
+html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .phone { background:transparent; }
 html[data-network-role=player] body.buzzy-design-lab.theme-a.studio-ui .shell { min-height:0; }
 html[data-network-role=player] body #sidecol,
 html[data-network-role=player] body #playercontent,
@@ -86,6 +89,10 @@ html[data-network-role=player] #network-bar.player-connect-screen #leave-room { 
 html[data-network-role=player][data-network-ready] #network-bar.player-connect-screen { display:none; }
 html[data-network-role=player][data-player-status-visible] #network-bar.player-connect-screen { display:flex; }
 html[data-network-role=player][data-network-ready][data-player-status-visible] #network-bar.player-connect-screen #leave-room { display:inline; }
+
+/* Keep the 44px hit area; draw the focus ring around the shifted arrow itself. */
+html[data-network-role=player] .theme-a .phone .qinfo-toggle:focus-visible { outline:none!important; }
+html[data-network-role=player] .theme-a .phone .qinfo-toggle:focus-visible::after { content:'';position:absolute;left:calc(50% - 3px);top:50%;width:26px;height:26px;transform:translate(-50%,-50%);border:2px solid #91bcff;border-radius:8px;box-sizing:border-box;pointer-events:none; }
 
 /* Shared minimum for secondary labels across host views and settings. */
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui :is(.eyebrow,.notice,.pill,.tag,.join-tag,.queue-counter,.library-filter-label,.questions-section-help,.label,.switchrow .bold,.duration-disabled-note,.settings-group-caption,.settings-motion-note,.buzz-count,.fact-main,.mode-short,.behavior-summary-item) { font-size:var(--host-small-text); }

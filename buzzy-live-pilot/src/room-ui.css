@@ -24,6 +24,7 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-
 .host-network-notice-content #network-retry:not([hidden]) { display:block;margin-top:10px; }
 .host-notice-dismiss { width:44px;min-width:44px;height:44px;font-size:25px;line-height:1; }
 .host-room-label,.host-connection-label { display:block; }
+.host-room-label::before { content:"Room "; }
 .host-room-label { font-weight:750; }
 .host-connection-label { color:#506783; }
 .room-header-actions { display:flex;gap:6px;flex:none; }
@@ -35,6 +36,7 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui #host-view-
 @media(max-width:360px) {
  html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .headinner { padding:10px;gap:6px; }
  html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .brand { font-size:23px; }
+ .host-room-label::before { content:none; }
  .room-header-actions { gap:3px; }
  html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .nav button { flex-direction:column;gap:3px;padding-inline:3px; }
 }

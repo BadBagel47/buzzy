@@ -2,14 +2,14 @@ import {installHostLayout} from './host-layout.js';
 export function renderHostStatus(code,text,error){
  const summary=document.getElementById('host-status-summary'),status=document.getElementById('network-status'),notice=document.getElementById('host-network-notice');
  const connected=/ · Connected$/.test(text),initial=text==='Connecting…';
- const room=document.createElement('span');room.className='host-room-label';room.textContent=code?`Room ${code}`:'Connecting…';
+ const room=document.createElement('span');room.className='host-room-label';room.textContent=code||'Connecting…';
  const connection=document.createElement('span');connection.className='host-connection-label';connection.textContent=connected?'Connected':/^Disconnected/.test(text)?'Offline':/game has ended/i.test(text)?'Game ended':error?'Issue':'Connecting…';
  summary.replaceChildren(room,...(code?[connection]:[]));
  const key=`${error}:${text}`;
  if(notice.dataset.messageKey!==key){notice.dataset.messageKey=key;notice.dataset.dismissed='false';}
  const show=!connected&&!initial&&notice.dataset.dismissed!=='true';
  if(!show&&notice.contains(document.activeElement))summary.focus({preventScroll:true});
- notice.hidden=!show;summary.setAttribute('aria-expanded',String(show));summary.setAttribute('aria-label',`${room.textContent}${code?`, ${connection.textContent}`:''}${!connected&&!initial?'. Show connection message':''}`);status.textContent=text;
+ notice.hidden=!show;summary.setAttribute('aria-expanded',String(show));summary.setAttribute('aria-label',`${code?`Room ${code}`:'Connecting'}${code?`, ${connection.textContent}`:''}${!connected&&!initial?'. Show connection message':''}`);status.textContent=text;
 }
 // UI-only helpers. Room permissions, membership and exit semantics stay in bridge.js.
 export function installRoomUi({api,isHost,getCode}) {

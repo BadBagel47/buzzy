@@ -63,12 +63,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Ändrat i källan efter uttryckligt körbesked; lokalt layoutprov passerade. Publicering och användarprov återstår. |
+| #345 | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Registrerat från användarens observation; exakt meddelande och orsak är inte fastställda. Väntar på körbesked. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#345**.
+Nästa fria interna ID: **#346**.
+
+#345: användaren såg ett tillfälligt rött felmeddelande i hosthuvudet, möjligen om att rummet inte längre fanns; meddelandet försvann innan en bild togs. När texten visades flyttade sig knapparna. Gör så att status- och felmeddelanden, inklusive varierande längd och eventuella återförsökskontroller, inte flyttar sidhuvudets knappar eller andra objekt. Behåll viktig information läsbar och åtkomlig, inklusive på smala skärmar och med tangentbord/skärmläsare; testa också att ingen viktig text täcks eller kapas. `setStatus()` lägger i dag meddelandet i hosthuvudets flexlayout och långa texter kan radbrytas, vilket är ett möjligt spår men inte en uppmätt rotorsak. Undersök den aktuella geometrin och testa statusövergångar utan att anta vilket fel som inträffade. Ingen appändring gjord; inväntar körbesked. Rekommenderad modell: GPT-6.1 Terra high.
 
 #344: användaren önskar en något större logotyp och en diskret höjning av förstasidans innehåll. I källan är logotypen 41 px i stället för 38 px, och 37 px i stället för 34 px på de smalaste skärmarna. Mer nedre sidpadding flyttar den centrerade gruppen cirka 8 px uppåt när plats finns, utan att klippa toppen på låga skärmar. Lokalt layoutprov jämför tidigare och nya positioner på 320×640, 390×844, 1440×900 och 390×550 och kontrollerar tillgängligt innehåll och frånvaro av sidledes overflow. Pilot-UI-proven passerade 5/5, konfiguration 5/5, pilotbygget och interceptat HTTPS-prov passerade. Ursprungliga referensfilen är orörd. Publicering och faktisk visuell kontroll återstår.
 

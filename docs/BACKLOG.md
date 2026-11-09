@@ -64,7 +64,7 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Ändrat i källan efter uttryckligt körbesked; lokalt layoutprov passerade. Publicering och användarprov återstår. |
 | #345 | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Ändrat och lokalt verifierat; publicering och användarprov återstår. Exakt ursprungligt fel är okänt. |
-| #346 | Gör logotypen på förstasidan större. | Ändrat i källan; publicering och användarprov återstår. |
+| #346 | Gör logotypen på förstasidan större. | Ändrat och verifierat; den första Actions-körningen föll på ett gammalt förväntat testvärde, som nu är rättat. Ny publiceringskörning behövs. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
@@ -74,7 +74,7 @@ Nästa fria interna ID: **#347**.
 
 #345: hosthuvudet visar en kort status medan längre status- och felmeddelanden och eventuell återförsöksknapp visas i en separat stängbar ruta. Statusknappen öppnar rutan igen. Lokala geometriprov på 320, 390, 768 och 1280 px kontrollerar att huvud, knappar och innehåll inte flyttas vid långa fel, återförsök och frånkoppling; lång text, scrollning, stängning och återöppning kontrollerades. Pilot-UI 5/5, riktat UI-prov, konfiguration 5/5, pilotbygge och HTTPS-prov passerade. Ursprungligt tillfälligt fel och dess orsak är fortfarande okända. Publicering och verkligt användarprov återstår.
 
-#346: logotypen på förstasidan ökades från 41 till 46 px, och från 37 till 42 px på skärmar upp till 350 px.
+#346: logotypen på förstasidan ökades från 41 till 46 px, och från 37 till 42 px på skärmar upp till 350 px. Första Actions-körningen visade att det responsiva UI-testet fortfarande förväntade 37 px; testets gränsvärde uppdaterades till 42 px. Därefter passerade pilot-UI 5/5, konfiguration 5/5, pilotbygget och HTTPS-provet. En ny Actions-körning krävs.
 
 #344: användaren önskar en något större logotyp och en diskret höjning av förstasidans innehåll. I källan är logotypen 41 px i stället för 38 px, och 37 px i stället för 34 px på de smalaste skärmarna. Mer nedre sidpadding flyttar den centrerade gruppen cirka 8 px uppåt när plats finns, utan att klippa toppen på låga skärmar. Lokalt layoutprov jämför tidigare och nya positioner på 320×640, 390×844, 1440×900 och 390×550 och kontrollerar tillgängligt innehåll och frånvaro av sidledes overflow. Pilot-UI-proven passerade 5/5, konfiguration 5/5, pilotbygget och interceptat HTTPS-prov passerade. Ursprungliga referensfilen är orörd. Publicering och faktisk visuell kontroll återstår.
 

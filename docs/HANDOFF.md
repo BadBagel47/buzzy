@@ -1,6 +1,6 @@
 # Buzzy — läs först vid fortsatt arbete
 
-Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
+Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
 
 ## Aktuellt läge
 
@@ -22,7 +22,7 @@ Uppdaterad 2026-11-08. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
    #335/#336/#339/#340: källändringar och lokala pilotprov är klara; run42550140217 från commit `2eb7a9996f11f0bea42c6a7a13316b45ec5c3e35` lyckades och innehåller ändringarna. Vald Hosting-kanal kan inte avläsas på den offentliga sidan; invänta användarens bekräftelse samt verkliga visuella prov.
    #341–343: ändrade och lokalt verifierade — spelarvyns bakgrundstoning över hela fönstret, mindre och centrerad fokusring med bevarad träffyta/fokus, samt optisk centrering av Join-texten. Run42556139061 från `0856d150320ee9d2a8a0faf8764ef544370a4ed9` lyckades; användaren ombads välja live och meddelade klar, men målkanalen är inte direkt avläst. Användarprov återstår.
    #344: förstasidans logotyp är något större och innehållet placerat något högre i källan efter körbesked. Riktat layoutprov på stora, smala och låga skärmar passerade; publicering och användarprov återstår.
-   #345: användaren såg ett tillfälligt rött hostmeddelande som flyttade knapparna. Exakt meddelande och orsak okända; status-/felmeddelanden ska visas utan att flytta objekt eller försämra läsbarhet. Registrerat, inväntar körbesked.
+   #345: hostens status/fel visas i en separat stängbar och återöppningsbar ruta med återförsök; geometriprover på 320–1280 px, pilot-UI 5/5, konfigurationsprov, pilotbygge och HTTPS-prov passerade. Publicering och användarprov återstår. Det ursprungliga tillfälliga felets innehåll och orsak är okända.
    #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only; Firebase verifierade domänen och användaren bekräftar nu att den fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.

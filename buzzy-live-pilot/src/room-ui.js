@@ -1,4 +1,16 @@
 import {installHostLayout} from './host-layout.js';
+export function renderHostStatus(code,text,error){
+ const summary=document.getElementById('host-status-summary'),status=document.getElementById('network-status'),notice=document.getElementById('host-network-notice');
+ const connected=/ · Connected$/.test(text),initial=text==='Connecting…';
+ const room=document.createElement('span');room.className='host-room-label';room.textContent=code?`Room ${code}`:'Connecting…';
+ const connection=document.createElement('span');connection.className='host-connection-label';connection.textContent=connected?'Connected':/^Disconnected/.test(text)?'Offline':/game has ended/i.test(text)?'Game ended':error?'Issue':'Connecting…';
+ summary.replaceChildren(room,...(code?[connection]:[]));
+ const key=`${error}:${text}`;
+ if(notice.dataset.messageKey!==key){notice.dataset.messageKey=key;notice.dataset.dismissed='false';}
+ const show=!connected&&!initial&&notice.dataset.dismissed!=='true';
+ if(!show&&notice.contains(document.activeElement))summary.focus({preventScroll:true});
+ notice.hidden=!show;summary.setAttribute('aria-expanded',String(show));summary.setAttribute('aria-label',`${room.textContent}${code?`, ${connection.textContent}`:''}${!connected&&!initial?'. Show connection message':''}`);status.textContent=text;
+}
 // UI-only helpers. Room permissions, membership and exit semantics stay in bridge.js.
 export function installRoomUi({api,isHost,getCode}) {
  let observed,observer,share,returnFocus,returnFocusSelector,previousOverflow,shareGeneration=0;
@@ -54,11 +66,11 @@ export function installRoomUi({api,isHost,getCode}) {
  }
  function setStatus(code,text,error){
   const status=document.getElementById('network-status');
-  if(!isHost||!code||error){status.textContent=text;return;}
-  const room=document.createElement('span');room.className='host-room-label';room.textContent=`Room ${code}`;
-  const connection=document.createElement('span');connection.className='host-connection-label';connection.textContent=/ · Connected$/.test(text)?'Connected':text;
-  status.replaceChildren(room,connection);
+  if(!isHost){status.textContent=text;return;}
+  renderHostStatus(code,text,error);
  }
+ document.querySelector('.host-notice-dismiss')?.addEventListener('click',()=>{const notice=document.getElementById('host-network-notice');notice.dataset.dismissed='true';notice.hidden=true;const summary=document.getElementById('host-status-summary');summary.setAttribute('aria-expanded','false');summary.focus({preventScroll:true});});
+ document.getElementById('host-status-summary')?.addEventListener('click',()=>{const notice=document.getElementById('host-network-notice');if(!notice.dataset.messageKey||notice.dataset.messageKey.endsWith(' · Connected')||notice.dataset.messageKey.endsWith(':Connecting…'))return;notice.dataset.dismissed='false';notice.hidden=false;document.getElementById('host-status-summary').setAttribute('aria-expanded','true');});
  document.getElementById('room-share-qr')?.addEventListener('click',openShare);
  document.getElementById('room-copy-link')?.addEventListener('click',()=>copyLink());
  sync();

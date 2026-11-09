@@ -1,6 +1,6 @@
 # Buzzy — plan och mål
 
-Uppdaterad 2026-11-08. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
+Uppdaterad 2026-11-09. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
 
 ## Produktmål och ramar
 
@@ -18,7 +18,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 ## Närmast
 
 1. #341–343 är ändrade och run42556139061 lyckades; användaren ombads välja live, men målkanalen är inte direkt avläst. Visuellt användarprov återstår. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
-   #344 är justerad i källan efter användarens körbesked; publicering och användarens visuella kontroll återstår.
+   #344 och #345 är justerade och lokalt verifierade efter användarens körbesked; publicering och användarens visuella kontroll återstår.
    #335/#336/#339/#340 är ändrade och verifierade lokalt efter körbesked; publicering och riktiga visuella prov återstår.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.

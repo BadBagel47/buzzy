@@ -50,6 +50,27 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
   await host.evaluate(()=>window.stopHeaderSamples=true);report.headerCold=await host.evaluate(()=>window.headerSamples);
   await host.reload();await ready(host);await host.evaluate(()=>window.stopHeaderSamples=true);report.headerStartup=await host.evaluate(()=>window.headerSamples);
   for(const width of [1280,1920]){await host.setViewportSize({width,height:844});const edges=await host.evaluate(()=>{const logo=document.querySelector('.room-host-header .brand').getBoundingClientRect(),last=document.querySelector('.room-header-actions button:last-child').getBoundingClientRect(),main=document.querySelector('.maincol').getBoundingClientRect();return {left:logo.left-main.left,right:last.right-main.right};});assert.ok(Math.abs(edges.left)<1&&Math.abs(edges.right)<1,JSON.stringify({width,edges}));}await host.setViewportSize({width:390,height:844});
+  report.hostStatusGeometry=[];
+  for(const width of [320,390,768,1280]){
+   await host.setViewportSize({width,height:844});
+   const result=await host.evaluate(async code=>{
+    const {renderHostStatus}=await import('/src/room-ui.js'),retry=document.querySelector('#network-retry'),notice=document.querySelector('#host-network-notice'),summary=document.querySelector('#host-status-summary');
+    const geometry=()=>['.room-host-header','.room-host-header .brand','#room-share-qr','#room-copy-link','#leave-room','#host-view-content .appbar h1','#host-view-content .card'].map(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return [r.x,r.y,r.width,r.height];});
+    renderHostStatus(code,`Room ${code} · Connected`,false);const before=geometry();
+    const message='The room is unavailable or this view no longer has access. Return to the start page. '+('Additional connection details. '.repeat(30));
+    renderHostStatus(code,message,true);retry.hidden=false;
+    const rect=notice.getBoundingClientRect(),status=document.querySelector('#network-status');
+    const shown={geometry:geometry(),text:status.textContent,visible:!notice.hidden,scrollable:notice.scrollHeight>notice.clientHeight,within:rect.left>=0&&rect.right<=innerWidth,summaryFits:summary.scrollWidth<=summary.clientWidth,role:status.getAttribute('role')};
+    document.querySelector('.host-notice-dismiss').click();const dismissed=notice.hidden&&document.activeElement===summary;
+    summary.click();const reopened=!notice.hidden&&summary.getAttribute('aria-expanded')==='true';
+    renderHostStatus(code,'Disconnected — waiting to reconnect',false);const disconnected=geometry();
+    retry.hidden=true;renderHostStatus(code,`Room ${code} · Connected`,false);
+    return {before,shown,message,dismissed,reopened,disconnected,restored:geometry()};
+   },code);
+   for(const state of [result.shown.geometry,result.disconnected,result.restored])for(let i=0;i<state.length;i++)for(let j=0;j<4;j++)assert.ok(Math.abs(state[i][j]-result.before[i][j])<.5,JSON.stringify({width,result}));
+   assert.equal(result.shown.text,result.message);assert.equal(result.shown.visible,true);assert.equal(result.shown.scrollable,true,JSON.stringify({width,result}));assert.equal(result.shown.within,true);assert.equal(result.shown.summaryFits,true,JSON.stringify({width,result}));assert.equal(result.shown.role,'status');assert.equal(result.dismissed,true);assert.equal(result.reopened,true);report.hostStatusGeometry.push({width,stable:true});
+  }
+  await host.setViewportSize({width:390,height:844});
   report.transitionStability=[];
   for(const tab of ['players','questions','more','play']){
    await host.locator(`[data-nav="${tab}"]`).click();

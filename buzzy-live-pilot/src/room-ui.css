@@ -17,6 +17,12 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-
 @media(min-width:901px) { html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .headinner { max-width:832px; } }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header .brand { flex:none; }
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .room-host-header #network-bar { flex:1;min-width:0;max-width:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 8px;text-align:right;font-size:14px;line-height:1.3; }
+#host-status-summary { min-width:0;overflow:hidden;white-space:nowrap;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:right;cursor:pointer; }
+#host-status-summary:focus-visible { outline:3px solid #315de8;outline-offset:2px;border-radius:3px; }
+#host-network-notice:not([hidden]) { position:absolute;top:100%;right:16px;z-index:10;display:flex;align-items:flex-start;gap:12px;width:min(420px,calc(100% - 32px));max-height:min(50dvh,300px);overflow:auto;padding:14px;background:#e1ebf5;border:1px solid #a6bdd7;border-radius:12px;box-shadow:0 8px 24px #10213a33;color:#203753;font-size:14px;line-height:1.45; }
+.host-network-notice-content { flex:1;min-width:0;overflow-wrap:anywhere; }
+.host-network-notice-content #network-retry:not([hidden]) { display:block;margin-top:10px; }
+.host-notice-dismiss { width:44px;min-width:44px;height:44px;font-size:25px;line-height:1; }
 .host-room-label,.host-connection-label { display:block; }
 .host-room-label { font-weight:750; }
 .host-connection-label { color:#506783; }

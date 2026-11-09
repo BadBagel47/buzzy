@@ -59,9 +59,9 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #338 | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
 | #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
 | #340 | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
-| #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Ändrat och visuellt granskat lokalt; publicering och användarprov återstår. |
-| #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Ändrat och provat lokalt med 44 px träffyta och tangentbordsfokus; publicering och användarprov återstår. |
-| #343 | Justera Join-knappens optiska textplacering på förstasidan. | Ändrat och visuellt granskat lokalt; publicering och användarprov återstår. |
+| #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
@@ -76,6 +76,8 @@ Nästa fria interna ID: **#344**.
 #343: texten på förstasidans Join-knapp upplevs optiskt för långt åt vänster och något för långt ned. Jämför i första hand textens visuella placering i själva knappen, även med pilen närvarande, och justera försiktigt åt höger och uppåt efter visuell mätning. Behåll knappens storlek, funktion, fokus och responsiva beteende. Ingen appändring gjord. Rekommenderad modell för #341–343: GPT-6.1 Terra high.
 
 Efter körbesked: #341 flyttar spelarens gradient till hela sidans bakgrund och gör den centrerade spelytan genomskinlig; ett skärmbildsprov kontrollerar övergången vid kolumnkanten. #342 ritar en mindre fokusring kring den visuellt förskjutna pilen men behåller knappens 44×44 px träffyta; prov kontrollerar tangentbordsfokus, öppet/stängt och att ringen inte täcker närliggande text. #343 centrerar texten i själva Join-knappen och justerar den 1 px åt höger och uppåt. Lokala pilot-UI-proven passerade 5/5, konfiguration 5/5, pilotbygget och interceptat HTTPS-prov passerade; separat UI-prov efter utökad överlappskontroll passerade. Visuell användarkontroll och publicering återstår.
+
+Uppdatering: [run42556139061](https://github.com/BadBagel47/buzzy/actions/runs/42556139061) lyckades med commit `0856d150320ee9d2a8a0faf8764ef544370a4ed9`. Användaren ombads välja live och meddelade att körningen var klar; den offentliga runsidan visar inte valt mål. Riktigt visuellt prov återstår.
 
 Efter körbesked #335/#336/#339/#340: statusvyn visar lämna-länken även när en spelare är avstängd; ett emulatorprov bekräftar lämna-dialog, återgång och återanslutning efter hävd avstängning. Konfettins uppfärd har mindre tidig inbromsning och nedfärden behåller sin längre tid. Hosthuvudets innehåll linjerar med huvudkolumnen på breda skärmar, och förstasidans status visas utan att flytta den centrerade huvuddelen. Pilot-UI-kontroll 5/5, konfigurationsprov 5/5, pilotbygge och interceptat HTTPS-prov passerade. Riktig visuell kontroll och publicering återstår. #290 och #331 avvaktas fortsatt.
 

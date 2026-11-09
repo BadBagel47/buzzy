@@ -62,12 +62,15 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Ändrat i källan efter uttryckligt körbesked; lokalt layoutprov passerade. Publicering och användarprov återstår. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#344**.
+Nästa fria interna ID: **#345**.
+
+#344: användaren önskar en något större logotyp och en diskret höjning av förstasidans innehåll. I källan är logotypen 41 px i stället för 38 px, och 37 px i stället för 34 px på de smalaste skärmarna. Mer nedre sidpadding flyttar den centrerade gruppen cirka 8 px uppåt när plats finns, utan att klippa toppen på låga skärmar. Lokalt layoutprov jämför tidigare och nya positioner på 320×640, 390×844, 1440×900 och 390×550 och kontrollerar tillgängligt innehåll och frånvaro av sidledes overflow. Pilot-UI-proven passerade 5/5, konfiguration 5/5, pilotbygget och interceptat HTTPS-prov passerade. Ursprungliga referensfilen är orörd. Publicering och faktisk visuell kontroll återstår.
 
 #341: på breda fönster ser spelarens bakgrundstoning ut att sluta vid den begränsade spelytans kanter. Låt toningen täcka hela tillgängliga fönstret och behåll dess nuvarande utseende på mobil och smala fönster. Spelinnehållets bredd och funktioner ska fortsatt vara anpassade för spelaren. Källan visar att gradienten ligger på `.phone` medan den omgivande sidan har en enfärgad bakgrund; verifiera visuell övergång och dimensionering vid implementation. Ingen appändring gjord.
 

@@ -35,14 +35,17 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
    #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only; Firebase verifierade domänen och användaren bekräftar nu att den fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
-5. #347 viewer och #352 join-skärm på viewern är genomförda i källan och lokalt provade efter körbesked 2026-11-10 (se backloggen). **Nästa steg kräver användaren:**
-   1. Kör inventeringen med `rules_source=console`.
-   2. Granska `proposed-database.rules.json`, som ska ge hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`.
-   3. Publicera reglerna i Firebase-konsolen.
-   4. Uppdatera konsolevidensen.
-   5. Kör Hosting med den nya hashen.
+5. #347 viewer och #352 join-skärm: de nya databasreglerna är publicerade i Firebase-konsolen av användaren 2026-11-10. Den inklistrade konsoltexten har kontrollerats mot den förväntade hashen och sparats som konsolkopia i `ops/rules-evidence/`:
+   ```text
+   6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9
+   ```
+   De tidigare reglerna (`148f2056…`) finns kvar i taggen `fore-viewer`.
 
-   Därefter återstår TV-prov. De nya reglerna är bakåtkompatibla med nuvarande app, eftersom de bara lägger till viewer-läsrätt och nya noder. #348–#351 är framtida steg.
+   **Nästa steg för användaren:**
+   1. Kör inventeringen igen med `rules_source=console`: https://github.com/BadBagel47/buzzy/actions/workflows/firebase-inventory.yml
+   2. Kör Hosting med hashen ovan: https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml
+
+   Därefter återstår TV-prov. #348–#351 är framtida steg.
 
 ## Kod och kontroller
 

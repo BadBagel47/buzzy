@@ -73,12 +73,12 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 | #344 | Funktion | Gör förstasidans logotyp lite större och placera innehållet något högre. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. |
 | #345 | Bugg | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. Exakt ursprungligt fel är okänt. |
 | #346 | Funktion | Gör logotypen på förstasidan större. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. |
-| #347 | Funktion | Viewer: skrivskyddad extraskärm för TV/projektor i samma rum, öppnad via länk från hosten. Bygger på spelarvyns mörka formspråk men visar bara frågerelevant innehåll. Hosten väljer vilka delar som visas: fråga (text/bild), timer, buzzordning/resultat samt leaderboard/konfetti. | Körbesked 2026-11-10. Källändring och lokala prov klara. Reglerna är publicerade i konsolen och verifierade mot hash 6fbb6b7f…. Hosting-körning och TV-prov återstår. |
+| #347 | Funktion | Viewer: skrivskyddad extraskärm för TV/projektor i samma rum, öppnad via länk från hosten. Bygger på spelarvyns mörka formspråk men visar bara frågerelevant innehåll. Hosten väljer vilka delar som visas: fråga (text/bild), timer, buzzordning/resultat samt leaderboard/konfetti. | Publicerat till live i run42865760330 från bdcc9b7 efter att reglerna publicerats i konsolen (hash 6fbb6b7f…). Viewersidan svarar på buzzy.trythis.one/viewer. Användaren uppger att det verkade fungera; prov på riktig TV/projektor är inte bekräftat. |
 | #348 | Funktion | Framtida: hemlig viewer-länk med slumpad nyckel som hosten kan återkalla eller förnya, så att rumskoden inte räcker för att se viewern. | Registrerat som framtida utveckling efter #347. |
 | #349 | Funktion | Framtida: lista över anslutna viewers där hosten kan koppla bort en skärm. | Registrerat som framtida utveckling efter #347. Första versionen visar endast antal. |
 | #350 | Funktion | Framtida: spela upp rörlig media, t.ex. YouTube-video med ljud, direkt på viewern men inte hos spelarna. | Avvaktar enligt användaren eftersom autoplay med ljud kräver ett extra tryck på viewern. Underlag nedan. |
 | #351 | Funktion | Framtida: vid Quick Play med innehåll och förberedda frågor ska hosten kunna välja om frågeinnehållet visas hos spelare, viewer, båda eller ingen. Gränssnittet får inte bli rörigt. | Registrerat som framtida utveckling; förutsätter #347. Ingen design vald. |
-| #352 | Funktion | Hosten ska kunna visa en anpassad version av QR-delningssidan på viewern, så att spelare kan ansluta med QR-kod eller manuellt via webbadress och rumskod. | Körbesked 2026-11-10. Källändring och lokala prov klara. Reglerna är publicerade i konsolen och verifierade mot hash 6fbb6b7f…. Hosting-körning och TV-prov återstår. |
+| #352 | Funktion | Hosten ska kunna visa en anpassad version av QR-delningssidan på viewern, så att spelare kan ansluta med QR-kod eller manuellt via webbadress och rumskod. | Publicerat till live i run42865760330 från bdcc9b7 efter att reglerna publicerats i konsolen (hash 6fbb6b7f…). Viewersidan svarar på buzzy.trythis.one/viewer. Användaren uppger att det verkade fungera; prov på riktig TV/projektor är inte bekräftat. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
@@ -118,9 +118,9 @@ Lokala prov, alla mot emulatorn:
 
 Reglerna är publicerade av användaren 2026-11-10. Konsoltexten är JSON-lik förslaget från `f427885` och sparad i `ops/rules-evidence/`.
 
+Publicerat 2026-11-10: ny inventering (run42863037563) och Hosting till live (run42865760330).
+
 Återstår:
-- ny inventering med `rules_source=console`
-- Hosting-körning med ny hash
 - prov på riktig TV eller projektor
 
 #347: användaren vill ha en tredje roll, viewer, för storskärm (liggande format, stor text på avstånd). Användarens val:

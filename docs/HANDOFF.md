@@ -5,7 +5,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Arbetet kan utföras av olika AI-agenter. Alla följer [AGENTS.md](../AGENTS.md). Arbeta i en klon av `BadBagel47/buzzy`, gren `main`. Hämta senaste `main` och kontrollera `git status` före ändringar. Pusha för att något ska finnas kvar till nästa session.
-- Senaste kodpublicering: `c8267afe59a812ffa2ec1c7a08fb054591f92217`, [run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351), status success. Användaren valde `live`. Innehåller #344–346 och #345:s korrigering för komprimerad statusetikett på 320 px. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
+- Senaste kodpublicering: `bdcc9b727a9ff547d6144b774e856885d23715bd`, [run42865760330](https://github.com/BadBagel47/buzzy/actions/runs/42865760330), status success, målet `live`. Att `buzzy.trythis.one/viewer` svarar med viewersidan verifierades 2026-11-10; det är en kontroll av vilken kanal som uppdaterades, inte ett funktionsprov. Innehåller #347 och #352 samt tidigare paket (#344–346 i run42687931351). Senare dokumentationscommits kan finnas på main utan ny publicering.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -35,17 +35,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
    #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only; Firebase verifierade domänen och användaren bekräftar nu att den fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
-5. #347 viewer och #352 join-skärm: de nya databasreglerna är publicerade i Firebase-konsolen av användaren 2026-11-10. Den inklistrade konsoltexten har kontrollerats mot den förväntade hashen och sparats som konsolkopia i `ops/rules-evidence/`:
-   ```text
-   6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9
-   ```
-   De tidigare reglerna (`148f2056…`) finns kvar i taggen `fore-viewer`.
-
-   **Nästa steg för användaren:**
-   1. Kör inventeringen igen med `rules_source=console`: https://github.com/BadBagel47/buzzy/actions/workflows/firebase-inventory.yml
-   2. Kör Hosting med hashen ovan: https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml
-
-   Därefter återstår TV-prov. #348–#351 är framtida steg.
+5. #347 viewer och #352 join-skärm är publicerade till live i [run42865760330](https://github.com/BadBagel47/buzzy/actions/runs/42865760330). Reglerna (hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`) är publicerade i Firebase-konsolen och konsolkopian är uppdaterad; de tidigare reglerna finns i taggen `fore-viewer`. Användaren uppger att allt verkade fungera vid ett första prov. Ett uttryckligt prov på riktig TV eller projektor, med fråga, buzz, leaderboard, konfetti och join-skärm, är inte bekräftat. #348–#351 är framtida steg.
 
 ## Kod och kontroller
 
@@ -63,8 +53,10 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 - Granskad kanonisk regelhash, kontrollera mot evidensen före återanvändning:
 
 ```text
-148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a
+6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9
 ```
+
+Den här hashen gäller reglerna med viewer-stöd (#347/#352), publicerade i konsolen 2026-11-10. De tidigare reglerna hade hashen `148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a` och finns i taggen `fore-viewer`.
 
 - Ingen databasregel-/billing-/domänändring ingår automatiskt i Hosting-publiceringen. Regeln ovan är ingen ny verifiering av aktuellt molntillstånd.
 - Verktygsläge 2026-11-10, Claude-molnsession: git-push och `gh` CLI fungerar och kan läsa repot och workflowstatus. Actions-dispatch har tidigare saknat fungerande auth, så användaren gör vid behov Run workflow i webben. Andra agenter och miljöer kan ha andra möjligheter. Kontrollera vid start och uppdatera denna rad.

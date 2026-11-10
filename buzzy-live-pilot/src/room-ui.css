@@ -180,3 +180,6 @@ html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .round-over
 html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .btn.danger { border-color:var(--red);color:var(--red); }
 html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay .lb-empty { color:#506783;font-size:var(--host-small-text); }
 html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leaderboard-overlay :is(.lb-columns,.lb-pts,.lb-share-copy strong,.lb-share-copy small) { font-size:var(--host-small-text); }
+/* #347: Settings → Viewer screen. The link opens the viewer in a new tab and looks like the adjacent button. */
+.viewer-settings-actions a.btn { display:flex;align-items:center;justify-content:center;text-decoration:none; }
+.viewer-settings-count { margin:2px 0 12px;font-size:14px;font-weight:700; }

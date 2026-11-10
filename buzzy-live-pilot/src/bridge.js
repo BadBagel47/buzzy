@@ -6,15 +6,16 @@ import {createCelebration} from './celebration.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores'];
-const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion'];
+const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerLeaderboard','viewerCelebration','viewerJoinScreen'];
 const json=value=>JSON.parse(JSON.stringify(value));
-let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection;
+let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection,stopViewers;
 let blocked=false,roomEnded=false,exitTask=null;
 const localActions=new Set(['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal','network-open-leave','network-confirm-exit','network-return-start']);
 let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGeneration=0,stopKey='',expiryKey='';
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
 const celebration=createCelebration(()=>s.celebration);
-const roomUi=installRoomUi({api,isHost,getCode:()=>code});
+// #352: the sharing view can put the join screen on viewer screens; it is saved like other host settings.
+const roomUi=installRoomUi({api,isHost,getCode:()=>code,viewer:isHost?{active:()=>!!s.viewerJoinScreen,count:()=>s.viewerCount||0,toggle:()=>{s.viewerJoinScreen=!s.viewerJoinScreen;api.render();scheduleSave();}}:null});
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));
@@ -191,6 +192,7 @@ function handle(action){
  }
  if(action==='copy-link'){roomUi.copyLink();return true;}
  if(action==='qr'){roomUi.openShare();return true;}
+ if(action==='viewer-copy-link'){roomUi.copyViewerLink();return true;}
  if(action==='open'||action==='present-and-open'){
   operation(async()=>{
    if(!['ready'].includes(latest.control.phase))throw new Error('This attempt has already started.');
@@ -271,8 +273,8 @@ function ended(){
  roomUi.closeShare();roomEnded=true;blocked=true;retry.hidden=true;if(!isHost)document.getElementById('leave-room').textContent='Back to start';message(isHost?'This game has ended.':'The host has ended the game.');
  if(!exitTask){s.modal='network-ended';api.render();}afterRender();
 }
-function leave(){roomEnded=true;clearTimeout(startupRetry);stopWatch?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
-window.BuzzyNetwork={patchHostPage:(root,markup)=>patchHostMarkup(root,markup,root.id==='host-view-content'?s.hostTab:undefined),celebrateVisual:celebration.launch,get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
+function leave(){roomEnded=true;clearTimeout(startupRetry);stopWatch?.();stopViewers?.();stopConnection?.();++loadGeneration;clearTimeout(saveTimer);client?.setOnline(false);sessionStorage.removeItem(sessionKey);location.assign('/');}
+window.BuzzyNetwork={viewerUrl:()=>isHost&&s.networkReady?roomUi.viewerUrl():'',patchHostPage:(root,markup)=>patchHostMarkup(root,markup,root.id==='host-view-content'?s.hostTab:undefined),celebrateVisual:celebration.launch,get local(){return local;},handle,exitTitle,exitDialog,buzz,maybeExpire,preload:scheduleSave,afterRender,now:()=>client?.serverNow()??Date.now()};
 // Preserve controls' own disabled state: retained modal/source nodes must unlock after a request.
 for(const type of ['click','keydown'])document.addEventListener(type,event=>{
  if(type==='keydown'&&!['Enter',' '].includes(event.key))return;
@@ -332,6 +334,8 @@ async function start(){
   savedSettings=JSON.stringify(await client.read(`rooms/${code}/settings`)||{});
   if(control.phase!=='ready')Object.assign(s,{mode:control.mode,timer:control.timer!==false,seconds:control.ms/1000,correct:control.correct??1,incorrect:control.incorrect??0,allowNegativeScores:control.allowNegative!==false,allowRepeat:control.allowRepeat===true});
   held=true;try{await deadline(publish());}finally{held=false;}
+  // #347: only the number of viewer screens is shown; viewers never appear as players.
+  stopViewers?.();stopViewers=client.watchViewers(code,count=>{if(s.viewerCount===count)return;s.viewerCount=count;if(s.networkReady){api.render();roomUi.sync();}},()=>{});
  }else{
   const member=await client.read(`rooms/${code}/members/${client.uid}`);if(!member)throw new Error('Join this room from the start page first.');
  }

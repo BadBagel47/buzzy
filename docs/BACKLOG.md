@@ -73,16 +73,53 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 | #344 | Funktion | Gör förstasidans logotyp lite större och placera innehållet något högre. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. |
 | #345 | Bugg | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. Exakt ursprungligt fel är okänt. |
 | #346 | Funktion | Gör logotypen på förstasidan större. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. |
-| #347 | Funktion | Viewer: skrivskyddad extraskärm för TV/projektor i samma rum, öppnad via länk från hosten. Bygger på spelarvyns mörka formspråk men visar bara frågerelevant innehåll. Hosten väljer vilka delar som visas: fråga (text/bild), timer, buzzordning/resultat samt leaderboard/konfetti. | Registrerat 2026-11-10 med genomförandeplan nedan; inväntar körbesked. Kräver regeländring via konsolflödet före Hosting-publicering. |
+| #347 | Funktion | Viewer: skrivskyddad extraskärm för TV/projektor i samma rum, öppnad via länk från hosten. Bygger på spelarvyns mörka formspråk men visar bara frågerelevant innehåll. Hosten väljer vilka delar som visas: fråga (text/bild), timer, buzzordning/resultat samt leaderboard/konfetti. | Körbesked 2026-11-10 tillsammans med #352. Ändrat i källan och lokalt provat (viewertest 11 kontroller, pilot-UI, konfiguration, pilotbygge). Kräver regelpublicering via konsolflödet (ny regelhash) före Hosting. Publicering och TV-prov återstår. |
 | #348 | Funktion | Framtida: hemlig viewer-länk med slumpad nyckel som hosten kan återkalla eller förnya, så att rumskoden inte räcker för att se viewern. | Registrerat som framtida utveckling efter #347. |
 | #349 | Funktion | Framtida: lista över anslutna viewers där hosten kan koppla bort en skärm. | Registrerat som framtida utveckling efter #347. Första versionen visar endast antal. |
 | #350 | Funktion | Framtida: spela upp rörlig media, t.ex. YouTube-video med ljud, direkt på viewern men inte hos spelarna. | Avvaktar enligt användaren eftersom autoplay med ljud kräver ett extra tryck på viewern. Underlag nedan. |
 | #351 | Funktion | Framtida: vid Quick Play med innehåll och förberedda frågor ska hosten kunna välja om frågeinnehållet visas hos spelare, viewer, båda eller ingen. Gränssnittet får inte bli rörigt. | Registrerat som framtida utveckling; förutsätter #347. Ingen design vald. |
-| #352 | Funktion | Hosten ska kunna visa en anpassad version av QR-delningssidan på viewern, så att spelare kan ansluta med QR-kod eller manuellt via webbadress och rumskod. | Registrerat 2026-11-10; förutsätter #347 och kan tas med i samma paket vid körbesked. Ingen design vald. |
+| #352 | Funktion | Hosten ska kunna visa en anpassad version av QR-delningssidan på viewern, så att spelare kan ansluta med QR-kod eller manuellt via webbadress och rumskod. | Körbesked 2026-11-10 tillsammans med #347. Ändrat i källan och lokalt provat. Regelpublicering, Hosting och TV-/mobilprov återstår. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
+
+#347/#352 genomförda i källan 2026-11-10 efter körbesked. Implementationen avviker från den registrerade planen på tre punkter:
+- **Fristående sida:** viewern byggs som en egen sida (`src/viewer.js`, `src/viewer.css`, genererad `viewer.html`) i stället för en `renderViewer()` i den frysta spelarsidan. Det ger mindre koppling till den frysta koden. Färgerna kommer från spelarvyn.
+- **Läsrätt även för `moderation`, `adjustments` och `excluded`:** behövs för att leaderboarden ska utesluta avstängda spelare och för att den gemensamma rumsprenumerationen ska fungera.
+- **Join-skärmen styrs på två ställen:** dels en switch i Settings, dels en knapp i hostens delningsvy.
+
+Leverans:
+- **Regler:** `viewers/UID` och `viewerSeats/0..3`, med `onDisconnect`. Ny regelhash:
+
+```text
+6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9
+```
+
+  Hashen är lokalt beräknad och ännu inte granskad i inventeringsflödet.
+- **Host:** Settings → Viewer screen med antal anslutna skärmar, Open viewer, Copy link, Show join screen och fem innehållsswitchar.
+- **Viewer:** liggande storskärmslayout med frågetext och bild, timer, buzzordning med "Answering" och ✓/✕, delad leaderboard, konfetti, join-skärm, besked när spelet är slut och besked när alla fyra platser är upptagna.
+
+Lokala prov, alla mot emulatorn:
+- `tests/viewer.integration.mjs` passerar 11 kontroller:
+  - viewern tar ingen spelarplats
+  - nekade skrivningar och läsningar
+  - frågetext först när den visas
+  - timer, buzzordning och bedömning
+  - switcharna
+  - join-skärmen och dess knapp i delningsvyn
+  - leaderboard och konfetti
+  - högst fyra viewers
+  - frånkoppling och återanslutning
+  - besked när spelet avslutas
+  - layout utan överflöde i 1280×720, 1920×1080 och 1024×768
+- Pilot-UI 5/5, konfiguration 5/5, pilotbygget med `viewer.html`, pilotbyggprovet 1/1 och drifttesterna 20/20 passerar.
+- `ui.integration.mjs` (Score adjustments and bans) fallerar på samma sätt även utan ändringen. Felet fanns redan och ingår inte i pilot-UI-kontrollen.
+
+Återstår:
+- granskning och publicering av reglerna i Firebase-konsolen
+- Hosting-körning med ny hash
+- prov på riktig TV eller projektor
 
 #347: användaren vill ha en tredje roll, viewer, för storskärm (liggande format, stor text på avstånd). Användarens val:
 - Hosten väljer innehållet.

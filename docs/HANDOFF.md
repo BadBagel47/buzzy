@@ -35,14 +35,21 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
    #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only; Firebase verifierade domänen och användaren bekräftar nu att den fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
-5. #347 viewer (storskärm) är registrerad med genomförandeplan i backloggen och inväntar körbesked. Den kräver regeländring via konsolflödet. #348–#350 (hemlig länk, bortkoppling, media) är framtida steg.
+5. #347 viewer och #352 join-skärm på viewern är genomförda i källan och lokalt provade efter körbesked 2026-11-10 (se backloggen). **Nästa steg kräver användaren:**
+   1. Kör inventeringen med `rules_source=console`.
+   2. Granska `proposed-database.rules.json`, som ska ge hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`.
+   3. Publicera reglerna i Firebase-konsolen.
+   4. Uppdatera konsolevidensen.
+   5. Kör Hosting med den nya hashen.
+
+   Därefter återstår TV-prov. De nya reglerna är bakåtkompatibla med nuvarande app, eftersom de bara lägger till viewer-läsrätt och nya noder. #348–#351 är framtida steg.
 
 ## Kod och kontroller
 
 - App: `buzzy-live-pilot/src/`. `client.js` hanterar Firebase; `bridge.js` kopplar spelgränssnittet till tillståndet; `connection.js` hanterar anslutningsåterhämtning.
-- UI-generering: `buzzy-live-pilot/scripts/generate-ui.mjs` och `ui-batch-304-313.mjs`. Ändra aktiva transformations-/CSS-/JS-filer, inte frysta HTML-referenser i repots `buzzy-output/`.
+- UI-generering: `buzzy-live-pilot/scripts/generate-ui.mjs`, `ui-batch-304-313.mjs` och `viewer-host.mjs` (hostens Viewer screen-sektion). Viewern är fristående: `src/viewer.js`, `src/viewer.css` och genererad `viewer.html`. Ändra aktiva transformations-/CSS-/JS-filer, inte frysta HTML-referenser i repots `buzzy-output/`.
 - Layout/effekter: `src/room-ui.css`, `host-layout.js`, `host-markup.js`, `celebration.js`. Konfetti: 432 bitar, startfördröjning 0–360 ms. Uppflygning och dalning är separata tider.
-- Lokala kontroller från `buzzy-live-pilot`: `npm run test:config`, `npm run test:pilot-ui`, `npm run build:pilot`, `npm run test:pilot`. Enbart återanslutning kan köras med `node scripts/generate-ui.mjs` följt av `node scripts/emulators.mjs reconnect`.
+- Lokala kontroller från `buzzy-live-pilot`: `npm run test:config`, `npm run test:pilot-ui`, `npm run test:viewer`, `npm run build:pilot`, `npm run test:pilot`. Skapa `reports/` om mappen saknas. Webbläsarprov använder `CHROMIUM_PATH`, i molnsessionen `/opt/pw-browsers/chromium`. Enbart återanslutning kan köras med `node scripts/generate-ui.mjs` följt av `node scripts/emulators.mjs reconnect`.
 - `test:production` testar vanliga `dist/`; kör `npm run build` först. `build:pilot` skapar `dist-pilot/` och uppdaterar inte `dist/`.
 - Emulator-/UI-prov delar lokala portar och genererade filer: kör inte flera sådana sviter eller ett pilotbygge samtidigt med ett pågående emulator-UI-prov.
 

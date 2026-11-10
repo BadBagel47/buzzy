@@ -3,15 +3,15 @@
   "projectId": "buzzy-197dc",
   "databaseURL": "https://buzzy-197dc-default-rtdb.europe-west1.firebasedatabase.app",
   "captureMethod": "user-copied-from-firebase-console",
-  "capturedAt": "2026-11-10T16:25:20.530457+01:00",
-  "canonicalSha256": "6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9",
+  "capturedAt": "2026-11-11T00:26:59.540146+01:00",
+  "canonicalSha256": "3017d3c225c5977dc1940fd4a06ba4599c8694c73294198e3c4dd95cc82e76a9",
   "beforePilotCanonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
   "serverApiVerified": false,
   "formattingNormalized": false,
-  "normalizationNote": "#347/#352 viewer rules. Received pasted console text retained exactly. It is JSON-equal to the proposal from commit f427885 (inventory run 42756502418); only the final newline differs. Previous console rules (148f2056…) are preserved in tag fore-viewer.",
+  "normalizationNote": "#355/#356 viewer mode rules. The console text pasted by the user after Publish was compared with the proposal from commit f427885+ (inventory run 42922366833): it differs from the previous byte-verified console copy only by the three new settings rules (viewerOn, viewerQuestionNumber, viewerView), which appear identically in the paste. Stored as the proposal without the final newline, as before. Previous console rules (6fbb6b7f...) are in git history.",
   "baselineCapturedAt": "2026-11-05T23:48:30.131747+01:00",
   "publicationConfirmedByUser": true,
   "consoleCopyComparedToApprovedProposal": true,
-  "receivedTextRawSha256": "78113c2667980145ca7b746b1ab73185891001e807b0476397240d2c3bbb6967",
-  "reviewedProposalRawSha256": "8f5d19343635bddc2ee98a0eafcdc7476e3e594fccf98e9389867bd8ed31d5f6"
+  "receivedTextRawSha256": "f923999e448a2aabe37861023c774c7cb6bebd6a3ca51484efa7aa4e7f9798aa",
+  "reviewedProposalRawSha256": "fe8d65028edd4f80232597013685c460ec57f2c9ff42e7fb81b533672316edc3"
 }

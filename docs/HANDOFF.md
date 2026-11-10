@@ -41,7 +41,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
    ```text
    3017d3c225c5977dc1940fd4a06ba4599c8694c73294198e3c4dd95cc82e76a9
    ```
-   Steg för användaren: inventering med `rules_source=console` → publicera reglerna i Firebase-konsolen → klistra tillbaka konsoltexten → ny inventering → Hosting med den nya hashen. #348–#351 och #360 är framtida steg.
+   Reglerna är publicerade i konsolen av användaren 2026-11-10 och konsolkopian i `ops/rules-evidence/` är uppdaterad. Återstår: ny inventering och Hosting med den nya hashen. #348–#351 och #360 är framtida steg.
 
 ## Kod och kontroller
 

@@ -183,3 +183,25 @@ html[data-network-role=host] body.theme-a.buzzy-design-lab.studio-ui .host-leade
 /* #347: Settings → Viewer screen. The link opens the viewer in a new tab and looks like the adjacent button. */
 .viewer-settings-actions a.btn { display:flex;align-items:center;justify-content:center;text-decoration:none; }
 .viewer-settings-count { margin:2px 0 12px;font-size:14px;font-weight:700; }
+
+/* #356: viewer button in the host header, with a dot while a viewer screen is connected. */
+#room-viewer { position:relative; }
+#room-viewer[data-live]::after { content:"";position:absolute;right:5px;top:5px;width:9px;height:9px;border-radius:50%;background:#1faa6b;border:2px solid #fff; }
+/* #357: the sharing view has only QR, address, room code and one button. On a computer it uses the wide screen: QR beside the text. */
+.room-share-screen .room-share-qr { transition:none; }
+@media (min-width:900px) and (min-height:520px) {
+ .room-share-top { max-width:none; }
+ .room-share-content { max-width:min(1200px,92vw);display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:clamp(40px,7vw,110px);row-gap:clamp(8px,1.6dvh,20px);align-content:center;align-items:center;text-align:left; }
+ .room-share-content > .room-share-qr { grid-column:1;grid-row:1 / span 5;width:min(54dvh,40vw);height:min(54dvh,40vw);min-width:0;border-radius:22px; }
+ .room-share-content > :not(.room-share-qr) { grid-column:2; }
+ .room-share-content h1 { font-size:clamp(40px,7.4dvh,80px); }
+ .room-share-content p { font-size:clamp(18px,2.8dvh,30px); }
+ .room-share-content .room-share-url { text-align:left;font-size:clamp(26px,4.4dvh,48px); }
+ .room-share-content .room-share-code { font-size:clamp(64px,12dvh,140px);letter-spacing:.1em; }
+ .room-share-content .room-share-code-label { font-size:clamp(14px,2.2dvh,22px); }
+ .room-share-content .btn { justify-self:start;padding-inline:28px; }
+}
+/* #359: Settings text uses the available width on wide screens instead of wrapping at 260 px. */
+@media (min-width:901px) {
+ html[data-network-role=host] body.buzzy-design-lab.theme-a.lab-host-view .card.settings-main-card .switchrow > span { width:auto;max-width:none; }
+}

@@ -55,7 +55,7 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
    await host.setViewportSize({width,height:844});
    const result=await host.evaluate(async code=>{
     const {renderHostStatus}=await import('/src/room-ui.js'),retry=document.querySelector('#network-retry'),notice=document.querySelector('#host-network-notice'),summary=document.querySelector('#host-status-summary');
-    const geometry=()=>['.room-host-header','.room-host-header .brand','#room-share-qr','#room-copy-link','#leave-room','#host-view-content .appbar h1','#host-view-content .card'].map(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return [r.x,r.y,r.width,r.height];});
+    const geometry=()=>['.room-host-header','.room-host-header .brand','#room-share-qr','#room-viewer','#leave-room','#host-view-content .appbar h1','#host-view-content .card'].map(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return [r.x,r.y,r.width,r.height];});
     renderHostStatus(code,`Room ${code} · Connected`,false);const before=geometry();
     const message='The room is unavailable or this view no longer has access. Return to the start page. '+('Additional connection details. '.repeat(30));
     renderHostStatus(code,message,true);retry.hidden=false;

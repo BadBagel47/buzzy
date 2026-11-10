@@ -15,5 +15,7 @@ export function applyViewerHost(html){
   ` sectionIcons.viewer='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M7 20.5h10M9.5 16.5l-1 4M14.5 16.5l1 4"/><path d="M10 8l4 2-4 2Z"/></svg>';
  const section=(id,title,contents)=>`);
  replace("${section('effects','Sounds and effects',effects)}</div>`;","${section('effects','Sounds and effects',effects)}${section('viewer','Viewer screen',viewer)}</div>`;");
+ // #358: Settings uses a sliders symbol instead of the sun.
+ replace('more:\'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>\'','more:\'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/>\'');
  return html;
 }

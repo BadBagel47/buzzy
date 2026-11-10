@@ -23,7 +23,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.
-5. #347 viewer, en skrivskyddad storskärmsvy där hosten väljer innehållet. Den är registrerad och inväntar körbesked. Den kräver regeländring före Hosting. Därefter kan #348 hemlig viewer-länk, #349 lista med bortkoppling och #350 video på viewern bli aktuella; de avvaktar enligt användaren.
+5. #347 viewer, en skrivskyddad storskärmsvy där hosten väljer innehållet. Den är registrerad och inväntar körbesked. Den kräver regeländring före Hosting. Därefter kan #348 hemlig viewer-länk, #349 lista med bortkoppling #350 video på viewern och #351 val av var frågeinnehållet visas (spelare, viewer, båda eller ingen) bli aktuella; de avvaktar enligt användaren.
 
 ## Inför skarp lansering
 

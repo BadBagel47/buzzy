@@ -77,6 +77,7 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 | #348 | Funktion | Framtida: hemlig viewer-länk med slumpad nyckel som hosten kan återkalla eller förnya, så att rumskoden inte räcker för att se viewern. | Registrerat som framtida utveckling efter #347. |
 | #349 | Funktion | Framtida: lista över anslutna viewers där hosten kan koppla bort en skärm. | Registrerat som framtida utveckling efter #347. Första versionen visar endast antal. |
 | #350 | Funktion | Framtida: spela upp rörlig media, t.ex. YouTube-video med ljud, direkt på viewern men inte hos spelarna. | Avvaktar enligt användaren eftersom autoplay med ljud kräver ett extra tryck på viewern. Underlag nedan. |
+| #351 | Funktion | Framtida: vid Quick Play med innehåll och förberedda frågor ska hosten kunna välja om frågeinnehållet visas hos spelare, viewer, båda eller ingen. Gränssnittet får inte bli rörigt. | Registrerat som framtida utveckling; förutsätter #347. Ingen design vald. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
@@ -120,6 +121,11 @@ Rekommenderad modellnivå: största, eftersom arbetet gäller behörighetsintegr
 - Gratisplanerna räcker, eftersom videon strömmas från YouTube och bara id och kommandon går via Firebase. Egna videofiler kräver betalplan för Storage.
 - Webbläsare blockerar autoplay med ljud tills sidan fått ett tryck. Ljudlös autoplay fungerar alltid. Webbplatsinställning (Firefox/Safari) eller startflagga/policy (Chrome) kan ta bort trycket.
 - CSP behöver tillåta `youtube-nocookie.com`. YouTube som tredje part berör #332.
+
+#351, underlag (inte beslutat):
+- **Befintligt mönster:** hosten har redan en visningsväljare för frågetext (`data-behavior="visibility"`) med alternativen Host only och Players and host, sammanfattad som "Question text: …" (`state.roundTextVisible`, `effectiveQuestionTextVisible()` i den frysta HTML-filen). Bilder visas i dag alltid för spelarna.
+- **Förslag:** utöka den befintliga väljaren i stället för att lägga till nya kontroller, med alternativen Host only, Players, Viewer och Players and viewer. Sammanfattningsraden visar valet. Viewer-alternativen visas bara när viewer är aktiverad. Ett rumsövergripande standardval i Settings kan ange förval per fråga. Avgör vid design om bilden ska följa samma val eller ha ett eget.
+- **Teknisk konsekvens:** innehåll som bara ska synas på viewern kan inte ligga i `presentation`, som alla spelare får läsa. Det kräver en separat nod som bara viewers och hosten får läsa, och alltså ytterligare en regeländring. Dold text blankas redan innan den skrivs, och samma princip ska gälla per mottagare.
 
 #345: hosthuvudet visar en kort status medan längre status- och felmeddelanden och eventuell återförsöksknapp visas i en separat stängbar ruta. Statusknappen öppnar rutan igen. Lokala geometriprov på 320, 390, 768 och 1280 px kontrollerar att huvud, knappar och innehåll inte flyttas vid långa fel, återförsök och frånkoppling; lång text, scrollning, stängning och återöppning kontrollerades. GitHub-provet fann att statusknappen klipptes på 320 px; rumsbeteckningen visar nu bara koden visuellt på de minsta skärmarna, med fullständig tillgänglig etikett. Riktat room-UI, pilotbygge och HTTPS-test passerar. Ursprungligt tillfälligt fel och dess orsak är fortfarande okända. Publicering och verkligt användarprov återstår.
 

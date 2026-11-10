@@ -1,6 +1,6 @@
 # Buzzy — steg för steg i webbläsaren
 
-Modell för förberedelser och felsökning: **GPT-6.1 Sol, högt resonemang**. Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation och metadata-inventering har verifierats i Actions. Regelkopian kommer från manuellt bekräftad konsoltext; Hosting-pilot har nu körts med lyckat resultat; verklig mobilsession återstår.
+Modellnivå för förberedelser och felsökning: **största/starkaste resonemang** (historiskt GPT-6.1 Sol, högt resonemang). Ingen terminal, installation eller privat nyckelfil behövs från användaren. Alla Google-/GitHub-resurser nedan är förslag tills användaren skapar dem i respektive webbgränssnitt. Paketet är lokalt verifierat och uppladdat till main; båda manuella workflows syns i Actions. Googlefederation och metadata-inventering har verifierats i Actions. Regelkopian kommer från manuellt bekräftad konsoltext; Hosting-pilot har nu körts med lyckat resultat; verklig mobilsession återstår.
 
 Vi gör kopplingen i etapper: källkod på GitHub, ett läsande Google-konto, GitHub/Google-koppling, inventering, regelgranskning och sist pilot. Inget behöver publiceras till spelets huvudsida.
 
@@ -8,7 +8,7 @@ Vi gör kopplingen i etapper: källkod på GitHub, ett läsande Google-konto, Gi
 
 Repo: [BadBagel47/buzzy](https://github.com/BadBagel47/buzzy). Det är **offentligt** och var tomt vid kontrollen. När paketet läggs där blir källkoden offentlig. Codex har efter uttryckligt godkännande lagt upp det granskade paketet på main. **Steg 1 är klart; börja med steg 2.**
 
-Om Codex lägger upp filerna åt dig behövs ingen egen filhantering. Alternativt kan du ladda ner ZIP-leveransen, dubbelklicka den på Mac och använda GitHubs **uploading an existing file** på det tomma repot, eller **Add file → Upload files**. Ladda upp **innehållet** i mappen `buzzy-github-release`, inte den yttre mappen. På Mac visar **⌘ + Skift + .** dolda filer; `.github` och `.gitignore` måste följa med. Välj `main` som gren. Ladda aldrig upp `node_modules`, inloggningsfiler eller hela chattexporten. Paketet håller sig under webbuppladdningens hundrafilsgräns.
+Om AI-agenten lägger upp filerna åt dig behövs ingen egen filhantering. Alternativt kan du ladda ner ZIP-leveransen, dubbelklicka den på Mac och använda GitHubs **uploading an existing file** på det tomma repot, eller **Add file → Upload files**. Ladda upp **innehållet** i mappen `buzzy-github-release`, inte den yttre mappen. På Mac visar **⌘ + Skift + .** dolda filer; `.github` och `.gitignore` måste följa med. Välj `main` som gren. Ladda aldrig upp `node_modules`, inloggningsfiler eller hela chattexporten. Paketet håller sig under webbuppladdningens hundrafilsgräns.
 
 Efter uppladdning ska repots rot visa `.github`, `ops`, `tests`, `docs`, `buzzy-live-pilot`, `buzzy-output` och `README.md`. Actions ska visa de två manuella flödena. Ingen körning startar av uppladdningen.
 
@@ -18,7 +18,7 @@ Efter uppladdning ska repots rot visa `.github`, `ops`, `tests`, `docs`, `buzzy-
 
 Via **APIs & Services → Library** går det att aktivera API:er med knappen **Enable/Aktivera** om de inte redan är aktiva. För identitetskopplingen behövs **Identity and Access Management (IAM) API**, **IAM Service Account Credentials API** och **Security Token Service API**. Dessa aktiverar inte någon spelserver eller Blaze. Inventeringen läser också Firebase Management, Firebase Authentication/Identity Toolkit, Firebase Realtime Database Management, Firebase Hosting, Cloud Resource Manager, Cloud Billing och Service Usage. Aktivera en saknad API uttryckligen i konsolen om en körning rapporterar `SERVICE_DISABLED`; flödet gör inte det automatiskt. Cloud Billing API används enbart för läsning av om projektet har aktiv billing.
 
-Om konsolen kräver ett betalningskonto eller saknar behörigheter, stanna på den sidan och visa texten för Codex. Ändra inte betalplan för att komma vidare.
+Om konsolen kräver ett betalningskonto eller saknar behörigheter, stanna på den sidan och visa texten för AI-agenten. Ändra inte betalplan för att komma vidare.
 
 ## 3. Skapa ett läsande tjänstekonto
 
@@ -128,11 +128,11 @@ Om något misslyckas: läs den namngivna resursen/HTTP-statusen i rapporten. Det
 
 Den konkreta granskningen finns i [RULES_REVIEW_289.md](RULES_REVIEW_289.md). Run 42126629347 och artifactets hash/filer har verifierats: inga API-fel, ingen aktiverad/länkad fakturering, rätt projekt/databas/Auth/Hosting och bevarad stängd konsolkopia. Föreslagna regler matchar exakt den tidigare lokalt testade #288-versionen. Användaren har därefter godkänt och publicerat just filen. En ny konsolkopia matchar godkänd JSON (endast sista radbrytningen skiljer sig). Aktuell snapshot/hash/proveniens är uppdaterad; före-pilot-backupen är oförändrad. Detta är konsol-/användarverifiering, inte en regel-API-läsning. Nästa steg är Hosting-kontot och pilotmiljön enligt steg 8.
 
-Visa rapporten och regelfilerna för Codex. Kontrollera att rätt projekt/Spark/Anonymous/Hosting/RTDB har lästs, att eventuella befintliga regler är bevarade och att inga andra appar i databasen påverkas. De föreslagna reglerna ersätter hela instansens nuvarande regeluppsättning.
+Visa rapporten och regelfilerna för AI-agenten. Kontrollera att rätt projekt/Spark/Anonymous/Hosting/RTDB har lästs, att eventuella befintliga regler är bevarade och att inga andra appar i databasen påverkas. De föreslagna reglerna ersätter hela instansens nuvarande regeluppsättning.
 
 Om granskningen godkänner ändringen: öppna [Firebase Realtime Database → Rules](https://console.firebase.google.com/project/buzzy-197dc/database/buzzy-197dc-default-rtdb/rules). Spara först befintliga regler, ersätt sedan med hela innehållet i `proposed-database.rules.json` och välj **Publish**. Detta är en verklig molnändring och görs först efter konkret granskning; GitHub gör den inte åt dig. Vid behov återställs hela den sparade gamla regeluppsättningen samma väg.
 
-I konsolläge: kopiera efter godkänd publicering hela den aktuella regeltexten från Firebase-konsolen och lämna den till Codex. Vi uppdaterar konsolkopian och dess hash/proveniens, medan before-pilot-backupen ligger kvar. En framtida körning med kryssrutan bekräftar att kopian fortfarande matchar de aktuella konsolreglerna; GitHub kan inte oberoende bevisa live-texten med detta konto.
+I konsolläge: kopiera efter godkänd publicering hela den aktuella regeltexten från Firebase-konsolen och lämna den till AI-agenten. Vi uppdaterar konsolkopian och dess hash/proveniens, medan before-pilot-backupen ligger kvar. En framtida körning med kryssrutan bekräftar att kopian fortfarande matchar de aktuella konsolreglerna; GitHub kan inte oberoende bevisa live-texten med detta konto.
 
 Kör inventeringen igen med rätt valt evidensläge. Båda hashvärdena ska nu matcha. Spara den granskade föreslagna SHA-256-strängen till pilotsteget. Om de skiljer sig stoppar pilotflödet utan uppladdning.
 

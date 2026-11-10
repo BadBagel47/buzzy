@@ -4,7 +4,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 
 ## Aktuellt läge
 
-- Arbetet sker sedan 2026-11-10 med Claude i en tillfällig klon av `BadBagel47/buzzy`, gren `main` (senast `/home/claude/buzzy`). Hämta senaste `main` och kontrollera `git status` före ändringar; pusha för att något ska finnas kvar till nästa session.
+- Arbetet kan utföras av olika AI-agenter. Alla följer [AGENTS.md](../AGENTS.md). Arbeta i en klon av `BadBagel47/buzzy`, gren `main`. Hämta senaste `main` och kontrollera `git status` före ändringar. Pusha för att något ska finnas kvar till nästa session.
 - Senaste kodpublicering: `5cadbca20e5ea3b91d660309c00f1c9bc92ac634`, [run42529524063](https://github.com/BadBagel47/buzzy/actions/runs/42529524063), status success. Användaren bekräftar att `live` valdes. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
@@ -12,6 +12,15 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - Användaren bekräftar nu att återanslutningen i #293 verkar fungera. Den ursprungliga rotorsaken på Android/Brave fastställdes inte separat.
 - Senaste verifiering: konfiguration 5/5, pilot-UI 5/5 (inklusive återanslutning), pilotbygge och interceptat HTTPS-prov. Aktuell fysisk wifi/5G- och layoutkontroll återstår.
 - #316, #333 och #334 är publicerade. Rena `/host` och `/player` samt vidarebefordring av gamla `.html`-adresser är kontrollerade i Hosting-emulatorn; mobilprov återstår. Se aktuell teststatus i backloggen.
+
+## Kända öppna buggar
+
+Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista här bara buggar som inte är lösta eller som väntar på bekräftelse.
+
+- #290 vibration vid buzz märks inte i Android Brave/Chrome. Felsökning på faktisk enhet återstår.
+- #284 konfetti slutade fungera efter många tryck. Rättning publicerad, men det ursprungliga stoppet reproducerades inte. Verkligt prov återstår.
+- #345 tillfälligt hostfel: presentationen är rättad, men felets innehåll och orsak är okända.
+- Buggrättningar som är publicerade men saknar mobilprov: #291, #313, #320, #321, #324, #333, #335, #340 och #342. Se backloggen.
 
 ## Nästa steg och pausade spår
 
@@ -48,7 +57,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ```
 
 - Ingen databasregel-/billing-/domänändring ingår automatiskt i Hosting-publiceringen. Regeln ovan är ingen ny verifiering av aktuellt molntillstånd.
-- Git-push via Claude GitHub-appen. Workflowlistan kan läsas, men Actions-dispatch saknar fungerande auth i Claude-sessionen. Användaren gör vid behov Run workflow i webben. Kontrollera möjligheterna på nytt vid ändrad miljö.
+- Verktygsläge 2026-11-10, Claude-molnsession: git-push och `gh` CLI fungerar och kan läsa repot och workflowstatus. Actions-dispatch har tidigare saknat fungerande auth, så användaren gör vid behov Run workflow i webben. Andra agenter och miljöer kan ha andra möjligheter. Kontrollera vid start och uppdatera denna rad.
 - Publik status kan läsas från GitHubs workflow-/Actions-sida. Om workflowadressen ger 504 har `/BadBagel47/buzzy/actions` fungerat som reserv. Bekräfta både success och commit i run-sidan innan du rapporterar publicerat.
 
 ## Viktiga gränser

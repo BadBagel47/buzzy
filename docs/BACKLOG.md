@@ -87,6 +87,7 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 | #358 | Funktion | Byt symbolen för Settings-fliken (solen) till en symbol som passar inställningar. | Genomfört i källan 2026-11-10: Settings-fliken har en reglageikon i stället för solen. Publicerat i run42918125973; mobilprov återstår. |
 | #359 | Bugg | Radbrytningarna i Settings-rutorna är för korta på bred skärm. Texten ska kunna använda bredden. | Genomfört i källan och lokalt provat 2026-11-10: texterna i Settings-rutorna begränsas inte längre till 260 px på bred skärm (från 901 px). Publicerat i run42918125973; visuellt prov återstår. |
 | #360 | Funktion | Framtida: en switch för hosten som byter språk till svenska överallt, alltså i host-, viewer- och spelarvyn. Översättningarna ska vara byggda så att det är lätt att lägga till fler språk. | Registrerat 2026-11-10 som framtida utveckling. Inget körbesked. Underlag nedan. |
+| #361 | Bugg | Round overview på dator: rutan med tomt läge (Completed questions and manual adjustments will appear here.) är mörkblå i en ljus hostdialog och bryter mot hostens ljusa tema. Stängknappen visar dessutom en kraftig fokusring direkt när dialogen öppnas. | Registrerat 2026-11-10 från användarens skärmbild (dator). Ingen ändring gjord; samkörs med övriga ändringar. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 

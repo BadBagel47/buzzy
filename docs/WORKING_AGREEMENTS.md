@@ -4,6 +4,7 @@ Uppdaterat 2026-11-10. Dessa punkter sammanfattar användarens löpande instrukt
 
 ## Förslag och genomförande
 
+- När användaren lämnar feedback eller rapporterar fel ska det bara registreras i backloggen, utan ändringar i kod eller design. Registrerade punkter samkörs när användaren ger körbesked.
 - Samla nya önskemål med ID i [BACKLOG.md](BACKLOG.md). Förtydliga eller återöppna befintligt ID när det är samma fråga. Nytt ID = högsta ID i tabellen + 1.
 - Ändra inte appen bara för att ett önskemål registreras. Ett uttryckligt körbesked ger klartecken för angivet arbete. Fortsätt redan godkänt arbete utan upprepade tillståndsfrågor.
 - Använd befintliga designmallar och färger. Hostens sekundärtext har riktmärket minst 14 px; granska responsiva undantag och dialoger. Bevara synligt tangentbordsfokus när mobilens tryckflash tas bort.

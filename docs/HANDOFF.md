@@ -1,11 +1,11 @@
 # Buzzy — läs först vid fortsatt arbete
 
-Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
+Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
 
 ## Aktuellt läge
 
 - Aktiv arbetskopia: `/workspace/buzzy`, gren `main`, repo `BadBagel47/buzzy` på GitHub. Kontrollera `git status` före ändringar.
-- Senaste kodpublicering: `5cadbca20e5ea3b91d660309c00f1c9bc92ac634`, [run42529524063](https://github.com/BadBagel47/buzzy/actions/runs/42529524063), status success. Användaren bekräftar att `live` valdes. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
+- Senaste kodpublicering: `c8267afe59a812ffa2ec1c7a08fb054591f92217`, [run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351), status success. Användaren valde `live`. Innehåller #344–346 och #345:s korrigering för komprimerad statusetikett på 320 px. Senare dokumentationscommits kan finnas på main utan att kräva ny publicering.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -21,8 +21,7 @@ Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
    #284/#338: publicerat till live i run42529524063; högst tre samtidigt aktiva skurar med en samlad väntande skur samt ändrade banor för nedre mitten. Lokalt prov med 12 snabba tryck passerade; ursprungligt stopp reproducerades inte och faktisk mobil-/desktopprestanda återstår.
    #335/#336/#339/#340: källändringar och lokala pilotprov är klara; run42550140217 från commit `2eb7a9996f11f0bea42c6a7a13316b45ec5c3e35` lyckades och innehåller ändringarna. Vald Hosting-kanal kan inte avläsas på den offentliga sidan; invänta användarens bekräftelse samt verkliga visuella prov.
    #341–343: ändrade och lokalt verifierade — spelarvyns bakgrundstoning över hela fönstret, mindre och centrerad fokusring med bevarad träffyta/fokus, samt optisk centrering av Join-texten. Run42556139061 från `0856d150320ee9d2a8a0faf8764ef544370a4ed9` lyckades; användaren ombads välja live och meddelade klar, men målkanalen är inte direkt avläst. Användarprov återstår.
-   #344: förstasidans logotyp är något större och innehållet placerat något högre i källan efter körbesked. Riktat layoutprov på stora, smala och låga skärmar passerade; publicering och användarprov återstår. #346 ökar storleken ytterligare: 46 px, 42 px på smala skärmar. Actions avslöjade föråldrade responsiva testförväntningar, inklusive statusknappens text på 320 px; test och kompakt rumskodsetikett är nu rättade. Riktat room-UI, pilotbygge och HTTPS-test passerar. Starta om publiceringskörningen.
-   #345: hostens status/fel visas i en separat stängbar och återöppningsbar ruta med återförsök; geometriprover på 320–1280 px, pilot-UI 5/5, konfigurationsprov, pilotbygge och HTTPS-prov passerade. Publicering och användarprov återstår. Det ursprungliga tillfälliga felets innehåll och orsak är okända.
+   #344–346 och #345: publicerade i run42687931351 till live. Förstasidans logotyp är 46 px (42 px vid högst 350 px). Hostens längre status/fel visas i en stängbar ruta; kort statusen visar bara rumskoden på 320 px, och feltexten/återförsöket öppnas från den. UI-, konfigurations-, riktade room-UI-, pilotbygge- och HTTPS-kontroller passerade. Verkligt visuellt användarprov återstår. Det ursprungliga tillfälliga felets innehåll och orsak är okända.
    #337: `buzzy.trythis.one` är tillåten och publicerad till live enligt användarens bekräftelse. Cloudflare CNAME `buzzy` → `buzzy-197dc.web.app` är DNS only; Firebase verifierade domänen och användaren bekräftar nu att den fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade.
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
@@ -48,8 +47,8 @@ Uppdaterad 2026-11-09. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ```
 
 - Ingen databasregel-/billing-/domänändring ingår automatiskt i Hosting-publiceringen. Regeln ovan är ingen ny verifiering av aktuellt molntillstånd.
-- Git-push fungerar i senaste sessionen; Actions-dispatch saknade tillgängligt verktyg/fungerande auth. Användaren gör vid behov Run workflow i webben. Kontrollera möjligheterna på nytt vid ändrad miljö.
-- Publik status kan läsas från GitHubs workflow-/Actions-sida. Om workflowadressen ger 504 har `/BadBagel47/buzzy/actions` fungerat som reserv. Bekräfta både success och commit i run-sidan innan du rapporterar publicerat.
+- Git-push fungerar. Actions-dispatch saknade fungerande auth; användaren startar Run workflow i webben. I denna session GitHub-sidans publika HTML fungerade även när API-tunneln gav 403; därifrån bekräftades success och commit `c8267af` i run42687931351.
+- Kontrollera både status och commit i senaste runnen innan du rapporterar publicerat. Målkanalen framgår inte alltid av den publika run-vyn; användarens val måste då hämtas från samtalet.
 
 ## Viktiga gränser
 

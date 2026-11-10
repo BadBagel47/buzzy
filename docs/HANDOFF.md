@@ -63,10 +63,10 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 
 ## Återställningspunkt
 
-- **Före viewer (#347):** commit `9c83e0151` på `main`. Appkoden i den commiten är identisk med den publicerade `c8267afe59a812ffa2ec1c7a08fb054591f92217` ([run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351)). Taggen `fore-viewer` kunde inte pushas från molnsessionen 2026-11-10 (taggpush och API-skrivning nekades). Skapa den vid behov i GitHub: Releases → Draft a new release → tag `fore-viewer` → target `9c83e01`.
+- **Före viewer (#347):** taggen `fore-viewer` på GitHub (skapad av användaren 2026-11-10) pekar på `9916e8f`. Appkoden där är identisk med den publicerade `c8267afe59a812ffa2ec1c7a08fb054591f92217` ([run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351)); efterföljande commits fram till taggen rör bara dokumentation. Molnsessionen kan inte pusha taggar, så nya taggar skapas av användaren via Releases.
 - **Backa:**
-  - kod med `git revert` eller genom att återställa till commiten ovan
-  - Hosting via Firebase-konsolens rollback eller ny körning från commiten
+  - kod med `git revert` eller genom att återställa till taggen `fore-viewer`
+  - Hosting via Firebase-konsolens rollback eller ny körning från taggen
   - regler genom att klistra in den sparade regeltexten (`ops/rules-evidence/`) i konsolen
 
 ## Viktiga gränser

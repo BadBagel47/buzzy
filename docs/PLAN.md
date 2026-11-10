@@ -18,7 +18,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 ## Närmast
 
 1. #341–343 är ändrade och run42556139061 lyckades; användaren ombads välja live, men målkanalen är inte direkt avläst. Visuellt användarprov återstår. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
-   #344–346 är justerade; ytterligare en responsiv statusetikett rättades efter Actions-kontroll. Riktade room-UI- och pilotbyggkontroller passerar. Starta om publiceringskörningen och invänta visuell kontroll.
+   #344–346 är justerade; ytterligare en responsiv statusetikett rättades efter Actions-kontroll. Riktade room-UI- och pilotbyggkontroller passerar. [run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351) lyckades (även #345); vald kanal och visuell kontroll återstår.
    #335/#336/#339/#340 är ändrade och verifierade lokalt efter körbesked; publicering och riktiga visuella prov återstår.
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.

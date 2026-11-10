@@ -62,9 +62,9 @@ Nya önskemål får ett eget internt ID och samlas före implementation. Att ett
 | #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
 | #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
-| #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Ändrat i källan efter uttryckligt körbesked; lokalt layoutprov passerade. Publicering och användarprov återstår. |
-| #345 | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Ändrat och lokalt verifierat; publicering och användarprov återstår. Exakt ursprungligt fel är okänt. |
-| #346 | Gör logotypen på förstasidan större. | Ändrat och verifierat; två föråldrade UI-testförväntningar är rättade efter Actions-felen. Ny publiceringskörning behövs. |
+| #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. |
+| #345 | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. Exakt ursprungligt fel är okänt. |
+| #346 | Gör logotypen på förstasidan större. | Hosting-körning 42687931351 från c8267af lyckades. Vald kanal är inte avläst; användarprov återstår. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 

@@ -43,3 +43,13 @@ Bevarade syskon: buzzy-network-lab (#277), buzzy-spark-lab (#286), v7.51/startsi
 Spelmodell, databasregler och visningsbro är oförändrade från #287. Ny src/runtime-config.js väljer ett fast byggmål före SDK-initiering. Pilot bygger med det verkliga projektets config och ingen emulatoranslutning. Standardmålet för lokal utveckling är uttryckligen emulator, inte en fallback vid livefel. Flytt från livscykelfrysning till Debugger.pause i testet gör att värdens JavaScript faktiskt pausas; alla ursprungliga assertions om serverfas/deadline/0 skrivningar är kvar.
 
 HTTPS-fixtureprovet fångar alla externa HTTP/WebSocket-anrop och nekar Auth. Det bevisar rätt API-key/routing och att nätverksfel aldrig ger ett demorum. Molnets Auth, faktisk DNS/Hosting-site och RTDB-regler är inte lästa eller ändrade. Inloggning/nätåtkomst och en läsande inventering återstår innan publicering. Hosting-preview är inte en isolerad databas. Se README för konkreta gränser.
+
+## #347/#352 — viewer-skärm
+
+`/viewer?room=KOD` är en fristående, skrivskyddad sida för TV eller projektor (`src/viewer.js`, `src/viewer.css`, genererad `viewer.html`). Den bygger inte på den frysta spelarsidan, men använder spelarvyns mörka färger. Rumskoden räcker för att öppna den, alltså samma nivå som för spelare. En hemlig länk är framtida #348.
+
+- **Registrering:** viewern tar en av fyra platser i `viewerSeats/0..3` och skriver `viewers/UID = {at, slot}`. Den skriver inget i `members`, `scores` eller `seats` och syns därför aldrig som spelare, i leaderboard, autostopp eller förladdning. `onDisconnect` frigör platsen. Efter återanslutning registrerar viewern sig igen och startar om sina lyssnare.
+- **Läsrätt:** läsvillkoret för spelare utökas med registrerade viewers för `members`, `scores`, `attempts` (aktuellt försök), `excluded`, `presentation`, `settings`, `selection`, `moderation`, `celebration` och `adjustments`. `meta`, `private`, `archive`, `loads` och listan `viewers` (endast värden) är oförändrat stängda. En viewer får inga skrivrättigheter till spelets tillstånd, bara till sin egen registrering.
+- **Innehåll:** värden väljer innehållet i Settings → Viewer screen med `settings.viewerQuestion`, `viewerTimer`, `viewerBuzzOrder`, `viewerLeaderboard` och `viewerCelebration`. Saknade värden räknas som på. Frågetext visas bara när den är synlig för spelarna, och namn i buzzordningen följer `buzzOrderNames`.
+- **Join-skärm (#352):** `settings.viewerJoinScreen` visar QR-kod till `/?room=KOD`, domänen och rumskoden. Den slås på och av i Settings eller med knappen i delningsvyn.
+- **Värden:** ser endast antalet viewers, via en lyssnare på `viewers` som bara ägaren får läsa.

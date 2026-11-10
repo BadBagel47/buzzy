@@ -4,77 +4,179 @@ För övergripande mål se [PLAN.md](PLAN.md), för arbetssätt [WORKING_AGREEME
 
 Nya önskemål får ett eget internt ID och samlas före implementation. Att ett önskemål registreras är inte ett klartecken att implementera det eller ändra det pågående publiceringssteget.
 
-| ID | Önskemål | Status |
-|---|---|---|
-| #283 | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #284 | Upprepade tryck på konfettiknappen ska lägga till nya konfettiskurar utan att avbryta pågående skurar. | Uppföljningen publicerad i run42529524063; användaren bekräftar live-valet. Högst tre samtidiga skurar per enhet och en samlad väntande skur vid hög belastning. Verkligt prov återstår. |
-| #290 | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Implementationen publicerad i run42410517841, men användaren rapporterar ingen vibration i Android Brave eller Chrome. Felsökning på faktisk enhet återstår. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
-| #291 | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerat i run42421937554: etiketters mobila tryckmarkering avstängd, tangentbordsfokus och switcharnas valda läge bevaras. Mobilprov återstår. |
-| #292 | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #293 | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Uppföljningen är publicerad i run42471953022. Användaren bekräftar att #293 nu verkar fungera; mobilprov godkänt enligt senaste återkopplingen. Se [RECONNECT_293.md](RECONNECT_293.md). |
-| #294 | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #295 | Spelarens mörka spelyta ska fylla själva mobilvyn, utan det omgivande prototypskalet. | Publicerat i run42258255116; mobilprov återstår. |
-| #296 | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #297 | Spelarna ska märka när hosten lämnar; tydlig gemensam status och korrekt hantering av sessionen. | Implementerat: bekräftat hostlämnande stänger för alla, med spelarbesked. Nätavbrott stänger inte rummet. Publicerat i run42258255116; mobilprov återstår. |
-| #298 | Lägg spelarens liveruta längst ner och låt buzzern växa dynamiskt efter ledig bredd och höjd mellan frågerutan och liverutan. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #299 | Rätta spelarens lämna-rum-ikon, vars pil ser ut som ett flygplan. Återanvänd en tydlig standardikon i befintligt linjespråk. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #300 | Gemensam fullskärmsvy för QR-delning från hosthuvudet och Settings: riktig QR, webbadress och rumskod i spelarens formspråk. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #301 | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #302 | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #303 | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
-| #304 | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Publicerat i run42520516709 efter godkända verifieringssteg. Mobilprov av centrering återstår. |
-| #305 | Samordna sidrubriker och första kortens vertikala placering mellan Players, Questions och Settings med Play. | Publicerat i run42471953022: 14 px både ovanför första kortet och mellan korten, med gemensamt reserverat utrymme för Play-raden. Samma första kortposition verifierad mellan vyerna på 320/390/430/768/1280 px. Mobilprov återstår. |
-| #306 | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #307 | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #308 | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #309 | Alla utfällbara sektioner under Room settings ska vara hopfällda som standard. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #310 | Flytta Launch final celebration från Session and history till Visual effects. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #311 | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
-| #312 | Ge End game och motsvarande röda bekräftelseknappar en konsekvent röd knappkant. | Publicerat i run42433666616: hostens röda knappar använder samma röda färg för text och kant. Mobilprov återstår. |
-| #313 | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
-| #314 | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
-| #315 | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
-| #316 | Visa det kortare Room not found-beskedet: “We couldn’t find a room with that code.” | Publicerat i run42480785493. |
-| #317 | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning publicerad i run42395979402; mobilprov återstår. |
-| #318 | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
-| #319 | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
-| #320 | Förhindra att hostens rubrik och innehåll flyttar sig efter vybytesanimationen. | Reproducerat 1 px hopp i Question queue: kortgapets regel träffade bara efter animationen. Samma gap gäller nu även inne i animationsbehållaren, publicerat i run42471953022. Prov mäter både första kortet och Question queue före/efter animation; mobilprov återstår. |
-| #321 | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
-| #322 | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Publicerat i piloten; efterföljande #329 ökade antalet ytterligare. |
-| #323 | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Publicerat i run42425734815: frågekön, buzzordning, spelarens liveflöde och tillbaka-knappen använder samordnade riktningspilar. Mobilprov återstår. |
-| #324 | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ konsekvent placering och att hostdialoger följer ljust tema medan spelarens leaderboard behåller mörkt tema. | Publicerat i run42433666616: hostens tomma Leaderboard använder befintlig sekundärtextfärg och minst 14 px. Spelarens mörka tema är lokalt kontrollerat; mobilprov återstår. |
-| #325 | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Publicerat i run42421937554: kompakt antal aktiva deltagare vid Buzz results, utan nya Firebase-anrop. Faktisk onlinenärvaro garanteras inte. |
-| #326 | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Publicerat i run42421937554: New question ovanför texten som fullbreddsknapp. |
-| #327 | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Publicerat i run42421937554: rundstatus skiljer pending-bedömningar från färdigbedömda felaktiga svar. |
-| #328 | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | Publicerat i run42421937554: QR-vyn visar domäntext; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
-| #329 | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Publicerat i run42425734815: startfördröjning 0–360 ms och 432 bitar. Mobilprov återstår. |
-| #330 | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
-| #331 | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Pausat enligt användaren i väntan på engångslänkslösningen från ett annat projekt. Anpassning och tester mot Firebase och kvot krävs före ett framtida genomförande. |
-| #332 | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
-| #333 | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Publicerat i run42480785493; mobilprov återstår. |
-| #334 | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
-| #335 | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Lokalt prov och run42536777864 lyckades. Vald kanal och mobilprov inväntar bekräftelse. |
-| #336 | Låt konfettin falla långsammare efter uppskjutningen. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
-| #337 | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase har verifierat domänen och användaren bekräftar att den nu fungerar. Live-körning 42524163679 lyckades; användaren bekräftar att `live` valdes. Specifika host-/spelarflöden på domänen är inte separat bekräftade. |
-| #338 | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
-| #339 | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
-| #340 | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
-| #341 | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
-| #342 | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
-| #343 | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
-| #344 | Gör förstasidans logotyp lite större och placera innehållet något högre. | Ändrat i källan efter uttryckligt körbesked; lokalt layoutprov passerade. Publicering och användarprov återstår. |
-| #345 | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Publicerat till live i run42687931351, inklusive rättning av avklippt status på 320 px. Visuellt användarprov återstår; ursprungligt fel är okänt. |
-| #346 | Gör logotypen på förstasidan större. | Publicerat till live i run42687931351. Visuellt användarprov återstår. |
+Den här filen är projektets gemensamma lista över funktioner och buggar. Varje rad har en typ:
+
+- **Funktion**: nytt eller ändrat beteende, utseende eller innehåll.
+- **Bugg**: något fungerar inte som avsett eller har gått sönder. Ange observerat fel, och skilj på misstänkt och reproducerad orsak.
+- **Utredning**: en fråga som behöver besvaras före ett beslut om implementation.
+
+Statusfältet anger det senaste verifierade steget: registrerat → körbesked → ändrat i källan → lokalt prov → publicerat (körning och commit) → användar-/mobilprov godkänt. Återöppna samma ID vid återfall i stället för att skapa ett nytt. Nya rader läggs sist i tabellen. Nytt ID = högsta ID i tabellen + 1.
+
+| ID | Typ | Önskemål | Status |
+|---|---|---|---|
+| #283 | Funktion | Vinstkonfetti ska skjutas upp från nedre vänstra och högra hörnet, in mot mitten. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #284 | Bugg | Upprepade tryck på konfettiknappen ska lägga till nya konfettiskurar utan att avbryta pågående skurar. | Uppföljningen publicerad i run42529524063; användaren bekräftar live-valet. Högst tre samtidiga skurar per enhet och en samlad väntande skur vid hög belastning. Verkligt prov återstår. |
+| #290 | Bugg | Utred om mobilens vibrator kan användas när spelaren buzzar. Kontrollera stöd och begränsningar, främst Android/Brave samt iOS. | Implementationen publicerad i run42410517841, men användaren rapporterar ingen vibration i Android Brave eller Chrome. Felsökning på faktisk enhet återstår. Se [INVESTIGATION_290.md](INVESTIGATION_290.md). |
+| #291 | Bugg | Följ upp knapptryck i mobil: förstasidans gröna knapp skiftar blå och hostknappar visar en bakgrund vid tryck. | Publicerat i run42421937554: etiketters mobila tryckmarkering avstängd, tangentbordsfokus och switcharnas valda läge bevaras. Mobilprov återstår. |
+| #292 | Funktion | Förstora hostvyns minsta text på mobil och gör storleken enhetlig. Använd den lilla texten i första rutan som riktmärke, särskilt för de två nedre rutorna och knapparna i bottenmenyn. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #293 | Bugg | Återanslutning vid nätbyte och omladdning: host tappar rummet vid wifi → 5G, återansluter inte vid återgång till wifi och fastnar efter omladdning på ”Connecting to your room…”. | Uppföljningen är publicerad i run42471953022. Användaren bekräftar att #293 nu verkar fungera; mobilprov godkänt enligt senaste återkopplingen. Se [RECONNECT_293.md](RECONNECT_293.md). |
+| #294 | Funktion | Se över hostens sidhuvud: upprepade uppgifter och onödig vertikal yta jämfört med prototypen. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #295 | Funktion | Spelarens mörka spelyta ska fylla själva mobilvyn, utan det omgivande prototypskalet. | Publicerat i run42258255116; mobilprov återstår. |
+| #296 | Funktion | Bekräftelsedialog innan host eller spelare lämnar rummet via lämna-knapp. Återanvänd etablerad dialogstil och interaktionsbeteende. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #297 | Funktion | Spelarna ska märka när hosten lämnar; tydlig gemensam status och korrekt hantering av sessionen. | Implementerat: bekräftat hostlämnande stänger för alla, med spelarbesked. Nätavbrott stänger inte rummet. Publicerat i run42258255116; mobilprov återstår. |
+| #298 | Funktion | Lägg spelarens liveruta längst ner och låt buzzern växa dynamiskt efter ledig bredd och höjd mellan frågerutan och liverutan. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #299 | Bugg | Rätta spelarens lämna-rum-ikon, vars pil ser ut som ett flygplan. Återanvänd en tydlig standardikon i befintligt linjespråk. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #300 | Funktion | Gemensam fullskärmsvy för QR-delning från hosthuvudet och Settings: riktig QR, webbadress och rumskod i spelarens formspråk. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #301 | Funktion | Settings första kortrubrik ska ha samma storlek som övriga motsvarande rubriker, utan kod i rubriken. Föreslaget namn: Room information. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #302 | Funktion | Settings mörkare inforuta: Room code och Room lifetime-värden får samma textstorlek; prova normal teckenbredd utan spärrning. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #303 | Funktion | Hostens vybyte via bottenmenyn ska animeras från skärmkanterna, inte från kortens/containerkanterna. | Genomfört i det samlade UI-paketet. Publicerat i run42295900005 med gröna tester; mobilprov återstår. |
+| #304 | Funktion | Balansera bottenmenyn efter ikon/text: tillåt olika knappbredder, centrera innehållet även i Play och låt aktiv markering animera både läge och bredd. | Publicerat i run42520516709 efter godkända verifieringssteg. Mobilprov av centrering återstår. |
+| #305 | Funktion | Samordna sidrubriker och första kortens vertikala placering mellan Players, Questions och Settings med Play. | Publicerat i run42471953022: 14 px både ovanför första kortet och mellan korten, med gemensamt reserverat utrymme för Play-raden. Samma första kortposition verifierad mellan vyerna på 320/390/430/768/1280 px. Mobilprov återstår. |
+| #306 | Bugg | Återställ synlig utfällningsanimation när Quick Play-knappen öppnar panelen med fler inställningar/frågeinnehåll. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #307 | Bugg | Utred och rätta flimmer vid byte mellan poäng för rätt/fel svar och vid switchen som delar leaderboard till alla. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #308 | Funktion | Ta bort Show QR-knappen från Room information i Settings; QR-delning finns kvar i sidhuvudet. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #309 | Funktion | Alla utfällbara sektioner under Room settings ska vara hopfällda som standard. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #310 | Funktion | Flytta Launch final celebration från Session and history till Visual effects. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #311 | Funktion | Byt Launch final celebration till Launch celebration for all och använd samma färgstil som övriga vanliga hostknappar. | Publicerat i run42347839035 med gröna verifieringsjobb; mobilprov återstår. |
+| #312 | Funktion | Ge End game och motsvarande röda bekräftelseknappar en konsekvent röd knappkant. | Publicerat i run42433666616: hostens röda knappar använder samma röda färg för text och kant. Mobilprov återstår. |
+| #313 | Bugg | Förhindra att sista kortet döljs av bottenmenyn och ge samma slutmellanrum som mellan korten i alla hostvyer, även när webbläsarens verktygsrad visas/döljs. | Uppföljning publicerad i run42370960695; fysisk Android/Brave-bekräftelse återstår. |
+| #314 | Funktion | Mer konfetti med framför allt större spridning över skärmen; bitarna får bli något större. Behåll snabb uppflygning och något långsammare nedfärd. | Publicerat i run42370960695; fysisk mobilkontroll återstår. |
+| #315 | Funktion | Jämna ut det inre bottenutrymmet i Players-korten, särskilt Disconnected players som upplevs ha för mycket luft jämfört med andra kort/vyer. | Publicerat i run42370960695; Settings-accordioner lämnade orörda. |
+| #316 | Funktion | Visa det kortare Room not found-beskedet: “We couldn’t find a room with that code.” | Publicerat i run42480785493. |
+| #317 | Funktion | Centrera punkterna och/eller insättningsmarkören visuellt i det tomma rumskodsfältet. | Uppföljning publicerad i run42395979402; mobilprov återstår. |
+| #318 | Funktion | Gör Buzzy-logotypens z enfärgat med övriga bokstäver överallt; behåll den färgade punkten. | Publicerat i run42380847677; mobilprov återstår. |
+| #319 | Funktion | Gör spelarens omladdning/återanslutning lugnare och begripligare: centrerad Buzzy-logotyp under väntan och läsbara besked med nästa steg vid misslyckad anslutning. | Presentationsdelen publicerad i run42380847677; mobilprov återstår. Funktionell återanslutning ligger kvar i #293. |
+| #320 | Bugg | Förhindra att hostens rubrik och innehåll flyttar sig efter vybytesanimationen. | Reproducerat 1 px hopp i Question queue: kortgapets regel träffade bara efter animationen. Samma gap gäller nu även inne i animationsbehållaren, publicerat i run42471953022. Prov mäter både första kortet och Question queue före/efter animation; mobilprov återstår. |
+| #321 | Bugg | Förhindra att hostens sidhuvud hoppar/förskjuts under första sidladdning eller omladdning. | Publicerat i run42395979402; mobilprov återstår. |
+| #322 | Funktion | Prova betydligt mer konfetti: öka mängden med 200% jämfört med nuvarande mängd och behåll spridningen över skärmen. | Publicerat i piloten; efterföljande #329 ökade antalet ytterligare. |
+| #323 | Funktion | I frågekön ska texten ha mer avstånd till upp-/nerknapparna; gör riktningspilarna tydliga och centrerade i sina knappar och använd samma tydliga pilar konsekvent där ikoner anger riktning i gränssnittet. | Publicerat i run42425734815: frågekön, buzzordning, spelarens liveflöde och tillbaka-knappen använder samordnade riktningspilar. Mobilprov återstår. |
+| #324 | Bugg | Granska och centrera stängkrysset i alla dialoger och paneler; säkerställ konsekvent placering och att hostdialoger följer ljust tema medan spelarens leaderboard behåller mörkt tema. | Publicerat i run42433666616: hostens tomma Leaderboard använder befintlig sekundärtextfärg och minst 14 px. Spelarens mörka tema är lokalt kontrollerat; mobilprov återstår. |
+| #325 | Funktion | Visa antalet spelare i hostens Play-vy utan att skapa en ny ruta eller ta extra vertikal plats. | Publicerat i run42421937554: kompakt antal aktiva deltagare vid Buzz results, utan nya Firebase-anrop. Faktisk onlinenärvaro garanteras inte. |
+| #326 | Funktion | I Questions-vyn ska knappen för ny fråga ligga ovanför instruktionstexten i introduktionsrutan, använda befintlig fullbreddsmall och eventuellt heta “New question” utan plustecken. | Publicerat i run42421937554: New question ovanför texten som fullbreddsknapp. |
+| #327 | Funktion | Round overview ska skilja en färdigbedömd felaktig runda från en runda där bedömningar fortfarande väntar. | Publicerat i run42421937554: rundstatus skiljer pending-bedömningar från färdigbedömda felaktiga svar. |
+| #328 | Funktion | I QR-delningens helskärmsvy ska endast domänen visas, i större och tydlig typografi och utan länk; knappen Copy room link ska fortsätta kopiera hela rumslänken som idag. | Publicerat i run42421937554: QR-vyn visar domäntext; QR och kopieringsknapp behåller hela rumslänken. Mobilprov återstår. |
+| #329 | Funktion | Dubbla tiden som konfettin skjuts ut och öka antalet konfettibitar med 50 %, med samma uppflygning och dalning. | Publicerat i run42425734815: startfördröjning 0–360 ms och 432 bitar. Mobilprov återstår. |
+| #330 | Funktion | Granska förstasidans textstorlekar så att hjälpinformation, felmeddelanden och andra läsbara texter inte blir för små, även på smala skärmar. | Publicerat i run42433666616: förstasidans hjälp- och feltexter har minst 14 px. Mobilprov återstår. |
+| #331 | Utredning | Utred värdinloggning och skydd mot obehörigt rumsskapande samt onödiga anslutningsförsök, med öppet deltagande och låg kvotförbrukning. | Pausat enligt användaren i väntan på engångslänkslösningen från ett annat projekt. Anpassning och tester mot Firebase och kvot krävs före ett framtida genomförande. |
+| #332 | Utredning | Förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. | Registrerat från diskussionen om lagkrav: inventera faktisk lagring, rättslig grund, ansvar, leverantörsvillkor, lagringstider och övergivna rum. Samtyckesbehovet är preliminärt bedömt, inte juridiskt slutgranskat. Ingen appändring beställd. |
+| #333 | Bugg | Visa korrekt ikon för bedömt buzzresultat i hostens Buzz results: bock för rätt svar och kryss för fel svar. | Publicerat i run42480785493; mobilprov återstår. |
+| #334 | Funktion | Ta bort `.html` från både hostens och spelarens adress och använd rena URL:er. | Publicerat i run42480785493. Hosting-emulatorn serverar de rena adresserna och omdirigerar gamla adresser med frågeparametrar bevarade; mobilprov återstår. |
+| #335 | Bugg | Se till att en avstängd spelare kan lämna rummet från statusvyn. | Lokalt prov och run42536777864 lyckades. Vald kanal och mobilprov inväntar bekräftelse. |
+| #336 | Funktion | Låt konfettin falla långsammare efter uppskjutningen. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
+| #337 | Funktion | Förbered Buzzy på underdomänen `buzzy.trythis.one`, som hanteras hos Cloudflare. | Firebase har verifierat domänen och användaren bekräftar att den nu fungerar. Live-körning 42524163679 lyckades; användaren bekräftar att `live` valdes. Specifika host-/spelarflöden på domänen är inte separat bekräftade. |
+| #338 | Funktion | Justera konfettins vinklar/spridning så att den fyller även nedre mitten utan ett synligt hål. | Publicerat i run42529524063; användaren bekräftar live-valet. Lokalt prov kontrollerar nedre mitten på mobil och bred skärm; visuellt prov återstår. |
+| #339 | Funktion | Anpassa hostens sidhuvuds innehåll till samma maximala bredd och horisontella inpassning som sidans huvudinnehåll. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
+| #340 | Bugg | Förhindra att förstasidans innehåll hoppar upp när ett rum skapas. | Uppföljningen klarade run42536777864. Vald kanal och visuellt prov inväntar bekräftelse. |
+| #341 | Funktion | Låt spelarvyns bakgrundstoning fylla hela fönstret även på breda skärmar. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #342 | Bugg | Centrera och minska den synliga markeringen runt spelarens informationspil så att den inte täcker text. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #343 | Funktion | Justera Join-knappens optiska textplacering på förstasidan. | Hosting-körning 42556139061 lyckades; användarprov återstår. Vald kanal är inte direkt avläst. |
+| #344 | Funktion | Gör förstasidans logotyp lite större och placera innehållet något högre. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. |
+| #345 | Bugg | Håll hosthuvudets knappar och övriga objekt stilla när status- eller felmeddelanden visas. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. Exakt ursprungligt fel är okänt. |
+| #346 | Funktion | Gör logotypen på förstasidan större. | Publicerat till live i run42687931351 från c8267af; användarprov återstår. |
+| #347 | Funktion | Viewer: skrivskyddad extraskärm för TV/projektor i samma rum, öppnad via länk från hosten. Bygger på spelarvyns mörka formspråk men visar bara frågerelevant innehåll. Hosten väljer vilka delar som visas: fråga (text/bild), timer, buzzordning/resultat samt leaderboard/konfetti. | Körbesked 2026-11-10 tillsammans med #352. Ändrat i källan och lokalt provat (viewertest 11 kontroller, pilot-UI, konfiguration, pilotbygge). Kräver regelpublicering via konsolflödet (ny regelhash) före Hosting. Publicering och TV-prov återstår. |
+| #348 | Funktion | Framtida: hemlig viewer-länk med slumpad nyckel som hosten kan återkalla eller förnya, så att rumskoden inte räcker för att se viewern. | Registrerat som framtida utveckling efter #347. |
+| #349 | Funktion | Framtida: lista över anslutna viewers där hosten kan koppla bort en skärm. | Registrerat som framtida utveckling efter #347. Första versionen visar endast antal. |
+| #350 | Funktion | Framtida: spela upp rörlig media, t.ex. YouTube-video med ljud, direkt på viewern men inte hos spelarna. | Avvaktar enligt användaren eftersom autoplay med ljud kräver ett extra tryck på viewern. Underlag nedan. |
+| #351 | Funktion | Framtida: vid Quick Play med innehåll och förberedda frågor ska hosten kunna välja om frågeinnehållet visas hos spelare, viewer, båda eller ingen. Gränssnittet får inte bli rörigt. | Registrerat som framtida utveckling; förutsätter #347. Ingen design vald. |
+| #352 | Funktion | Hosten ska kunna visa en anpassad version av QR-delningssidan på viewern, så att spelare kan ansluta med QR-kod eller manuellt via webbadress och rumskod. | Körbesked 2026-11-10 tillsammans med #347. Ändrat i källan och lokalt provat. Regelpublicering, Hosting och TV-/mobilprov återstår. |
 
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
 
-Nästa fria interna ID: **#347**.
+#347/#352 genomförda i källan 2026-11-10 efter körbesked. Implementationen avviker från den registrerade planen på tre punkter:
+- **Fristående sida:** viewern byggs som en egen sida (`src/viewer.js`, `src/viewer.css`, genererad `viewer.html`) i stället för en `renderViewer()` i den frysta spelarsidan. Det ger mindre koppling till den frysta koden. Färgerna kommer från spelarvyn.
+- **Läsrätt även för `moderation`, `adjustments` och `excluded`:** behövs för att leaderboarden ska utesluta avstängda spelare och för att den gemensamma rumsprenumerationen ska fungera.
+- **Join-skärmen styrs på två ställen:** dels en switch i Settings, dels en knapp i hostens delningsvy.
 
-#345: hosthuvudet visar en kort status medan längre status- och felmeddelanden och eventuell återförsöksknapp visas i en separat stängbar ruta. Statusknappen öppnar rutan igen. Lokala geometriprov på 320, 390, 768 och 1280 px kontrollerar att huvud, knappar och innehåll inte flyttas vid långa fel, återförsök och frånkoppling; lång text, scrollning, stängning och återöppning kontrollerades. GitHub-provet fann att statusknappen klipptes på 320 px; rumsbeteckningen visar nu bara koden visuellt på de minsta skärmarna, med fullständig tillgänglig etikett. Riktat room-UI, pilotbygge och HTTPS-test passerar. Publicerat till live i run42687931351. Visuellt användarprov återstår; det ursprungliga felet är okänt.
+Leverans:
+- **Regler:** `viewers/UID` och `viewerSeats/0..3`, med `onDisconnect`. Ny regelhash:
 
-#346: logotypen på förstasidan ökades från 41 till 46 px, och från 37 till 42 px på skärmar upp till 350 px. Två Actions-fel visade föråldrade UI-testförväntningar: fontstorleken (37→42 px) och logotypens uppåtförflyttning (minst 6→3 px, eftersom större logga ändrar gruppens höjd). Ytterligare en responsiv statusetikett justerades efter Actions-prov. Pilot-UI, konfiguration, pilotbygge, HTTPS-prov och riktat room-UI-prov passerade. Publicerat till live i run42687931351; visuellt användarprov återstår.
+```text
+6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9
+```
+
+  Hashen är lokalt beräknad och ännu inte granskad i inventeringsflödet.
+- **Host:** Settings → Viewer screen med antal anslutna skärmar, Open viewer, Copy link, Show join screen och fem innehållsswitchar.
+- **Viewer:** liggande storskärmslayout med frågetext och bild, timer, buzzordning med "Answering" och ✓/✕, delad leaderboard, konfetti, join-skärm, besked när spelet är slut och besked när alla fyra platser är upptagna.
+
+Lokala prov, alla mot emulatorn:
+- `tests/viewer.integration.mjs` passerar 11 kontroller:
+  - viewern tar ingen spelarplats
+  - nekade skrivningar och läsningar
+  - frågetext först när den visas
+  - timer, buzzordning och bedömning
+  - switcharna
+  - join-skärmen och dess knapp i delningsvyn
+  - leaderboard och konfetti
+  - högst fyra viewers
+  - frånkoppling och återanslutning
+  - besked när spelet avslutas
+  - layout utan överflöde i 1280×720, 1920×1080 och 1024×768
+- Pilot-UI 5/5, konfiguration 5/5, pilotbygget med `viewer.html`, pilotbyggprovet 1/1 och drifttesterna 20/20 passerar.
+- `ui.integration.mjs` (Score adjustments and bans) fallerar på samma sätt även utan ändringen. Felet fanns redan och ingår inte i pilot-UI-kontrollen.
+
+Återstår:
+- granskning och publicering av reglerna i Firebase-konsolen
+- Hosting-körning med ny hash
+- prov på riktig TV eller projektor
+
+#347: användaren vill ha en tredje roll, viewer, för storskärm (liggande format, stor text på avstånd). Användarens val:
+- Hosten väljer innehållet.
+- I första versionen räcker rumskoden för åtkomst, samma nivå som för spelare.
+- Hosten ser antalet anslutna skärmar, och viewers påverkar inte spelet.
+
+Hemlig länk (#348), bortkoppling (#349) och media (#350) är framtida steg.
+
+Källgranskningen visar att databasreglerna bara låter ägare eller medlemmar läsa `presentation`, `attempts`, `members`, `scores`, `settings`, `selection` och `celebration`. Att göra viewern till medlem skulle ta en av de tolv platserna, synas i leaderboarden och störa autostopp och förladdning. Föreslagen genomförandeplan, som inte är genomförd:
+
+- **Regler** (i `generate-rules.mjs`/`generate-ui-rules.mjs`):
+  - ny nod `viewers/$uid = {at}`, som viewern själv skriver och raderar med `onDisconnect`
+  - högst 4 platser via `viewerSeats/0..3`
+  - läsvillkoret "owner || member" utökas med viewer för de nämnda noderna
+  - fem nya booleska inställningar: `viewerQuestion`, `viewerTimer`, `viewerBuzzOrder`, `viewerLeaderboard` och `viewerCelebration`, alla på som standard
+  - inga nya skrivrätter i övrigt
+- **Klient:**
+  - `joinViewer` i `client.js`; `watch()` återanvänds
+  - rollen `viewer` i `bridge.js`: inga spelarkrav, inga `loads`, alla åtgärder låsta
+  - koden läses från `?room=`
+- **Sida:**
+  - `viewer` läggs till i rollslingan i `generate-ui.mjs`, med en ny `renderViewer()` via patch; den frysta HTML-filen ändras inte
+  - routing i `vite.config.js` och `firebase.pilot.json`
+- **Host:**
+  - ny Settings-sektion, Viewer screen (hopfälld), med fem switchar, antal skärmar och knapparna Copy viewer link och Show QR
+  - `openShare`/`copyLink` i `room-ui.js` återanvänds med parametriserad URL och text
+- **Prov:**
+  - nytt emulatortest `tests/viewer.integration.mjs`, som täcker att viewern inte tar spelarplats, synlighet, switchar, frånkoppling, femte viewer nekas och nekade skrivningar
+  - befintliga sviter
+  - layout i 1280×720, 1920×1080 och 1024×768
+  - TV-prov
+- **Publicering:** regler via konsolflödet och ny granskad hash, därefter Hosting.
+
+Rekommenderad modellnivå: största, eftersom arbetet gäller behörighetsintegration och regeländring.
+
+#350, underlag:
+- Gratisplanerna räcker, eftersom videon strömmas från YouTube och bara id och kommandon går via Firebase. Egna videofiler kräver betalplan för Storage.
+- Webbläsare blockerar autoplay med ljud tills sidan fått ett tryck. Ljudlös autoplay fungerar alltid. Webbplatsinställning (Firefox/Safari) eller startflagga/policy (Chrome) kan ta bort trycket.
+- CSP behöver tillåta `youtube-nocookie.com`. YouTube som tredje part berör #332.
+
+#351, underlag (inte beslutat):
+- **Befintligt mönster:** hosten har redan en visningsväljare för frågetext (`data-behavior="visibility"`) med alternativen Host only och Players and host, sammanfattad som "Question text: …" (`state.roundTextVisible`, `effectiveQuestionTextVisible()` i den frysta HTML-filen). Bilder visas i dag alltid för spelarna.
+- **Förslag:** utöka den befintliga väljaren i stället för att lägga till nya kontroller, med alternativen Host only, Players, Viewer och Players and viewer. Sammanfattningsraden visar valet. Viewer-alternativen visas bara när viewer är aktiverad. Ett rumsövergripande standardval i Settings kan ange förval per fråga. Avgör vid design om bilden ska följa samma val eller ha ett eget.
+- **Teknisk konsekvens:** innehåll som bara ska synas på viewern kan inte ligga i `presentation`, som alla spelare får läsa. Det kräver en separat nod som bara viewers och hosten får läsa, och alltså ytterligare en regeländring. Dold text blankas redan innan den skrivs, och samma princip ska gälla per mottagare.
+
+#352, underlag (inte beslutat):
+- **Återanvänd:** dagens delningsvy (#300/#328), `openShare()` i `buzzy-live-pilot/src/room-ui.js`. Den visar riktig QR-kod för `${origin}/?room=KOD`, domänen i stor text utan länk, och rumskoden.
+- **Anpassning för viewern:**
+  - liggande storskärmslayout med QR-kod och text som går att läsa och skanna på avstånd
+  - visar instruktion, domän och rumskod för manuell anslutning
+  - ingen kopieringsknapp eller stängkryss, eftersom ingen interagerar med viewern
+- **Styrning:** hosten slår på och av join-skärmen på viewern, till exempel med en knapp vid hostens befintliga QR-ingång och i Settings → Viewer screen. Join-skärmen ersätter tillfälligt viewerns ordinarie innehåll.
+- **Teknik:** ett nytt booleskt läge, t.ex. `settings.viewerJoinScreen`, i regelwhitelisten. Om #352 tas med i #347 räcker en regeländring. Viewern behöver bara rumskoden, som den redan har från länken, så inga nya läsrätter behövs.
+
+#345: hosthuvudet visar en kort status medan längre status- och felmeddelanden och eventuell återförsöksknapp visas i en separat stängbar ruta. Statusknappen öppnar rutan igen. Lokala geometriprov på 320, 390, 768 och 1280 px kontrollerar att huvud, knappar och innehåll inte flyttas vid långa fel, återförsök och frånkoppling; lång text, scrollning, stängning och återöppning kontrollerades. GitHub-provet fann att statusknappen klipptes på 320 px; rumsbeteckningen visar nu bara koden visuellt på de minsta skärmarna, med fullständig tillgänglig etikett. Riktat room-UI, pilotbygge och HTTPS-test passerar. Ursprungligt tillfälligt fel och dess orsak är fortfarande okända. Publicering och verkligt användarprov återstår.
+
+#346: logotypen på förstasidan ökades från 41 till 46 px, och från 37 till 42 px på skärmar upp till 350 px. Två Actions-fel visade föråldrade UI-testförväntningar: fontstorleken (37→42 px) och logotypens uppåtförflyttning (minst 6→3 px, eftersom större logga ändrar gruppens höjd). Båda är uppdaterade. Pilot-UI 5/5, konfiguration 5/5, pilotbygget och HTTPS-provet passerade; riktat room-UI-prov passerade efter sista rättningen. Publicerat till live i run42687931351; visuellt användarprov återstår.
 
 #344: användaren önskar en något större logotyp och en diskret höjning av förstasidans innehåll. I källan är logotypen 41 px i stället för 38 px, och 37 px i stället för 34 px på de smalaste skärmarna. Mer nedre sidpadding flyttar den centrerade gruppen cirka 8 px uppåt när plats finns, utan att klippa toppen på låga skärmar. Lokalt layoutprov jämför tidigare och nya positioner på 320×640, 390×844, 1440×900 och 390×550 och kontrollerar tillgängligt innehåll och frånvaro av sidledes overflow. Pilot-UI-proven passerade 5/5, konfiguration 5/5, pilotbygget och interceptat HTTPS-prov passerade. Ursprungliga referensfilen är orörd. Publicering och faktisk visuell kontroll återstår.
 
@@ -182,7 +284,7 @@ Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken model
 
 ## UI-paketet genomfört efter körbeslut
 
-Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #314.
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår.
 
 ## #304 — bottenmenyns visuella balans och rörliga markering
 
@@ -196,7 +298,7 @@ Användaren vill använda Play-rubrikens vertikala placering som referens för m
 
 Läskontroll: vyerna delar .appbar, men Play får .appbar-play med egna layoutregler och explicit margin:0 på h1. Knapparnas höjd påverkar dessutom den radens höjd. Den exakta skillnaden i mobilens rendering ska verifieras i nästa körning. Ingen UI-ändring eller ny publicering gjord.
 
-#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #314.
+#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat.
 
 ## #306 — Quick Play-panelen saknar utfällningsanimation
 
@@ -212,13 +314,13 @@ Läskontroll: patchHostQuickControls kan ersätta editorns innerHTML vid panelby
 
 Målet är stabil, sammanhängande målning med bibehållna panelnoder där det behövs, utan synliga återstarter eller korta blinkningar när inställningen ändras. Behåll önskade befintliga övergångar, korrekt delning till deltagarna och deras egna öppnings-/stängningsförlopp. Samma krav som tidigare gäller: kort och listposter ska ligga still inom en vyanimation; lägg inte till egna kortanimationer.
 
-#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat. Nästa fria ID är #314.
+#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat.
 
 ## #308 — ta bort dubblerad QR-ingång i Settings
 
 Användaren vill ta bort QR under Room information eftersom funktionen nu finns i sidhuvudet. Detta avser Show QR-knappen i Settings-kortet. Behåll QR-knappen i sidhuvudet och dess befintliga fullskärmsvy med QR/webbadress/rumskod. Övrig rumsinformation och länkkopiering omfattas inte av borttagningen. Samlas med #304–307 enligt det etablerade arbetssättet; ingen UI-ändring gjord nu. Vid implementation ska motsvarande test som väntar på Settings QR-ingång uppdateras, medan headerns QR-funktion och fullskärmsprov bevaras.
 
-Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang.
 
 ## #309 — Room settings hopfällt från start
 
@@ -232,7 +334,7 @@ Flytta den befintliga Launch final celebration-knappen från Session and history
 
 På frågan om hörnutkastet redan är fixat: nej. Det tidigare underlaget i buzzy-output/BUZZY_CONFETTI_283_284.md säger uttryckligen att ingen produktändring körts. Underlaget har nu kopierats till [CONFETTI_283_284.md](CONFETTI_283_284.md) så att punkterna finns i den gemensamma repolistan. Kontroll av generatorbas, generator och genererad app bekräftar att confetti() fortfarande skapar partiklar över hela bredden som faller uppifrån, och att städtimern inte avbryter/ogiltigförklarar tidigare anrop. Detta är alltså väntande arbete, inte ett verifierat återfall efter en tidigare rättning. Det gamla diagnosprovet för #284 är historisk evidens; inga nya tester eller appändringar kördes nu. Behåll de ursprungliga ID-numren.
 
-Samlat väntande UI/effektarbete är nu #304–310 samt de tidigare ogjorda #283–284. #293 kvarstår som separat funktionsärende. Modell för nästa samlade körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Samlat väntande UI/effektarbete är nu #304–310 samt de tidigare ogjorda #283–284. #293 kvarstår som separat funktionsärende. Modell för nästa samlade körning: GPT-6.1 Sol med högt resonemang.
 
 ## #311 — firandeknappens text och färg
 
@@ -242,7 +344,7 @@ Den befintliga Launch final celebration-knappen ska heta exakt Launch celebratio
 
 Användaren upplever nuvarande färg som gulorange och önskar en röd outline. Utforma End game som en knapp med tydligt röd normal kant enligt hostens befintliga farofärg, med läsbar matchande text. Detta avser knappens synliga kant; tangentbordets fokusmarkering ska fortfarande fungera. Befintlig bekräftelsedialog och avslut-för-alla-semantik bevaras. Ingen färg-/CSS-ändring eller ny publicering gjord i registreringssteget.
 
-Nu samlade UI-punkter #304–312 samt de tidigare ogjorda konfettipunkterna #283–284; #293 separat. Modell för nästa gemensamma implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlade UI-punkter #304–312 samt de tidigare ogjorda konfettipunkterna #283–284; #293 separat. Modell för nästa gemensamma implementation: GPT-6.1 Sol med högt resonemang.
 
 ## #313 — enhetlig fri yta ovanför bottenmenyn
 
@@ -252,11 +354,11 @@ Vid full nedskrollning av längre innehåll ska hela sista kortet och dess nedre
 
 Läskontroll: nuvarande källa kombinerar en position:fixed-bottenmeny med safe-area-padding, flera responsiva shell-paddingregler och en separat 30px-slutspacer från renderaren. Registrera dessa som granskningsspår; exakt samspel med Android/Braves dynamiska webbläsarverktygsrad är inte verifierat i detta steg. Ingen app/CSS-ändring, testkörning eller ny publicering gjord.
 
-Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat. Rekommenderad modell vid nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat. Rekommenderad modell vid nästa gemensamma körning: GPT-6.1 Sol med högt resonemang.
 
 ## Genomfört paket efter ”Kör de i listan”
 
-Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är #315.
+Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet.
 
 Publicering av paketet #304–313/#283–284 är verifierad i [run42347839035](https://github.com/BadBagel47/buzzy/actions/runs/42347839035), källa 97d0b4aed18229b17b786a58a9580ac1d792df76. Samtliga steg i verify/pilot är gröna; Hosting-steget klart 2026-11-07T06:40:16Z. Fysiskt mobilprov återstår.
 
@@ -269,7 +371,7 @@ Två nya bilder från Android/Brave efter publiceringen av källa 97d0b4aed18229
 
 Behåll ID #313 för båda närliggande layoutfelen; skapa inte en ny dubblett. Läskontroll av aktuell implementation visar att skillnaden innerHeight−visualViewport.height−offsetTop används både som bottom på den redan fixerade menyn och som extra padding under innehållet. Den frysta basstilen har dessutom min-height:100vh på body. Dubbel kompensation respektive skillnaden mellan största och aktuella viewporthöjd är konkreta granskningsspår, inte fastställda rotorsaker: inga dynamiska mått från användarens telefon finns ännu.
 
-Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang.
 
 ## #314 — fylligare konfetti och långsammare nedfärd
 
@@ -279,7 +381,7 @@ Läskontroll: src/celebration.js styr redan hela effekten lokalt med 64 partikla
 
 Vid genomförandet: öka mängd/storlek och spridning med en rimlig partikelbudget för mobil. Behåll de två nedre ursprungen, färgpaletten, reducerad rörelse/avstängning och skyddet för upprepade utlösningar. Städning ska följa den nya faktiska sluttiden. Öka inte bara total varaktighet för hela banan, eftersom det även skulle sakta ner uppflygningen. Verifiera banornas täckning, oförändrad uppflygningstid och längre nedfärd samt att den större effekten känns jämn på mobil.
 
-#314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+#314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ### Förtydligande till #314
 
@@ -293,7 +395,7 @@ Med ”större” avsåg användaren främst spridningen över skärmen. Priorit
 
 Läskontroll: den frysta basen har margin-bottom:19px på .appbar men 12px på .appbar.appbar-play. Det senaste paketet enhetliggjorde rubrikens minhöjd men ersatte inte dessa olika underkanter. Den tidigare geometrikontrollen jämförde rubrikboxarnas centerhöjd och slutmarginalen, inte första kortets startkoordinat. Utöka nästa prov med rubrik och första innehållsruta relativt samma sidhuvud, samt visuell kontroll av Play-texten. Dessa kodfynd är verifierade; någon ny browserreproduktion eller UI-rättning har inte körts i registreringssteget.
 
-Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortsatt #315.
+Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang.
 
 ## #315 — enhetligt inre bottenutrymme i Players-korten
 
@@ -301,7 +403,7 @@ Användaren upplever olika mycket utrymme i botten INUTI korten i Players. Disco
 
 Läskontroll: Disconnected och Banned använder en direkt p.muted i tomt läge. CSS .theme-a .card.dynamic-player-card>.muted lägger 12px vertikal padding på den texten utöver kortets egen padding. Connected har tomtexten inuti .connected-player-list och träffas inte av samma direktbarnsregel. Detta är en konkret skillnad att kontrollera vid nästa körning; exakt visuellt bidrag har inte mätts i ett nytt browserprov nu.
 
-Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är #316.
+Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang.
 
 ### Uttryckligt undantag till #315
 
@@ -312,7 +414,7 @@ Användaren förtydligar att de utfällbara sektionerna under Settings har andra
 
 Källändringarna är genomförda. #304: Play-etiketten centreras optiskt genom att justera dess ikon/textplacering; knappbredderna fortsätter följa innehållet och markeringen använder knapparnas faktiska geometri. #305: Play-radens bottenmarginal matchar övriga vyer och alla rubriker/första kort flyttas gemensamt 3px ned. #313: bottenmenyn har fast `bottom:0`, scrollberoende visualViewport-offset borttagen och hostens ärvda `min-height:100vh` upphävd; slutreserven baseras fortsatt på uppmätt menyhöjd plus samma kortmellanrum. #314: konfettin ökas från 64 till 96 bitar, får bredare/högre banor och måttligt större bitar; uppflygningen behåller 800–1000ms medan nedfärden blir 1100–1350ms. #315: extra 12px vertikal padding tas bort endast från tomma direkta muted-paragrafer i Players-kort. Settings-accordionernas befintliga avstånd/layout lämnas helt orörda.
 
-Vid källändringen var dessa ändringar ännu inte testade eller publicerade. De befintliga partikelantalspåståendena i integrationerna uppdaterades till 96 för att motsvara det nya beteendet. Nästa fria ID är fortsatt #316; #293 och #290 ligger separat.
+Vid källändringen var dessa ändringar ännu inte testade eller publicerade. De befintliga partikelantalspåståendena i integrationerna uppdaterades till 96 för att motsvara det nya beteendet. #293 och #290 ligger separat.
 
 
 ### Publiceringsstatus för uppföljningsbatchen
@@ -336,7 +438,7 @@ Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter)
 
 Efter publicering i run42380847677 upplever användaren fortfarande att insättningsmarkören på förstasidan inte hamnar i mitten, alternativt att punktgruppen i fältet är förskjuten. Den tidigare ändringen tog bort extra `text-indent` och matchade teckenavståndet mellan placeholder och riktig kod. Det tillhörande testet verifierar CSS-värdena, men inte den faktiskt renderade positionen för markör/glyfer. Rotorsaken är därför fortfarande okänd. Bevara den frysta v1-referensen; granska den aktiva genererade sidan och jämför tomt ofokuserat, tomt fokuserat och ifyllt fält i riktig mobilvy innan en riktad rättning. Ingen kodändring eller ny publicering gjord i denna uppföljning. Rekommenderad modell för den avgränsade visuella korrigeringen: GPT-6.1 Luna Max.
 
-#316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+#316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang.
 
 ## #318 — enhetlig färg på Buzzy-logotypen
 
@@ -344,7 +446,7 @@ Ta bort den separata accentfärgen från z:et i alla aktiva Buzzy-logotyper. Z:e
 
 Källkontroll hittade olika varianter i de aktiva vyerna: landningssidans generator bygger från `buzzy-output/buzzy_landing_v1.html`, där `.brand span` färgar både z och punkt med `--accent: #80a8ff`; bas-headern för spelare och host färgar z med `.brand b` (`--blue: #315de8`) och punkten separat (`#315de8`); QR-delningen färgar bara punkten (`#67a5ff`). Användaren har bekräftat att landningssidan ska rättas och förtydligat att z:ets vanliga textfärg ska fortsätta följa kontrasten i respektive vy, medan själva punkten ska använda landningssidans accent (`#80a8ff`) överallt. Justera därför aktiva generator-/renderingsvägar, men bevara den frysta v1-referensfilen. Kontrollera samtliga aktiva logotypställen: landningssida, host, spelare och QR-delning. Ingen app-, CSS- eller generatorändring, test eller publicering gjord.
 
-Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ## #319 — tydligare vänteläge vid omladdning av spelarvyn
 
@@ -352,13 +454,13 @@ Vid omladdning av en spelarvy som tidigare var ansluten blinkar en tom mörk sid
 
 Det visuella vänteläget ska samordnas med #293:s funktionella återställning av spelarens befintliga rumssession efter omladdning/nätbyte. Det här ID:t gäller läsbar status och presentationen under övergången; #293 fortsätter att gälla lyckad återanslutning och korrekt felhantering. Ta inte bort eller maskera ett slutligt fel med en evigt laddande logotyp. Ingen app/CSS-ändring, test eller publicering gjord vid registreringen.
 
-Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ## Genomförande #316–319
 
 Efter användarens ”Kör” är #316–319 implementerade i källan. #316 visar Room not found direkt under rumskoden, behåller den inmatade koden och ger ett tydligt nästa steg. #317 tar bort den extra textindragningen och ger platshållaren samma teckenavstånd som den riktiga koden. #318 låter z:et ärva logotypens lokala textfärg och använder landningssidans accentfärg `#80a8ff` på punkten vid landning, host, spelare och QR-delning; den frysta v1-referensen är orörd. #319 visar under omladdning en centrerad logotyp och beständig status, med återförsök och lämna-länk när anslutningen misslyckas. Detta är endast återkoppling och presentation; funktionell återanslutning i #293 är inte ändrad.
 
-Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Publicerad som pilot i [run42380847677](https://github.com/BadBagel47/buzzy/actions/runs/42380847677), från källcommit `1d2d4102147ee937e2ebe8cf51484e048cbe21f3`; workflowet slutfördes framgångsrikt. Endast pilotkanalen publicerades, med ett dygns giltighet; inga databasregler ändrades. Android/Brave-mobilprov återstår. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Publicerad som pilot i [run42380847677](https://github.com/BadBagel47/buzzy/actions/runs/42380847677), från källcommit `1d2d4102147ee937e2ebe8cf51484e048cbe21f3`; workflowet slutfördes framgångsrikt. Endast pilotkanalen publicerades, med ett dygns giltighet; inga databasregler ändrades. Android/Brave-mobilprov återstår. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang.
 
 ## #320 — Hostvyn flyttar sig efter vybytesanimation
 
@@ -366,7 +468,7 @@ Användaren ser att rubriken och innehållskorten hamnar en bit längre ned för
 
 ## #321 — Hostens sidhuvud förskjuts vid inladdning
 
-Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang.
 
 ## #304 — återöppnad efter nytt mobilprov
 
@@ -415,7 +517,7 @@ Genomförd efter användarens ”Kör den samlade rättningen”. #317: mätning
 
 #321: anslutningslyssnaren visade kort Try again redan under normal första anslutning, vilket ändrade huvudet från 65px till cirka 79,5px och tillbaka. Knappen förblir dold under den första väntan och visas fortfarande vid fel eller avbrott i en etablerad session. Hostens roll-/produktionsklasser finns också i den genererade HTML-koden före första rendering. Bildruteprov under första laddning och omladdning visar oförändrad huvudhöjd och logotypposition.
 
-Verifiering: config 5/5, pilotbygge, interceptat HTTPS-prov 1/1 och pilot-UI-gate 4/4 passerar. Se reports/layout-stability-317-320-321.json. Samtliga prov använde lokal emulator eller avlyssnade anrop. Ingen Firebase-regeländring ingår. Faktiskt Android/Brave-prov kvarstår efter publicering; de automatiska proven bevisar inte resultat på användarens enhet. Rättningen publicerades i pilotkanalen i [run42395979402](https://github.com/BadBagel47/buzzy/actions/runs/42395979402), från källa `31aaf0c9301afe3c175a247075d1663fbab81cd3`. Workflowets offentliga status är success. Pilotlänken är https://buzzy-197dc--pilot-mrst5vi1.web.app; giltighet ett dygn enligt publiceringsflödet. Rekommenderad modell för detta samlade paket var GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+Verifiering: config 5/5, pilotbygge, interceptat HTTPS-prov 1/1 och pilot-UI-gate 4/4 passerar. Se reports/layout-stability-317-320-321.json. Samtliga prov använde lokal emulator eller avlyssnade anrop. Ingen Firebase-regeländring ingår. Faktiskt Android/Brave-prov kvarstår efter publicering; de automatiska proven bevisar inte resultat på användarens enhet. Rättningen publicerades i pilotkanalen i [run42395979402](https://github.com/BadBagel47/buzzy/actions/runs/42395979402), från källa `31aaf0c9301afe3c175a247075d1663fbab81cd3`. Workflowets offentliga status är success. Pilotlänken är https://buzzy-197dc--pilot-mrst5vi1.web.app; giltighet ett dygn enligt publiceringsflödet. Rekommenderad modell för detta samlade paket var GPT-6.1 Sol med högt resonemang.
 
 ## Terra-paketet — genomfört i källan
 

@@ -12,10 +12,10 @@ export function renderHostStatus(code,text,error){
  notice.hidden=!show;summary.setAttribute('aria-expanded',String(show));summary.setAttribute('aria-label',`${code?`Room ${code}`:'Connecting'}${code?`, ${connection.textContent}`:''}${!connected&&!initial?'. Show connection message':''}`);status.textContent=text;
 }
 // UI-only helpers. Room permissions, membership and exit semantics stay in bridge.js.
-export function installRoomUi({api,isHost,getCode}) {
+export function installRoomUi({api,isHost,getCode,viewer=null}) {
  let observed,observer,share,returnFocus,returnFocusSelector,previousOverflow,shareGeneration=0;
  const hostLayout=isHost?installHostLayout():null;
- const url=()=>`${location.origin}/?room=${getCode()}`;
+ const url=()=>`${location.origin}/?room=${getCode()}`,viewerUrl=()=>getCode()?`${location.origin}/viewer?room=${getCode()}`:'';
  function resizeBuzzer(){
   if(!observed?.isConnected)return;
   const style=getComputedStyle(observed),box=observed.getBoundingClientRect();
@@ -23,7 +23,7 @@ export function installRoomUi({api,isHost,getCode}) {
   const phone=observed.closest('.phone');phone.style.setProperty('--room-buzzer-size',`${size}px`);phone.style.setProperty('--buzzy-content-scale',String(Math.max(0,(size-10)/237)));
  }
  function sync(){
-  if(isHost){for(const id of ['room-share-qr','room-copy-link'])document.getElementById(id).disabled=!api.state.networkReady;hostLayout.sync();return;}
+  if(isHost){syncViewerButton();for(const id of ['room-share-qr','room-copy-link'])document.getElementById(id).disabled=!api.state.networkReady;hostLayout.sync();return;}
   const slot=document.querySelector('.player-buzzer-space');
   if(slot!==observed){observer?.disconnect();observed=slot;if(slot){observer=new ResizeObserver(resizeBuzzer);observer.observe(slot);}}
   resizeBuzzer();
@@ -32,6 +32,18 @@ export function installRoomUi({api,isHost,getCode}) {
   if(!api.state.networkReady||!getCode())return;
   try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(url());if(notice)notice.textContent='Room link copied.';else api.tip('Room link copied.');}
   catch{if(notice)notice.textContent='Select and copy the address above.';else api.tip(url());}
+ }
+ async function copyViewerLink(){
+  if(!api.state.networkReady||!getCode())return;
+  try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(viewerUrl());api.tip('Viewer link copied. Open it on the TV or projector.');}
+  catch{api.tip(viewerUrl());}
+ }
+ // #352: the host can put the join screen on viewer screens from the sharing view.
+ function syncViewerButton(){
+  const button=share?.querySelector('.room-share-viewer');if(!button||!viewer)return;
+  const active=viewer.active(),count=viewer.count();
+  button.textContent=active?'Hide from viewer screens':'Show on viewer screens';button.setAttribute('aria-pressed',String(active));
+  const note=share.querySelector('.room-share-viewer-note');note.textContent=count?(count===1?'1 viewer screen connected':`${count} viewer screens connected`):'No viewer screen connected. Open the viewer link from Settings → Viewer screen.';
  }
  function closeShare(){
   ++shareGeneration;
@@ -44,7 +56,7 @@ export function installRoomUi({api,isHost,getCode}) {
   const generation=++shareGeneration;
   returnFocus=document.activeElement;returnFocusSelector=returnFocus?.id?`#${returnFocus.id}`:returnFocus?.dataset.action==='qr'?'[data-action="qr"]':null;previousOverflow=document.body.style.overflow;
   share=document.createElement('dialog');share.className='room-share-screen';share.setAttribute('aria-labelledby','room-share-title');
-  share.innerHTML='<div class="room-share-top"><div class="brand">buzzy<span style="color:#80a8ff">.</span></div><button type="button" class="room-icon-button room-share-close" aria-label="Close sharing">×</button></div><div class="room-share-content"><h1 id="room-share-title">Join the game</h1><p>Scan the QR code or enter the room code</p><div class="room-share-qr" role="img" aria-label="QR code for joining this room"></div><div><span class="room-share-code-label">Room code</span><div class="room-share-code"></div></div><div class="room-share-url"></div><button type="button" class="btn room-share-copy">Copy room link</button><p class="room-share-notice" role="status">Creating QR code…</p></div>';
+  share.innerHTML='<div class="room-share-top"><div class="brand">buzzy<span style="color:#80a8ff">.</span></div><button type="button" class="room-icon-button room-share-close" aria-label="Close sharing">×</button></div><div class="room-share-content"><h1 id="room-share-title">Join the game</h1><p>Scan the QR code or enter the room code</p><div class="room-share-qr" role="img" aria-label="QR code for joining this room"></div><div><span class="room-share-code-label">Room code</span><div class="room-share-code"></div></div><div class="room-share-url"></div><button type="button" class="btn room-share-copy">Copy room link</button>'+(viewer?'<button type="button" class="btn room-share-viewer" aria-pressed="false"></button><p class="room-share-viewer-note"></p>':'')+'<p class="room-share-notice" role="status">Creating QR code…</p></div>';
   share.querySelector('.room-share-code').textContent=getCode();const address=share.querySelector('.room-share-url');address.textContent=location.host;
   share.querySelector('.room-share-close').addEventListener('click',closeShare);
   share.addEventListener('cancel',e=>{e.preventDefault();closeShare();});
@@ -55,6 +67,7 @@ export function installRoomUi({api,isHost,getCode}) {
    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   });
   share.querySelector('.room-share-copy').addEventListener('click',()=>copyLink(share.querySelector('.room-share-notice')));
+  share.querySelector('.room-share-viewer')?.addEventListener('click',()=>{viewer.toggle();syncViewerButton();});syncViewerButton();
   document.body.append(share);document.body.style.overflow='hidden';share.showModal();
   try{
    const {default:qrcode}=await import('qrcode-generator');
@@ -74,5 +87,5 @@ export function installRoomUi({api,isHost,getCode}) {
  document.getElementById('room-share-qr')?.addEventListener('click',openShare);
  document.getElementById('room-copy-link')?.addEventListener('click',()=>copyLink());
  sync();
- return {sync,openShare,closeShare,copyLink,setStatus};
+ return {sync,openShare,closeShare,copyLink,copyViewerLink,viewerUrl,setStatus};
 }

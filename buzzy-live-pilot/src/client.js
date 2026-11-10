@@ -2,7 +2,7 @@ import {deadline,connectionRecovery} from './connection.js';
 import {initializeRuntime} from './runtime-config.js';
 import {initializeApp} from 'firebase/app';
 import {getAuth,connectAuthEmulator,signInAnonymously,browserLocalPersistence,setPersistence} from 'firebase/auth';
-import {getDatabase,connectDatabaseEmulator,onValue,ref,get,set,update,serverTimestamp,goOffline,goOnline} from 'firebase/database';
+import {getDatabase,connectDatabaseEmulator,onValue,onDisconnect,ref,get,set,update,serverTimestamp,goOffline,goOnline} from 'firebase/database';
 let connection,runtime,authentication;
 const fail=message=>{throw new Error(message);};
 const permissionDenied=e=>['PERMISSION_DENIED','permission-denied'].includes(e.code)||(!e.code&&e.message==='Permission denied');
@@ -34,6 +34,17 @@ async function connect(){
    for(let tries=0;tries<12;tries++){
     const seats=await read(`${base}/seats`)||{},slot=Array.from({length:12},(_,i)=>String(i)).find(i=>!seats[i]);if(slot===undefined)fail('Room full.');
     try{await update(ref(db,base),{[`members/${uid}`]:{name,at:serverTimestamp(),fromRound:c.r+(c.phase==='ready'&&!(await read(`${base}/presentation/shown`))?0:1),slot},[`scores/${uid}`]:0,[`seats/${slot}`]:true});return {code};}catch(e){if(await read(`${base}/members/${uid}`))return {code};if(tries===11)throw e;}
+   }
+  }
+  if(x.action==='view'){
+   // #347: a viewer takes one of four viewer seats; it never becomes a player.
+   // Its registration is removed when this connection drops and restored by the caller on reconnect.
+   const own=await read(`${base}/viewers/${uid}`);
+   if(own){await onDisconnect(ref(db,base)).update({[`viewers/${uid}`]:null,[`viewerSeats/${own.slot}`]:null});return {code,slot:own.slot};}
+   for(let tries=0;tries<4;tries++){
+    const seats=await read(`${base}/viewerSeats`)||{},slot=['0','1','2','3'].find(i=>!seats[i]);if(slot===undefined)fail('All viewer screens are in use.');
+    try{await update(ref(db,base),{[`viewers/${uid}`]:{at:serverTimestamp(),slot},[`viewerSeats/${slot}`]:true});await onDisconnect(ref(db,base)).update({[`viewers/${uid}`]:null,[`viewerSeats/${slot}`]:null});return {code,slot};}
+    catch(e){const mine=await read(`${base}/viewers/${uid}`);if(mine){await onDisconnect(ref(db,base)).update({[`viewers/${uid}`]:null,[`viewerSeats/${mine.slot}`]:null});return {code,slot:mine.slot};}if(tries===3)throw e;}
    }
   }
   if(x.action==='publish'){
@@ -96,7 +107,7 @@ async function connect(){
   }
   return {code};
  }
- function watch(code,next,error){
+ function watch(code,next,error,{loads=true}={}){
   const base=`rooms/${code}`,values={},stops=[],dynamic=[],initialized=new Set(),fields=['members','scores','settings','presentation','selection','moderation','celebration','adjustments'];let current='',excludedRound='',loadKey='',stopLoads,failed=false;
   // A retired attempt can lose access just before the next control snapshot arrives.
   // Only a missing room is terminal; let valid later snapshots recover other errors.
@@ -108,7 +119,7 @@ async function connect(){
    const buzzes=hits.map(([id,h])=>({playerId:id,name:values.members?.[id]?.name||'Player',order:h.i,acceptedAt:h.at,result:a.judgments?.[id]?.kind||'pending',judgment:a.judgments?.[id]||null})).sort((a,b)=>a.order-b.order);
    next({code,revision:c.version,control:{...c},presentation:values.presentation||null,settings:values.settings||{},celebration:values.celebration||null,adjustments:values.adjustments||{},selection:values.selection||null,loads:values.loads||{},players,round:{id:c.r,attempt:c.a,phase:c.phase==='open'&&c.mode==='first'&&a.first?'locked':c.phase,mode:c.mode,deadline:c.startedAt+c.ms,excluded:Object.keys(values.excluded||{}),buzzes}});
   };
-  for(const field of fields)stops.push(onValue(ref(db,`${base}/${field}`),s=>{values[field]=s.val();initialized.add(field);if(field==='presentation'&&values.presentation?.loadKey!==loadKey){stopLoads?.();loadKey=values.presentation?.loadKey;values.loads={};if(loadKey)stopLoads=onValue(ref(db,`${base}/loads/${loadKey}`),s=>{values.loads=s.val();emit();},reportError);}emit();},reportError));
+  for(const field of fields)stops.push(onValue(ref(db,`${base}/${field}`),s=>{values[field]=s.val();initialized.add(field);if(loads&&field==='presentation'&&values.presentation?.loadKey!==loadKey){stopLoads?.();loadKey=values.presentation?.loadKey;values.loads={};if(loadKey)stopLoads=onValue(ref(db,`${base}/loads/${loadKey}`),s=>{values.loads=s.val();emit();},reportError);}emit();},reportError));
   stops.push(onValue(ref(db,`${base}/control`),s=>{
    values.control=s.val();if(!values.control){reportError(Object.assign(new Error('This room is no longer available.'),{code:'room/not-found'}));return;}
    const key=attemptKey(values.control);
@@ -119,5 +130,7 @@ async function connect(){
   },reportError));
   return ()=>{stopLoads?.();stops.forEach(stop=>stop());dynamic.forEach(stop=>stop());};
  }
- return {auth,db,uid,command,read,watch,serverNow,setOnline:v=>recovery.setOnline(v),reconnect:()=>recovery.recover(),waitForConnection:()=>recovery.ready(),watchConnection:next=>recovery.watch(next)};
+ function watchViewers(code,next,error){return onValue(ref(db,`rooms/${code}/viewers`),s=>next(Object.keys(s.val()||{}).length),error);}
+ function watchOwnViewer(code,next){return onValue(ref(db,`rooms/${code}/viewers/${uid}`),s=>next(s.exists()),()=>next(false));}
+ return {auth,db,uid,command,read,watch,watchViewers,watchOwnViewer,serverNow,setOnline:v=>recovery.setOnline(v),reconnect:()=>recovery.recover(),waitForConnection:()=>recovery.ready(),watchConnection:next=>recovery.watch(next)};
 }

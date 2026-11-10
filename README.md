@@ -7,10 +7,10 @@ Mobilanpassat quiz med hostvy och separata spelarvyer, Firebase Authentication, 
 - [Aktuell handoff](docs/HANDOFF.md): senaste verifierade publicering, återstående arbete och hur projektet återupptas.
 - [Plan och mål](docs/PLAN.md): produktinriktning, lanseringsplan och pausade spår.
 - [Arbetssätt](docs/WORKING_AGREEMENTS.md): ID:n, körbesked, modeller, verifiering och publicering.
-- [Backlogg](docs/BACKLOG.md): aktuell uppgiftsstatus och beslut per ID.
+- [Funktioner och buggar](docs/BACKLOG.md): backlogg med ID, typ (Funktion/Bugg/Utredning), status och beslut.
 - [Webbguide](docs/WEBBSETUP.md): Firebase/GitHub och manuella publiceringssteg.
 
-Plan, arbetssätt och handoff hålls uppdaterade tillsammans enligt användarens instruktion. Äldre plan-/statusdokument är historik; börja i länkarna ovan.
+Handoff, plan, arbetssätt, funktioner och buggar hålls uppdaterade tillsammans, oavsett vilken AI-agent som arbetar. Agentinstruktionerna finns i [AGENTS.md](AGENTS.md). Äldre plan-/statusdokument är historik; börja i länkarna ovan.
 
 ## Projektstruktur
 

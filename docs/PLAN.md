@@ -11,7 +11,7 @@ Uppdaterad 2026-11-10. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Hosting-körning [run42529524063](https://github.com/BadBagel47/buzzy/actions/runs/42529524063) lyckades från `5cadbca20e5ea3b91d660309c00f1c9bc92ac634`; användaren bekräftar att live valdes och att `buzzy.trythis.one` nu fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade. Användaren uppger att återanslutningen i #293 verkar fungera.
+Senaste kodpublicering [run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351) lyckades från `c8267afe59a812ffa2ec1c7a08fb054591f92217`; användaren valde live. `buzzy.trythis.one` fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade. Användaren uppger att återanslutningen i #293 verkar fungera.
 
 Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som live-versionen. Den är ingen isolerad testdatabas. Live är publicerat och användaren bekräftar att domänen fungerar.
 
@@ -23,6 +23,7 @@ Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt
 2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
 3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
 4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.
+5. #347 viewer, en skrivskyddad storskärmsvy där hosten väljer innehållet. Den är genomförd i källan tillsammans med #352 (join-skärm med QR-kod på viewern) och lokalt provad. Regelpublicering, Hosting och TV-prov återstår. Därefter kan #348 hemlig viewer-länk, #349 lista med bortkoppling #350 video på viewern och #351 val av var frågeinnehållet visas (spelare, viewer, båda eller ingen) bli aktuella; de avvaktar enligt användaren.
 
 ## Inför skarp lansering
 

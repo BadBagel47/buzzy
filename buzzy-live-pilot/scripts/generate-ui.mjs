@@ -1,6 +1,7 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {applyUiBatch} from './ui-batch-304-313.mjs';
+import {applyViewerHost} from './viewer-host.mjs';
 const target=process.env.VITE_BUZZY_TARGET||'emulator';if(!['emulator','pilot'].includes(target))throw new Error('Invalid build target');
 const output=new URL('../../buzzy-output/',import.meta.url);
 const base=readFileSync(new URL('buzzy_midnight_studio_v7_51.html',output),'utf8');
@@ -36,6 +37,7 @@ const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="c
 // The frozen #287 standalone reference remains untouched.
 
 html=applyUiBatch(html);
+html=applyViewerHost(html);
 const arrowPaths={up:'M12 19V5M6 11l6-6 6 6',down:'M12 5v14M6 13l6 6 6-6',right:'M5 12h14M13 6l6 6-6 6',diagonal:'M5 19L19 5M9 5h10v10',left:'M19 12H5M11 6l-6 6 6 6'};
 const arrowIcon=direction=>`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="${arrowPaths[direction]}"/></svg>`;
 html=html.replaceAll('>↑</button>',`>${arrowIcon('up')}</button>`).replaceAll('>↓</button>',`>${arrowIcon('down')}</button>`).replaceAll('➜',arrowIcon('right')).replaceAll('↗',arrowIcon('diagonal')).replace("actionButton('← Back to Play'",`actionButton('${arrowIcon('left')} Back to Play'`);
@@ -127,3 +129,26 @@ landing=landing.replace('</head>','<style>.field-hint,.field-error,.noscript{fon
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');
 landing=landing.replace('Design preview. Download and open this file in your browser to try the controls.','Enable JavaScript to create or join a room.');
 writeFileSync('index.html',landing);
+// #347/#352: standalone read-only viewer for a TV or projector. It shares the dark player colours
+// but none of the player page's controls, and it reads its room code from ?room=.
+writeFileSync('viewer.html',`<!doctype html>
+<html lang="en" data-network-role="viewer">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#081327">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<title>Buzzy · Viewer</title>
+<link rel="stylesheet" href="/src/viewer.css">
+<script>window.BUZZY_RUNTIME={role:'viewer',transport:${JSON.stringify('spark-'+target)}};</script>
+</head>
+<body>
+<div id="viewer" aria-live="polite"></div>
+<div id="viewer-status" role="status"><div class="brand" aria-label="Buzzy">buzzy<span>.</span></div><p class="viewer-status-text">Connecting to the room…</p></div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<noscript><p>Enable JavaScript to show this room.</p></noscript>
+<script type="module" src="/src/viewer.js"></script>
+</body>
+</html>
+`);

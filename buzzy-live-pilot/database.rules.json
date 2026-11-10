@@ -301,6 +301,15 @@
           },
           "viewerJoinScreen": {
             ".validate": "newData.isBoolean()"
+          },
+          "viewerOn": {
+            ".validate": "newData.isBoolean()"
+          },
+          "viewerQuestionNumber": {
+            ".validate": "newData.isBoolean()"
+          },
+          "viewerView": {
+            ".validate": "newData.isString() && (newData.val() == 'join' || newData.val() == 'game' || newData.val() == 'leaderboard')"
           }
         },
         "selection": {

@@ -23,6 +23,14 @@ body{margin:0;overflow:hidden;background:radial-gradient(ellipse at 50% -15%,rgb
 #v-join{padding-top:4.2cqh}
 .main{flex:1;min-height:0;position:relative;display:grid;grid-template-columns:minmax(0,1fr);margin-top:2cqh}
 
+/* Viewer off: only the logo, a little above the geometric centre so it looks centred. */
+#v-off{padding:0;justify-content:center;align-items:center}
+.logo-big{font-weight:900;letter-spacing:-.06em;font-size:26cqh;line-height:1;white-space:nowrap;color:#f8fbff;transform:translate(.03em,-6cqh)}
+.logo-big span{color:var(--accent)}
+#v-off.on .logo-big{animation:logoin .9s var(--ease) both}
+@keyframes logoin{from{opacity:0;transform:translate(.03em,-1cqh) scale(.94)}to{opacity:1;transform:translate(.03em,-6cqh)}}
+.qnum[hidden]{display:none}
+
 /* Stage: question number, image, text and countdown. */
 .stage{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:20cqh;transition:transform .65s var(--ease)}
 .stage.up{transform:translateY(-13cqh)}

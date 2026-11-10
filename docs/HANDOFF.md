@@ -37,7 +37,11 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. #347 viewer och #352 join-skärm är publicerade till live i [run42865760330](https://github.com/BadBagel47/buzzy/actions/runs/42865760330). Reglerna (hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`) är publicerade i Firebase-konsolen. De tidigare reglerna finns i taggen `fore-viewer`.
 6. #354 (ny viewerlayout och rörelse), #356 (viewerknapp i huvudet, förenklad), #357 (renare QR-dialog), #358 (ny Settings-ikon) och #359 (bredare Settings-text) är publicerade i [run42918125973](https://github.com/BadBagel47/buzzy/actions/runs/42918125973) från `568b55a`. Användarprov på riktig TV, dator och mobil återstår.
-7. **Väntar på Opus-omgången** (kräver ny regelpublicering): #355 viewerläge (Av/Join/Spel/Leaderboard) och on/off i en panel (#356 resten), samt knappen för att stänga av Question N. #353 (buzzern på iPad) väntar också. #348–#351 och #360 är framtida steg.
+7. **Ändrat i källan 2026-11-10 (Opus), ännu inte publicerat:** #355 viewerläge (Join/Game/Leaderboard), #356 Viewer on/off (av visar bara logotypen), knapp för Question N och #353 rättning av buzzern på iPad. Lokala prov: viewertest, pilot-UI 5/5, konfiguration 5/5, pilotbygge, pilotbyggprov, drifttester 20/20. **Reglerna måste publiceras före Hosting**, annars nekas hostens nya inställningar. Ny regelhash:
+   ```text
+   3017d3c225c5977dc1940fd4a06ba4599c8694c73294198e3c4dd95cc82e76a9
+   ```
+   Steg för användaren: inventering med `rules_source=console` → publicera reglerna i Firebase-konsolen → klistra tillbaka konsoltexten → ny inventering → Hosting med den nya hashen. #348–#351 och #360 är framtida steg.
 
 ## Kod och kontroller
 

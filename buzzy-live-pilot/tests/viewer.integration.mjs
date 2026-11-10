@@ -7,6 +7,7 @@ const report={status:'running',checks:[],layouts:[],pageErrors:[]};
 const ready=p=>p.waitForFunction(()=>window.BuzzyView?.state.networkReady&&!document.documentElement.hasAttribute('data-network-busy'));
 const idle=p=>p.waitForFunction(()=>!document.documentElement.hasAttribute('data-network-busy'));
 const viewerReady=p=>p.waitForFunction(()=>document.documentElement.hasAttribute('data-viewer-ready')&&!!window.BuzzyViewer.state);
+const innerWidthTolerance=()=>40;
 async function hostToggle(host,key,checked){
  const box=host.locator(`[data-toggle="${key}"]`);
  if(await box.isChecked()!==checked)await box.click();
@@ -21,7 +22,16 @@ await test('Viewer screen shows the host-selected question state without becomin
   const player=await page();await player.locator('#room-code').fill(code);await player.locator('#player-name').fill('Ada');await player.locator('.join-button').click();await ready(player);
 
   const viewer=await page({width:1280,height:720,mobile:false,path:`/viewer?room=${code}`});await viewerReady(viewer);
-  await viewer.locator('#qtext.muted').waitFor();assert.equal(await viewer.locator('.room strong').textContent(),code);
+  // A new viewer starts switched off and shows only the logo until the host turns it on (#355/#356).
+  await viewer.locator('#v-off.on .logo-big').waitFor();assert.equal(await viewer.locator('#topbar.on').count(),0);
+  await viewer.waitForTimeout(1100);
+  const logo=await viewer.evaluate(()=>{const r=document.querySelector('.logo-big').getBoundingClientRect();return {center:((r.top+r.bottom)/2)/innerHeight*100,mid:Math.abs((r.left+r.right)/2-innerWidth/2)};});
+  assert.ok(logo.center>38&&logo.center<48&&logo.mid<innerWidthTolerance(),JSON.stringify(logo));
+  await host.locator('#room-viewer').click();await host.locator('[data-settings-section="viewer"][open]').waitFor();
+  assert.equal(await host.locator('[data-action^="viewer-view:"]').count(),0,'Mode choice is hidden while the viewer is off');
+  await hostToggle(host,'viewerOn',true);await host.locator('[data-action="viewer-view:game"][aria-pressed="true"]').waitFor();
+  await viewer.locator('#v-game.on #qtext.muted').waitFor();assert.equal(await viewer.locator('.room strong').textContent(),code);
+  await host.locator('[data-nav="play"]').click();await idle(host);
   await host.waitForFunction(()=>window.BuzzyView.state.viewerCount===1);
   assert.equal(Object.keys(await read(host,`rooms/${code}/members`)).length,1);assert.equal(Object.keys(await read(host,`rooms/${code}/seats`)).length,1);
   assert.equal(await host.evaluate(()=>window.BuzzyView.state.players.length),1);assert.equal(await player.evaluate(()=>window.BuzzyView.state.players.length),1);
@@ -83,15 +93,17 @@ await test('Viewer screen shows the host-selected question state without becomin
   report.checks.push('Viewer follows buzz order: strip while buzzers are open, countdown folds away when everyone has buzzed, list on the right with the player answering, and a glittering trail around the correct answer');
 
   // Host choices hide and show each part.
-  await idle(host);await host.locator('[data-nav="more"]').click();await host.locator('[data-action="toggle-settings-section:viewer"]').click();
+  await idle(host);await host.locator('#room-viewer').click();await host.locator('[data-settings-section="viewer"][open]').waitFor();
   await host.locator('.viewer-settings-count',{hasText:'1 screen connected'}).waitFor();await host.waitForTimeout(400);await host.locator('[data-settings-section="viewer"]').screenshot({path:'reports/host-viewer-settings-390.png'});
   assert.equal(await host.locator('.viewer-settings-actions a').getAttribute('href'),`http://127.0.0.1:5173/viewer?room=${code}`);
   await hostToggle(host,'viewerBuzzOrder',false);await viewer.waitForFunction(()=>!document.querySelector('#buzzlist .row')&&!document.getElementById('main').classList.contains('res'));
   await hostToggle(host,'viewerQuestion',false);await viewer.waitForFunction(()=>document.getElementById('qtext').hidden);
+  await hostToggle(host,'viewerQuestionNumber',false);await viewer.waitForFunction(()=>document.getElementById('qnum').hidden);
+  await hostToggle(host,'viewerQuestionNumber',true);await viewer.waitForFunction(()=>!document.getElementById('qnum').hidden);
   await hostToggle(host,'viewerBuzzOrder',true);await hostToggle(host,'viewerQuestion',true);await viewer.locator('#buzzlist .row',{hasText:'Ada'}).waitFor();await viewer.locator('#qtext:not([hidden])').waitFor();
   report.checks.push('Host Settings → Viewer screen shows the screen count and link, and its switches hide and restore question and buzz order');
 
-  await hostToggle(host,'viewerJoinScreen',true);await viewer.locator('#qr svg').waitFor();
+  await host.locator('[data-action="viewer-view:join"]').click();await idle(host);await viewer.locator('#v-join.on #qr svg').waitFor();
   assert.equal(await viewer.locator('.jcode').textContent(),code);assert.equal(await viewer.locator('.jurl').textContent(),'127.0.0.1:5173');
   assert.equal(await viewer.locator('#jcount').textContent(),'1');await viewer.locator('#chips .chip',{hasText:'Ada'}).waitFor();
   await viewer.waitForTimeout(900);
@@ -102,7 +114,7 @@ await test('Viewer screen shows the host-selected question state without becomin
   if(decoded&&!decoded.startsWith('decode-error'))assert.equal(decoded,`http://127.0.0.1:5173/?room=${code}`);
   report.checks.push(`Join screen (#352) shows a scannable-size QR code, web address and room code without controls${decoded&&!decoded.startsWith('decode-error')?'; QR decodes to the player join link':''}`);
   // The header button opens the viewer settings; the sharing view has no viewer controls any more (#356, #357).
-  await hostToggle(host,'viewerJoinScreen',false);await viewer.waitForFunction(()=>!document.getElementById('v-join').classList.contains('on'));
+  await host.locator('[data-nav="more"]').click();await host.locator('[data-action="viewer-view:game"]').click();await idle(host);await viewer.waitForFunction(()=>document.getElementById('v-game').classList.contains('on'));
   await host.locator('[data-nav="play"]').click();await idle(host);
   await host.locator('#room-viewer').click();await host.locator('[data-settings-section="viewer"][open]').waitFor();
   assert.equal(await host.locator('#room-viewer').getAttribute('data-live'),'');
@@ -122,12 +134,19 @@ await test('Viewer screen shows the host-selected question state without becomin
   report.checks.push('Header viewer button opens the Viewer screen section; the sharing view has only QR, address, room code and Copy room link, with the QR beside the text on a wide screen');
 
   // Shared leaderboard and celebration.
-  await host.evaluate(()=>{const s=window.BuzzyView.state;s.hostShowResults=true;s.shareLeaderboard=true;window.BuzzyNetwork.preload();});
+  // Leaderboard is a viewer mode of its own (#355): it can be shown on viewer screens only, without sharing it with players.
+  await host.evaluate(()=>{const s=window.BuzzyView.state;s.hostShowResults=true;s.shareLeaderboard=true;window.BuzzyNetwork.preload();});await idle(host);
+  await viewer.waitForTimeout(800);assert.equal(await viewer.evaluate(()=>document.getElementById('v-game').classList.contains('on')),true,'Sharing with players does not change the viewer mode');
+  await host.evaluate(()=>{const s=window.BuzzyView.state;s.hostShowResults=false;window.BuzzyNetwork.preload();});await idle(host);
+  await host.locator('[data-nav="more"]').click();await host.locator('[data-action="viewer-view:leaderboard"]').click();await idle(host);
   await viewer.locator('#v-lb.on #lblist .row',{hasText:'Ada'}).waitFor();assert.equal(await viewer.locator('#lblist .row').count(),1);const lbWidth=await viewer.evaluate(()=>document.querySelector('.lb').getBoundingClientRect().width/innerWidth);assert.ok(lbWidth<.5,'Leaderboard is narrow: '+lbWidth);
-  await host.evaluate(()=>{const s=window.BuzzyView.state;s.hostShowResults=false;window.BuzzyNetwork.preload();});await viewer.waitForFunction(()=>!document.getElementById('v-lb').classList.contains('on'));
+  assert.equal(await player.evaluate(()=>!!window.BuzzyView.state.hostShowResults),false,'Players do not see the viewer-only leaderboard');
+  await host.locator('[data-action="viewer-view:game"]').click();await idle(host);await viewer.waitForFunction(()=>document.getElementById('v-game').classList.contains('on'));
+  // Switching the viewer off shows only the logo again.
+  await hostToggle(host,'viewerOn',false);await viewer.locator('#v-off.on').waitFor();await hostToggle(host,'viewerOn',true);await viewer.locator('#v-game.on').waitFor();
   await host.locator('[data-action="toggle-settings-section:effects"]').click();await host.locator('[data-action="celebrate"]').click();
   await viewer.waitForFunction(()=>document.getElementById('confetti').children.length===432);
-  report.checks.push('Viewer shows the shared leaderboard with players only, hides it when sharing stops, and plays the celebration');
+  report.checks.push('Viewer modes: leaderboard can be shown on viewer screens only (players unaffected), Game returns, Viewer off shows only the logo; celebration plays');
 
   // A new player joining shows as a notice at the top left, sliding in and fading out again.
   const late=await page();await late.locator('#room-code').fill(code);await late.locator('#player-name').fill('Linus');await late.locator('.join-button').click();await ready(late);

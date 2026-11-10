@@ -34,6 +34,7 @@ function build(){
  </div>
  <div class="strip" id="strip" aria-label="Buzzes"><div class="smask" id="smask"><ol id="striplist"></ol></div></div>
 </section>
+<section class="view" id="v-off" aria-label="Viewer off"><div class="logo-big" aria-label="Buzzy">buzzy<span>.</span></div></section>
 <section class="view" id="v-lb" aria-label="Leaderboard"><div class="lbwrap"><h1>Leaderboard</h1><div class="lb"><ol id="lblist"></ol></div></div></section>
 <section class="view" id="v-join" aria-label="Join"><div class="join" aria-labelledby="viewer-join-title"><h1 id="viewer-join-title">Join the game</h1>
  <div class="jbody"><div class="qr" id="qr" role="img" aria-label="QR code for joining this room"></div>
@@ -41,7 +42,7 @@ function build(){
  <div class="joined"><div class="cnt"><b id="jcount">0</b> <span id="jlabel">players joined</span></div><div class="chips" id="chips"></div></div></div></section>
 <div class="notes" id="notes" aria-live="polite"></div>`;
  $('.room strong').textContent=code;$('.jurl').textContent=location.host;$('.jcode').textContent=code;
- for(const id of ['topbar','v-game','v-lb','v-join','main','stage','qnum','qimg','qimgel','qtext','timer','bar','num','buzzes','bvp','buzzlist','strip','smask','striplist','lblist','chips','jcount','jlabel','notes','qr'])el[id]=document.getElementById(id);
+ for(const id of ['topbar','v-off','v-game','v-lb','v-join','main','stage','qnum','qimg','qimgel','qtext','timer','bar','num','buzzes','bvp','buzzlist','strip','smask','striplist','lblist','chips','jcount','jlabel','notes','qr'])el[id]=document.getElementById(id);
  el.qimgel.addEventListener('error',()=>{el.qimg.classList.remove('on');el.stage.classList.remove('has-img');});
  built=true;
 }
@@ -65,7 +66,7 @@ function timerState(value){
 function qSize(length,image){return image?(length<=50?6.4:length<=100?5.4:4.6):(length<=50?9.6:length<=100?7.4:length<=150?6.1:5);}
 function renderQuestion(value,timer){
  const c=value.control,q=questionFor(value),shown=c.phase!=='ready'||!!q?.shown;
- el.qnum.textContent=`Question ${c.r}${c.a>1?` · Attempt ${c.a}`:''}`;
+ el.qnum.textContent=`Question ${c.r}${c.a>1?` · Attempt ${c.a}`:''}`;el.qnum.hidden=latest.settings?.viewerQuestionNumber===false;
  const key=`${c.r}_${c.a}`;
  if(questionKey&&questionKey!==key){el.stage.classList.add('swap');clearTimeout(swapTimer);swapTimer=setTimeout(()=>el.stage.classList.remove('swap'),700);}
  questionKey=key;
@@ -188,12 +189,21 @@ function trackPlayers(value,view){
  knownPlayers=ids;
 }
 
+// #355: the host turns viewer screens on or off and picks Join, Game or Leaderboard.
+// Settings from an older host page have none of these choices: then the screen follows the earlier switches.
+function viewMode(s){
+ if(s.viewerOn===false)return 'off';
+ if(s.viewerView==='join')return 'join';
+ if(s.viewerView==='leaderboard')return 'lb';
+ if(s.viewerView==='game')return 'game';
+ if(s.viewerJoinScreen===true)return 'join';
+ return s.viewerLeaderboard!==false&&s.shareLeaderboard===true?'lb':'game';
+}
 function render(){
  if(!latest||ended)return;
  if(!built)build();
- const value=latest,join=value.settings?.viewerJoinScreen===true,board=!join&&enabled('viewerLeaderboard')&&value.settings?.shareLeaderboard===true;
- const view=join?'join':board?'lb':'game';
- if(mode!==view){mode=view;document.documentElement.dataset.viewerMode=view;el['v-game'].classList.toggle('on',view==='game');el['v-lb'].classList.toggle('on',view==='lb');el['v-join'].classList.toggle('on',view==='join');el.topbar.classList.toggle('on',view!=='join');}
+ const value=latest,view=viewMode(value.settings||{});
+ if(mode!==view){mode=view;document.documentElement.dataset.viewerMode=view;el['v-off'].classList.toggle('on',view==='off');el['v-game'].classList.toggle('on',view==='game');el['v-lb'].classList.toggle('on',view==='lb');el['v-join'].classList.toggle('on',view==='join');el.topbar.classList.toggle('on',view==='game'||view==='lb');}
  trackPlayers(value,view);
  const timer=timerState(value);
  renderQuestion(value,timer);renderTimer(timer);renderBuzzes(value);

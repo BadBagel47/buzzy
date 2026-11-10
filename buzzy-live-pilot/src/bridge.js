@@ -6,7 +6,10 @@ import {createCelebration} from './celebration.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores'];
-const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerLeaderboard','viewerCelebration','viewerJoinScreen'];
+const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerLeaderboard','viewerCelebration','viewerJoinScreen','viewerOn','viewerQuestionNumber'];
+const viewerViews=['join','game','leaderboard'];
+// Room settings shared with players and viewer screens; viewerView is the one text value (#355).
+function sharedSettings(){const settings=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));settings.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);settings.viewerView=viewerViews.includes(s.viewerView)?s.viewerView:'game';return settings;}
 const json=value=>JSON.parse(JSON.stringify(value));
 let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection,stopViewers;
 let blocked=false,roomEnded=false,exitTask=null;
@@ -15,7 +18,7 @@ let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGener
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
 const celebration=createCelebration(()=>s.celebration);
 // #352: the sharing view can put the join screen on viewer screens; it is saved like other host settings.
-const roomUi=installRoomUi({api,isHost,getCode:()=>code,viewer:isHost?{active:()=>!!s.viewerJoinScreen,count:()=>s.viewerCount||0,toggle:()=>{s.viewerJoinScreen=!s.viewerJoinScreen;api.render();scheduleSave();}}:null});
+const roomUi=installRoomUi({api,isHost,getCode:()=>code});
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));
@@ -36,7 +39,7 @@ async function publish(){
  if(JSON.stringify(desired)!==JSON.stringify(controlOptions(latest.control))){
   await command('configure',desired);latest.control=await client.read(`rooms/${code}/control`);
  }
- const p=await makePresentation(),settings=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));settings.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);
+ const p=await makePresentation(),settings=sharedSettings();
  const ui=privateUi(),fields={};
  const a=JSON.stringify(p),b=JSON.stringify(settings),c=JSON.stringify(ui);
  for(const [key,old,value] of [['presentationPatch',savedPresentation,p],['settingsPatch',savedSettings,settings],['privatePatch',savedPrivate,ui]]){const changed=changedFields(old,value);if(Object.keys(changed).length)fields[key]=changed;}
@@ -53,7 +56,7 @@ async function operation(fn,{save=true}={}){
 async function afterIdle(fn){while(busy)await new Promise(resolve=>idleWaiters.push(resolve));return fn();}
 function scheduleSave(){
  if(!isHost||local||!s.networkReady||busy||exitTask||!connected)return;
- const cfg=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));cfg.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);if(JSON.stringify(privateUi())===savedPrivate&&JSON.stringify(cfg)===savedSettings&&s.questionShown===!!latest.presentation?.shown)return;
+ const cfg=sharedSettings();if(JSON.stringify(privateUi())===savedPrivate&&JSON.stringify(cfg)===savedSettings&&s.questionShown===!!latest.presentation?.shown)return;
  clearTimeout(saveTimer);saveTimer=setTimeout(()=>operation(async()=>{}),60);
 }
 async function archiveCurrent(){
@@ -193,6 +196,7 @@ function handle(action){
  if(action==='copy-link'){roomUi.copyLink();return true;}
  if(action==='qr'){roomUi.openShare();return true;}
  if(action==='viewer-copy-link'){roomUi.copyViewerLink();return true;}
+ if(action.startsWith('viewer-view:')){const view=action.slice(12);if(viewerViews.includes(view)&&s.viewerView!==view){s.viewerView=view;api.render();scheduleSave();}return true;}
  if(action==='open'||action==='present-and-open'){
   operation(async()=>{
    if(!['ready'].includes(latest.control.phase))throw new Error('This attempt has already started.');

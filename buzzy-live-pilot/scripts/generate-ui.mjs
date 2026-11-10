@@ -39,6 +39,10 @@ const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="c
 
 html=applyUiBatch(html);
 html=applyViewerHost(html);
+// #353: the clock on the buzzer face finishes fading before the coin flips to TIME IS UP (flip at 1000 ms),
+// so no fading layer is left to show through the hidden back face in WebKit (iPad Brave/Safari).
+if(!html.includes('const clockDelay=(clockElapsed<1000?1000-clockElapsed:-Math.min(380,clockElapsed-1000));'))throw new Error('Clock delay missing');
+html=html.replace('const clockDelay=(clockElapsed<1000?1000-clockElapsed:-Math.min(380,clockElapsed-1000));','const clockDelay=(clockElapsed<560?560-clockElapsed:-Math.min(380,clockElapsed-560));');
 const arrowPaths={up:'M12 19V5M6 11l6-6 6 6',down:'M12 5v14M6 13l6 6 6-6',right:'M5 12h14M13 6l6 6-6 6',diagonal:'M5 19L19 5M9 5h10v10',left:'M19 12H5M11 6l-6 6 6 6'};
 const arrowIcon=direction=>`<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="${arrowPaths[direction]}"/></svg>`;
 html=html.replaceAll('>↑</button>',`>${arrowIcon('up')}</button>`).replaceAll('>↓</button>',`>${arrowIcon('down')}</button>`).replaceAll('➜',arrowIcon('right')).replaceAll('↗',arrowIcon('diagonal')).replace("actionButton('← Back to Play'",`actionButton('${arrowIcon('left')} Back to Play'`);

@@ -10,7 +10,7 @@ Den här filen är projektets gemensamma lista över funktioner och buggar. Varj
 - **Bugg**: något fungerar inte som avsett eller har gått sönder. Ange observerat fel, och skilj på misstänkt och reproducerad orsak.
 - **Utredning**: en fråga som behöver besvaras före ett beslut om implementation.
 
-Statusfältet anger det senaste verifierade steget: registrerat → körbesked → ändrat i källan → lokalt prov → publicerat (körning och commit) → användar-/mobilprov godkänt. Återöppna samma ID vid återfall i stället för att skapa ett nytt. Nya rader läggs sist i tabellen, och nästa fria ID räknas upp under tabellen.
+Statusfältet anger det senaste verifierade steget: registrerat → körbesked → ändrat i källan → lokalt prov → publicerat (körning och commit) → användar-/mobilprov godkänt. Återöppna samma ID vid återfall i stället för att skapa ett nytt. Nya rader läggs sist i tabellen. Nytt ID = högsta ID i tabellen + 1.
 
 | ID | Typ | Önskemål | Status |
 |---|---|---|---|
@@ -81,8 +81,6 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 För #290-utredningen och implementerad feedback, se [INVESTIGATION_290.md](INVESTIGATION_290.md). Ingen märkbar vibration fungerade i vare sig Brave eller Chrome på Android; felsökning avvaktar. #331 avvaktar engångslänkslösningen från det andra projektet.
 
 Regelpubliceringen i #289 är genomförd och bekräftad via konsolkopia. Hosting-piloten har därefter publicerats i flera omgångar; aktuell publicering finns i [HANDOFF.md](HANDOFF.md). Riktig mobilverifiering redovisas separat från lokala tester och lyckad publicering.
-
-Nästa fria interna ID: **#351**.
 
 #347: användaren vill ha en tredje roll, viewer, för storskärm (liggande format, stor text på avstånd). Användarens val:
 - Hosten väljer innehållet.
@@ -233,7 +231,7 @@ Användaren frågar om alla UI-ändringar kan göras i ett svep och vilken model
 
 ## UI-paketet genomfört efter körbeslut
 
-Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår. Nästa fria ID är #314.
+Användaren godkände paketet med ”Kör dem”. #292, #294, #296:s spelarstil och #298–303 är nu genomförda. Se [UI_BATCH_292_303.md](UI_BATCH_292_303.md). Äldre noteringar om ”ingen implementation” ovan beskriver registreringssteget före detta körbeslut. #293:s upplevda spelaråteranslutning är fortfarande öppen; inga nya regler eller ändrad avslut-semantik ingår.
 
 ## #304 — bottenmenyns visuella balans och rörliga markering
 
@@ -247,7 +245,7 @@ Användaren vill använda Play-rubrikens vertikala placering som referens för m
 
 Läskontroll: vyerna delar .appbar, men Play får .appbar-play med egna layoutregler och explicit margin:0 på h1. Knapparnas höjd påverkar dessutom den radens höjd. Den exakta skillnaden i mobilens rendering ska verifieras i nästa körning. Ingen UI-ändring eller ny publicering gjord.
 
-#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat. Nästa fria ID är #314.
+#304–305 samlas enligt användarens etablerade arbetssätt; rapporten är inget nytt körbeslut. Rekommenderad modell för gemensam implementation: GPT-6.1 Sol med högt resonemang. #293 kvarstår separat.
 
 ## #306 — Quick Play-panelen saknar utfällningsanimation
 
@@ -263,13 +261,13 @@ Läskontroll: patchHostQuickControls kan ersätta editorns innerHTML vid panelby
 
 Målet är stabil, sammanhängande målning med bibehållna panelnoder där det behövs, utan synliga återstarter eller korta blinkningar när inställningen ändras. Behåll önskade befintliga övergångar, korrekt delning till deltagarna och deras egna öppnings-/stängningsförlopp. Samma krav som tidigare gäller: kort och listposter ska ligga still inom en vyanimation; lägg inte till egna kortanimationer.
 
-#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat. Nästa fria ID är #314.
+#304–307 är nu samlade inför nästa gemensamma körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Inga UI-ändringar eller publiceringar gjorda för dessa fyra punkter. #293 är fortsatt separat.
 
 ## #308 — ta bort dubblerad QR-ingång i Settings
 
 Användaren vill ta bort QR under Room information eftersom funktionen nu finns i sidhuvudet. Detta avser Show QR-knappen i Settings-kortet. Behåll QR-knappen i sidhuvudet och dess befintliga fullskärmsvy med QR/webbadress/rumskod. Övrig rumsinformation och länkkopiering omfattas inte av borttagningen. Samlas med #304–307 enligt det etablerade arbetssättet; ingen UI-ändring gjord nu. Vid implementation ska motsvarande test som väntar på Settings QR-ingång uppdateras, medan headerns QR-funktion och fullskärmsprov bevaras.
 
-Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlade punkter: #304–308. Modell för nästa gemensamma körning: GPT-6.1 Sol med högt resonemang.
 
 ## #309 — Room settings hopfällt från start
 
@@ -283,7 +281,7 @@ Flytta den befintliga Launch final celebration-knappen från Session and history
 
 På frågan om hörnutkastet redan är fixat: nej. Det tidigare underlaget i buzzy-output/BUZZY_CONFETTI_283_284.md säger uttryckligen att ingen produktändring körts. Underlaget har nu kopierats till [CONFETTI_283_284.md](CONFETTI_283_284.md) så att punkterna finns i den gemensamma repolistan. Kontroll av generatorbas, generator och genererad app bekräftar att confetti() fortfarande skapar partiklar över hela bredden som faller uppifrån, och att städtimern inte avbryter/ogiltigförklarar tidigare anrop. Detta är alltså väntande arbete, inte ett verifierat återfall efter en tidigare rättning. Det gamla diagnosprovet för #284 är historisk evidens; inga nya tester eller appändringar kördes nu. Behåll de ursprungliga ID-numren.
 
-Samlat väntande UI/effektarbete är nu #304–310 samt de tidigare ogjorda #283–284. #293 kvarstår som separat funktionsärende. Modell för nästa samlade körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Samlat väntande UI/effektarbete är nu #304–310 samt de tidigare ogjorda #283–284. #293 kvarstår som separat funktionsärende. Modell för nästa samlade körning: GPT-6.1 Sol med högt resonemang.
 
 ## #311 — firandeknappens text och färg
 
@@ -293,7 +291,7 @@ Den befintliga Launch final celebration-knappen ska heta exakt Launch celebratio
 
 Användaren upplever nuvarande färg som gulorange och önskar en röd outline. Utforma End game som en knapp med tydligt röd normal kant enligt hostens befintliga farofärg, med läsbar matchande text. Detta avser knappens synliga kant; tangentbordets fokusmarkering ska fortfarande fungera. Befintlig bekräftelsedialog och avslut-för-alla-semantik bevaras. Ingen färg-/CSS-ändring eller ny publicering gjord i registreringssteget.
 
-Nu samlade UI-punkter #304–312 samt de tidigare ogjorda konfettipunkterna #283–284; #293 separat. Modell för nästa gemensamma implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlade UI-punkter #304–312 samt de tidigare ogjorda konfettipunkterna #283–284; #293 separat. Modell för nästa gemensamma implementation: GPT-6.1 Sol med högt resonemang.
 
 ## #313 — enhetlig fri yta ovanför bottenmenyn
 
@@ -303,11 +301,11 @@ Vid full nedskrollning av längre innehåll ska hela sista kortet och dess nedre
 
 Läskontroll: nuvarande källa kombinerar en position:fixed-bottenmeny med safe-area-padding, flera responsiva shell-paddingregler och en separat 30px-slutspacer från renderaren. Registrera dessa som granskningsspår; exakt samspel med Android/Braves dynamiska webbläsarverktygsrad är inte verifierat i detta steg. Ingen app/CSS-ändring, testkörning eller ny publicering gjord.
 
-Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat. Rekommenderad modell vid nästa gemensamma körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #314.
+Nu samlat UI-arbete #304–313 plus de tidigare ogjorda #283–284; #293 separat. Rekommenderad modell vid nästa gemensamma körning: GPT-6.1 Sol med högt resonemang.
 
 ## Genomfört paket efter ”Kör de i listan”
 
-Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet. Nästa fria ID är #315.
+Användaren godkände de tolv sammanställda punkterna #304–313 och #283–284. De är nu genomförda i källan och både den riktade UI-/effektregressionen och slutproven är gröna. Se [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md). Äldre avsnitt ovan beskriver registreringarna före detta körbeslut. #293 och #290 ingår inte i paketet.
 
 Publicering av paketet #304–313/#283–284 är verifierad i [run42347839035](https://github.com/BadBagel47/buzzy/actions/runs/42347839035), källa 97d0b4aed18229b17b786a58a9580ac1d792df76. Samtliga steg i verify/pilot är gröna; Hosting-steget klart 2026-11-07T06:40:16Z. Fysiskt mobilprov återstår.
 
@@ -320,7 +318,7 @@ Två nya bilder från Android/Brave efter publiceringen av källa 97d0b4aed18229
 
 Behåll ID #313 för båda närliggande layoutfelen; skapa inte en ny dubblett. Läskontroll av aktuell implementation visar att skillnaden innerHeight−visualViewport.height−offsetTop används både som bottom på den redan fixerade menyn och som extra padding under innehållet. Den frysta basstilen har dessutom min-height:100vh på body. Dubbel kompensation respektive skillnaden mellan största och aktuella viewporthöjd är konkreta granskningsspår, inte fastställda rotorsaker: inga dynamiska mått från användarens telefon finns ännu.
 
-Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+Tidigare automatiska viewportprov passerade men verifierade inte det verkliga skrollförloppet med Braves verktygsrader. Kommande rättning behöver prova det förloppet, samt att korta vyer saknar onödig overflow och att långa vyer fortfarande har rätt slutmarginal. Ingen app/CSS-ändring, ny testkörning eller publicering gjord vid denna registrering. Rekommenderad modell vid nästa körning: GPT-6.1 Sol med högt resonemang.
 
 ## #314 — fylligare konfetti och långsammare nedfärd
 
@@ -330,7 +328,7 @@ Läskontroll: src/celebration.js styr redan hela effekten lokalt med 64 partikla
 
 Vid genomförandet: öka mängd/storlek och spridning med en rimlig partikelbudget för mobil. Behåll de två nedre ursprungen, färgpaletten, reducerad rörelse/avstängning och skyddet för upprepade utlösningar. Städning ska följa den nya faktiska sluttiden. Öka inte bara total varaktighet för hela banan, eftersom det även skulle sakta ner uppflygningen. Verifiera banornas täckning, oförändrad uppflygningstid och längre nedfärd samt att den större effekten känns jämn på mobil.
 
-#314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #315.
+#314 samlas med den återöppnade #313 inför nästa körbeslut. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ### Förtydligande till #314
 
@@ -344,7 +342,7 @@ Med ”större” avsåg användaren främst spridningen över skärmen. Priorit
 
 Läskontroll: den frysta basen har margin-bottom:19px på .appbar men 12px på .appbar.appbar-play. Det senaste paketet enhetliggjorde rubrikens minhöjd men ersatte inte dessa olika underkanter. Den tidigare geometrikontrollen jämförde rubrikboxarnas centerhöjd och slutmarginalen, inte första kortets startkoordinat. Utöka nästa prov med rubrik och första innehållsruta relativt samma sidhuvud, samt visuell kontroll av Play-texten. Dessa kodfynd är verifierade; någon ny browserreproduktion eller UI-rättning har inte körts i registreringssteget.
 
-Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är fortsatt #315.
+Återöppnade #304–305 samlas med #313 och den nya konfettiförfiningen #314 inför nästa körbeslut. Modellrekommendation GPT-6.1 Sol med högt resonemang.
 
 ## #315 — enhetligt inre bottenutrymme i Players-korten
 
@@ -352,7 +350,7 @@ Användaren upplever olika mycket utrymme i botten INUTI korten i Players. Disco
 
 Läskontroll: Disconnected och Banned använder en direkt p.muted i tomt läge. CSS .theme-a .card.dynamic-player-card>.muted lägger 12px vertikal padding på den texten utöver kortets egen padding. Connected har tomtexten inuti .connected-player-list och träffas inte av samma direktbarnsregel. Detta är en konkret skillnad att kontrollera vid nästa körning; exakt visuellt bidrag har inte mätts i ett nytt browserprov nu.
 
-Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang. Nästa fria ID är #316.
+Prova tomma och fyllda listor, jämför kortens faktiska innehålls-/bottenmått och övriga hostvyer, och behåll spelarhantering, informationsrutor och responsivt beteende. Ingen app/CSS-ändring, testkörning eller ny publicering gjord vid registreringen. Samlas med #304, #305, #313 och #314. Modellrekommendation GPT-6.1 Sol med högt resonemang.
 
 ### Uttryckligt undantag till #315
 
@@ -363,7 +361,7 @@ Användaren förtydligar att de utfällbara sektionerna under Settings har andra
 
 Källändringarna är genomförda. #304: Play-etiketten centreras optiskt genom att justera dess ikon/textplacering; knappbredderna fortsätter följa innehållet och markeringen använder knapparnas faktiska geometri. #305: Play-radens bottenmarginal matchar övriga vyer och alla rubriker/första kort flyttas gemensamt 3px ned. #313: bottenmenyn har fast `bottom:0`, scrollberoende visualViewport-offset borttagen och hostens ärvda `min-height:100vh` upphävd; slutreserven baseras fortsatt på uppmätt menyhöjd plus samma kortmellanrum. #314: konfettin ökas från 64 till 96 bitar, får bredare/högre banor och måttligt större bitar; uppflygningen behåller 800–1000ms medan nedfärden blir 1100–1350ms. #315: extra 12px vertikal padding tas bort endast från tomma direkta muted-paragrafer i Players-kort. Settings-accordionernas befintliga avstånd/layout lämnas helt orörda.
 
-Vid källändringen var dessa ändringar ännu inte testade eller publicerade. De befintliga partikelantalspåståendena i integrationerna uppdaterades till 96 för att motsvara det nya beteendet. Nästa fria ID är fortsatt #316; #293 och #290 ligger separat.
+Vid källändringen var dessa ändringar ännu inte testade eller publicerade. De befintliga partikelantalspåståendena i integrationerna uppdaterades till 96 för att motsvara det nya beteendet. #293 och #290 ligger separat.
 
 
 ### Publiceringsstatus för uppföljningsbatchen
@@ -387,7 +385,7 @@ Vid implementation: jämför det tomma, fokuserade fältet (markör och punkter)
 
 Efter publicering i run42380847677 upplever användaren fortfarande att insättningsmarkören på förstasidan inte hamnar i mitten, alternativt att punktgruppen i fältet är förskjuten. Den tidigare ändringen tog bort extra `text-indent` och matchade teckenavståndet mellan placeholder och riktig kod. Det tillhörande testet verifierar CSS-värdena, men inte den faktiskt renderade positionen för markör/glyfer. Rotorsaken är därför fortfarande okänd. Bevara den frysta v1-referensen; granska den aktiva genererade sidan och jämför tomt ofokuserat, tomt fokuserat och ifyllt fält i riktig mobilvy innan en riktad rättning. Ingen kodändring eller ny publicering gjord i denna uppföljning. Rekommenderad modell för den avgränsade visuella korrigeringen: GPT-6.1 Luna Max.
 
-#316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+#316–319 registrerade efter publiceringen av uppföljningsbatchen; de ingår inte i den. Rekommenderad modell för senare samlad UI-implementation: GPT-6.1 Sol med högt resonemang.
 
 ## #318 — enhetlig färg på Buzzy-logotypen
 
@@ -395,7 +393,7 @@ Ta bort den separata accentfärgen från z:et i alla aktiva Buzzy-logotyper. Z:e
 
 Källkontroll hittade olika varianter i de aktiva vyerna: landningssidans generator bygger från `buzzy-output/buzzy_landing_v1.html`, där `.brand span` färgar både z och punkt med `--accent: #80a8ff`; bas-headern för spelare och host färgar z med `.brand b` (`--blue: #315de8`) och punkten separat (`#315de8`); QR-delningen färgar bara punkten (`#67a5ff`). Användaren har bekräftat att landningssidan ska rättas och förtydligat att z:ets vanliga textfärg ska fortsätta följa kontrasten i respektive vy, medan själva punkten ska använda landningssidans accent (`#80a8ff`) överallt. Justera därför aktiva generator-/renderingsvägar, men bevara den frysta v1-referensfilen. Kontrollera samtliga aktiva logotypställen: landningssida, host, spelare och QR-delning. Ingen app-, CSS- eller generatorändring, test eller publicering gjord.
 
-Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ## #319 — tydligare vänteläge vid omladdning av spelarvyn
 
@@ -403,13 +401,13 @@ Vid omladdning av en spelarvy som tidigare var ansluten blinkar en tom mörk sid
 
 Det visuella vänteläget ska samordnas med #293:s funktionella återställning av spelarens befintliga rumssession efter omladdning/nätbyte. Det här ID:t gäller läsbar status och presentationen under övergången; #293 fortsätter att gälla lyckad återanslutning och korrekt felhantering. Ta inte bort eller maskera ett slutligt fel med en evigt laddande logotyp. Ingen app/CSS-ändring, test eller publicering gjord vid registreringen.
 
-Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Samlas enligt arbetssättet före implementation. Rekommenderad modell: GPT-6.1 Sol med högt resonemang.
 
 ## Genomförande #316–319
 
 Efter användarens ”Kör” är #316–319 implementerade i källan. #316 visar Room not found direkt under rumskoden, behåller den inmatade koden och ger ett tydligt nästa steg. #317 tar bort den extra textindragningen och ger platshållaren samma teckenavstånd som den riktiga koden. #318 låter z:et ärva logotypens lokala textfärg och använder landningssidans accentfärg `#80a8ff` på punkten vid landning, host, spelare och QR-delning; den frysta v1-referensen är orörd. #319 visar under omladdning en centrerad logotyp och beständig status, med återförsök och lämna-länk när anslutningen misslyckas. Detta är endast återkoppling och presentation; funktionell återanslutning i #293 är inte ändrad.
 
-Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Publicerad som pilot i [run42380847677](https://github.com/BadBagel47/buzzy/actions/runs/42380847677), från källcommit `1d2d4102147ee937e2ebe8cf51484e048cbe21f3`; workflowet slutfördes framgångsrikt. Endast pilotkanalen publicerades, med ett dygns giltighet; inga databasregler ändrades. Android/Brave-mobilprov återstår. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang. Nästa fria ID är #320.
+Verifiering: `npm run build` passerade; `npm run test:room-ui` passerade med felkod, centrering, logotyp, omladdningsläge och anslutningsfel; `npm run test:pilot-ui` passerade 4/4 prov. Emulatorerna använde lokalt demo-projekt, inte Buzzy-projektets Firebase-kvot. Publicerad som pilot i [run42380847677](https://github.com/BadBagel47/buzzy/actions/runs/42380847677), från källcommit `1d2d4102147ee937e2ebe8cf51484e048cbe21f3`; workflowet slutfördes framgångsrikt. Endast pilotkanalen publicerades, med ett dygns giltighet; inga databasregler ändrades. Android/Brave-mobilprov återstår. Rekommenderad modell för denna avgränsade UI-batch var GPT-6.1 Luna Max; #293:s nätverks- och sessionsarbete bör fortsatt använda GPT-6.1 Sol med högt resonemang.
 
 ## #320 — Hostvyn flyttar sig efter vybytesanimation
 
@@ -417,7 +415,7 @@ Användaren ser att rubriken och innehållskorten hamnar en bit längre ned för
 
 ## #321 — Hostens sidhuvud förskjuts vid inladdning
 
-Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+Vid första inladdning eller omladdning visas hostens sidhuvud först på en position och rör sig sedan när sidan laddas färdigt. Önskat beteende är att huvudet ligger stilla från första renderingen; kontrollera om tillgänglig viewport, sena typsnitt/stilar eller innehållsmått orsakar omflödet, utan att anta rotorsaken. Verifiera kall laddning och omladdning på mobil samt att rumsstatus och headerknappar inte ändrar storlek/placering när anslutningen blir klar. Ingen appändring eller ny publicering gjord. Samlas med #320; rekommenderad modell GPT-6.1 Sol med högt resonemang.
 
 ## #304 — återöppnad efter nytt mobilprov
 
@@ -466,7 +464,7 @@ Genomförd efter användarens ”Kör den samlade rättningen”. #317: mätning
 
 #321: anslutningslyssnaren visade kort Try again redan under normal första anslutning, vilket ändrade huvudet från 65px till cirka 79,5px och tillbaka. Knappen förblir dold under den första väntan och visas fortfarande vid fel eller avbrott i en etablerad session. Hostens roll-/produktionsklasser finns också i den genererade HTML-koden före första rendering. Bildruteprov under första laddning och omladdning visar oförändrad huvudhöjd och logotypposition.
 
-Verifiering: config 5/5, pilotbygge, interceptat HTTPS-prov 1/1 och pilot-UI-gate 4/4 passerar. Se reports/layout-stability-317-320-321.json. Samtliga prov använde lokal emulator eller avlyssnade anrop. Ingen Firebase-regeländring ingår. Faktiskt Android/Brave-prov kvarstår efter publicering; de automatiska proven bevisar inte resultat på användarens enhet. Rättningen publicerades i pilotkanalen i [run42395979402](https://github.com/BadBagel47/buzzy/actions/runs/42395979402), från källa `31aaf0c9301afe3c175a247075d1663fbab81cd3`. Workflowets offentliga status är success. Pilotlänken är https://buzzy-197dc--pilot-mrst5vi1.web.app; giltighet ett dygn enligt publiceringsflödet. Rekommenderad modell för detta samlade paket var GPT-6.1 Sol med högt resonemang. Nästa fria ID är #322.
+Verifiering: config 5/5, pilotbygge, interceptat HTTPS-prov 1/1 och pilot-UI-gate 4/4 passerar. Se reports/layout-stability-317-320-321.json. Samtliga prov använde lokal emulator eller avlyssnade anrop. Ingen Firebase-regeländring ingår. Faktiskt Android/Brave-prov kvarstår efter publicering; de automatiska proven bevisar inte resultat på användarens enhet. Rättningen publicerades i pilotkanalen i [run42395979402](https://github.com/BadBagel47/buzzy/actions/runs/42395979402), från källa `31aaf0c9301afe3c175a247075d1663fbab81cd3`. Workflowets offentliga status är success. Pilotlänken är https://buzzy-197dc--pilot-mrst5vi1.web.app; giltighet ett dygn enligt publiceringsflödet. Rekommenderad modell för detta samlade paket var GPT-6.1 Sol med högt resonemang.
 
 ## Terra-paketet — genomfört i källan
 

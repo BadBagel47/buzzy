@@ -17,7 +17,7 @@ Användaren vill att handoff, mål, arbetssätt, funktioner och buggar hålls up
 
 | När detta ändras | Uppdatera |
 |---|---|
-| Nytt önskemål, ny bugg eller ett återfall | `BACKLOG.md`: ny rad med nästa fria ID och typ (Funktion/Bugg/Utredning), eller återöppna befintligt ID. Räkna upp nästa fria ID. |
+| Nytt önskemål, ny bugg eller ett återfall | `BACKLOG.md`: ny rad med nytt ID (högsta ID i tabellen + 1) och typ (Funktion/Bugg/Utredning), eller återöppna befintligt ID. |
 | Status för ett ID: körbesked, källändring, prov, publicering, användarprov | Statuskolumnen i `BACKLOG.md`, och `HANDOFF.md` om ändringen påverkar nästa steg |
 | Publicering (körning, commit, kanal) | `HANDOFF.md`: senaste publicering. Eventuellt `PLAN.md`: nuvarande fas. |
 | Mål, prioritering, pausat eller uppskjutet spår | `PLAN.md` |

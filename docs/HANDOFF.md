@@ -36,7 +36,6 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 3. #331 host-/admininloggning: pausad i väntan på användarens engångslänkslösning från ett annat projekt. Ingen Cloudflare Access/Firebase-inloggningsvariant är vald för implementation.
 4. #332 integritetsinformation och gallringsplan: registrerad inför publik lansering, ingen implementation eller full juridisk bedömning gjord.
 5. #347 viewer (storskärm) är registrerad med genomförandeplan i backloggen och inväntar körbesked. Den kräver regeländring via konsolflödet. #348–#350 (hemlig länk, bortkoppling, media) är framtida steg.
-6. Nästa lediga ID hämtas alltid från backloggen.
 
 ## Kod och kontroller
 

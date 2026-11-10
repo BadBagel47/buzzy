@@ -61,6 +61,14 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 - Verktygsläge 2026-11-10, Claude-molnsession: git-push och `gh` CLI fungerar och kan läsa repot och workflowstatus. Actions-dispatch har tidigare saknat fungerande auth, så användaren gör vid behov Run workflow i webben. Andra agenter och miljöer kan ha andra möjligheter. Kontrollera vid start och uppdatera denna rad.
 - Publik status kan läsas från GitHubs workflow-/Actions-sida. Om workflowadressen ger 504 har `/BadBagel47/buzzy/actions` fungerat som reserv. Bekräfta både success och commit i run-sidan innan du rapporterar publicerat.
 
+## Återställningspunkt
+
+- **Före viewer (#347):** commit `9c83e01cc` på `main`. Appkoden i den commiten är identisk med den publicerade `c8267afe59a812ffa2ec1c7a08fb054591f92217` ([run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351)). Taggen `fore-viewer` kunde inte pushas från molnsessionen 2026-11-10 (taggpush och API-skrivning nekades). Skapa den vid behov i GitHub: Releases → Draft a new release → tag `fore-viewer` → target `9c83e01`.
+- **Backa:**
+  - kod med `git revert` eller genom att återställa till commiten ovan
+  - Hosting via Firebase-konsolens rollback eller ny körning från commiten
+  - regler genom att klistra in den sparade regeltexten (`ops/rules-evidence/`) i konsolen
+
 ## Viktiga gränser
 
 Spelarvy och flera äldre förbättringar har fått positiv mobilåterkoppling, men markera inte varje specifikt prov som utfört utan underlag. Avsiktligt hostavslut stänger spelet för alla; nätavbrott/omladdning ska inte göra det. Nuvarande Firebase-identiteter är anonyma och lokal persistence används. Ingen analytics hittades vid kodgranskningen, men detta är inte en full granskning av faktisk lagring, leverantörsvillkor eller lagkrav. Automatisk gallring av övergivna rum är inte implementerad.

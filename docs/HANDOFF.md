@@ -39,6 +39,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 6. #354 (ny viewerlayout och rörelse), #356 (viewerknapp i huvudet, förenklad), #357 (renare QR-dialog), #358 (ny Settings-ikon) och #359 (bredare Settings-text) är publicerade i [run42918125973](https://github.com/BadBagel47/buzzy/actions/runs/42918125973) från `568b55a`. Användarprov på riktig TV, dator och mobil återstår.
 7. #353 (buzzern på iPad), #355 (viewerläge), #356 (Viewer on/off) och knappen för Question N är publicerade i [run42923620535](https://github.com/BadBagel47/buzzy/actions/runs/42923620535). Prov på iPad med Brave (#353) och på TV återstår. #348–#351 och #360 är framtida steg.
 8. #370 (Standby) och #356 (viewerpanel ovanpå vyn) är publicerade i [run43018116951](https://github.com/BadBagel47/buzzy/actions/runs/43018116951). Prov återstår.
+9. **Ändrat i källan 2026-11-11 (Opus), ännu inte publicerat:** #373 (förberedda frågor räknas som spelade först efter rätt svar eller Next/Skip; annars markeras de Started). Ingen regeländring, bara Hosting.
    Registrerade punkter som väntar på samkörning med Sonnet: #361–#365, #367–#369, #371.
 
 ## Kod och kontroller

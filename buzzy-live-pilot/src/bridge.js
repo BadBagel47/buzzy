@@ -5,11 +5,11 @@ import {patchHostMarkup} from './host-markup.js';
 import {createCelebration} from './celebration.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
-const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores','viewerView','viewerQuestionNumber','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerCelebration'];
+const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundViewerHidden','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores','viewerView','viewerQuestionNumber','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerCelebration'];
 const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerLeaderboard','viewerCelebration','viewerJoinScreen','viewerQuestionNumber'];
 const viewerViews=['standby','join','game','leaderboard'];
 // Room settings shared with players and viewer screens; viewerView is the one text value (#355).
-function sharedSettings(){const settings=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));settings.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);settings.viewerView=viewerViews.includes(s.viewerView)?s.viewerView:'standby';return settings;}
+function sharedSettings(){const settings=Object.fromEntries(settingKeys.map(k=>[k,!!s[k]]));settings.shareLeaderboard=!!(s.hostShowResults&&s.shareLeaderboard);settings.viewerQuestion=!!(s.viewerQuestion&&!s.roundViewerHidden);settings.viewerView=viewerViews.includes(s.viewerView)?s.viewerView:'standby';return settings;}
 const json=value=>JSON.parse(JSON.stringify(value));
 let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection,stopViewers;
 let blocked=false,roomEnded=false,exitTask=null;

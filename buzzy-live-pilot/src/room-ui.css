@@ -217,8 +217,15 @@ html[data-network-role=player] .theme-a .buzz-face-clock { will-change:auto; }
 /* #355/#356: viewer on/off and mode in Settings → Viewer screen. */
 .viewer-mode { padding:10px 2px 4px; }
 .viewer-mode .label { display:block;margin-bottom:6px; }
-.viewer-mode-seg { display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#e8edf6;border-radius:14px;padding:4px; }
+.viewer-mode-seg { display:flex;gap:4px;background:#e8edf6;border-radius:14px;padding:4px; }
 .viewer-mode-seg button { min-height:44px;border:0;border-radius:11px;background:transparent;color:#41506a;font:inherit;font-weight:800;font-size:14px;cursor:pointer; }
 .viewer-mode-seg button.active { background:#fff;color:#315de8;box-shadow:0 2px 8px rgba(20,32,54,.12); }
 .viewer-mode-seg button:focus-visible { outline:3px solid #315de8;outline-offset:2px; }
 .viewer-mode .settings-group-caption { margin-top:8px; }
+
+/* #356: the viewer panel opened from the header reuses the Settings markup; give its groups the same spacing. */
+.studio-modal .viewer-settings .settings-subgroup + .settings-subgroup { margin-top:16px;padding-top:14px;border-top:1px solid #cfdae6; }
+.studio-modal .viewer-settings .settings-subhead { margin:0 0 6px;font-size:15px; }
+.studio-modal .viewer-settings .viewer-settings-actions { margin-top:10px; }
+.viewer-mode-seg button { flex:1 1 auto;padding:0 8px;white-space:nowrap; }
+@media (max-width:380px) { .viewer-mode-seg button { font-size:13px; } }

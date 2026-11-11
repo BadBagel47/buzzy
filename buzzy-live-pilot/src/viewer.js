@@ -189,13 +189,14 @@ function trackPlayers(value,view){
  knownPlayers=ids;
 }
 
-// #355: the host turns viewer screens on or off and picks Join, Game or Leaderboard.
+// #355/#370: the host picks Standby (logo only), Join, Game or Leaderboard.
 // Settings from an older host page have none of these choices: then the screen follows the earlier switches.
 function viewMode(s){
- if(s.viewerOn===false)return 'off';
+ if(s.viewerView==='standby')return 'off';
  if(s.viewerView==='join')return 'join';
  if(s.viewerView==='leaderboard')return 'lb';
  if(s.viewerView==='game')return 'game';
+ if(s.viewerOn===false)return 'off';
  if(s.viewerJoinScreen===true)return 'join';
  return s.viewerLeaderboard!==false&&s.shareLeaderboard===true?'lb':'game';
 }

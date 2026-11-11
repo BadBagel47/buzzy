@@ -309,7 +309,7 @@
             ".validate": "newData.isBoolean()"
           },
           "viewerView": {
-            ".validate": "newData.isString() && (newData.val() == 'join' || newData.val() == 'game' || newData.val() == 'leaderboard')"
+            ".validate": "newData.isString() && (newData.val() == 'standby' || newData.val() == 'join' || newData.val() == 'game' || newData.val() == 'leaderboard')"
           }
         },
         "selection": {

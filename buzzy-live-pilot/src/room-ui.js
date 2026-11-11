@@ -77,12 +77,8 @@ export function installRoomUi({api,isHost,getCode,viewer=null}) {
  document.querySelector('.host-notice-dismiss')?.addEventListener('click',()=>{const notice=document.getElementById('host-network-notice');notice.dataset.dismissed='true';notice.hidden=true;const summary=document.getElementById('host-status-summary');summary.setAttribute('aria-expanded','false');summary.focus({preventScroll:true});});
  document.getElementById('host-status-summary')?.addEventListener('click',()=>{const notice=document.getElementById('host-network-notice');if(!notice.dataset.messageKey||notice.dataset.messageKey.endsWith(' · Connected')||notice.dataset.messageKey.endsWith(':Connecting…'))return;notice.dataset.dismissed='false';notice.hidden=false;document.getElementById('host-status-summary').setAttribute('aria-expanded','true');});
  document.getElementById('room-share-qr')?.addEventListener('click',openShare);
- // #356: the header button opens the viewer settings, which live in the Viewer screen section of Settings.
- document.getElementById('room-viewer')?.addEventListener('click',()=>{
-  document.querySelector('[data-nav="more"]')?.click();
-  const open=()=>{const summary=document.querySelector('[data-action="toggle-settings-section:viewer"]');if(!summary)return false;if(summary.getAttribute('aria-expanded')!=='true')summary.click();setTimeout(()=>document.querySelector('[data-settings-section="viewer"]')?.scrollIntoView({behavior:'smooth',block:'start'}),120);return true;};
-  if(!open())setTimeout(open,320);
- });
+ // #356: the header button opens the viewer settings over the current view.
+ document.getElementById('room-viewer')?.addEventListener('click',()=>{if(!api.state.networkReady)return;api.state.modal='viewer';api.render();});
  sync();
  return {sync,openShare,closeShare,copyLink,copyViewerLink,viewerUrl,setStatus};
 }

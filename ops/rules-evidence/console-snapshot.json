@@ -3,15 +3,15 @@
   "projectId": "buzzy-197dc",
   "databaseURL": "https://buzzy-197dc-default-rtdb.europe-west1.firebasedatabase.app",
   "captureMethod": "user-copied-from-firebase-console",
-  "capturedAt": "2026-11-11T00:26:59.540146+01:00",
-  "canonicalSha256": "3017d3c225c5977dc1940fd4a06ba4599c8694c73294198e3c4dd95cc82e76a9",
+  "capturedAt": "2026-11-11T13:07:34.379283+01:00",
+  "canonicalSha256": "fa60079ffded9b680cae9e8dec70ef117e6186bdf21bf4c5ef7b3835714b38f2",
   "beforePilotCanonicalSha256": "015b3c9522d817bcb4544d5df22b987b57dd6aa615028779c68cd0c6903428ab",
   "serverApiVerified": false,
   "formattingNormalized": false,
-  "normalizationNote": "#355/#356 viewer mode rules. The console text pasted by the user after Publish was compared with the proposal from commit f427885+ (inventory run 42922366833): it differs from the previous byte-verified console copy only by the three new settings rules (viewerOn, viewerQuestionNumber, viewerView), which appear identically in the paste. Stored as the proposal without the final newline, as before. Previous console rules (6fbb6b7f...) are in git history.",
+  "normalizationNote": "#370 Standby rules. The console text pasted by the user after Publish differs from the previous byte-verified console copy only in the viewerView rule, which now also allows standby, exactly as in the proposal from b36ac1c (inventory run 42933464087). Stored as the proposal without the final newline. Previous console rules (3017d3c2...) are in git history.",
   "baselineCapturedAt": "2026-11-05T23:48:30.131747+01:00",
   "publicationConfirmedByUser": true,
   "consoleCopyComparedToApprovedProposal": true,
-  "receivedTextRawSha256": "f923999e448a2aabe37861023c774c7cb6bebd6a3ca51484efa7aa4e7f9798aa",
-  "reviewedProposalRawSha256": "fe8d65028edd4f80232597013685c460ec57f2c9ff42e7fb81b533672316edc3"
+  "receivedTextRawSha256": "5e6874f12dbbd7b28092e8e5bd6aea8f4b5d5ca0af43690fc1899fb5d9525862",
+  "reviewedProposalRawSha256": "017b6984c8cf8150c85d0438b4114d621f8229d34d34030622363095d072db6a"
 }

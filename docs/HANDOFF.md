@@ -38,7 +38,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 5. #347 viewer och #352 join-skärm är publicerade till live i [run42865760330](https://github.com/BadBagel47/buzzy/actions/runs/42865760330). Reglerna (hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`) är publicerade i Firebase-konsolen. De tidigare reglerna finns i taggen `fore-viewer`.
 6. #354 (ny viewerlayout och rörelse), #356 (viewerknapp i huvudet, förenklad), #357 (renare QR-dialog), #358 (ny Settings-ikon) och #359 (bredare Settings-text) är publicerade i [run42918125973](https://github.com/BadBagel47/buzzy/actions/runs/42918125973) från `568b55a`. Användarprov på riktig TV, dator och mobil återstår.
 7. #353 (buzzern på iPad), #355 (viewerläge), #356 (Viewer on/off) och knappen för Question N är publicerade i [run42923620535](https://github.com/BadBagel47/buzzy/actions/runs/42923620535). Prov på iPad med Brave (#353) och på TV återstår. #348–#351 och #360 är framtida steg.
-8. **Ändrat i källan 2026-11-11 (Opus), ännu inte publicerat:** #370 Standby som eget läge och #356 viewerpanel ovanpå vyn. **Reglerna måste publiceras före Hosting.** Ny regelhash:
+8. **Ändrat i källan 2026-11-11 (Opus), ännu inte publicerat:** #370 Standby som eget läge och #356 viewerpanel ovanpå vyn. Reglerna är publicerade i konsolen (2026-11-11) och konsolkopian är uppdaterad; återstår ny inventering och Hosting. Regelhash:
    ```text
    fa60079ffded9b680cae9e8dec70ef117e6186bdf21bf4c5ef7b3835714b38f2
    ```

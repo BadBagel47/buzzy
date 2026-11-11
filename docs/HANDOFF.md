@@ -5,7 +5,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Arbetet kan utföras av olika AI-agenter. Alla följer [AGENTS.md](../AGENTS.md). Arbeta i en klon av `BadBagel47/buzzy`, gren `main`. Hämta senaste `main` och kontrollera `git status` före ändringar. Pusha för att något ska finnas kvar till nästa session.
-- Senaste kodpublicering: `4fb2716`, [run42923620535](https://github.com/BadBagel47/buzzy/actions/runs/42923620535) (live), status success. Kontroll: `buzzy.trythis.one/viewer` serverar samma viewerfil (`viewer-CIPU1Cgo.js`) som lokalt bygge. Regler med hash `3017d3c2…` publicerade och verifierade i inventering run42923517489. Innehåller #347, #352–#359.
+- Senaste kodpublicering: `1cc49d7`, [run43018116951](https://github.com/BadBagel47/buzzy/actions/runs/43018116951) (live), status success. Kontroll: `buzzy.trythis.one/host` serverar samma bygge (`bridge-CLJUqSkB.js`) som lokalt. Regler med hash `fa60079f…` publicerade och verifierade i inventering run43017726015. Innehåller #347, #352–#359, #370 och #356 (panel).
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -38,10 +38,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 5. #347 viewer och #352 join-skärm är publicerade till live i [run42865760330](https://github.com/BadBagel47/buzzy/actions/runs/42865760330). Reglerna (hash `6fbb6b7fe7d13d93ce0393cb9cc16bb0ffa4fcdede0a1550cd34349cebfea5f9`) är publicerade i Firebase-konsolen. De tidigare reglerna finns i taggen `fore-viewer`.
 6. #354 (ny viewerlayout och rörelse), #356 (viewerknapp i huvudet, förenklad), #357 (renare QR-dialog), #358 (ny Settings-ikon) och #359 (bredare Settings-text) är publicerade i [run42918125973](https://github.com/BadBagel47/buzzy/actions/runs/42918125973) från `568b55a`. Användarprov på riktig TV, dator och mobil återstår.
 7. #353 (buzzern på iPad), #355 (viewerläge), #356 (Viewer on/off) och knappen för Question N är publicerade i [run42923620535](https://github.com/BadBagel47/buzzy/actions/runs/42923620535). Prov på iPad med Brave (#353) och på TV återstår. #348–#351 och #360 är framtida steg.
-8. **Ändrat i källan 2026-11-11 (Opus), ännu inte publicerat:** #370 Standby som eget läge och #356 viewerpanel ovanpå vyn. Reglerna är publicerade i konsolen (2026-11-11) och konsolkopian är uppdaterad; återstår ny inventering och Hosting. Regelhash:
-   ```text
-   fa60079ffded9b680cae9e8dec70ef117e6186bdf21bf4c5ef7b3835714b38f2
-   ```
+8. #370 (Standby) och #356 (viewerpanel ovanpå vyn) är publicerade i [run43018116951](https://github.com/BadBagel47/buzzy/actions/runs/43018116951). Prov återstår.
    Registrerade punkter som väntar på samkörning med Sonnet: #361–#365, #367–#369, #371.
 
 ## Kod och kontroller

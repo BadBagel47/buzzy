@@ -9,7 +9,7 @@
     "dev": "node scripts/generate-ui.mjs && vite --host 127.0.0.1",
     "test": "node scripts/emulators.mjs test",
     "emulators": "node scripts/emulators.mjs start",
-    "test:integration": "node --test --test-concurrency=1 tests/spark.integration.mjs tests/ui.integration.mjs tests/reconnect.integration.mjs tests/transport-csp.integration.mjs tests/room-exit.integration.mjs tests/room-ui.integration.mjs tests/ui-refinements.integration.mjs tests/viewer.integration.mjs tests/prepared-373.integration.mjs",
+    "test:integration": "node --test --test-concurrency=1 tests/spark.integration.mjs tests/ui.integration.mjs tests/reconnect.integration.mjs tests/transport-csp.integration.mjs tests/room-exit.integration.mjs tests/room-ui.integration.mjs tests/ui-refinements.integration.mjs tests/viewer.integration.mjs tests/prepared-373.integration.mjs tests/collapse-367.integration.mjs",
     "build": "node scripts/generate-ui.mjs && vite build",
     "rules": "node scripts/generate-ui-rules.mjs",
     "test:ui": "node scripts/emulators.mjs ui",

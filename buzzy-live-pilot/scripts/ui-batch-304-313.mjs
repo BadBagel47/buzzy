@@ -23,7 +23,7 @@ export function applyUiBatch(html){
  replace(old,` if(animateQuickPanel){const incoming=hostPage.querySelector('.play-mode-content');if(incoming&&previousPanelHeight>0){
   incoming.getAnimations().forEach(a=>a.cancel());const targetHeight=incoming.getBoundingClientRect().height;
   if(!state.showQuickContent&&previousQuickContent){
-   const closing=previousQuickContent.cloneNode(true);closing.removeAttribute('id');closing.dataset.uiClosing='true';closing.inert=true;closing.setAttribute('aria-hidden','true');closing.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));incoming.prepend(closing);
+   const closing=previousQuickContent.cloneNode(true);closing.removeAttribute('id');closing.dataset.uiClosing='true';closing.inert=true;closing.style.overflow='hidden';closing.setAttribute('aria-hidden','true');closing.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));incoming.prepend(closing);
    const collapse=closing.animate([{height:closing.getBoundingClientRect().height+'px',marginBottom:'5px'},{height:'0px',marginBottom:'0px',paddingBlock:'0px',borderWidth:'0px'}],{duration:260,easing:'cubic-bezier(.22,.8,.2,1)',fill:'forwards'});
    collapse.finished.catch(()=>{}).then(()=>closing.remove());
   }

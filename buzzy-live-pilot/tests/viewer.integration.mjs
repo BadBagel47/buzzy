@@ -33,7 +33,11 @@ await test('Viewer screen shows the host-selected question state without becomin
   assert.ok(await host.locator('.studio-modal [data-toggle="viewerTimer"]').count()===1,'Game settings are shown even in Standby');
   await host.locator('.studio-modal [data-action="viewer-view:game"]').click();await host.locator('.studio-modal [data-action="viewer-view:game"][aria-pressed="true"]').waitFor();await idle(host);
   await host.locator('.studio-modal .studio-close').click();await host.locator('.studio-modal').waitFor({state:'detached'});
-  await viewer.locator('#v-game.on #qtext.muted').waitFor();assert.equal(await viewer.locator('.room strong').textContent(),code);
+  // Before the first question the viewer shows what the players see (#376).
+  await viewer.locator('#v-game.on #qtext.muted').waitFor();
+  const playerText=(await player.locator('.ph-question-inner p').first().textContent()).trim();
+  assert.equal((await viewer.locator('#qtext').textContent()).trim(),playerText,'Viewer and players show the same text before the first question');
+  assert.notEqual(playerText,'Get ready for the next question');assert.equal(await viewer.locator('.room strong').textContent(),code);
   await host.locator('[data-nav="play"]').click();await idle(host);
   await host.waitForFunction(()=>window.BuzzyView.state.viewerCount===1);
   assert.equal(Object.keys(await read(host,`rooms/${code}/members`)).length,1);assert.equal(Object.keys(await read(host,`rooms/${code}/seats`)).length,1);
@@ -121,7 +125,7 @@ await test('Viewer screen shows the host-selected question state without becomin
   await host.locator('.studio-modal .studio-close').click();await host.locator('.studio-modal').waitFor({state:'detached'});
   await host.locator('[data-nav="play"]').click();await idle(host);
   assert.equal(await host.locator('#room-viewer').getAttribute('data-live'),'');
-  await host.locator('[data-nav="more"]').click();await host.locator('[data-action="toggle-settings-section:viewer"]').click();await host.locator('[data-settings-section="viewer"][open] .viewer-settings').waitFor();
+  await host.locator('[data-nav="more"]').click();assert.equal(await host.locator('[data-settings-section="viewer"]').count(),0,'Viewer settings live in the header panel only');await host.locator('[data-action="toggle-settings-section:display"]').click();await host.locator('[data-settings-section="display"][open] .switchrow').first().waitFor();
   // #359: on a wide screen the explanation texts in Settings use the available width instead of wrapping at 260 px.
   await host.setViewportSize({width:1440,height:900});await host.waitForTimeout(400);
   const settingsText=await host.evaluate(()=>{const spans=[...document.querySelectorAll('.settings-main-card .switchrow > span')].filter(e=>e.getBoundingClientRect().width>0);return {max:Math.round(Math.max(...spans.map(e=>e.getBoundingClientRect().width))),count:spans.length};});
@@ -130,7 +134,9 @@ await test('Viewer screen shows the host-selected question state without becomin
   assert.ok(await host.evaluate(()=>document.querySelector('[data-nav="more"] svg path').getAttribute('d').startsWith('M4 7h9')),'Settings uses the sliders icon');
   await host.locator('#room-share-qr').click();const share=host.locator('.room-share-screen');await share.locator('.room-share-code').waitFor();
   assert.equal(await share.locator('.room-share-viewer,.room-share-viewer-note,.room-share-notice').count(),0,'Viewer button and notice text are gone from the sharing view');
-  assert.equal(await share.locator('.room-share-copy').count(),1);
+  assert.equal(await share.locator('.room-share-copy').count(),1);assert.equal(await share.locator('.brand').count(),0);
+  const bar=await share.evaluate(d=>{const c=d.querySelector('.room-share-copy').getBoundingClientRect(),x=d.querySelector('.room-share-close').getBoundingClientRect();const mid=(e,sel)=>{const b=e.getBoundingClientRect(),i=e.querySelector(sel).getBoundingClientRect();return Math.abs((b.left+b.right)/2-(i.left+i.right)/2)+Math.abs((b.top+b.bottom)/2-(i.top+i.bottom)/2);};return {sameSize:Math.round(c.width)===Math.round(x.width)&&Math.round(c.height)===Math.round(x.height),leftOfClose:c.right<=x.left,centered:Math.max(mid(d.querySelector('.room-share-copy'),'svg'),mid(d.querySelector('.room-share-close'),'svg')),h1:parseFloat(getComputedStyle(d.querySelector('h1')).fontSize)};});
+  assert.ok(bar.sameSize&&bar.leftOfClose&&bar.centered<1.5&&bar.h1>=36,JSON.stringify(bar));
   await host.setViewportSize({width:1440,height:900});await host.waitForTimeout(300);
   const wide=await share.evaluate(d=>{const g=s=>d.querySelector(s).getBoundingClientRect(),q=g('.room-share-qr'),c=g('.room-share-code');return {qrLeftOfCode:q.right<=c.left,qr:Math.round(q.width),overflow:d.scrollHeight>d.clientHeight+1,fits:[q,c].every(r=>r.top>=0&&r.bottom<=innerHeight)};});
   assert.ok(wide.qrLeftOfCode&&wide.fits&&!wide.overflow&&wide.qr>=400,JSON.stringify(wide));await host.screenshot({path:'reports/host-qr-desktop-1440x900.png'});

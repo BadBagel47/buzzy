@@ -34,7 +34,7 @@ html=html.replace('<h2>Room ${safe(state.code)}</h2>','<h2>Room information</h2>
 html=html.replace("$('#header-code').textContent='ROOM '+state.code;", "if($('#header-code'))$('#header-code').textContent='ROOM '+state.code;");
 const leaveSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5M21 12H9"/><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/></svg>';
 const qrSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h-3zM21 14v7h-6M12 3v3M3 12h3M12 9v5h-2M12 18v3M18 12h3"/></svg>';
-const viewerSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M8 20.5h8M12 16.5v4"/></svg>';
+const viewerSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M7 20.5h10M9.5 16.5l-1 4M14.5 16.5l1 4"/><path d="M10 8l4 2-4 2Z"/></svg>';
 const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 13 4-4M8 16l-1 1a4.2 4.2 0 0 1-6-6l4-4a4.2 4.2 0 0 1 6 0M16 8l1-1a4.2 4.2 0 0 1 6 6l-4 4a4.2 4.2 0 0 1-6 0" transform="translate(1 0) scale(.92 1)"/></svg>';
 // The frozen #287 standalone reference remains untouched.
 
@@ -152,7 +152,7 @@ writeFileSync('viewer.html',`<!doctype html>
 </head>
 <body>
 <div id="viewer" aria-live="polite"></div>
-<div id="viewer-status" role="status"><div class="brand" aria-label="Buzzy">buzzy<span>.</span></div><p class="viewer-status-text">Connecting to the room…</p></div>
+<div id="viewer-status" role="status"><p class="viewer-status-text">Connecting to the room…</p></div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 <noscript><p>Enable JavaScript to show this room.</p></noscript>
 <script type="module" src="/src/viewer.js"></script>

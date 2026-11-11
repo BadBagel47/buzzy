@@ -18,6 +18,8 @@ let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGener
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
 const celebration=createCelebration(()=>s.celebration);
 // #352: the sharing view can put the join screen on viewer screens; it is saved like other host settings.
+// Focus rings are for keyboard users: remember whether the last input was a pointer or a key (not shortcuts such as Cmd+Shift+4).
+for(const type of ['pointerdown','keydown'])document.addEventListener(type,event=>{if(type==='keydown'&&(event.metaKey||event.ctrlKey||event.altKey||['Shift','Meta','Control','Alt'].includes(event.key)))return;document.documentElement.dataset.input=type==='keydown'?'keyboard':'pointer';},true);
 const roomUi=installRoomUi({api,isHost,getCode:()=>code});
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}

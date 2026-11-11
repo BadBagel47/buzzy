@@ -65,17 +65,20 @@ function timerState(value){
 }
 function qSize(length,image){return image?(length<=50?6.4:length<=100?5.4:4.6):(length<=50?9.6:length<=100?7.4:length<=150?6.1:5);}
 function renderQuestion(value,timer){
- const c=value.control,q=questionFor(value),shown=c.phase!=='ready'||!!q?.shown;
+ const c=value.control,q=questionFor(value);
+ // The viewer mirrors what players see (#376): before the host reveals a question with content they read
+ // "Waiting for the next question"; once it is shown (or there is nothing to reveal) they read the question or "Listen to the host!".
+ const hasContent=!!(q?.text||q?.image),shown=c.phase!=='ready'||!!q?.shown||!hasContent;
  el.qnum.textContent=`Question ${c.r}${c.a>1?` · Attempt ${c.a}`:''}`;el.qnum.hidden=latest.settings?.viewerQuestionNumber===false;
  const key=`${c.r}_${c.a}`;
  if(questionKey&&questionKey!==key){el.stage.classList.add('swap');clearTimeout(swapTimer);swapTimer=setTimeout(()=>el.stage.classList.remove('swap'),700);}
  questionKey=key;
  const text=enabled('viewerQuestion')&&shown&&q?.textVisible&&q?.text?q.text:'',image=enabled('viewerQuestion')&&shown&&q?.image?q.image:'';
- const waiting=!shown||!q;
+ const waiting=!shown;
  let content=text,muted=false;
- if(waiting){content='Get ready for the next question';muted=true;}
+ if(waiting){content='Waiting for the next question';muted=true;}
  else if(!enabled('viewerQuestion')){content='';}
- else if(!text&&!image){content='Listen to the host';muted=true;}
+ else if(!text&&!image){content='Listen to the host!';muted=true;}
  el.qtext.textContent=content;el.qtext.hidden=!content;el.qtext.classList.toggle('muted',muted);
  const hasImage=!!image&&!waiting;
  if(hasImage&&imageSrc!==image){imageSrc=image;el.qimgel.src=image;}

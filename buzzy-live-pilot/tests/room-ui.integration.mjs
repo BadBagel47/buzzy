@@ -126,8 +126,7 @@ await test('UI batch: compact host, real sharing QR, fluid player and viewport t
    assert.equal(await share.locator('.room-share-code').textContent(),code);
    assert.equal(await share.locator('.room-share-url').textContent(),'127.0.0.1:5173');
    assert.equal(await share.locator('a.room-share-url').count(),0);
-   shareLogo=await share.locator('.brand').evaluate(e=>({word:getComputedStyle(e).color,dot:getComputedStyle(e.querySelector('span:last-child')).color}));
-   assert.equal(shareLogo.dot,'rgb(128, 168, 255)');
+   assert.equal(await share.locator('.brand').count(),0,'The sharing view has no logo (#371)');shareLogo={removed:true};
    const geometry=await share.evaluate(d=>{const r=d.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,topLayer:d.matches(':modal'),bg:getComputedStyle(d).backgroundColor};});assert.deepEqual([geometry.x,geometry.y,geometry.w,geometry.h],[0,0,390,844]);assert.equal(geometry.topLayer,true);
    await host.context().grantPermissions(['clipboard-read','clipboard-write']);await share.locator('.room-share-copy').click();assert.equal(await host.evaluate(()=>navigator.clipboard.readText()),`http://127.0.0.1:5173/?room=${code}`);
    await host.keyboard.press('Tab');assert.ok(await share.evaluate(d=>d.contains(document.activeElement)));await host.screenshot({path:'reports/host-ui-batch-qr.png'});await host.evaluate(()=>window.BuzzyView.render());await host.keyboard.press('Escape');await share.waitFor({state:'detached'});assert.equal(await host.locator(selector).evaluate(e=>e===document.activeElement),true);

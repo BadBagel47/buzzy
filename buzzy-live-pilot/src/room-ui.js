@@ -30,9 +30,10 @@ export function installRoomUi({api,isHost,getCode,viewer=null}) {
  }
  async function copyLink(notice){
   if(!api.state.networkReady||!getCode())return;
-  const feedback=(text)=>{if(!notice){api.tip(text);return;}const original=notice.dataset.label||(notice.dataset.label=notice.textContent);notice.textContent=text;clearTimeout(notice._t);notice._t=setTimeout(()=>{notice.textContent=original;},2200);};
-  try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(url());feedback('Room link copied');}
-  catch{feedback(notice?'Copy the address above':url());}
+  const icon='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',done='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+  const feedback=(text,ok)=>{if(!notice){api.tip(text);return;}notice.innerHTML=ok?done:icon;notice.setAttribute('aria-label',ok?'Room link copied':'Copy room link');clearTimeout(notice._t);notice._t=setTimeout(()=>{notice.innerHTML=icon;notice.setAttribute('aria-label','Copy room link');},2200);if(!ok)api.tip('Copy the address shown on screen');};
+  try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(url());feedback('Room link copied',true);}
+  catch{feedback(url(),false);}
  }
  async function copyViewerLink(){
   if(!api.state.networkReady||!getCode())return;
@@ -50,7 +51,7 @@ export function installRoomUi({api,isHost,getCode,viewer=null}) {
   const generation=++shareGeneration;
   returnFocus=document.activeElement;returnFocusSelector=returnFocus?.id?`#${returnFocus.id}`:returnFocus?.dataset.action==='qr'?'[data-action="qr"]':null;previousOverflow=document.body.style.overflow;
   share=document.createElement('dialog');share.className='room-share-screen';share.setAttribute('aria-labelledby','room-share-title');
-  share.innerHTML='<div class="room-share-top"><div class="brand">buzzy<span style="color:#80a8ff">.</span></div><button type="button" class="room-icon-button room-share-close" aria-label="Close sharing">×</button></div><div class="room-share-content"><h1 id="room-share-title">Join the game</h1><p>Scan the QR code or enter the room code</p><div class="room-share-qr" role="img" aria-label="QR code for joining this room"></div><div><span class="room-share-code-label">Room code</span><div class="room-share-code"></div></div><div class="room-share-url"></div><button type="button" class="btn room-share-copy">Copy room link</button></div>';
+  share.innerHTML='<div class="room-share-top"><button type="button" class="room-icon-button room-share-copy" aria-label="Copy room link" title="Copy room link"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></button><button type="button" class="room-icon-button room-share-close" aria-label="Close sharing" title="Close"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="room-share-content"><h1 id="room-share-title">Join the game</h1><p>Scan the QR code or enter the room code</p><div class="room-share-qr" role="img" aria-label="QR code for joining this room"></div><div><span class="room-share-code-label">Room code</span><div class="room-share-code"></div></div><div class="room-share-url"></div></div>';
   share.querySelector('.room-share-code').textContent=getCode();const address=share.querySelector('.room-share-url');address.textContent=location.host;
   share.querySelector('.room-share-close').addEventListener('click',closeShare);
   share.addEventListener('cancel',e=>{e.preventDefault();closeShare();});

@@ -10,5 +10,7 @@ export function applyHostFixes(html){
  replace('function advanceQuestion(advanceNumber=true){\n finalizePreparedQuestion();','function advanceQuestion(advanceNumber=true){\n finalizePreparedQuestion(true);');
  replace("if(action==='finish-set'){finalizePreparedQuestion();","if(action==='finish-set'){finalizePreparedQuestion(true);");
  replace("Question ${i+1}${current?' · Current':''}","Question ${i+1}${current?' · Current':''}${q.started&&!q.played?' · Started':''}");
+ // #375: the automatic jump to Questions (no active prepared questions) uses the same view animation as the navigation bar.
+ replace("if(first===-1){state.hostTab='questions';state.modal='';tip('No active prepared questions. Enable one in Questions.');return false}","if(first===-1){state.modal='';tip('No active prepared questions. Enable one in Questions.');queueMicrotask(()=>navigateHostTab('questions'));return false}");
  return html;
 }

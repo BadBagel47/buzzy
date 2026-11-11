@@ -154,11 +154,11 @@ body{margin:0;overflow:hidden;background:radial-gradient(ellipse at 50% -15%,rgb
 .trail i{position:absolute;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);background:#fff;opacity:0;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 .5cqh #7dffd9);animation:spark .9s ease-out var(--dl) 1 both}
 @keyframes spark{0%{opacity:0;transform:translate(0,0) scale(.2) rotate(0)}18%{opacity:1;transform:translate(calc(var(--dx)*.2),calc(var(--dy)*.2)) scale(1.2) rotate(40deg)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1) rotate(140deg)}}
 
-/* Connection status (outside the container, so plain units). */
-#viewer-status{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center;padding:32px;background:inherit;z-index:30}
+/* Connection status: same typography as the viewer's waiting text, without a logo. */
+#viewer-status{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:inherit;z-index:30}
 #viewer-status[hidden]{display:none}
-#viewer-status .viewer-status-text{max-width:28em;color:var(--muted);font-size:clamp(18px,2vw,32px);line-height:1.45}
-#viewer-status[data-error=true] .viewer-status-text{color:var(--error)}
+#viewer-status .viewer-status-text{margin:0;max-width:20em;color:var(--muted);font-size:clamp(28px,5.4vh,64px);font-weight:750;line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+#viewer-status[data-error=true] .viewer-status-text{color:var(--muted)}
 .confetti{position:fixed;inset:0;z-index:90;pointer-events:none;overflow:hidden}
 .confetti i{position:absolute;opacity:0}
 .confetti i.celebration-particle{left:0;top:0;width:clamp(9px,.7vw,14px);height:clamp(16px,1.25vw,25px);will-change:transform,opacity}

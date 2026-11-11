@@ -215,17 +215,39 @@ html[data-network-role=player] .coin-side .buzz-face-label,
 html[data-network-role=player] .coin-side .coin-state-label { -webkit-backface-visibility:hidden;backface-visibility:hidden; }
 html[data-network-role=player] .theme-a .buzz-face-clock { will-change:auto; }
 /* #355/#356: viewer on/off and mode in Settings → Viewer screen. */
-.viewer-mode { padding:10px 2px 4px; }
-.viewer-mode .label { display:block;margin-bottom:6px; }
-.viewer-mode-seg { display:flex;gap:4px;background:#e8edf6;border-radius:14px;padding:4px; }
-.viewer-mode-seg button { min-height:44px;border:0;border-radius:11px;background:transparent;color:#41506a;font:inherit;font-weight:800;font-size:14px;cursor:pointer; }
-.viewer-mode-seg button.active { background:#fff;color:#315de8;box-shadow:0 2px 8px rgba(20,32,54,.12); }
-.viewer-mode-seg button:focus-visible { outline:3px solid #315de8;outline-offset:2px; }
+.viewer-mode .play-mode-switch { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch::before { width:calc((100% - 28px)/4);transform:translateX(calc(var(--i,0)*(100% + 6px))); }
+.theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch:has(>.play-mode-option:nth-child(2).active)::before { transform:translateX(calc(var(--i,0)*(100% + 6px))); }
+.viewer-mode .play-mode-option { padding:8px 1px;font-size:12.5px;white-space:nowrap;letter-spacing:-.2px; }
+/* On narrow screens the four choices form a 2 × 2 grid, so every label fits at normal size. */
+@media (max-width:480px) {
+ .viewer-mode .play-mode-option { font-size:14px;letter-spacing:0;padding:10px 6px; }
+ .theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch,
+ .viewer-mode .play-mode-switch { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch::before,
+ .theme-a.lab-host-view.buzzy-design-lab .viewer-mode .play-mode-switch:has(>.play-mode-option:nth-child(2).active)::before { width:calc((100% - 16px)/2);height:calc((100% - 16px)/2);bottom:auto;transform:translate(calc(var(--c,0)*(100% + 6px)),calc(var(--r,0)*(100% + 6px))); }
+}
 .viewer-mode .settings-group-caption { margin-top:8px; }
-
+/* Focus rings only for keyboard use; a pointer press or a script focus never draws one. */
+html[data-network-role=host][data-input=pointer] :is(button,a,summary,input,select,textarea):focus-visible { outline:none!important; }
 /* #356: the viewer panel opened from the header reuses the Settings markup; give its groups the same spacing. */
 .studio-modal .viewer-settings .settings-subgroup + .settings-subgroup { margin-top:16px;padding-top:14px;border-top:1px solid #cfdae6; }
 .studio-modal .viewer-settings .settings-subhead { margin:0 0 6px;font-size:15px; }
 .studio-modal .viewer-settings .viewer-settings-actions { margin-top:10px; }
-.viewer-mode-seg button { flex:1 1 auto;padding:0 8px;white-space:nowrap; }
-@media (max-width:380px) { .viewer-mode-seg button { font-size:13px; } }
+
+/* #371/#362: QR dialog. The link and close buttons are one shape, top right; no logo; heading larger; content sits higher. */
+.room-share-top { justify-content:flex-end;gap:10px; }
+.room-share-screen .room-share-top .room-icon-button { width:48px;min-width:48px;height:48px;padding:0;border-radius:13px; }
+.room-share-screen .room-share-top .room-icon-button svg { width:22px;height:22px;display:block;margin:auto; }
+.room-share-screen .room-share-close { font-size:0;line-height:0; }
+.room-share-content { margin:0 auto auto;padding-top:clamp(8px,4dvh,48px); }
+.room-share-screen h1 { font-size:clamp(36px,7vw,52px);line-height:1.05; }
+.room-share-screen .room-share-copy:focus-visible,.room-share-screen .room-share-close:focus-visible { outline:3px solid #90acff;outline-offset:3px; }
+@media (min-width:900px) and (min-height:520px) {
+ .room-share-content { margin:auto;padding-top:0; }
+ .room-share-content h1 { font-size:clamp(48px,9dvh,96px); }
+}
+
+/* #361: the empty message in Round overview follows the light host theme. */
+html[data-network-role=host] .theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-list > .inner.muted { background:#eff4fa;border:1px solid #a3b7cf;color:#41506a; }

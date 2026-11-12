@@ -30,6 +30,8 @@ const hex2=v=>v.toString(16).padStart(2,'0');
 export function mapValue(value,kind){
  // Colours inside inline SVG data URLs (select chevrons) are icons: treat them as text.
  value=value.replace(/%23([0-9a-f]{6})(?![0-9a-f])/gi,(match,hex)=>'%23'+mapColor(...[0,2,4].map(i=>parseInt(hex.slice(i,i+2),16)),'text').map(hex2).join(''));
+ // #401: the build minifies white to #fff; treat colour names like hex codes so dev and build match.
+ value=value.replace(/(^|[\s,(])(white|black)(?=$|[\s,)!;])/gi,(m,pre,name)=>pre+(name.toLowerCase()==='white'?'#ffffff':'#000000'));
  if(!/#|rgb/i.test(value.replace(/url\([^)]*\)/g,'')))return value;
  return value.replace(colorPattern,(match,hex,args)=>{
   let r,g,b,a='';
@@ -90,6 +92,10 @@ ${DARK} body.theme-a.lab-host-view .btn.danger:not(.primary):hover{background:rg
 ${DARK} body.theme-a.lab-host-view .btn.green,${DARK} body.theme-a.lab-host-view .quickplay-main.green{filter:saturate(.82) brightness(.9)}
 ${DARK} body.theme-a.lab-host-view img{opacity:.92}
 ${DARK} body.theme-a.lab-host-view :is(.ai-error,.ai-rejected-list p){color:#f2a2ad}
+${DARK} body.theme-a input.toggle::after{background:#f4f7fb!important;box-shadow:0 1px 3px rgba(0,0,0,.45)!important}
+${DARK} body.theme-a input.toggle:not(:checked){background:#3a4857!important;border-color:#66788f!important}
+${DARK} body.theme-a :is(input.field,textarea.field,select.field,.field){background-color:#141b25!important;border-color:#5a6d85!important;color:#e6edf5!important}
+${DARK} body.theme-a .field::placeholder{color:#8c9bb0!important;opacity:1}
 ${DARK} body.theme-a.lab-host-view :is(.ai-note,.ai-notice,.ai-demo-banner b){color:#e8c36b}
 ${DARK} body.theme-a.lab-host-view :is(.ai-hint svg,.ai-dot.done,.host-answer b){color:#7fd8ad}
 ${DARK} body.theme-a.lab-host-view :is(.card,.questions-section-card,.studio-modal,.round-overview-sheet){border-color:#2f3f53}

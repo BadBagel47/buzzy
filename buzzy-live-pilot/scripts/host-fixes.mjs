@@ -46,5 +46,8 @@ window.BuzzyRound={noOneLeft:()=>roundNoOneLeft(),decided:()=>roundDecided()};
 function finishRound(reason){`);
  replace("if(state.phase==='open'||(state.buzzes.length&&state.lastDecision!=='correct')){state.modal='next-confirm';render();return}",
   "if(state.phase==='open'||(state.buzzes.length&&state.lastDecision!=='correct'&&!roundDecided())){state.modal='next-confirm';render();return}");
+
+ // #400: the pointer drag in src/queue-drag.js commits through the page's own moveQuestion (with its FLIP animation).
+ replace('function moveQuestion(from,to){','window.BuzzyMoveQuestion=(from,to)=>moveQuestion(from,to);\nfunction moveQuestion(from,to){');
  return html;
 }

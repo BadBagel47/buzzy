@@ -12,5 +12,16 @@ export function applyHostFixes(html){
  replace("Question ${i+1}${current?' · Current':''}","Question ${i+1}${current?' · Current':''}${q.started&&!q.played?' · Started':''}");
  // #375: the automatic jump to Questions (no active prepared questions) uses the same view animation as the navigation bar.
  replace("if(first===-1){state.hostTab='questions';state.modal='';tip('No active prepared questions. Enable one in Questions.');return false}","if(first===-1){state.modal='';tip('No active prepared questions. Enable one in Questions.');queueMicrotask(()=>navigateHostTab('questions'));return false}");
+
+ // #378: Settings → Appearance (this device only): Auto follows the device, or Light/Dark.
+ replace('function renderMore(){',`function appearanceCard(){
+ const modes=[['auto','Auto'],['light','Light'],['dark','Dark']],choice=state.hostTheme||'auto',index=Math.max(0,modes.findIndex(([k])=>k===choice));
+ return \`<div class="card gap12 settings-appearance-card"><div><h2>Appearance</h2><p class="sm muted">Only on this device. Auto follows the light or dark setting of this phone or computer.</p></div><div class="appearance-mode"><div class="play-mode-switch" role="group" aria-label="Appearance" style="--i:\${index}">\${modes.map(([k,l])=>\`<button type="button" class="play-mode-option\${choice===k?' active':''}" data-action="host-theme:\${k}" aria-pressed="\${choice===k}">\${l}</button>\`).join('')}</div></div></div>\`;
+}
+function renderMore(){`);
+ replace('return `<div class="stack">${room}${grouped}','return `<div class="stack">${appearanceCard()}${room}${grouped}');
+ // #381: an empty queue shows no filter and no second help text, only a short empty message.
+ replace("${queueFilters}<div class=\"library-question-list\">${renderEntries(visibleQueue)||'<div class=\"inner muted sm host-empty-message\">No questions match this filter.</div>'}</div><p class=\"questions-section-help\">Questions leave the queue when played. Review completed rounds in Play → Round overview. Reorder queued questions using the arrows or drag-and-drop.</p>",
+  "${queue.length?queueFilters:''}<div class=\"library-question-list\">${renderEntries(visibleQueue)||(queue.length?'<div class=\"inner muted sm host-empty-message\">No questions match this filter.</div>':'<div class=\"inner muted sm host-empty-message\">No questions yet. Use New question to add one.</div>')}</div>${queue.length?'<p class=\"questions-section-help\">Questions leave the queue when played. Review completed rounds in Play → Round overview. Reorder queued questions using the arrows or drag-and-drop.</p>':''}");
  return html;
 }

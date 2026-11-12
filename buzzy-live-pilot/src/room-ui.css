@@ -251,3 +251,23 @@ html[data-network-role=host][data-input=pointer] :is(button,a,summary,input,sele
 
 /* #361: the empty message in Round overview follows the light host theme. */
 html[data-network-role=host] .theme-a.buzzy-design-lab.studio-ui .round-overview-scroll .overview-list > .inner.muted { background:#eff4fa;border:1px solid #a3b7cf;color:#41506a; }
+
+/* #379: Play heading and its tools share one row; icon-only buttons when the labels do not fit. */
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play { flex-wrap:nowrap;align-items:center;column-gap:8px; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play > h1 { flex:0 0 auto; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play .play-headtools { flex:0 0 auto;flex-wrap:nowrap;width:auto;margin-left:auto; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play .play-headtools .header-preload { flex:0 0 auto;margin:0; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play.is-compact .header-leaderboard { width:40px;min-width:40px;padding:0;justify-content:center; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play.is-compact .header-leaderboard > span { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play.is-stacked,
+html[data-network-role=host] body.theme-a.lab-host-view #host-view-content .appbar.appbar-play.is-stacked .play-headtools { flex-wrap:wrap; }
+/* #378: Appearance card (this device only). */
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .card.settings-appearance-card h2 { font-size:21px;line-height:1.2;letter-spacing:-.45px;margin:0; }
+html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .card.settings-appearance-card p { margin:4px 0 0; }
+.theme-a.lab-host-view.buzzy-design-lab .appearance-mode .play-mode-switch { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.theme-a.lab-host-view.buzzy-design-lab .appearance-mode .play-mode-switch::before,
+.theme-a.lab-host-view.buzzy-design-lab .appearance-mode .play-mode-switch:has(>.play-mode-option:nth-child(2).active)::before { width:calc((100% - 22px)/3);transform:translateX(calc(var(--i,0)*(100% + 6px))); }
+/* #383: the connected-screens line sits under the viewer buttons. */
+.viewer-settings .viewer-settings-count { margin:10px 0 0; }
+/* #378: no light flash before the dark theme is applied when the device prefers dark. */
+@media (prefers-color-scheme:dark) { html[data-network-role=host]:not([data-host-theme=light]) body { background:#19222c; } }

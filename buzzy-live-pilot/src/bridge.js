@@ -3,6 +3,7 @@ import {getClient} from './client.js';
 import {installRoomUi} from './room-ui.js';
 import {patchHostMarkup} from './host-markup.js';
 import {createCelebration} from './celebration.js';
+import {installHostTheme} from './host-theme.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundViewerHidden','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores','viewerView','viewerQuestionNumber','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerCelebration'];
@@ -21,6 +22,8 @@ const celebration=createCelebration(()=>s.celebration);
 // Focus rings are for keyboard users: remember whether the last input was a pointer or a key (not shortcuts such as Cmd+Shift+4).
 for(const type of ['pointerdown','keydown'])document.addEventListener(type,event=>{if(type==='keydown'&&(event.metaKey||event.ctrlKey||event.altKey||['Shift','Meta','Control','Alt'].includes(event.key)))return;document.documentElement.dataset.input=type==='keydown'?'keyboard':'pointer';},true);
 const roomUi=installRoomUi({api,isHost,getCode:()=>code});
+// #378: light or dark host theme, following the device unless the host chose otherwise on this device.
+const hostTheme=isHost?installHostTheme({onChange:choice=>{s.hostTheme=choice;}}):null;if(hostTheme)s.hostTheme=hostTheme.choice;
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));
@@ -163,7 +166,7 @@ function afterRender(){
  const allowedLocal=a=>localActions.has(a);
  for(const el of document.querySelectorAll('[data-action],[data-pick]')){
   const a=el.dataset.action||'pick';
-  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a));
+  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a)&&!a.startsWith('host-theme:'));
   el.toggleAttribute('data-network-blocked',locked);
   if(!a.startsWith('buzz:')){
    if(locked){if(!el.hasAttribute('data-network-original-aria'))el.dataset.networkOriginalAria=el.getAttribute('aria-disabled')??'__none__';el.setAttribute('aria-disabled','true');}
@@ -190,6 +193,7 @@ function handle(action){
  if(action==='network-return-start'){leave();return true;}
  if(action==='close-modal'&&s.modal?.startsWith('network-'))return !!exitTask;
 
+ if(isHost&&action.startsWith('host-theme:')){hostTheme.set(action.slice(11));api.render();return true;}
  if(!client||!s.networkReady)return true;
  if(!isHost){
   if(action.startsWith('buzz:')){buzz(action.slice(5));return true;}

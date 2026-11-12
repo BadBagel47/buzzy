@@ -16,8 +16,21 @@ export function installHostLayout(){
   page.append(probe);const height=probe.getBoundingClientRect().height;probe.remove();
   root.style.setProperty('--host-appbar-height',height+'px');
  }
+ // #379: Round overview and Leaderboard share the row with the Play heading. When the labels do not fit,
+ // the buttons show only their icons; only if even that does not fit may the row wrap.
+ function fitPlayTools(){
+  const page=document.getElementById('host-view-content');if(!page)return;
+  for(const bar of page.querySelectorAll('.appbar.appbar-play')){
+   const tools=bar.querySelector('.play-headtools'),title=bar.querySelector('h1');if(!tools||!title)continue;
+   const gap=parseFloat(getComputedStyle(bar).columnGap)||0,fits=()=>title.getBoundingClientRect().width+gap+tools.scrollWidth<=bar.clientWidth+.5;
+   bar.classList.remove('is-compact','is-stacked');
+   if(fits())continue;
+   bar.classList.add('is-compact');
+   if(!fits())bar.classList.add('is-stacked');
+  }
+ }
  function update(){
-  frame=null;syncHeader();if(!nav?.isConnected)return;
+  frame=null;fitPlayTools();syncHeader();if(!nav?.isConnected)return;
   const active=nav.querySelector('[data-nav].active');if(!active)return;
   const box=nav.getBoundingClientRect(),button=active.getBoundingClientRect(),style=getComputedStyle(nav);
   root.style.setProperty('--host-nav-height',`${box.height}px`);

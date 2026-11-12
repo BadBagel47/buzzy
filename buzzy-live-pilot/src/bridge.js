@@ -15,6 +15,14 @@ function sharedSettings(){const settings=Object.fromEntries(settingKeys.map(k=>[
 const json=value=>JSON.parse(JSON.stringify(value));
 let client,code,latest,busy=false,connected=false,first=true,held=false,local=false,saveQueued=false,saveTimer,stopWatch,stopConnection,stopViewers;
 let blocked=false,roomEnded=false,exitTask=null;
+// #390: short connection blips are not shown. The real state (connected) still guards every action;
+// the visible offline state (offlineShown) follows only after the connection has been lost for a while.
+const OFFLINE_GRACE_MS=3000;let offlineShown=false,offlineTimer=null;
+function trackConnection(value){
+ if(value){clearTimeout(offlineTimer);offlineTimer=null;offlineShown=false;return;}
+ if(offlineShown||offlineTimer)return;
+ offlineTimer=setTimeout(()=>{offlineTimer=null;if(connected||roomEnded)return;offlineShown=true;if(s.networkReady&&!blocked){message('Disconnected — waiting to reconnect');api.render();}afterRender();},OFFLINE_GRACE_MS);
+}
 const localActions=new Set(['toggle-question-info','player-leaderboard','dismiss-leaderboard','open-buzz-order','close-buzz-order','close-modal','network-open-leave','network-confirm-exit','network-return-start']);
 let savedPrivate='',savedSettings='',savedPresentation='',loadedKey='',loadGeneration=0,stopKey='',expiryKey='';
 const idleWaiters=[];const seenJudgments=new Set(),seenAdjustments=new Set();let celebrationId='';
@@ -154,7 +162,7 @@ function project(value){
   if(eligible.length&&eligible.every(p=>round.buzzes.some(b=>b.playerId===p.id))&&stopKey!==`${c.r}_${c.a}`){stopKey=`${c.r}_${c.a}`;queueMicrotask(()=>operation(async()=>{await command('stop');}));}
  }
  const me=s.players.find(p=>p.id===client.uid);
- message(!connected?'Disconnected — waiting to reconnect':!isHost&&['kicked','banned'].includes(me?.status)?(me.status==='banned'?'You are banned from this session.':'You have been removed. Return to the start page to rejoin.'):`Room ${code} · ${isHost?'Host':'Player'} · Connected`);
+ message(offlineShown?'Disconnected — waiting to reconnect':!isHost&&['kicked','banned'].includes(me?.status)?(me.status==='banned'?'You are banned from this session.':'You have been removed. Return to the start page to rejoin.'):`Room ${code} · ${isHost?'Host':'Player'} · Connected`);
  afterRender();
 }
 async function preparePlayer(p){
@@ -167,12 +175,12 @@ async function preparePlayer(p){
 function afterRender(){
  syncExitControls();roomUi.sync();celebration.sync();
  if(!s.networkReady)return;
- document.documentElement.toggleAttribute('data-network-busy',busy||!connected||blocked);
+ document.documentElement.toggleAttribute('data-network-busy',busy||offlineShown||blocked);
  const badge=document.querySelector('.headbar .tag.desktoponly');if(badge)badge.textContent=isHost?'HOST':'PLAYER';document.title=`Buzzy · ${isHost?'Host':'Player'}`;
  const allowedLocal=a=>localActions.has(a);
  for(const el of document.querySelectorAll('[data-action],[data-pick]')){
   const a=el.dataset.action||'pick';
-  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||!connected||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a)&&!a.startsWith('host-theme:')&&!(a.startsWith('ai-')&&a!=='ai-add'));
+  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||offlineShown||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a)&&!a.startsWith('host-theme:')&&!(a.startsWith('ai-')&&a!=='ai-add'));
   el.toggleAttribute('data-network-blocked',locked);
   if(!a.startsWith('buzz:')){
    if(locked){if(!el.hasAttribute('data-network-original-aria'))el.dataset.networkOriginalAria=el.getAttribute('aria-disabled')??'__none__';el.setAttribute('aria-disabled','true');}
@@ -262,7 +270,7 @@ function exitDialog(modal){
 function syncExitControls(){
  if(!isHost){
   const member=s.players.find(p=>p.id===client?.uid);
-  document.documentElement.toggleAttribute('data-player-status-visible',!s.networkReady||!connected||blocked||roomEnded||status.dataset.error==='true'||['kicked','banned'].includes(member?.status));
+  document.documentElement.toggleAttribute('data-player-status-visible',!s.networkReady||offlineShown||blocked||roomEnded||status.dataset.error==='true'||['kicked','banned'].includes(member?.status));
   const button=document.querySelector('[data-action="network-open-leave"]');if(button){button.setAttribute('aria-label',roomEnded?'Back to start':'Leave room');button.title=roomEnded?'Back to start':'Leave room';}
  }
  if(!s.modal?.startsWith('network-'))return;
@@ -340,7 +348,7 @@ async function start(){
  if(!saved||saved.role!==role||!/^[A-HJ-NP-Z2-9]{4}$/.test(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
  code=saved.code;client=await getClient();
  // Initial connection is pending, not a failure: keep retry out of the header until needed.
- stopConnection=client.watchConnection(value=>{connected=value;if(roomEnded){afterRender();return;}retry.hidden=!blocked&&(!s.networkReady||value);if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
+ stopConnection=client.watchConnection(value=>{connected=value;trackConnection(value);if(roomEnded){afterRender();return;}retry.hidden=!blocked&&(!s.networkReady||value||!offlineShown);if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){if(value||offlineShown)message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
  await client.waitForConnection();
  const control=await client.read(`rooms/${code}/control`);if(!control)throw new Error('This room is no longer available.');
  latest={control,players:[],round:{id:control.r,attempt:control.a},loads:{}};
@@ -358,6 +366,6 @@ async function start(){
  }else{
   const member=await client.read(`rooms/${code}/members/${client.uid}`);if(!member)throw new Error('Join this room from the start page first.');
  }
- await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected;resolve();},e=>{if(e.code==='room/not-found'&&s.networkReady){ended();return;}if(roomEnded)return;message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
+ await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected||!offlineShown;resolve();},e=>{if(e.code==='room/not-found'&&s.networkReady){ended();return;}if(roomEnded)return;message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
 }
 begin();

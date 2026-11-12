@@ -5,7 +5,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Arbetet kan utföras av olika AI-agenter. Alla följer [AGENTS.md](../AGENTS.md). Arbeta i en klon av `BadBagel47/buzzy`, gren `main`. Hämta senaste `main` och kontrollera `git status` före ändringar. Pusha för att något ska finnas kvar till nästa session.
-- Senaste kodpublicering: `cd653fc`, [run43112384657](https://github.com/BadBagel47/buzzy/actions/runs/43112384657) (live), status success, efter inventering [run43112271190](https://github.com/BadBagel47/buzzy/actions/runs/43112271190). Regler oförändrade, hash `fa60079f…`. Innehåller även #351, #361–#365, #367–#369, #371–#376. Användarprov på riktiga enheter återstår.
+- Senaste kodpublicering: `b9dda16`, [run43134743234](https://github.com/BadBagel47/buzzy/actions/runs/43134743234) (live), status success; `buzzy.trythis.one` serverar bundlen med temakoden. Regler oförändrade, hash `fa60079f…`. Innehåller #378, #379, #381–#383 utöver tidigare #351, #361–#376. Användarprov på riktiga enheter återstår.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.
@@ -40,7 +40,7 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 7. #353 (buzzern på iPad), #355 (viewerläge), #356 (Viewer on/off) och knappen för Question N är publicerade i [run42923620535](https://github.com/BadBagel47/buzzy/actions/runs/42923620535). Prov på iPad med Brave (#353) återstår; TV-provet räknas som gjort via datorprov. #348–#351 och #360 är framtida steg.
 8. #370 (Standby) och #356 (viewerpanel ovanpå vyn) är publicerade i [run43018116951](https://github.com/BadBagel47/buzzy/actions/runs/43018116951). Prov återstår.
 9. #373, #375, #376, #367, #351 och #361–#376 (utom #360) är publicerade 2026-11-11 i [run43112384657](https://github.com/BadBagel47/buzzy/actions/runs/43112384657) (se Senaste publicering). Prov återstår på iPad med Brave (#353) och mobil. Provet på TV/projektor räknas som gjort: användaren provar viewern löpande på dator, som ger samma resultat (2026-11-11).
-10. **Ändrat i källan 2026-11-12 (Opus), ännu inte publicerat:** #378 (mörkt hosttema, Auto/Light/Dark i Settings → Appearance, starkare konturer), #379 (Play-knapparna på rubrikraden, ikonläge på små skärmar), #381 (tom frågekö), #382/#383 (viewerpanelen). Ingen regeländring, bara Hosting. #380 lämnas tills vidare.
+10. **Publicerat 2026-11-12 i run43134743234:** #378 (mörkt hosttema, Auto/Light/Dark i Settings → Appearance, starkare konturer), #379 (Play-knapparna på rubrikraden, ikonläge på små skärmar), #381 (tom frågekö), #382/#383 (viewerpanelen). Prov återstår, särskilt mörkt tema på iPad/iPhone (WebKit). #380 lämnas tills vidare.
 11. Framtida, utan körordning: #348, #349, #350, #360 och #351 väg 2 ("bara viewern", kräver ny regelpublicering). Nya önskemål registreras med ID före implementation.
 
 ## Kod och kontroller

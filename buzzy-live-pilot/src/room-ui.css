@@ -359,3 +359,12 @@ html[data-network-role=host] .ai-demo-try { display:flex;flex-direction:column;g
 html[data-network-role=host] .ai-demo-try p { margin:0; }
 html[data-network-role=host] .ai-tag.demo { color:#7a5200;border-color:#d9b45c;background:#fbf1d9; }
 html[data-network-role=host] .ai-notice { margin:0;font-size:13px;color:#7a5200; }
+/* #392: a slightly larger logo in the player header. */
+html[data-network-role=player] .theme-a .phone .ph-title { font-size:27px; }
+/* #393/#394: one size and one line box for the whole question line, so no part sits higher or lower at any zoom. */
+html[data-network-role=player] .theme-a .phone .player-round-line { align-items:center; }
+html[data-network-role=player] .theme-a .phone .player-round-line :is(.player-round-heading,.player-question-timer,.round-meta-divider,.round-meta-correct,.round-meta-incorrect) { font-size:13.5px;line-height:18px;height:18px;display:inline-flex;align-items:center; }
+html[data-network-role=player] .theme-a .phone .player-round-line :is(.round-meta-correct,.round-meta-incorrect) > span { font-size:1em;line-height:18px;height:18px;width:1.05em;display:inline-flex;align-items:center;justify-content:center;flex:none; }
+html[data-network-role=player] .theme-a .phone .player-round-line .player-round-heading svg { width:15px;height:15px;flex:none; }
+@media (max-width:410px) { html[data-network-role=player] .theme-a .phone .player-round-line :is(.player-round-heading,.player-question-timer,.round-meta-divider,.round-meta-correct,.round-meta-incorrect) { font-size:12.5px; } }
+@media (max-width:350px) { html[data-network-role=player] .theme-a .phone .player-round-line :is(.player-round-heading,.player-question-timer,.round-meta-divider,.round-meta-correct,.round-meta-incorrect) { font-size:11px; } html[data-network-role=player] .theme-a .phone .player-round-line .player-round-heading svg { width:12px;height:12px; } }

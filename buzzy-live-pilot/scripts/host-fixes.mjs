@@ -28,5 +28,23 @@ function renderMore(){`);
  // "Your turn" flips in, even when the floor is given in the same update (e.g. a single player).
  replace("const currentTurn=state.phase!=='open'&&getActiveGradeBuzz()?.id===p.id&&state.buzzes.length>0&&state.lastDecision!=='correct';",
   "const buzzSeenKey=buzzed?`${state.countQuestion}:${state.attemptNumber}:${p.id}`:null;state.buzzSeenAt||={};if(buzzSeenKey&&!state.buzzSeenAt[buzzSeenKey])state.buzzSeenAt[buzzSeenKey]=Date.now();\n const turnHold=buzzSeenKey?Math.max(0,1800-(Date.now()-state.buzzSeenAt[buzzSeenKey])):0;\n const currentTurnNow=state.phase!=='open'&&getActiveGradeBuzz()?.id===p.id&&state.buzzes.length>0&&state.lastDecision!=='correct';\n if(currentTurnNow&&turnHold>0&&!state.turnHoldTimer)state.turnHoldTimer=setTimeout(()=>{state.turnHoldTimer=null;render();},turnHold+40);\n const currentTurn=currentTurnNow&&turnHold===0;");
+
+ // #391: a round is decided when nobody can change the result any more: a correct answer, every buzz graded
+ // after the time ran out, or every active player has answered wrong without repeat attempts. Next then moves
+ // on without the confirmation, which stays for rounds where someone can still answer.
+ replace('function finishRound(reason){',`function roundNoOneLeft(){
+ const active=activePlayers();
+ return state.phase!=='open'&&!state.allowRepeat&&active.length>0&&active.every(p=>state.excluded.includes(p.id))&&state.buzzes.every(b=>state.buzzEvaluations?.[state.attemptNumber+':'+b.order]);
+}
+function roundDecided(){
+ if(state.lastDecision==='correct')return true;
+ if(state.phase==='open')return false;
+ const graded=state.buzzes.every(b=>state.buzzEvaluations?.[state.attemptNumber+':'+b.order]);
+ return roundNoOneLeft()||graded&&state.timer&&state.phase==='closed'&&state.remainingAtClose===0;
+}
+window.BuzzyRound={noOneLeft:()=>roundNoOneLeft(),decided:()=>roundDecided()};
+function finishRound(reason){`);
+ replace("if(state.phase==='open'||(state.buzzes.length&&state.lastDecision!=='correct')){state.modal='next-confirm';render();return}",
+  "if(state.phase==='open'||(state.buzzes.length&&state.lastDecision!=='correct'&&!roundDecided())){state.modal='next-confirm';render();return}");
  return html;
 }

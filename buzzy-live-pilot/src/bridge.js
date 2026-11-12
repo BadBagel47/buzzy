@@ -80,7 +80,7 @@ function scheduleSave(){
 }
 async function archiveCurrent(){
  if(!s.activeRound)return;
- const r=json(s.activeRound);r.id=`round-${latest.control.r}`;r.archived=true;r.endedAt=client.serverNow();r.status=s.lastDecision==='correct'?'Correct answer':s.remainingAtClose===0?'Time expired':'Ended by host';r.scoresAfter=Object.fromEntries(s.players.map(p=>[p.id,p.score]));
+ const r=json(s.activeRound);r.id=`round-${latest.control.r}`;r.archived=true;r.endedAt=client.serverNow();r.status=s.lastDecision==='correct'?'Correct answer':s.remainingAtClose===0?'Time expired':window.BuzzyRound?.noOneLeft()?'No correct answer':'Ended by host';r.scoresAfter=Object.fromEntries(s.players.map(p=>[p.id,p.score]));
  await command('archive',{id:r.id,record:r});
 }
 function normalizeRecord(r){if(r.type==='adjust')return r;r.attempts=Object.values(r.attempts||{}).map(a=>({...a,buzzes:Object.values(a.buzzes||{})}));r.awards=Object.values(r.awards||{});r.scoresBefore??={};r.scoresAfter??={};return r;}
@@ -238,7 +238,8 @@ function handle(action){
  }
  if(['confirm-next','confirm-quick','confirm-play-mode','confirm-skip','next'].includes(action)){advance(action);return true;}
  if(['next-question','next-quick'].includes(action)){
-  if(s.phase==='open'||(s.buzzes.length&&s.lastDecision!=='correct'))return false;advance(action);return true;
+  // #391: a decided round (nobody can change the result) moves on without the confirmation.
+  if(s.phase==='open'||(s.buzzes.length&&s.lastDecision!=='correct'&&!window.BuzzyRound?.decided()))return false;advance(action);return true;
  }
  if(action==='set-play-mode:quick'&&s.quickQuestion)return false;
  if(action.startsWith('set-play-mode:')&&!['open','locked','closed'].includes(s.phase)&&!s.buzzes.length){operation(async()=>runLocal(()=>api.handle(action)));return true;}

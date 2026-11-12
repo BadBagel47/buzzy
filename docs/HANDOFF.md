@@ -56,14 +56,14 @@ Fullständig lista med typ och status finns i [BACKLOG.md](BACKLOG.md). Lista h�
 ## Publicering och åtkomst
 
 - Projekt `buzzy-197dc`, RTDB `https://buzzy-197dc-default-rtdb.europe-west1.firebasedatabase.app`, Spark. Preview använder riktig Auth och databas; molnspel använder riktig kvot.
-- Workflow: https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml . Nuvarande manuella steg: main, rules_source=console och aktuell konsolkontroll innan console_rules_confirmed. Se [WEBBSETUP.md](WEBBSETUP.md).
+- Hosting-publicering (#385): agenten pushar aktuell `main` till `release` (`git push origin main:release`); [release-publish.yml](https://github.com/BadBagel47/buzzy/actions/workflows/release-publish.yml) kontrollerar `release` = `main` och oförändrade regler (`ops/release-check.mjs`) och startar [firebase-pilot.yml](https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml) på `main` med live, `rules_source=console` och den bekräftade hashen. Google-åtkomsten är oförändrad (bara manuellt flöde på main). Om miljön `firebase-pilot` kräver granskare väntar körningen på användarens godkännande. Regeländringar: manuellt i konsolen, se [WEBBSETUP.md](WEBBSETUP.md).
 - Granskad kanonisk regelhash, kontrollera mot evidensen före återanvändning:
 
 ```text
-3017d3c225c5977dc1940fd4a06ba4599c8694c73294198e3c4dd95cc82e76a9
+fa60079ffded9b680cae9e8dec70ef117e6186bdf21bf4c5ef7b3835714b38f2
 ```
 
-Den här hashen gäller reglerna med viewerläge (#355/#356); föregående var `6fbb6b7f…` (#347/#352), publicerade i konsolen 2026-11-10. De tidigare reglerna hade hashen `148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a` och finns i taggen `fore-viewer`.
+Den här hashen gäller reglerna med Standby (#370), bekräftade 2026-11-11. Därförinnan `3017d3c2…` (#355/#356) och `6fbb6b7f…` (#347/#352), publicerade i konsolen 2026-11-10. De tidigare reglerna hade hashen `148f20561cfda93c8177442caa1fd07b0b06ff5fb67f79c2b448f1b23fb7ad9a` och finns i taggen `fore-viewer`.
 
 - Ingen databasregel-/billing-/domänändring ingår automatiskt i Hosting-publiceringen. Regeln ovan är ingen ny verifiering av aktuellt molntillstånd.
 - Verktygsläge 2026-11-10, Claude-molnsession: git-push och `gh` CLI fungerar och kan läsa repot och workflowstatus. Actions-dispatch har tidigare saknat fungerande auth, så användaren gör vid behov Run workflow i webben. Andra agenter och miljöer kan ha andra möjligheter. Kontrollera vid start och uppdatera denna rad.

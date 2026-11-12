@@ -311,3 +311,22 @@ test('Whole console workflow preserves the supplied closed backup, makes eight G
     process.chdir(initialCwd);globalThis.fetch = initialFetch;await rm(directory, {recursive: true, force: true});
   }
 });
+
+// #385: release branch trigger.
+test('Release trigger requires release = main and the confirmed console rules', async () => {
+  const {releaseCheck} = await import('../ops/release-check.mjs');
+  const proposed = JSON.parse(readFileSync('buzzy-live-pilot/database.rules.json', 'utf8'));
+  const snapshot = JSON.parse(readFileSync('ops/rules-evidence/console-snapshot.json', 'utf8'));
+  const a = 'a'.repeat(40), b = 'b'.repeat(40);
+  assert.equal(releaseCheck({releaseSha: a, mainSha: a, proposed, snapshot}), snapshot.canonicalSha256);
+  assert.throws(() => releaseCheck({releaseSha: a, mainSha: b, proposed, snapshot}), /current main commit/);
+  assert.throws(() => releaseCheck({releaseSha: a, mainSha: '', proposed, snapshot}), /Missing/);
+  const changed = structuredClone(proposed); changed.rules.$extra = {'.read': false};
+  assert.throws(() => releaseCheck({releaseSha: a, mainSha: a, proposed: changed, snapshot}), /manual console flow/);
+  assert.throws(() => releaseCheck({releaseSha: a, mainSha: a, proposed, snapshot: {...snapshot, publicationConfirmedByUser: false}}), /No user-confirmed/);
+  const workflow = readFileSync('.github/workflows/release-publish.yml', 'utf8');
+  assert.match(workflow, /on:\n  push:\n    branches:\n      - release\n\n/);
+  assert.match(workflow, /gh workflow run firebase-pilot\.yml --repo "\$GITHUB_REPOSITORY" --ref main/);
+  assert.doesNotMatch(workflow, /secrets\.|id-token|google-github-actions|WIF_PROVIDER/);
+  assert.equal((workflow.match(/actions: write/g) || []).length, 1);
+});

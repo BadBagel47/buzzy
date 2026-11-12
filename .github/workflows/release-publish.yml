@@ -1,0 +1,51 @@
+name: Release - start Hosting publication
+# #385: pushing the current main commit to the release branch starts the reviewed Hosting
+# publication (firebase-pilot.yml) on main, as if run manually with hosting_target=live.
+# Google access stays limited to that manual workflow on main; this workflow holds no cloud
+# credentials. It stops if release is not exactly main, or if the repo's proposed rules differ
+# from the rules last confirmed in the Firebase console (rules changes stay manual).
+on:
+  push:
+    branches:
+      - release
+
+permissions:
+  contents: read
+
+concurrency:
+  group: buzzy-release-trigger
+  cancel-in-progress: false
+
+jobs:
+  start:
+    if: github.repository == 'BadBagel47/buzzy'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Check out the release commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Select Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+      - name: Read the current main commit
+        run: echo "MAIN_SHA=$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/main | cut -f1)" >> "$GITHUB_ENV"
+      - name: Require release = main and unchanged confirmed rules
+        id: check
+        run: node ops/release-check.mjs
+      - name: Start the reviewed Hosting publication on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RULES_SHA256: ${{ steps.check.outputs.rules_sha256 }}
+        run: |
+          gh workflow run firebase-pilot.yml --repo "$GITHUB_REPOSITORY" --ref main \
+            -f hosting_target=live \
+            -f reviewed_rules_sha256="$RULES_SHA256" \
+            -f rules_source=console \
+            -f console_rules_confirmed=true
+          echo "Started Firebase - publish reviewed Hosting for main ${MAIN_SHA}." >> "$GITHUB_STEP_SUMMARY"

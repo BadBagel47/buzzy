@@ -23,5 +23,10 @@ function renderMore(){`);
  // #381: an empty queue shows no filter and no second help text, only a short empty message.
  replace("${queueFilters}<div class=\"library-question-list\">${renderEntries(visibleQueue)||'<div class=\"inner muted sm host-empty-message\">No questions match this filter.</div>'}</div><p class=\"questions-section-help\">Questions leave the queue when played. Review completed rounds in Play → Round overview. Reorder queued questions using the arrows or drag-and-drop.</p>",
   "${queue.length?queueFilters:''}<div class=\"library-question-list\">${renderEntries(visibleQueue)||(queue.length?'<div class=\"inner muted sm host-empty-message\">No questions match this filter.</div>':'<div class=\"inner muted sm host-empty-message\">No questions yet. Use New question to add one.</div>')}</div>${queue.length?'<p class=\"questions-section-help\">Questions leave the queue when played. Review completed rounds in Play → Round overview. Reorder queued questions using the arrows or drag-and-drop.</p>':''}");
+
+ // #389: the player always sees the pressed buzzer (and the #position in Timed Buzz) for a moment before
+ // "Your turn" flips in, even when the floor is given in the same update (e.g. a single player).
+ replace("const currentTurn=state.phase!=='open'&&getActiveGradeBuzz()?.id===p.id&&state.buzzes.length>0&&state.lastDecision!=='correct';",
+  "const buzzSeenKey=buzzed?`${state.countQuestion}:${state.attemptNumber}:${p.id}`:null;state.buzzSeenAt||={};if(buzzSeenKey&&!state.buzzSeenAt[buzzSeenKey])state.buzzSeenAt[buzzSeenKey]=Date.now();\n const turnHold=buzzSeenKey?Math.max(0,1800-(Date.now()-state.buzzSeenAt[buzzSeenKey])):0;\n const currentTurnNow=state.phase!=='open'&&getActiveGradeBuzz()?.id===p.id&&state.buzzes.length>0&&state.lastDecision!=='correct';\n if(currentTurnNow&&turnHold>0&&!state.turnHoldTimer)state.turnHoldTimer=setTimeout(()=>{state.turnHoldTimer=null;render();},turnHold+40);\n const currentTurn=currentTurnNow&&turnHold===0;");
  return html;
 }

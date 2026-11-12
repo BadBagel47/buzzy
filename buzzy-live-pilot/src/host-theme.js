@@ -18,7 +18,8 @@ export function mapColor(r,g,b,kind){
   else if(l<.5){l=clamp(.93-l*.45);s=Math.min(s,.3);}
  }else if(l>=.6){
   // Light surfaces become dim slate. Whiter (more raised) surfaces stay slightly lighter.
-  l=kind==='border'?.4+(l-.75)*.3:.135+(l-.75)*.34;s=Math.min(s,.28);
+  l=kind==='border'?.4+(l-.75)*.3:l>=.93?.25+(l-.93)*.5:.135+(l-.75)*.34;s=Math.min(s,.28);
+  // #384: near-white raised surfaces (buttons, chips) stay clearly lighter than cards, as in the light theme.
   if(s<.06){h=.59;s=.2;}
   if(kind==='bg'&&l<.105)l=.105;
  }else if(kind==='bg'&&s>.45&&l>.4){s*=.78;l*=.86;} // large accent fills glare less

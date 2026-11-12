@@ -94,7 +94,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  const ai=state.ai={key:store.get(KEY_STORAGE)?'saved':'none',keyHint:keyHint(store.get(KEY_STORAGE)),keyError:'',keyInput:'',
   mode:'topic',topic:'',count:10,difficulty:'mixed',language:defaultLanguage(),
   rows:[{topic:'',count:3,difficulty:'mixed'},{topic:'',count:3,difficulty:'mixed'}],mixName:'',mixes:loadMixes(),shuffle:true,
-  phase:'form',step:0,checked:0,toCheck:0,drafts:[],rejected:[],error:'',usage:{input:0,output:0,searches:0},label:''};
+  phase:'form',step:0,checked:0,toCheck:0,drafts:[],rejected:[],error:'',demo:false,notice:'',usage:{input:0,output:0,searches:0},label:''};
  let controller=null;
  function loadMixes(){try{const list=JSON.parse(store.get(MIX_STORAGE)||'[]');return Array.isArray(list)?list.filter(m=>m&&typeof m.name==='string'&&Array.isArray(m.rows)).slice(0,20):[];}catch{return [];}}
  function saveMixes(){store.set(MIX_STORAGE,JSON.stringify(ai.mixes));}
@@ -134,23 +134,28 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  }
  async function produce(items){
   const requested=items.reduce((n,i)=>n+i.count,0),total=requested+Math.max(2,Math.ceil(requested*.2));
-  const client=await createClient(store.get(KEY_STORAGE));
+  // #388: the demo answers from a built-in sample bank instead of calling Claude.
+  const demo=ai.demo?await import('./ai-demo.js'):null;
+  const client=demo?null:await createClient(store.get(KEY_STORAGE));
   ai.step=1;render();
-  const written=await call(client,{system:generateSystem,prompt:generationPrompt(items,total),tool:generateTool,maxSearches:8});
-  const known=new Set([...existingQuestions(),...ai.drafts.map(d=>d.question)].map(normalize));
+  const used=[...existingQuestions(),...ai.drafts.map(d=>d.question)];
+  const written=demo?await demo.demoWrite(items,total,ai.language,new Set(used.map(q=>String(q).toLowerCase())),controller.signal)
+   :await call(client,{system:generateSystem,prompt:generationPrompt(items,total),tool:generateTool,maxSearches:8});
+  if(demo?.demoTopics&&written.general)ai.notice=`Demo: sample questions exist only for ${demo.demoTopics.join(', ')}, so this is a general mix.`;
+  const known=new Set(used.map(normalize));
   const drafts=[];
   for(const q of Array.isArray(written?.questions)?written.questions:[]){
    const question=String(q.question||'').trim(),answer=String(q.answer||'').trim();
    if(!question||!answer||known.has(normalize(question)))continue;known.add(normalize(question));
    drafts.push({id:`d${Date.now().toString(36)}${drafts.length}`,topic:String(q.topic||items[0]?.topic||'').slice(0,60),difficulty:['easy','medium','hard'].includes(q.difficulty)?q.difficulty:'medium',
-    question:question.slice(0,400),answer:answer.slice(0,160),accepted:(Array.isArray(q.accepted_answers)?q.accepted_answers:[]).map(String).filter(Boolean).slice(0,6),explanation:String(q.explanation||'').slice(0,300),sources:cleanSources(q.sources)});
+    question:question.slice(0,400),answer:answer.slice(0,160),accepted:(Array.isArray(q.accepted_answers)?q.accepted_answers:[]).map(String).filter(Boolean).slice(0,6),explanation:String(q.explanation||'').slice(0,300),sources:cleanSources(q.sources),...(demo?{demoVerdict:q.verdict,demoReason:q.reason}:{})});
   }
   if(!drafts.length)throw new AiError('Claude did not return any usable questions. Try again or change the topic.');
   ai.step=2;ai.checked=0;ai.toCheck=drafts.length;render();
   const verdicts=new Map();
   for(let start=0;start<drafts.length;start+=4){
    const batch=drafts.slice(start,start+4);
-   const result=await call(client,{system:verifySystem,tool:verifyTool,maxSearches:8,prompt:`Check these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
+   const result=demo?{verdicts:await demo.demoVerify(batch,controller.signal)}:await call(client,{system:verifySystem,tool:verifyTool,maxSearches:8,prompt:`Check these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
    for(const v of Array.isArray(result?.verdicts)?result.verdicts:[])verdicts.set(String(v.id),v);
    ai.checked=Math.min(drafts.length,start+batch.length);render();
   }
@@ -168,9 +173,9 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  }
  async function start(items,append=false){
   if(!items.length){ai.error=ai.mode==='topic'?'Enter a topic.':'Add at least one topic with a number of questions.';render();return;}
-  if(ai.key!=='saved'){ai.error='Add your Anthropic API key in Settings → AI questions first.';render();return;}
+  if(ai.key!=='saved'&&!ai.demo){ai.error='Add your Anthropic API key in Settings → AI questions first.';render();return;}
   controller=new AbortController();
-  if(!append){ai.drafts=[];ai.rejected=[];ai.usage={input:0,output:0,searches:0};}
+  if(!append){ai.drafts=[];ai.rejected=[];ai.usage={input:0,output:0,searches:0};ai.notice='';}
   ai.label=ai.mode==='mix'?(ai.mixName.trim()||'Mix'):items[0].topic;
   ai.phase='running';ai.error='';ai.step=1;ai.checked=0;ai.toCheck=0;render();
   try{
@@ -200,7 +205,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const chosen=ai.drafts.filter(d=>d.selected&&d.status!=='rejected');if(!chosen.length)return 0;
   const base=defaults(),stamp=Date.now();
   const added=chosen.map((d,i)=>({id:`q${stamp}${i}`,title:d.question.slice(0,46)+(d.question.length>46?'…':''),text:d.question,image:'',points:base.points,penalty:base.penalty,mode:'default',timer:'default',textVisibility:'default',buzzerStart:'default',active:true,played:false,
-   answer:d.answer,acceptedAnswers:d.accepted,explanation:d.explanation,sources:d.sources,topic:d.topic,difficulty:d.difficulty,ai:{status:d.status,model:AI_MODEL,createdAt:new Date(stamp).toISOString()}}));
+   answer:d.answer,acceptedAnswers:d.accepted,explanation:d.explanation,sources:d.sources,topic:d.topic,difficulty:d.difficulty,ai:{status:d.status,model:ai.demo?'demo':AI_MODEL,...(ai.demo?{demo:true}:{}),createdAt:new Date(stamp).toISOString()}}));
   state.questions.push(...added);
   ai.drafts=ai.drafts.filter(d=>!chosen.includes(d));
   if(!ai.drafts.length){ai.phase='form';ai.rejected=[];if(state.modal==='ai-questions')state.modal='';}
@@ -226,6 +231,8 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   'ai-new':()=>{ai.phase='form';ai.drafts=[];ai.rejected=[];ai.error='';},
   'ai-back':()=>{ai.phase='form';ai.error='';},
   'ai-key-save':()=>{saveKey();return 'async';},
+  'ai-demo-start':()=>{ai.demo=true;Object.assign(ai,{phase:'form',drafts:[],rejected:[],error:'',notice:''});state.hostTab='questions';state.modal='ai-questions';},
+  'ai-demo-exit':()=>{controller?.abort();ai.demo=false;Object.assign(ai,{phase:'form',drafts:[],rejected:[],error:'',notice:''});},
   'ai-key-remove':()=>{store.remove(KEY_STORAGE);Object.assign(ai,{key:'none',keyHint:'',keyInput:'',keyError:''});},
  };
  function handle(action){

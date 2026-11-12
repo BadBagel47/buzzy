@@ -352,3 +352,10 @@ html[data-network-role=host] .host-answer b { color:#0f6b43; }
 html[data-network-role=host] .settings-ai-card a.btn { text-decoration:none; }
 html[data-network-role=host] .ai-open-button span { white-space:nowrap; }
 @media (max-width:430px) { html[data-network-role=host] .ai-open-button .ai-wide { display:none; } }
+/* #388: demo mode for AI questions. */
+html[data-network-role=host] .ai-demo-banner { display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fbf1d9;border:1px solid #d9b45c;color:#5c4100;border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.4; }
+html[data-network-role=host] .ai-demo-exit { flex:none;border:1px solid #c79a3a;background:transparent;color:#5c4100;border-radius:9px;padding:6px 10px;font-weight:700;font-size:12.5px; }
+html[data-network-role=host] .ai-demo-try { display:flex;flex-direction:column;gap:8px;border-top:1px solid #a8bad0;padding-top:12px; }
+html[data-network-role=host] .ai-demo-try p { margin:0; }
+html[data-network-role=host] .ai-tag.demo { color:#7a5200;border-color:#d9b45c;background:#fbf1d9; }
+html[data-network-role=host] .ai-notice { margin:0;font-size:13px;color:#7a5200; }

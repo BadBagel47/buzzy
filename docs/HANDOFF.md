@@ -5,7 +5,7 @@ Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 ## Aktuellt läge
 
 - Arbetet kan utföras av olika AI-agenter. Alla följer [AGENTS.md](../AGENTS.md). Arbeta i en klon av `BadBagel47/buzzy`, gren `main`. Hämta senaste `main` och kontrollera `git status` före ändringar. Pusha för att något ska finnas kvar till nästa session.
-- Senaste kodpublicering: `76c38c8`, [run43256315156](https://github.com/BadBagel47/buzzy/actions/runs/43256315156) (live), status success, startad av agenten via `release` (#385). Regler oförändrade, hash `fa60079f…`. Innehåller #389 (tryckt knapp före Your turn), #387–#388 och tidigare #351, #361–#386. Användarprov på riktiga enheter och prov mot riktiga Claude återstår. #390 (reconnecting-blink) registrerad, inte byggd.
+- Senaste kodpublicering: `c8be8c5`, [run43260155342](https://github.com/BadBagel47/buzzy/actions/runs/43260155342) (live), status success, startad av agenten via `release` (#385). Regler oförändrade, hash `fa60079f…`. Innehåller #390 (korta anslutningsglapp döljs), #389, #387–#388 och tidigare #351, #361–#386. Användarprov på riktiga enheter och prov mot riktiga Claude återstår.
 - Spellänk: https://buzzy-197dc--pilot-mrst5vi1.web.app . Kanalen har en dags giltighet per publicering; kontrollera status före påstående om tillgänglighet.
 - Senaste kodpaket: #293 tidig återkoppling/återförsök efter cirka 4 s och automatisk återhämtning efter nät-timeout; #305 gemensamt 14 px kortavstånd och reserverad Play-radhöjd; #320 samma kortgap under/efter vyanimation.
 - Questions-hoppet reproducerades som 1 px skillnad för andra kortet. Det gamla provet mätte endast första kortet; nytt prov mäter även Question queue. Gemensam kortplacering verifierades på 320/390/430/768/1280 px.

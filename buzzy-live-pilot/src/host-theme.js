@@ -89,6 +89,9 @@ ${DARK} body.theme-a.lab-host-view .btn.danger:not(.primary){background:transpar
 ${DARK} body.theme-a.lab-host-view .btn.danger:not(.primary):hover{background:rgba(242,162,173,.08)!important}
 ${DARK} body.theme-a.lab-host-view .btn.green,${DARK} body.theme-a.lab-host-view .quickplay-main.green{filter:saturate(.82) brightness(.9)}
 ${DARK} body.theme-a.lab-host-view img{opacity:.92}
+${DARK} body.theme-a.lab-host-view :is(.ai-error,.ai-rejected-list p){color:#f2a2ad}
+${DARK} body.theme-a.lab-host-view :is(.ai-note,.ai-notice,.ai-demo-banner b){color:#e8c36b}
+${DARK} body.theme-a.lab-host-view :is(.ai-hint svg,.ai-dot.done,.host-answer b){color:#7fd8ad}
 ${DARK} body.theme-a.lab-host-view :is(.card,.questions-section-card,.studio-modal,.round-overview-sheet){border-color:#2f3f53}
 `;
 export function installHostTheme({onChange}={}){

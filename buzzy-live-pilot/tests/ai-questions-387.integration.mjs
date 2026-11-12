@@ -71,8 +71,10 @@ await test('AI questions: key in this browser only, two-step check, review, queu
   assert.ok(review.some(([q,s,sel])=>q.startsWith('How many countries')&&s==='check'&&!sel));
   const rejected=await host.evaluate(()=>BuzzyView.state.ai.rejected.map(r=>r.question));
   assert.ok(rejected.some(q=>/richest/.test(q))&&rejected.some(q=>/Norway/.test(q)),'Rejected: time-sensitive and only one independent source');
-  assert.equal(await host.locator('.ai-rejected summary').textContent(),'2 rejected');
-  await host.locator('.ai-draft',{hasText:'How many countries'}).locator('.ai-check').click();
+  assert.equal((await host.locator('.ai-rejected summary').textContent()).trim(),'2 rejected');
+  // #398: the rejected list opens with a height animation and stays open across re-renders.
+  await host.locator('.ai-rejected summary').click();await host.waitForFunction(()=>document.querySelector('.ai-rejected').open&&BuzzyView.state.ai.rejectedOpen);
+  await host.locator('.ai-draft',{hasText:'How many countries'}).locator('input.toggle').check();
   await host.locator('[data-action="ai-add"]').click();await host.locator('.ai-panel').waitFor({state:'detached'});
   await host.waitForFunction(()=>BuzzyView.state.questions.filter(q=>q.ai).length===4);
   const saved=await host.evaluate(()=>BuzzyView.state.questions.filter(q=>q.ai).map(q=>({text:q.text,answer:q.answer,topic:q.topic,status:q.ai.status,sources:q.sources.length})));
@@ -85,8 +87,8 @@ await test('AI questions: key in this browser only, two-step check, review, queu
   // The queue shows answer, topic and AI status; the editor shows the answer field.
   await host.locator('[data-nav="questions"]').click();await idle(host);
   await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.library-card-answer',{hasText:'Danube'}).waitFor();
-  assert.equal(await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.ai-tag.ai').textContent(),'AI · verified');
-  assert.equal(await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.ai-tag.period').textContent(),'80s');
+  assert.equal(await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.library-card-meta .ai-meta-status').textContent(),'AI · Verified');
+  await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.library-card-meta .library-card-mode',{hasText:'80s'}).waitFor();
   // Players see the question but never the answer; the host sees the answer in Play.
   const pc=await h.browser.newContext({viewport:{width:390,height:844}});const player=await pc.newPage();await player.goto('http://127.0.0.1:5173');
   await player.locator('#room-code').fill(code);await player.locator('#player-name').fill('Ada');await player.locator('.join-button').click();await ready(player);

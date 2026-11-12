@@ -22,10 +22,10 @@ await test('AI demo: sample questions without a key, clearly marked, no Claude r
   assert.ok(drafts.length>=5&&drafts.every(d=>d.s==='verified'&&d.src===2),JSON.stringify(drafts));
   assert.ok(drafts.some(d=>/ABBA|piano|Queen|Vivaldi|Trollflöjten|Brothers/.test(d.q)),'Swedish music questions from the bank');
   assert.ok(await host.evaluate(()=>BuzzyView.state.ai.rejected.length)>=1,'The demo also shows rejected examples');
-  await host.locator('.ai-usage',{hasText:'no requests were sent'}).waitFor();
+  await host.locator('.ai-panel p',{hasText:'no requests were sent'}).waitFor();
   await host.locator('[data-action="ai-add"]').click();
   await host.waitForFunction(()=>BuzzyView.state.questions.some(q=>q.ai?.demo));
-  await host.locator('.library-question-card .ai-tag.demo',{hasText:'Demo · sample'}).first().waitFor();
+  await host.locator('.library-question-card .library-card-meta .ai-meta-status',{hasText:'Demo'}).first().waitFor();
   // A topic outside the bank gives a general mix with a notice; exit returns to the key prompt.
   await host.locator('[data-action="ai-open"]').click();
   if(await host.locator('.ai-panel [data-action="ai-new"]').count())await host.locator('.ai-panel [data-action="ai-new"]').click();

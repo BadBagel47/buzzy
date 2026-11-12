@@ -71,7 +71,8 @@ for(const role of ['host','player']){
  }
  app=app.replace(/<title>[\s\S]*?<\/title>/,`<title>Buzzy · ${role==='host'?'Host':'Player'}</title>`).replace('DESIGN LAB · A v7.52',role==='host'?'HOST':'PLAYER');
  app=app.replace('</head>',`<style>
- button{-webkit-tap-highlight-color:transparent}
+ /* #396: no blue tap box on any clickable element (links, summaries, fields, overlays as well as buttons). */
+ *,*::before,*::after{-webkit-tap-highlight-color:transparent}
  html[data-network-role] .shell{display:block;visibility:hidden}html[data-network-ready] .shell{visibility:visible}
  html[data-network-role] .lab-controls,html[data-network-role] .lab-view-switch,html[data-network-role] .lab-score-float,html[data-network-role] #previewtoggle{display:none!important}
  html[data-network-role=host] #sidecol,html[data-network-role=player] #maincol{display:none!important}
@@ -132,7 +133,7 @@ landing=landing.replace('letter-spacing:.22em;text-indent:.22em;text-align:cente
 // while leaving the empty input's native caret at its true center.
 landing=landing.replace('.room-code::placeholder{color:#6f88ad;letter-spacing:.3em;text-indent:.3em}', '.room-code::placeholder{color:#6f88ad;letter-spacing:.22em;text-indent:.22em}');
 landing=landing.replaceAll('6 characters','4 characters').replace('maxlength="12"','maxlength="4"').replace('placeholder="······"','placeholder="····"');
-landing=landing.replace('.join-button:active{transform:translateY(1px);filter:brightness(.94)}','.join-button:active{transform:scale(.98)}button{-webkit-tap-highlight-color:transparent}');
+landing=landing.replace('.join-button:active{transform:translateY(1px);filter:brightness(.94)}','.join-button:active{transform:scale(.98)}*,*::before,*::after{-webkit-tap-highlight-color:transparent}');
 // #330: keep landing helper and error text at the established readable minimum.
 landing=landing.replace('</head>','<style>.field-hint,.field-error,.noscript{font-size:14px}.landing{position:relative}.landing .brand{font-size:46px}body{padding-bottom:calc(max(24px,env(safe-area-inset-bottom)) + 16px)}@media(max-width:350px){.landing .brand{font-size:42px}}#entry-status{position:absolute;top:100%;left:0;width:100%;margin:8px 0 0}.join-button{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:0}.join-button span{grid-column:2;transform:translate(1px,-1px)}.join-button svg{grid-column:3;justify-self:start;margin-left:12px}</style></head>');
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');

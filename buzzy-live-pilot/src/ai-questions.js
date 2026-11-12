@@ -108,7 +108,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  const ai=state.ai={key:store.get(KEY_STORAGE)?'saved':'none',keyHint:keyHint(store.get(KEY_STORAGE)),keyError:'',keyInput:'',
   mode:'topic',topic:'',count:10,difficulty:'mixed',period:'any',language:defaultLanguage(),
   rows:[{topic:'',count:3,difficulty:'mixed',period:'any'},{topic:'',count:3,difficulty:'mixed',period:'any'}],mixName:'',mixes:loadMixes(),shuffle:true,
-  phase:'form',step:0,checked:0,toCheck:0,drafts:[],rejected:[],error:'',demo:false,notice:'',usage:{input:0,output:0,searches:0},label:''};
+  phase:'form',step:0,checked:0,toCheck:0,drafts:[],rejected:[],rejectedOpen:false,error:'',demo:false,notice:'',usage:{input:0,output:0,searches:0},label:''};
  let controller=null;
  function loadMixes(){try{const list=JSON.parse(store.get(MIX_STORAGE)||'[]');return Array.isArray(list)?list.filter(m=>m&&typeof m.name==='string'&&Array.isArray(m.rows)).slice(0,20):[];}catch{return [];}}
  function saveMixes(){store.set(MIX_STORAGE,JSON.stringify(ai.mixes));}
@@ -266,9 +266,32 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  function onInput(event){
   const field=event.target?.dataset?.aiField;if(!field)return;
   const value=event.target.type==='checkbox'?event.target.checked:event.target.value;
+  if(field.startsWith('pick:')){if(event.type!=='change')return;const d=ai.drafts.find(d=>d.id===field.slice(5));if(d){d.selected=!!value;render();}return;}
+  if(field==='shuffle'){if(event.type==='change'){ai.shuffle=!!value;render();}return;}
   if(field==='topic')ai.topic=value;else if(field==='key')ai.keyInput=value;else if(field==='mixName')ai.mixName=value;
   else{const m=/^row:(\d+):(topic|count|difficulty|period)$/.exec(field);if(m&&ai.rows[m[1]]){ai.rows[m[1]][m[2]]=m[2]==='count'?Math.max(0,Math.min(20,Math.round(Number(value)||0))):value;if(event.type==='change')render();}}
  }
  document.addEventListener('input',onInput);document.addEventListener('change',onInput);
+ // #398: the list of rejected questions opens and closes with the same height animation as Settings sections.
+ const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+ document.addEventListener('click',event=>{
+  const summary=event.target.closest?.('.ai-rejected > summary');if(!summary)return;
+  const details=summary.parentElement;event.preventDefault();
+  const opening=!details.open;ai.rejectedOpen=opening;
+  if(reduced()){details.open=opening;return;}
+  const start=details.getBoundingClientRect().height;if(opening)details.open=true;
+  const end=opening?details.scrollHeight:summary.getBoundingClientRect().height;
+  details.style.overflow='hidden';
+  const animation=details.animate([{height:`${start}px`},{height:`${end}px`}],{duration:260,easing:'cubic-bezier(.22,.8,.2,1)'});
+  animation.onfinish=animation.oncancel=()=>{if(!opening)details.open=false;details.style.overflow='';};
+ });
+ // #398: a new step of the panel fades in while the dialog eases to its new height.
+ window.BuzzyAiMotion={swap(current,fresh){
+  const box=current.closest('.studio-modal')||current.parentElement,from=box.getBoundingClientRect().height;
+  current.replaceWith(fresh);if(reduced())return;
+  const to=box.getBoundingClientRect().height;
+  fresh.classList.add('ai-enter');fresh.addEventListener('animationend',()=>fresh.classList.remove('ai-enter'),{once:true});
+  if(Math.abs(from-to)>1){box.style.overflow='hidden';const animation=box.animate([{height:`${from}px`},{height:`${to}px`}],{duration:280,easing:'cubic-bezier(.22,.8,.2,1)'});animation.onfinish=animation.oncancel=()=>{box.style.overflow='';};}
+ }};
  return {handle,plan,get busy(){return ai.phase==='running';}};
 }

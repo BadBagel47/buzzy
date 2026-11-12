@@ -368,3 +368,14 @@ html[data-network-role=player] .theme-a .phone .player-round-line :is(.round-met
 html[data-network-role=player] .theme-a .phone .player-round-line .player-round-heading svg { width:15px;height:15px;flex:none; }
 @media (max-width:410px) { html[data-network-role=player] .theme-a .phone .player-round-line :is(.player-round-heading,.player-question-timer,.round-meta-divider,.round-meta-correct,.round-meta-incorrect) { font-size:12.5px; } }
 @media (max-width:350px) { html[data-network-role=player] .theme-a .phone .player-round-line :is(.player-round-heading,.player-question-timer,.round-meta-divider,.round-meta-correct,.round-meta-incorrect) { font-size:11px; } html[data-network-role=player] .theme-a .phone .player-round-line .player-round-heading svg { width:12px;height:12px; } }
+/* #395: period quick-select and period tags. Mix rows: topic on its own line, then count, difficulty, period. */
+html[data-network-role=host] .ai-periods { margin-top:0; }
+html[data-network-role=host] .ai-period-note { margin:6px 0 0;font-size:12.5px;color:#7a5200; }
+html[data-network-role=host] .ai-row { grid-template-columns:64px minmax(0,1fr) minmax(0,1fr) 30px; }
+html[data-network-role=host] .ai-row > [data-ai-field$=":topic"] { grid-column:1 / -1; }
+html[data-network-role=host] .ai-row > .ai-row-del { grid-column:4;grid-row:1; }
+html[data-network-role=host] .ai-row > [data-ai-field$=":topic"] { grid-column:1 / 4;grid-row:1; }
+html[data-network-role=host] .ai-row { padding:8px;border:1px solid #a8bad0;border-radius:12px;background:#eef3f9; }
+html[data-network-role=host] .ai-tag.period { color:#5b3fb0;border-color:#b9a6ef;background:#f1ecff; }
+html[data-network-role=host] .ai-tag.period.news { color:#7a5200;border-color:#d9b45c;background:#fbf1d9; }
+@media (max-width:480px) { html[data-network-role=host] .ai-row { grid-template-columns:54px minmax(0,1fr) minmax(0,1fr) 28px; } }

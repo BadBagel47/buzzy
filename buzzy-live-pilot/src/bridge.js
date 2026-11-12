@@ -4,7 +4,7 @@ import {installRoomUi} from './room-ui.js';
 import {patchHostMarkup} from './host-markup.js';
 import {createCelebration} from './celebration.js';
 import {installHostTheme} from './host-theme.js';
-import {installAiQuestions,topicChips} from './ai-questions.js';
+import {installAiQuestions,topicChips,periods} from './ai-questions.js';
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
 const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundViewerHidden','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores','viewerView','viewerQuestionNumber','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerCelebration'];
@@ -37,7 +37,7 @@ const hostTheme=isHost?installHostTheme({onChange:choice=>{s.hostTheme=choice;}}
 const aiQuestions=isHost?installAiQuestions({state:s,render:()=>api.render(),save:()=>scheduleSave(),
  existingQuestions:()=>[...(s.questions||[]).map(q=>q.text),s.quickQuestion?.text].filter(Boolean),
  defaults:()=>({points:Number.isFinite(Number(s.roomCorrect))?Number(s.roomCorrect):1,penalty:Number.isFinite(Number(s.roomIncorrect))?Number(s.roomIncorrect):0})}):null;
-if(isHost)window.BuzzyAiTopics=topicChips;
+if(isHost){window.BuzzyAiTopics=topicChips;window.BuzzyAiPeriods=periods;}
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));

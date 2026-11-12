@@ -5,6 +5,19 @@ const KEY_STORAGE='buzzy-anthropic-key',MIX_STORAGE='buzzy-ai-mixes';
 export const AI_MODEL='claude-opus-5-5';
 const levels=['easy','mixed','hard'];
 const levelText={easy:'easy: most adults would know the answer',mixed:'a mix of easy, medium and hard',hard:'hard: for enthusiasts of the topic'};
+// #395: time periods. Recent periods are about news and need dated questions and news sources.
+export const periods=[['any','Any time'],['1960s','60s'],['1970s','70s'],['1980s','80s'],['1990s','90s'],['2000s','2000s'],['2010s','2010s'],['year','This year'],['month','Last month'],['week','Last week']];
+const periodKeys=periods.map(([k])=>k),recentPeriods=['year','month','week'];
+const isoDay=d=>d.toISOString().slice(0,10);
+export function periodText(period,now=new Date()){
+ if(/^\d{4}s$/.test(period)){const y=Number(period.slice(0,4));return `from the ${period} (${y}–${y+9})`;}
+ const today=isoDay(now),back=days=>isoDay(new Date(now.getTime()-days*864e5));
+ if(period==='year')return `from this year, ${now.getUTCFullYear()} (up to today, ${today})`;
+ if(period==='month')return `from the last 30 days (${back(30)} to ${today})`;
+ if(period==='week')return `from the last 7 days (${back(7)} to ${today})`;
+ return '';
+}
+export function periodLabel(period){return periods.find(([k])=>k===period)?.[1]||'';}
 export const topicChips=['Geography','History','Music','Film & TV','Sports','Science','Food & drink','Nature','Art & literature'];
 
 const generateTool={
@@ -47,6 +60,7 @@ Rules for every question:
 - Do not repeat any question from the list of questions already in the queue, and vary the aspects covered within a topic.
 When you are done, call submit_questions once with all the questions.`;
 const verifySystem=`You are a strict fact-checker for quiz questions. Someone else wrote them; do not trust the stated answer.
+Questions about recent news are allowed when the question says when it happened and two independent news sources confirm the answer; judge them as verified when that holds.
 For each question, search the web yourself and decide:
 - verified: the stated answer is correct, the question has exactly one reasonable correct answer, and at least two independent sources (different websites or publishers) confirm it.
 - check: the answer is correct and confirmed by two independent sources, but it can change over time and the question already names the year it refers to.
@@ -92,15 +106,15 @@ function describeError(error){
 
 export function installAiQuestions({state,render,save,existingQuestions,defaults}){
  const ai=state.ai={key:store.get(KEY_STORAGE)?'saved':'none',keyHint:keyHint(store.get(KEY_STORAGE)),keyError:'',keyInput:'',
-  mode:'topic',topic:'',count:10,difficulty:'mixed',language:defaultLanguage(),
-  rows:[{topic:'',count:3,difficulty:'mixed'},{topic:'',count:3,difficulty:'mixed'}],mixName:'',mixes:loadMixes(),shuffle:true,
+  mode:'topic',topic:'',count:10,difficulty:'mixed',period:'any',language:defaultLanguage(),
+  rows:[{topic:'',count:3,difficulty:'mixed',period:'any'},{topic:'',count:3,difficulty:'mixed',period:'any'}],mixName:'',mixes:loadMixes(),shuffle:true,
   phase:'form',step:0,checked:0,toCheck:0,drafts:[],rejected:[],error:'',demo:false,notice:'',usage:{input:0,output:0,searches:0},label:''};
  let controller=null;
  function loadMixes(){try{const list=JSON.parse(store.get(MIX_STORAGE)||'[]');return Array.isArray(list)?list.filter(m=>m&&typeof m.name==='string'&&Array.isArray(m.rows)).slice(0,20):[];}catch{return [];}}
  function saveMixes(){store.set(MIX_STORAGE,JSON.stringify(ai.mixes));}
  function plan(){
-  if(ai.mode==='topic')return ai.topic.trim()?[{topic:ai.topic.trim(),count:ai.count,difficulty:ai.difficulty}]:[];
-  return ai.rows.map(r=>({topic:String(r.topic||'').trim(),count:Math.max(0,Math.min(20,Math.round(Number(r.count)||0))),difficulty:levels.includes(r.difficulty)?r.difficulty:'mixed'})).filter(r=>r.topic&&r.count>0);
+  if(ai.mode==='topic')return ai.topic.trim()?[{topic:ai.topic.trim(),count:ai.count,difficulty:ai.difficulty,period:ai.period}]:[];
+  return ai.rows.map(r=>({topic:String(r.topic||'').trim(),count:Math.max(0,Math.min(20,Math.round(Number(r.count)||0))),difficulty:levels.includes(r.difficulty)?r.difficulty:'mixed',period:periodKeys.includes(r.period)?r.period:'any'})).filter(r=>r.topic&&r.count>0);
  }
  function addUsage(usage){if(!usage)return;ai.usage.input+=(usage.input_tokens||0)+(usage.cache_read_input_tokens||0)+(usage.cache_creation_input_tokens||0);ai.usage.output+=usage.output_tokens||0;ai.usage.searches+=usage.server_tool_use?.web_search_requests||0;}
  // One request with web search and a strict submit tool; resumes paused server-tool turns.
@@ -127,8 +141,10 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
  }
  function generationPrompt(items,total){
   const used=[...existingQuestions(),...ai.drafts.map(d=>d.question)].filter(Boolean).slice(-150);
-  return [`Write ${total} quiz questions in ${ai.language==='sv'?'Swedish':'English'} (questions, answers and explanations).`,
-   'Topics and amounts:',...items.map(i=>`- ${i.count} about "${i.topic}", difficulty: ${levelText[i.difficulty]}`),
+  const now=new Date(),recent=items.some(i=>recentPeriods.includes(i.period));
+  return [`Today's date is ${isoDay(now)}.`,`Write ${total} quiz questions in ${ai.language==='sv'?'Swedish':'English'} (questions, answers and explanations).`,
+   'Topics and amounts:',...items.map(i=>`- ${i.count} about "${i.topic}", difficulty: ${levelText[i.difficulty]}${i.period&&i.period!=='any'?`, only about things ${periodText(i.period,now)}`:''}`),
+   recent?'For recent periods (this year, last month, last week) the questions are about news: every such question must say when it happened (for example "In the week of 9 November 2026, …" or "In November 2026, …"), use news sources published in that period, and ask only about settled facts (results, decisions, announcements), not developments that are still going on.':'',
    items.length&&total>items.reduce((n,i)=>n+i.count,0)?`Write ${total-items.reduce((n,i)=>n+i.count,0)} extra questions spread over the same topics, as spares in case some fail the fact-check.`:'',
    used.length?`Questions already in the queue (do not repeat):\n${used.map(q=>`- ${q}`).join('\n')}`:''].filter(Boolean).join('\n');
  }
@@ -141,13 +157,15 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const used=[...existingQuestions(),...ai.drafts.map(d=>d.question)];
   const written=demo?await demo.demoWrite(items,total,ai.language,new Set(used.map(q=>String(q).toLowerCase())),controller.signal)
    :await call(client,{system:generateSystem,prompt:generationPrompt(items,total),tool:generateTool,maxSearches:8});
-  if(demo?.demoTopics&&written.general)ai.notice=`Demo: sample questions exist only for ${demo.demoTopics.join(', ')}, so this is a general mix.`;
+  if(demo&&items.some(i=>i.period&&i.period!=='any'))ai.notice='Demo: the sample questions are not sorted by period, and there is no news in the demo. With your own key, Claude picks questions from the chosen period.';
+  else if(demo?.demoTopics&&written.general)ai.notice=`Demo: sample questions exist only for ${demo.demoTopics.join(', ')}, so this is a general mix.`;
   const known=new Set(used.map(normalize));
   const drafts=[];
   for(const q of Array.isArray(written?.questions)?written.questions:[]){
    const question=String(q.question||'').trim(),answer=String(q.answer||'').trim();
    if(!question||!answer||known.has(normalize(question)))continue;known.add(normalize(question));
-   drafts.push({id:`d${Date.now().toString(36)}${drafts.length}`,topic:String(q.topic||items[0]?.topic||'').slice(0,60),difficulty:['easy','medium','hard'].includes(q.difficulty)?q.difficulty:'medium',
+   const item=items.find(i=>i.topic===q.topic)||items[0]||{};
+   drafts.push({id:`d${Date.now().toString(36)}${drafts.length}`,period:demo?'any':(item.period||'any'),topic:String(q.topic||items[0]?.topic||'').slice(0,60),difficulty:['easy','medium','hard'].includes(q.difficulty)?q.difficulty:'medium',
     question:question.slice(0,400),answer:answer.slice(0,160),accepted:(Array.isArray(q.accepted_answers)?q.accepted_answers:[]).map(String).filter(Boolean).slice(0,6),explanation:String(q.explanation||'').slice(0,300),sources:cleanSources(q.sources),...(demo?{demoVerdict:q.verdict,demoReason:q.reason}:{})});
   }
   if(!drafts.length)throw new AiError('Claude did not return any usable questions. Try again or change the topic.');
@@ -155,7 +173,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const verdicts=new Map();
   for(let start=0;start<drafts.length;start+=4){
    const batch=drafts.slice(start,start+4);
-   const result=demo?{verdicts:await demo.demoVerify(batch,controller.signal)}:await call(client,{system:verifySystem,tool:verifyTool,maxSearches:8,prompt:`Check these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
+   const result=demo?{verdicts:await demo.demoVerify(batch,controller.signal)}:await call(client,{system:verifySystem,tool:verifyTool,maxSearches:8,prompt:`Today's date is ${isoDay(new Date())}.\nCheck these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
    for(const v of Array.isArray(result?.verdicts)?result.verdicts:[])verdicts.set(String(v.id),v);
    ai.checked=Math.min(drafts.length,start+batch.length);render();
   }
@@ -205,7 +223,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const chosen=ai.drafts.filter(d=>d.selected&&d.status!=='rejected');if(!chosen.length)return 0;
   const base=defaults(),stamp=Date.now();
   const added=chosen.map((d,i)=>({id:`q${stamp}${i}`,title:d.question.slice(0,46)+(d.question.length>46?'…':''),text:d.question,image:'',points:base.points,penalty:base.penalty,mode:'default',timer:'default',textVisibility:'default',buzzerStart:'default',active:true,played:false,
-   answer:d.answer,acceptedAnswers:d.accepted,explanation:d.explanation,sources:d.sources,topic:d.topic,difficulty:d.difficulty,ai:{status:d.status,model:ai.demo?'demo':AI_MODEL,...(ai.demo?{demo:true}:{}),createdAt:new Date(stamp).toISOString()}}));
+   answer:d.answer,acceptedAnswers:d.accepted,explanation:d.explanation,sources:d.sources,topic:d.topic,difficulty:d.difficulty,...(d.period&&d.period!=='any'?{period:d.period,periodLabel:periodLabel(d.period)}:{}),ai:{status:d.status,model:ai.demo?'demo':AI_MODEL,...(ai.demo?{demo:true}:{}),createdAt:new Date(stamp).toISOString()}}));
   state.questions.push(...added);
   ai.drafts=ai.drafts.filter(d=>!chosen.includes(d));
   if(!ai.drafts.length){ai.phase='form';ai.rejected=[];if(state.modal==='ai-questions')state.modal='';}
@@ -215,11 +233,12 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   'ai-mode':v=>{if(['topic','mix'].includes(v))ai.mode=v;},
   'ai-count':v=>{const n=Number(v);if([5,10,15,20].includes(n))ai.count=n;},
   'ai-difficulty':v=>{if(levels.includes(v))ai.difficulty=v;},
+  'ai-period':v=>{if(periodKeys.includes(v))ai.period=v;},
   'ai-language':v=>{if(['sv','en'].includes(v))ai.language=v;},
   'ai-chip':v=>{ai.topic=topicChips[Number(v)]||ai.topic;},
-  'ai-row-add':()=>{if(ai.rows.length<8)ai.rows.push({topic:'',count:3,difficulty:'mixed'});},
-  'ai-row-del':v=>{ai.rows.splice(Number(v),1);if(!ai.rows.length)ai.rows.push({topic:'',count:3,difficulty:'mixed'});},
-  'ai-mix-load':v=>{const m=ai.mixes[Number(v)];if(m){ai.rows=m.rows.map(r=>({...r}));ai.mixName=m.name;ai.shuffle=m.shuffle!==false;}},
+  'ai-row-add':()=>{if(ai.rows.length<8)ai.rows.push({topic:'',count:3,difficulty:'mixed',period:'any'});},
+  'ai-row-del':v=>{ai.rows.splice(Number(v),1);if(!ai.rows.length)ai.rows.push({topic:'',count:3,difficulty:'mixed',period:'any'});},
+  'ai-mix-load':v=>{const m=ai.mixes[Number(v)];if(m){ai.rows=m.rows.map(r=>({period:'any',...r}));ai.mixName=m.name;ai.shuffle=m.shuffle!==false;}},
   'ai-mix-save':()=>{const name=ai.mixName.trim()||`Mix ${ai.mixes.length+1}`;const rows=plan();if(!rows.length){ai.error='Add at least one topic before saving the mix.';return;}ai.mixName=name;ai.mixes=[...ai.mixes.filter(m=>m.name!==name),{name,rows,shuffle:ai.shuffle}];saveMixes();},
   'ai-mix-delete':v=>{ai.mixes.splice(Number(v),1);saveMixes();},
   'ai-shuffle':()=>{ai.shuffle=!ai.shuffle;},
@@ -248,7 +267,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const field=event.target?.dataset?.aiField;if(!field)return;
   const value=event.target.type==='checkbox'?event.target.checked:event.target.value;
   if(field==='topic')ai.topic=value;else if(field==='key')ai.keyInput=value;else if(field==='mixName')ai.mixName=value;
-  else{const m=/^row:(\d+):(topic|count|difficulty)$/.exec(field);if(m&&ai.rows[m[1]]){ai.rows[m[1]][m[2]]=m[2]==='count'?Math.max(0,Math.min(20,Math.round(Number(value)||0))):value;if(event.type==='change')render();}}
+  else{const m=/^row:(\d+):(topic|count|difficulty|period)$/.exec(field);if(m&&ai.rows[m[1]]){ai.rows[m[1]][m[2]]=m[2]==='count'?Math.max(0,Math.min(20,Math.round(Number(value)||0))):value;if(event.type==='change')render();}}
  }
  document.addEventListener('input',onInput);document.addEventListener('change',onInput);
  return {handle,plan,get busy(){return ai.phase==='running';}};

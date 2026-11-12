@@ -54,12 +54,15 @@ await test('AI questions: key in this browser only, two-step check, review, queu
   await host.locator('[data-action="ai-open"]').click();await host.locator('.ai-panel #ai-topic').waitFor();
   assert.equal(await host.locator('[data-action="ai-language:sv"][aria-pressed="true"]').count(),1);
   await host.locator('#ai-topic').fill('Geography');await host.locator('[data-action="ai-count:5"]').click();
+  // #395: a period is sent with the topic.
+  await host.locator('[data-action="ai-period:1980s"]').click();await host.locator('[data-action="ai-period:1980s"][aria-pressed="true"]').waitFor();
   await host.locator('[data-action="ai-generate"]').click();
   await host.locator('.ai-panel[aria-busy="true"]').waitFor();
   await host.locator('.ai-draft').first().waitFor();
   const calls=await host.evaluate(()=>window.__aiCalls.filter(c=>c.kind==='messages').map(c=>c.params));
   assert.equal(calls[0].model,'claude-opus-5-5');assert.equal(calls[0].fallbacks,'default');assert.deepEqual(calls[0].betas,['server-side-fallback-2026-07-01']);
   assert.ok(calls[0].tools.some(t=>t.type==='web_search_20260209'));assert.match(calls[0].messages[0].content,/in Swedish/);
+  assert.match(calls[0].messages[0].content,/only about things from the 1980s \(1980–1989\)/);assert.match(calls[0].messages[0].content,/Today's date is \d{4}-\d{2}-\d{2}/);
   assert.ok(calls.length>=3,'One write call and at least two fact-check batches');
   assert.ok(calls.slice(1).every(p=>!/passes four capitals/.test(p.messages[0].content)),'The checker does not see the writer explanation');
   // Review: verified preselected, time-sensitive with year unselected, one-source and wrong ones rejected, duplicates skipped.
@@ -83,6 +86,7 @@ await test('AI questions: key in this browser only, two-step check, review, queu
   await host.locator('[data-nav="questions"]').click();await idle(host);
   await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.library-card-answer',{hasText:'Danube'}).waitFor();
   assert.equal(await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.ai-tag.ai').textContent(),'AI · verified');
+  assert.equal(await host.locator('.library-question-card',{hasText:'Vienna'}).locator('.ai-tag.period').textContent(),'80s');
   // Players see the question but never the answer; the host sees the answer in Play.
   const pc=await h.browser.newContext({viewport:{width:390,height:844}});const player=await pc.newPage();await player.goto('http://127.0.0.1:5173');
   await player.locator('#room-code').fill(code);await player.locator('#player-name').fill('Ada');await player.locator('.join-button').click();await ready(player);
@@ -106,7 +110,7 @@ await test('AI questions: a saved mix survives a reload, sends every topic, and 
   await host.locator('[data-action="ai-open"]').click();await host.locator('[data-action="ai-mode:mix"]').click();
   assert.equal(await host.locator('[data-action="ai-language:en"][aria-pressed="true"]').count(),1,'English device language is preselected');
   await host.locator('[data-ai-field="row:0:topic"]').fill('Music, 80s');await host.locator('[data-ai-field="row:0:count"]').fill('2');
-  await host.locator('[data-ai-field="row:1:topic"]').fill('Sports');await host.locator('[data-ai-field="row:1:count"]').fill('3');await host.locator('[data-ai-field="row:1:difficulty"]').selectOption('hard');
+  await host.locator('[data-ai-field="row:1:topic"]').fill('Sports');await host.locator('[data-ai-field="row:1:count"]').fill('3');await host.locator('[data-ai-field="row:1:difficulty"]').selectOption('hard');await host.locator('[data-ai-field="row:1:period"]').selectOption('week');
   await host.locator('[data-ai-field="mixName"]').fill('Friday pub quiz');await host.locator('[data-action="ai-mix-save"]').click();
   await host.locator('[data-action="ai-generate"]',{hasText:'Generate 5 questions'}).waitFor();
   await host.reload();await ready(host);
@@ -116,7 +120,7 @@ await test('AI questions: a saved mix survives a reload, sends every topic, and 
   await host.evaluate(()=>{window.__aiSlow=true;});
   await host.locator('[data-action="ai-generate"]').click();await host.locator('.ai-panel[aria-busy="true"]').waitFor();
   const prompt=await host.evaluate(()=>window.__aiCalls.filter(c=>c.kind==='messages').at(-1).params.messages[0].content);
-  assert.match(prompt,/2 about "Music, 80s"/);assert.match(prompt,/3 about "Sports", difficulty: hard/);assert.match(prompt,/in English/);
+  assert.match(prompt,/2 about "Music, 80s"/);assert.match(prompt,/3 about "Sports", difficulty: hard: for enthusiasts of the topic, only about things from the last 7 days/);assert.match(prompt,/must say when it happened/);assert.match(prompt,/in English/);
   await host.locator('[data-action="ai-cancel"]').click();
   await host.locator('.ai-panel [data-action="ai-generate"]').waitFor();
   assert.equal(await host.evaluate(()=>BuzzyView.state.questions.filter(q=>q.ai).length),0,'Nothing is added on cancel');

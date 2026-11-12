@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {applyUiBatch} from './ui-batch-304-313.mjs';
 import {applyViewerHost} from './viewer-host.mjs';
 import {applyHostFixes} from './host-fixes.mjs';
+import {applyAiHost} from './ai-host.mjs';
 const target=process.env.VITE_BUZZY_TARGET||'emulator';if(!['emulator','pilot'].includes(target))throw new Error('Invalid build target');
 const output=new URL('../../buzzy-output/',import.meta.url);
 const base=readFileSync(new URL('buzzy_midnight_studio_v7_51.html',output),'utf8');
@@ -41,6 +42,7 @@ const linkSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="c
 html=applyUiBatch(html);
 html=applyViewerHost(html);
 html=applyHostFixes(html);
+html=applyAiHost(html);
 // #353: the clock on the buzzer face finishes fading before the coin flips to TIME IS UP (flip at 1000 ms),
 // so no fading layer is left to show through the hidden back face in WebKit (iPad Brave/Safari).
 if(!html.includes('const clockDelay=(clockElapsed<1000?1000-clockElapsed:-Math.min(380,clockElapsed-1000));'))throw new Error('Clock delay missing');

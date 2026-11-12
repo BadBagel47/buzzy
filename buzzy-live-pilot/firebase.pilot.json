@@ -10,7 +10,7 @@
     {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},
     {"key":"X-Frame-Options","value":"DENY"},
     {"key":"Permissions-Policy","value":"camera=(), microphone=(), geolocation=()"},
-    {"key":"Content-Security-Policy","value":"default-src 'self'; script-src 'self' 'unsafe-inline' https://*.europe-west1.firebasedatabase.app/.lp; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src 'self' https://buzzy-197dc.firebaseapp.com https://*.europe-west1.firebasedatabase.app/.lp; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'"}
+    {"key":"Content-Security-Policy","value":"default-src 'self'; script-src 'self' 'unsafe-inline' https://*.europe-west1.firebasedatabase.app/.lp; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' https://api.anthropic.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src 'self' https://buzzy-197dc.firebaseapp.com https://*.europe-west1.firebasedatabase.app/.lp; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'"}
    ]},
    {"source":"**/*.html","headers":[{"key":"Cache-Control","value":"no-store"}]},
    {"source":"/","headers":[{"key":"Cache-Control","value":"no-store"}]},

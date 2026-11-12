@@ -270,4 +270,4 @@ html[data-network-role=host] body.buzzy-design-lab.theme-a.studio-ui .card.setti
 /* #383: the connected-screens line sits under the viewer buttons. */
 .viewer-settings .viewer-settings-count { margin:10px 0 0; }
 /* #378: no light flash before the dark theme is applied when the device prefers dark. */
-@media (prefers-color-scheme:dark) { html[data-network-role=host]:not([data-host-theme=light]) body { background:#19222c; } }
+@media (prefers-color-scheme:dark) { html[data-network-role=host]:not([data-host-theme=light]) body { background:#131a23; } }

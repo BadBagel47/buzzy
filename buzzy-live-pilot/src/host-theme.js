@@ -18,10 +18,10 @@ export function mapColor(r,g,b,kind){
   else if(l<.5){l=clamp(.93-l*.45);s=Math.min(s,.3);}
  }else if(l>=.6){
   // Light surfaces become dim slate. Whiter (more raised) surfaces stay slightly lighter.
-  l=kind==='border'?.4+(l-.75)*.3:l>=.93?.25+(l-.93)*.5:.135+(l-.75)*.34;s=Math.min(s,.28);
+  l=kind==='border'?.4+(l-.75)*.3:l>=.93?.25+(l-.93)*.5:.105+(l-.75)*.3;s=Math.min(s,.28); // #386 level A: darker page and cards
   // #384: near-white raised surfaces (buttons, chips) stay clearly lighter than cards, as in the light theme.
   if(s<.06){h=.59;s=.2;}
-  if(kind==='bg'&&l<.105)l=.105;
+  if(kind==='bg'&&l<.09)l=.09;
  }else if(kind==='bg'&&s>.45&&l>.4){s*=.78;l*=.86;} // large accent fills glare less
  return toRgb(h,s,l);
 }
@@ -84,7 +84,7 @@ function convertRules(rules){
 // Hand-tuned details on top of the derived palette.
 const extras=`
 ${DARK}{color-scheme:dark}
-${DARK} body{background:#19222c}
+${DARK} body{background:#131a23}
 ${DARK} body.theme-a.lab-host-view .btn.danger:not(.primary){background:transparent!important;color:#f2a2ad!important;border-color:#8f4a55!important}
 ${DARK} body.theme-a.lab-host-view .btn.danger:not(.primary):hover{background:rgba(242,162,173,.08)!important}
 ${DARK} body.theme-a.lab-host-view .btn.green,${DARK} body.theme-a.lab-host-view .quickplay-main.green{filter:saturate(.82) brightness(.9)}

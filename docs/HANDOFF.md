@@ -28,7 +28,7 @@ Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 
 Uppdaterat 2026-11-13. Fullständig status per ID finns i [BACKLOG.md](BACKLOG.md), och förslag på körningar under Proposed runs där.
 
-- Senaste kodpublicering: `decc6e9`, [run 43324396558](https://github.com/BadBagel47/buzzy/actions/runs/43324396558) (live), status success, startad av agenten via `release` (#385). Regler oförändrade, hash `fa60079f…`. Innehåller #399–#403 (mörka fält, dra-och-släpp, switchar, sekundära knappar, inaktivt läge) och allt före. Spel: https://buzzy.trythis.one
+- Senaste kodpublicering: `70bfdc4`, [run 43350916108](https://github.com/BadBagel47/buzzy/actions/runs/43350916108) (live), status success, startad av agenten via `release` (#385). Regler oförändrade, hash `fa60079f…`. Innehåller #406 (integritetslänk på förstasidan) och allt före. Spel: https://buzzy.trythis.one
 - 2026-11-13: #404 (provfelet) är rättat. Provet var inaktuellt sedan #335, eftersom en avstängd spelare lämnar via statusskärmen. Det är bara en provändring, så ingen ny publicering behövs.
 - 2026-11-13: underlaget för #332 och #405 (integritet, lagring, gallring) finns i [PRIVACY_332.md](PRIVACY_332.md). Det väntar på användarens beslut.
 - 2026-11-12: AI-frågor (#387–#395) och demoläget (#388) är live. Prov mot riktiga Claude väntar på användarens nyckel.

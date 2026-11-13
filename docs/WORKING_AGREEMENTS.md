@@ -1,12 +1,10 @@
 # Buzzy — arbetssätt
 
-Uppdaterat 2026-11-10. Dessa punkter sammanfattar användarens löpande instruktioner och gäller oavsett vilken AI-agent eller vilket verktyg som arbetar (se [AGENTS.md](../AGENTS.md)). Nyare uttryckliga instruktioner i samtalet har företräde.
+Uppdaterat 2026-11-13. Dessa punkter sammanfattar användarens löpande instruktioner och gäller oavsett vilken AI-agent eller vilket verktyg som arbetar (se [AGENTS.md](../AGENTS.md)). De övergripande agentreglerna (se AGENTS.md) gäller också; här står bara det som är specifikt för Buzzy. Nyare uttryckliga instruktioner i samtalet har företräde.
 
 ## Förslag och genomförande
 
-- När användaren lämnar feedback eller rapporterar fel ska det bara registreras i backloggen, utan ändringar i kod eller design. Registrerade punkter samkörs när användaren ger körbesked.
 - Samla nya önskemål med ID i [BACKLOG.md](BACKLOG.md). Förtydliga eller återöppna befintligt ID när det är samma fråga. Nytt ID = högsta ID i tabellen + 1.
-- Ändra inte appen bara för att ett önskemål registreras. Ett uttryckligt körbesked ger klartecken för angivet arbete. Fortsätt redan godkänt arbete utan upprepade tillståndsfrågor.
 - Använd befintliga designmallar och färger. Hostens sekundärtext har riktmärket minst 14 px; granska responsiva undantag och dialoger. Bevara synligt tangentbordsfokus när mobilens tryckflash tas bort.
 - Bevara utfällbara Settings-sektioners interna avstånd om användaren inte uttryckligen ändrar dem.
 - Läs källan innan rotorsak påstås. Skilj mellan observerat fel, misstänkt orsak och faktiskt reproducerat fel.
@@ -27,10 +25,6 @@ Uppdaterat 2026-11-10. Dessa punkter sammanfattar användarens löpande instrukt
 - Aktivt repo: GitHub `BadBagel47/buzzy`, gren `main`. Agenter arbetar normalt i en tillfällig klon per session; endast det som pushats till GitHub finns kvar mellan sessioner och mellan olika agenter. Bevara arbete som redan ligger i arbetskopian.
 - Commit och push ingår i arbetsflödet, även för dokumentationsuppdateringar. Användaren har godkänt att den arbetande agenten utför nödvändiga publiceringssteg där verktyg och behörighet finns.
 - Användaren ska inte behöva installera verktyg eller köra terminalkommandon. Vilka GitHub-/Actions-möjligheter som finns beror på agentens miljö. Kontrollera aktuell verktygstillgång vid start i stället för att anta den, och notera aktuellt läge i handoffen. Om Actions-dispatch saknas gör användaren Run workflow i webben. Be aldrig om privata nycklar eller inloggningskoder.
-- När ett ID (#-nummer) nämns i svaret ska det följas av en kort förklaring av vad det gäller, till exempel "#353 (buzzern på iPad)". Skriv aldrig bara numret.
-- Skriv ingen löpande kommentar om det egna arbetet medan det pågår (till exempel "Nu gör jag ändringarna" eller "Testet kommer längre nu, jag rättar testet"). Svaret i slutet ska fortfarande vara tydligt: vad som är gjort, vad användaren ska göra steg för steg med länkar, och vad som återstår.
-- Håll svaren korta och beskriv inte tekniken i detalj. Skriv vad som är gjort, vad användaren behöver göra och vad som återstår. Tekniska detaljer läggs i backloggen eller handoffen och ges i chatten bara på begäran.
-- Varje steg som användaren ska utföra anges med en klickbar direktlänk till rätt sida, till exempel workflowet, Firebase-konsolen eller den råa filen som ska kopieras. Skriv länken i själva svaret, även när en dialogruta visas.
 - Hosting publiceras (från 2026-11-12, #385) genom att agenten pushar den aktuella `main`-committen till grenen `release`: `git push origin main:release`. Workflowen [Release - start Hosting publication](https://github.com/BadBagel47/buzzy/actions/workflows/release-publish.yml) kontrollerar att `release` är exakt `main` och att repots föreslagna regler har samma hash som den senast bekräftade konsolkopian, och startar sedan [Firebase - publish reviewed Hosting](https://github.com/BadBagel47/buzzy/actions/workflows/firebase-pilot.yml) på `main` med `hosting_target=live`. Från 2026-11-12: när användaren säger "kör" (för ett ID eller en grupp) bygger agenten, provar, committar, pushar och publicerar Hosting via `release` i samma omgång, om proven är gröna. Publicering sker också när användaren säger "publicera". Agenten publicerar inte om prov fallerar eller om ändringen kräver nya databasregler; då rapporteras det i stället. Push till `main` publicerar inte. Regeländringar publiceras fortfarande manuellt i Firebase-konsolen av användaren, följt av inventering; se [WEBBSETUP.md](WEBBSETUP.md). Manuell körning av workflowen fungerar som tidigare.
 - Konsolläge kräver en aktuell kontroll av Firebase-reglerna vid varje körning enligt workflowets uttryckliga kontroll. Bekräfta inte den kontrollen på användarens vägnar utan underlag.
 - När regelhashen ska användas, klistra alltid in hela strängen i ett kodblock. Hämta/verifiera den mot `ops/rules-evidence/console-snapshot.json` och granskningen; använd inte en omskriven kopia ur minnet.
@@ -42,4 +36,3 @@ Uppdaterat 2026-11-10. Dessa punkter sammanfattar användarens löpande instrukt
 - [BACKLOG.md](BACKLOG.md): funktioner, buggar och utredningar med ID, typ, status, återfall och godkända utfall. Övre tabellen är aktuell status; äldre avsnitt är historik.
 - [HANDOFF.md](HANDOFF.md): konkret återstart, senaste publicerade källversion, återstående arbete, kända öppna buggar och verifieringsgränser.
 - Uppdatera berörda dokument när beslut eller utfall förändras, enligt tabellen i [AGENTS.md](../AGENTS.md). Handoff ska vara kort nog att läsa vid nästa start och innehålla aktuellt läge, inte en växande chattlogg.
-- Lagra inga privata nycklar, personliga inloggningsuppgifter eller fullständiga chattexporter i det offentliga repot.

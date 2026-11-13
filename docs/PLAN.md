@@ -1,6 +1,6 @@
 # Buzzy — plan och mål
 
-Uppdaterad 2026-11-10. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
+Uppdaterad 2026-11-13. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
 
 ## Produktmål och ramar
 
@@ -11,19 +11,15 @@ Uppdaterad 2026-11-10. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Senaste kodpublicering [run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351) lyckades från `c8267afe59a812ffa2ec1c7a08fb054591f92217`; användaren valde live. `buzzy.trythis.one` fungerar. Specifika host-/spelarflöden på domänen är inte separat bekräftade. Användaren uppger att återanslutningen i #293 verkar fungera.
-
-Pilotkanalen gäller en dag per publicering och använder samma Firebase-projekt som live-versionen. Den är ingen isolerad testdatabas. Live är publicerat och användaren bekräftar att domänen fungerar.
+Live på https://buzzy.trythis.one via Firebase Hosting, som publiceras via grenen `release` (#385). Senaste publicering finns i [HANDOFF.md](HANDOFF.md). Fasen är förfining av hostens gränssnitt (mörkt tema, formspråk), viewer för storskärm och AI-frågor, med löpande användarprov.
 
 ## Närmast
 
-1. #341–343 är ändrade och run42556139061 lyckades; användaren ombads välja live, men målkanalen är inte direkt avläst. Visuellt användarprov återstår. #284/#338 är publicerade till live i run42529524063; visuellt prov och belastningsprov återstår. #337: prova host och spelare på `buzzy.trythis.one`.
-   #344–346 och #345:s smala statusetikett är publicerade till live i run42687931351 från commit `c8267afe59a812ffa2ec1c7a08fb054591f92217`. Lokala kontroller passerade; invänta visuell kontroll.
-   #335/#336/#339/#340 är ändrade och verifierade lokalt efter körbesked; publicering och riktiga visuella prov återstår.
-2. #290: vibration märks inte i Brave eller Chrome på användarens Android; fortsatt felsökning återstår.
-3. #331: invänta användarens andra projekt med admininloggning via engångslänkar. Välj ingen annan inloggningslösning under väntan.
-4. #332: förbered integritets-/lagringsinformation och beslut om gallring inför publik lansering. Den preliminära diskussionen om samtycke är ingen full juridisk granskning.
-5. #347 viewer, en skrivskyddad storskärmsvy där hosten väljer innehållet. Den är genomförd i källan tillsammans med #352 (join-skärm med QR-kod på viewern) och lokalt provad. Reglerna och sajten är publicerade till live (run42865760330). Prov på riktig TV återstår. #354 och #356–#359 är publicerade i run42918125973 (utan regeländring); #353 och #355 (med Viewer on/off och knapp för Question N) är publicerade i run42923620535. Nya önskemål efter första provet: #353 (buzzer vid TIME IS UP på iPad), #354 (finslipad viewerlayout och rörelse) och #355 (viewerläge: join, spel eller leaderboard), #356 (viewerknapp i hostens huvud med på/av), #357 (renare QR-dialog för dator), #358 (ny ikon för Settings) och #359 (för korta radbrytningar i Settings). Framtida: #360 (hostens switch för svenska i hela appen, byggt för fler språk). De avvaktar körbesked. Därefter kan #348 hemlig viewer-länk, #349 lista med bortkoppling #350 video på viewern och #351 val av var frågeinnehållet visas (spelare, viewer, båda eller ingen) bli aktuella; de avvaktar enligt användaren.
+1. Integritet och gallring inför lansering: #332 och #405. Underlaget finns i [PRIVACY_332.md](PRIVACY_332.md) och väntar på beslut.
+2. Användarprov av publicerade ändringar på riktiga enheter, se HANDOFF.
+3. #290 (vibration) och #345 (tillfälligt hostfel) när det finns nytt underlag.
+4. #387 (AI-frågor) mot riktiga Claude när nyckeln finns.
+5. Parkerat: #331 (hostinloggning, väntar på engångslänkslösning), #348–#350, #351 väg 2, #360, #377 och #380.
 
 ## Inför skarp lansering
 

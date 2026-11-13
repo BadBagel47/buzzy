@@ -11,8 +11,6 @@ Den här filen gäller alla AI-agenter och verktyg som arbetar i repot, till exe
 3. [`docs/PLAN.md`](docs/PLAN.md) beskriver mål, prioriteringar, pausade spår och lanseringsplan.
 4. [`docs/BACKLOG.md`](docs/BACKLOG.md) innehåller funktioner, buggar och utredningar med ID, typ och status. Läs de ID:n som berörs.
 
-Hämta senaste `main` och kontrollera `git status` före ändringar. Endast det som pushats till GitHub finns kvar till nästa session eller agent.
-
 ## Håll dokumenten aktuella
 
 Användaren vill att handoff, mål, arbetssätt, funktioner och buggar hålls uppdaterade tillsammans, oberoende av vilken agent som arbetar. Uppdatera bara berörda filer, i samma commit som ändringen eller direkt efter.
@@ -26,16 +24,12 @@ Användaren vill att handoff, mål, arbetssätt, funktioner och buggar hålls up
 | Ny eller ändrad instruktion om hur arbetet ska gå till | `WORKING_AGREEMENTS.md` |
 | Kodstruktur, kommandon, verktygs- eller åtkomstläge | `HANDOFF.md` (Kod och kontroller / Publicering och åtkomst) |
 
-Före avslut av ett arbetspass:
-
-- Uppdatera datum i berörda dokument.
-- Handoff ska beskriva aktuellt läge kortfattat, inte växa till en kronologisk chattlogg. Flytta detaljer till backloggens ID-avsnitt.
-- Committa och pusha.
+Före avslut av ett arbetspass: uppdatera datum i berörda dokument. Detaljer hör hemma i backloggens ID-avsnitt, inte i handoffen.
 
 ## Regler
 
-- Nya önskemål samlas med ID före implementation. Registrering är inte ett körbeslut. Följ uttryckliga körbesked och redan givna godkännanden enligt arbetssättet.
-- Dokumentera skillnaden mellan källändring, lokala prov, lyckad publicering och faktiskt mobilprov. Påstå aldrig mer än det som verifierats.
+- ID-format: `#NNN` i en löpande serie (beslut 2026-11-13, avviker från agentreglernas B-/F-/D-NNN). Nytt ID = högsta ID i backloggen + 1.
+- Statusen skiljer på källändring, lokala prov, lyckad publicering och faktiskt mobilprov.
 - Skriv agentneutralt i delade dokument, till exempel "agenten" i stället för ett produktnamn, om inte en uppgift gäller ett specifikt verktyg. Notera verktygsspecifika begränsningar i handoffen med datum.
-- Lagra inga nycklar, inloggningsuppgifter eller chattexporter i repot, som är offentligt.
+- Lagra inga chattexporter i repot.
 - Äldre planfiler utanför repot och arkiverade dokument är historiskt underlag. Senare användarinstruktioner har företräde. Bevara frysta prototypfiler och genomförda ändringar.

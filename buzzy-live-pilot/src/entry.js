@@ -44,3 +44,9 @@ async function enter(role){
 form.addEventListener('submit',e=>{e.preventDefault();enter('player');});host.addEventListener('click',()=>enter('host'));
 
 window.addEventListener('online',()=>{if(pending&&!busy){client?.reconnect();resume();}});
+
+// #406: privacy information in the start page's dialog.
+const privacy=document.getElementById('privacy-dialog');
+document.getElementById('privacy-open')?.addEventListener('click',()=>privacy.showModal());
+document.getElementById('privacy-close')?.addEventListener('click',()=>privacy.close());
+privacy?.addEventListener('click',e=>{if(e.target!==privacy)return;const r=privacy.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)privacy.close();});

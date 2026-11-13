@@ -138,6 +138,20 @@ landing=landing.replace('.join-button:active{transform:translateY(1px);filter:br
 landing=landing.replace('</head>','<style>.field-hint,.field-error,.noscript{font-size:14px}.landing{position:relative}.landing .brand{font-size:46px}body{padding-bottom:calc(max(24px,env(safe-area-inset-bottom)) + 16px)}@media(max-width:350px){.landing .brand{font-size:42px}}#entry-status{position:absolute;top:100%;left:0;width:100%;margin:8px 0 0}.join-button{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:0}.join-button span{grid-column:2;transform:translate(1px,-1px)}.join-button svg{grid-column:3;justify-self:start;margin-left:12px}</style></head>');
 landing=landing.replace('</main>','<p id="entry-status" role="status" class="intro" hidden></p></main>').replace('</body>','<script type="module" src="/src/entry.js"></script></body>');
 landing=landing.replace('Design preview. Download and open this file in your browser to try the controls.','Enable JavaScript to create or join a room.');
+// #406: discreet privacy link at the bottom of the start page. Uses the landing page's own dialog template.
+landing=landing.replace('</head>','<style>body{position:relative}.privacy-link{position:absolute;left:50%;bottom:max(6px,env(safe-area-inset-bottom));transform:translateX(-50%);min-height:32px;padding:6px 10px;border:0;border-radius:7px;background:transparent;color:#8ea6c8;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(142,166,200,.45)}.privacy-link:hover{color:#b6ceff}#privacy-dialog{max-width:420px}#privacy-dialog p+p{margin-top:12px}#privacy-dialog b{color:var(--text);font-weight:700}#privacy-title:focus{outline:none}</style></head>');
+landing=landing.replace('<script type="module" src="/src/entry.js"></script></body>',`<button class="privacy-link" id="privacy-open" type="button">Privacy</button>
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+    <h2 id="privacy-title" tabindex="-1" autofocus>Privacy</h2>
+    <p>Buzzy lets a host run a quiz while players buzz in from their own devices. No account or email is needed, and Buzzy uses no cookies, ads or analytics.</p>
+    <p><b>What is stored.</b> The name you type, an anonymous ID for your device, your buzzes and your score. Everything belongs to one game room. The host's questions and answers are visible only to the host. A nickname is enough.</p>
+    <p><b>How long.</b> A room and everything in it is deleted when the host ends the game. Rooms that are left open are not yet deleted automatically.</p>
+    <p><b>On your device.</b> Buzzy keeps your current room, and for hosts a few settings, in your browser so the game still works after a reload.</p>
+    <p><b>Who processes data.</b> Buzzy runs on Google Firebase, with the database in the EU. Hosts who use AI questions send topics directly to Anthropic with their own key; no player data is sent. Images in questions load from the address the host chose.</p>
+    <p><b>Contact.</b> A contact form is coming. You can also contact the Swedish Authority for Privacy Protection (IMY).</p>
+    <button class="dialog-close" id="privacy-close" type="button">Close</button>
+  </dialog>
+<script type="module" src="/src/entry.js"></script></body>`);
 writeFileSync('index.html',landing);
 // #347/#352: standalone read-only viewer for a TV or projector. It shares the dark player colours
 // but none of the player page's controls, and it reads its room code from ?room=.

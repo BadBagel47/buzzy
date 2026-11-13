@@ -1,6 +1,43 @@
 # Buzzy — läs först vid fortsatt arbete
 
-Uppdaterad 2026-11-10. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
+Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [planen](PLAN.md) och relevanta ID:n i [backloggen](BACKLOG.md). Senare användarinstruktioner har företräde. Äldre dokument som säger “senaste” kan beskriva tidigare faser.
+
+## Agentregler och inventering
+
+- Agentregler: v1.5 (2026-11-13), https://raw.githubusercontent.com/BadBagel47/agent-rules/main/AGENTS.md . Repot följde inte agentreglerna före 2026-11-13.
+- Inventory: 2026-11-13
+- Projektspråk: engelska i produkttexten (host, spelare, viewer). Dokument på svenska, kod och commits på engelska.
+- Publiceringsmetod: Firebase Hosting via push till `release` (se Publicering och åtkomst). Push till `main` publicerar inte.
+- Grenar: `main` och `release` (spegel av `main` för publicering, avsiktligt kvar). Tagg `fore-viewer` är återställningspunkt. Inga öppna PR:er eller Issues.
+- Känslig information (kontrollerat 2026-11-13, alla grenar och hela historiken): Firebase-webbnyckeln finns i koden och historiken och är offentlig av design; databasreglerna skyddar datan. `sk-ant-api03-localtestkey…` i proven är en påhittad testnyckel. Frågor och svar lagras bara hos hosten, inte i databasen. Demofrågornas svar (#388) finns i källkoden, men de är bara exempel. `.gitignore` täcker `.env`.
+- Verktygsläge 2026-11-13, Claude-molnsession: push till `main` och `release` fungerar, `gh` fungerar via REST (GraphQL är spärrat), taggar kan inte pushas.
+- Engångsåtgärder: klara: publicering via `release` (#385) och `.claude/settings.json` (lagt in av användaren). Inga väntande.
+
+### Beslut
+
+Beslut som gäller arbetssättet finns i [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md), och mål och pausade spår finns i [PLAN.md](PLAN.md). Projektets ID-system (`#NNN`) och dokumentstruktur behålls tills anpassningsplanen nedan är avgjord.
+
+### Pending adaptation
+
+Anpassningsplan till agentreglerna v1.5 (2026-11-13), väntar på användarens beslut:
+
+- **1 – Regelfiler**
+  - 1.1 ⚠️ AGENTS.md: ta bort regler som dubblerar agentreglerna (läsa vid start, synka `main`, inga nycklar, agentneutral text). Projektreglerna behålls: läsordningen, tabellen för dokumentuppdatering och frysta prototypfiler.
+  - 1.2 ⚠️ WORKING_AGREEMENTS.md: ta bort punkter som nu finns i agentreglerna (förklara ID, ingen löpande kommentar, korta svar, länkar för manuella steg). Projektspecifika punkter behålls (design, publicering, regelhash).
+- **2 – Backlogg**
+  - 2.1 Lägg till kolumnen Prioritet (Hög, Medel, Låg) och föreslå värden för öppna punkter.
+  - 2.2 ⚠️ Flytta publicerade punkter utan kända fel till en klar-sektion. Raderna behålls oförändrade, inklusive "användarprov återstår". Öppna buggar som #290, #284 och #345 ligger kvar.
+  - 2.3 Ge pausade punkter statusen Parkerad: #331, #348, #349, #350, #351 väg 2, #360, #377 och #380.
+- **3 – Projektregler som krockar med agentreglerna**
+  - 3.1 ID-format. Projektregel: `#NNN`. Agentregel: B-/F-/D-NNN, eftersom GitHub länkar `#123` till issues. Rekommendation: behåll `#NNN`. Det gäller över 120 punkter som används i commits och dokument, och repot har inga PR:er eller Issues som kan krocka.
+- **4 – Handoff**
+  - 4.1 ⚠️ Korta "Nästa steg" i HANDOFF.md, som har vuxit till en logg, till de cirka fem senaste posterna. Flytta detaljer till backloggens ID-avsnitt och uppdatera den inaktuella fasen i PLAN.md.
+
+⚠️ = punkten tar bort eller skriver över text. Allt finns kvar i git-historiken.
+
+### Dokumentkarta
+
+[PLAN.md](PLAN.md) (mål), [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md) (arbetssätt), [BACKLOG.md](BACKLOG.md) (funktioner och buggar, med Proposed runs), [WEBBSETUP.md](WEBBSETUP.md) (Firebase, domän och regler), ID-underlag: [CONFETTI_283_284.md](CONFETTI_283_284.md), [INVESTIGATION_290.md](INVESTIGATION_290.md), [PAKET_289.md](PAKET_289.md), [PILOT_RUN_289.md](PILOT_RUN_289.md), [PLAYER_EXIT_295_297.md](PLAYER_EXIT_295_297.md), [RECONNECT_293.md](RECONNECT_293.md), [RULES_REVIEW_289.md](RULES_REVIEW_289.md), [UI_BATCH_292_303.md](UI_BATCH_292_303.md), [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md), historik i `docs/archive/`.
 
 ## Aktuellt läge
 

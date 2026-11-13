@@ -1,5 +1,7 @@
 # Buzzy: instruktioner för AI-agenter
 
+Följ de övergripande agentreglerna: https://raw.githubusercontent.com/BadBagel47/agent-rules/main/AGENTS.md . Handoff: [`docs/HANDOFF.md`](docs/HANDOFF.md). Backlogg: [`docs/BACKLOG.md`](docs/BACKLOG.md). Nedan följer projektreglerna för Buzzy.
+
 Den här filen gäller alla AI-agenter och verktyg som arbetar i repot, till exempel Claude, Codex, Copilot, Cursor och Gemini. `CLAUDE.md`, `GEMINI.md` och `.github/copilot-instructions.md` hänvisar hit. Ändra regler här, inte i hänvisningsfilerna.
 
 ## Läs vid start

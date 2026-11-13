@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzzy ljudförslag</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;650;800&display=swap">
+<style>
+:root{
+ /* Buzzy's own night-blue world: one theme, cards on a deep page, accent blue, green for "recommended". */
+ --page:#081327;--surface:#152540;--raised:#1c3051;--line:#304665;--text:#f5f9ff;--muted:#b4c7e3;--accent:#80a8ff;--good:#3ccf9c;--now:#e8c36b;
+ --display:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--body:system-ui,-apple-system,"Segoe UI",sans-serif;
+ color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--page)}
+body{margin:0;background:radial-gradient(ellipse at 50% -10%,rgba(99,134,255,.22),transparent 55%),var(--page);color:var(--text);font:16px/1.5 var(--body);padding:28px 16px 48px}
+main{max-width:860px;margin:0 auto;display:grid;gap:22px}
+header{display:grid;gap:8px}
+h1{font:800 34px/1.1 var(--display);letter-spacing:-1px;margin:0;text-wrap:balance}
+h1 span{color:var(--accent)}
+header p{margin:0;color:var(--muted);max-width:62ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:0}
+section{background:linear-gradient(160deg,var(--raised),var(--surface));border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:12px}
+section h2{font:650 20px/1.25 var(--display);margin:0;text-wrap:balance}
+section>p{margin:0;color:var(--muted);font-size:15px;max-width:65ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+button.snd{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:12px 14px;border-radius:13px;border:1px solid var(--line);background:#0f1d33;transition:transform .12s,border-color .15s,background .15s}
+button.snd:hover{border-color:#4d6a93;background:#132541}
+button.snd:active{transform:scale(.98)}
+button.snd:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.snd .play{grid-row:span 2;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#243c60;color:var(--text)}
+button.snd.playing .play{background:var(--accent);color:#081327}
+button.snd b{font:650 16px/1.25 var(--display)}
+button.snd small{color:var(--muted);font-size:14px;line-height:1.35}
+button.snd.rec{border-color:rgba(60,207,156,.65)}
+button.snd.rec b::after{content:"Mitt förslag";margin-left:8px;padding:1px 7px;border-radius:999px;background:rgba(60,207,156,.16);color:var(--good);font:650 12px/1.6 var(--body);vertical-align:2px}
+button.snd.now{border-style:dashed;border-color:rgba(232,195,107,.6)}
+button.snd.now b::after{content:"I dag";margin-left:8px;padding:1px 7px;border-radius:999px;background:rgba(232,195,107,.14);color:var(--now);font:650 12px/1.6 var(--body);vertical-align:2px}
+.where{font-size:14px;color:var(--accent)}
+footer{color:var(--muted);font-size:14px;max-width:65ch}
+@media (prefers-reduced-motion:reduce){button.snd{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <h1>Ljudförslag för <span>Buzzy</span></h1>
+ <p>Tryck på ett kort för att lyssna. Alla ljud skapas direkt i webbläsaren, precis som i spelet, så inga ljudfiler behövs. Korten med "I dag" är ljuden som finns nu.</p>
+ <div class="legend"><span><i style="background:var(--good)"></i>Mitt förslag</span><span><i style="background:var(--now)"></i>Ljudet i dag</span><span>Telefonen behöver ljudet på (inte tyst läge på iPhone).</span></div>
+</header>
+
+<section>
+ <h2>Buzz: när spelaren trycker</h2>
+ <p>Hörs i spelarens telefon. Ska kännas snabbt och responsivt, och tåla att höras många gånger.</p>
+ <p class="where">Telefonen</p>
+ <div class="grid">
+  <button class="snd now" data-s="buzzNow"><span class="play">▶</span><b>Pip</b><small>Kort, mjukt pip</small></button>
+  <button class="snd rec" data-s="buzzPop"><span class="play">▶</span><b>Pop</b><small>Snärtig pop med litet klick</small></button>
+  <button class="snd" data-s="buzzPling"><span class="play">▶</span><b>Pling</b><small>Ljus klocka</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Första buzzen: på storskärmen</h2>
+ <p>Hörs på viewern när någon hinner först. Får gärna vara tydligt och lite teatraliskt, som i ett tv-quiz.</p>
+ <p class="where">Viewern (#407)</p>
+ <div class="grid">
+  <button class="snd rec" data-s="buzzStudio"><span class="play">▶</span><b>Studiosummer</b><small>Klassisk quizsummer</small></button>
+  <button class="snd" data-s="buzzBell"><span class="play">▶</span><b>Bordsklocka</b><small>Som en receptionsklocka</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Rätt svar</h2>
+ <p>Glad och kort, så att spelet kan fortsätta direkt.</p>
+ <p class="where">Telefonen och viewern</p>
+ <div class="grid">
+  <button class="snd now" data-s="rightNow"><span class="play">▶</span><b>Arpeggio</b><small>Stigande slinga</small></button>
+  <button class="snd rec" data-s="rightDing"><span class="play">▶</span><b>Ding-ding</b><small>Två klara klockslag</small></button>
+  <button class="snd" data-s="rightFanfare"><span class="play">▶</span><b>Mini-fanfar</b><small>Snabb tretonsfanfar</small></button>
+  <button class="snd" data-s="rightSparkle"><span class="play">▶</span><b>Glitter</b><small>Ackord med gnistor</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Fel svar</h2>
+ <p>Tydligt men inte elakt, eftersom det ofta hörs inför alla.</p>
+ <p class="where">Telefonen och viewern</p>
+ <div class="grid">
+  <button class="snd now" data-s="wrongNow"><span class="play">▶</span><b>Brummande</b><small>Surt, fallande</small></button>
+  <button class="snd rec" data-s="wrongEhEh"><span class="play">▶</span><b>Eh-eh</b><small>Två korta summertoner</small></button>
+  <button class="snd" data-s="wrongTrombone"><span class="play">▶</span><b>Trombon</b><small>Komiskt fallande</small></button>
+  <button class="snd" data-s="wrongSoft"><span class="play">▶</span><b>Mjuk</b><small>Snäll, för barn</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Nedräkning och tiden ute</h2>
+ <p>Tickandet spelas de sista fem sekunderna, en gång per sekund (här tätare för att spara tid). Tiden ute avslutar.</p>
+ <p class="where">Viewern, eventuellt hosten</p>
+ <div class="grid">
+  <button class="snd rec" data-s="tickWood"><span class="play">▶</span><b>Träkloss</b><small>Torrt tick</small></button>
+  <button class="snd" data-s="tickTock"><span class="play">▶</span><b>Tick-tack</b><small>Klocka i två toner</small></button>
+  <button class="snd rec" data-s="timeHorn"><span class="play">▶</span><b>Signalhorn</b><small>Kort, rundat horn</small></button>
+  <button class="snd" data-s="timeGong"><span class="play">▶</span><b>Gong</b><small>Djup, ringande</small></button>
+  <button class="snd" data-s="timeBeeps"><span class="play">▶</span><b>Tre pip och slut</b><small>Som en startklocka</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Vinnare och firande</h2>
+ <p>Spelas med konfettin i slutet.</p>
+ <p class="where">Viewern och telefonen</p>
+ <div class="grid">
+  <button class="snd rec" data-s="winFanfare"><span class="play">▶</span><b>Fanfar</b><small>Mässingsliknande segerfanfar</small></button>
+  <button class="snd" data-s="winCheer"><span class="play">▶</span><b>Glitterregn</b><small>Stigande klockor och sus</small></button>
+ </div>
+</section>
+
+<section>
+ <h2>Små ljud på storskärmen</h2>
+ <p>Diskreta ljud som ger liv åt väntan.</p>
+ <p class="where">Viewern</p>
+ <div class="grid">
+  <button class="snd rec" data-s="joinBubble"><span class="play">▶</span><b>Ny spelare</b><small>Liten bubbla</small></button>
+  <button class="snd" data-s="joinPluck"><span class="play">▶</span><b>Ny spelare, knäpp</b><small>Kort knäppning</small></button>
+  <button class="snd rec" data-s="questionWhoosh"><span class="play">▶</span><b>Fråga visas</b><small>Sus och ton</small></button>
+  <button class="snd" data-s="questionTwo"><span class="play">▶</span><b>Fråga visas, två toner</b><small>Mjuk tvåtonssignal</small></button>
+ </div>
+</section>
+
+<footer>Säg vilka du vill ha, till exempel "Pop, Ding-ding, Eh-eh". Förslagen hör ihop med #407 (ljud på viewern) och kan också ersätta telefonens ljud.</footer>
+</main>
+
+<script>
+let ctx,master;
+function audio(){
+ if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();const comp=ctx.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=4;master=ctx.createGain();master.gain.value=.9;master.connect(comp).connect(ctx.destination);}
+ if(ctx.state==='suspended')ctx.resume();
+ return ctx;
+}
+// One oscillator voice: glide, attack, exponential decay, optional filter and vibrato.
+function tone({f,f2,t=0,d=.2,type='sine',vol=.2,a=.008,lp,q=.7,vib=0,hold=0}){
+ const c=ctx,s=c.currentTime+.02+t,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,s);
+ if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);
+ if(vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=5.5;lg.gain.value=vib;l.connect(lg).connect(o.frequency);l.start(s);l.stop(s+d+.05);}
+ g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+a);
+ if(hold)g.gain.setValueAtTime(vol,s+a+hold);
+ g.gain.exponentialRampToValueAtTime(.0001,s+d);
+ let node=o;if(lp){const fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=lp;fl.Q.value=q;node=o.connect(fl);}
+ node.connect(g).connect(master);o.start(s);o.stop(s+d+.03);
+}
+// Bell: inharmonic partials with shorter decay for higher partials.
+function bell(f,t=0,d=.9,vol=.16){[[1,1,1],[2.76,.45,.55],[5.4,.22,.35],[8.93,.1,.2]].forEach(([m,v,k])=>tone({f:f*m,t,d:d*k,vol:vol*v,a:.003}));}
+function noise({t=0,d=.2,vol=.2,type='bandpass',f=1500,f2,q=1}){
+ const c=ctx,s=c.currentTime+.02+t,len=Math.ceil(c.sampleRate*(d+.05)),buf=c.createBuffer(1,len,c.sampleRate),ch=buf.getChannelData(0);
+ for(let i=0;i<len;i++)ch[i]=Math.random()*2-1;
+ const src=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();src.buffer=buf;fl.type=type;fl.frequency.setValueAtTime(f,s);if(f2)fl.frequency.exponentialRampToValueAtTime(f2,s+d);fl.Q.value=q;
+ g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+Math.min(.01,d/3));g.gain.exponentialRampToValueAtTime(.0001,s+d);
+ src.connect(fl).connect(g).connect(master);src.start(s);src.stop(s+d+.03);
+}
+// The current in-game sounds, copied note for note (louder here only through the shared output).
+function legacy(notes){notes.forEach(([f,t,d,type,vol,f2])=>tone({f,f2,t,d,type,vol:vol*2.4,a:.012}));}
+const C5=523.25,E5=659.25,G5=783.99,C6=1046.5,E6=1318.5,A5=880;
+const S={
+ buzzNow:()=>legacy([[670,0,.12,'sine',.07,610]]),
+ buzzPop:()=>{tone({f:880,f2:240,d:.09,vol:.32,a:.002});noise({d:.025,vol:.12,f:3500,q:.8});},
+ buzzPling:()=>{noise({d:.02,vol:.08,type:'highpass',f:4000});bell(E6,0,.45,.14);},
+ buzzStudio:()=>{tone({f:196,d:.42,type:'square',vol:.14,lp:1800,hold:.3,a:.005});tone({f:199.5,d:.42,type:'square',vol:.12,lp:1800,hold:.3,a:.005});tone({f:98,d:.42,type:'sawtooth',vol:.08,lp:900,hold:.3});},
+ buzzBell:()=>{noise({d:.015,vol:.12,type:'highpass',f:5000});bell(2093,0,1.3,.13);},
+ rightNow:()=>legacy([[C5,0,.15,'sine',.06],[E5,.115,.18,'sine',.06],[G5,.225,.22,'sine',.07],[C6,.33,.3,'triangle',.07],[G5,.33,.29,'sine',.025]]),
+ rightDing:()=>{bell(E6,0,.7,.15);bell(1760,.14,1,.15);},
+ rightFanfare:()=>{[[C5,0],[E5,.08],[G5,.16]].forEach(([f,t])=>tone({f,t,d:.13,type:'triangle',vol:.2}));[C6,G5,E5].forEach(f=>tone({f,t:.25,d:.55,type:'sawtooth',vol:.07,lp:2600,hold:.15,vib:3}));tone({f:C6,t:.25,d:.55,type:'triangle',vol:.16,hold:.15});},
+ rightSparkle:()=>{[C5,E5,G5].forEach(f=>tone({f,d:.7,vol:.09,a:.03}));[C6,1318.5,1568,2093,2637].forEach((f,i)=>bell(f,.05+i*.055,.35,.06));},
+ wrongNow:()=>legacy([[242,0,.24,'sawtooth',.055,145],[255,.035,.21,'square',.027,135],[118,.22,.23,'sawtooth',.062,80]]),
+ wrongEhEh:()=>{[0,.22].forEach(t=>{tone({f:150,t,d:.17,type:'square',vol:.14,lp:900,hold:.1,a:.004});tone({f:153,t,d:.17,type:'sawtooth',vol:.08,lp:900,hold:.1,a:.004});});},
+ wrongTrombone:()=>{[[196,0,.28],[185,.3,.28],[174.6,.6,.28],[164.8,.9,.85]].forEach(([f,t,d],i)=>tone({f,t,d,type:'sawtooth',vol:.13,lp:1100,q:2,a:.03,hold:d*.5,vib:i===3?6:0}));},
+ wrongSoft:()=>{tone({f:392,d:.25,type:'triangle',vol:.16,a:.01});tone({f:311.1,t:.18,d:.45,type:'triangle',vol:.16,a:.01});},
+ tickWood:()=>{for(let i=0;i<5;i++){noise({t:i*.45,d:.035,vol:.22,f:1900,q:6});tone({f:1500,t:i*.45,d:.035,vol:.08,a:.001});}},
+ tickTock:()=>{for(let i=0;i<5;i++)tone({f:i%2?800:1050,t:i*.45,d:.06,vol:.16,a:.001});},
+ timeHorn:()=>{[220,277.2,329.6].forEach(f=>tone({f,d:.75,type:'sawtooth',vol:.08,lp:1300,a:.04,hold:.35}));tone({f:110,d:.75,type:'triangle',vol:.12,a:.04,hold:.35});},
+ timeGong:()=>{[[1,1],[1.48,.5],[2.02,.35],[2.6,.25],[3.4,.15]].forEach(([m,v])=>tone({f:98*m,d:2.6/m**.4,vol:.18*v,a:.004}));noise({d:.08,vol:.08,type:'lowpass',f:800});},
+ timeBeeps:()=>{[0,.4,.8].forEach(t=>tone({f:A5,t,d:.12,vol:.16,a:.003,hold:.06}));tone({f:1760,t:1.2,d:.55,vol:.16,a:.003,hold:.35});},
+ winFanfare:()=>{const n=[[392,0,.13],[C5,.15,.13],[E5,.3,.13],[G5,.45,.9]];n.forEach(([f,t,d])=>{tone({f,t,d,type:'sawtooth',vol:.1,lp:2400,a:.015,hold:d*.6,vib:d>.5?4:0});tone({f:f/2,t,d,type:'triangle',vol:.1,a:.015,hold:d*.6});});[C5,E5].forEach(f=>tone({f,t:.45,d:.9,type:'sawtooth',vol:.06,lp:2000,a:.03,hold:.5}));},
+ winCheer:()=>{[C5,E5,G5,C6,E6,1568,2093,2637,3136].forEach((f,i)=>bell(f,i*.06,.5,.06));noise({d:1.3,vol:.07,f:5000,f2:2500,q:.6,type:'bandpass'});},
+ joinBubble:()=>tone({f:380,f2:950,d:.12,vol:.18,a:.004}),
+ joinPluck:()=>tone({f:C6,d:.18,type:'triangle',vol:.18,a:.002}),
+ questionWhoosh:()=>{noise({d:.38,vol:.12,f:350,f2:3200,q:1.2});bell(C6,.3,.6,.1);},
+ questionTwo:()=>{tone({f:E5,d:.3,type:'triangle',vol:.15,a:.01});tone({f:987.8,t:.16,d:.45,type:'triangle',vol:.15,a:.01});}
+};
+document.querySelectorAll('button.snd').forEach(b=>b.addEventListener('click',()=>{
+ try{audio();S[b.dataset.s]();b.classList.add('playing');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('playing'),700);}catch(e){}
+}));
+</script>
+</body>
+</html>

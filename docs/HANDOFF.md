@@ -4,7 +4,7 @@ Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 
 ## Agentregler och inventering
 
-- Agentregler: v1.5 (2026-11-13), https://raw.githubusercontent.com/BadBagel47/agent-rules/main/AGENTS.md . Repot följde inte agentreglerna före 2026-11-13.
+- Agentregler: v1.6 (2026-11-13), https://raw.githubusercontent.com/BadBagel47/agent-rules/main/AGENTS.md . Anpassat till v1.5 och v1.6 2026-11-13; repot följde inte agentreglerna dessförinnan.
 - Inventory: 2026-11-13
 - Projektspråk: engelska i produkttexten (host, spelare, viewer). Dokument på svenska, kod och commits på engelska.
 - Publiceringsmetod: Firebase Hosting via push till `release` (se Publicering och åtkomst). Push till `main` publicerar inte.

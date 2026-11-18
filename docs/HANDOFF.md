@@ -18,6 +18,7 @@ Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - 2026-11-13: ID-formatet `#NNN` behålls (anpassningsplanens punkt 3.1). Det avviker från agentreglernas B-/F-/D-NNN. Regeltexten finns i [AGENTS.md](../AGENTS.md).
 - 2026-11-13: anpassningen till agentreglerna v1.5 är genomförd (punkterna 1–4). Ingen anpassning väntar.
 - 2026-11-13 (#406, integritetstexten): ansvarig anges som "Buzzy" utan namn, ett kontaktformulär läggs till senare, och texten beskriver läget i dag. Agenten har påpekat att det troligen inte räcker för GDPR:s krav på identitet och kontaktuppgift.
+- 2026-11-18 (#408, flytten till network-kit): vid flytten får rummen fler spelarplatser och färre storskärmar än i dag (12 och 4), och rumskoderna blir 6 tecken. Exakta antal bestäms vid flytten.
 - Övriga beslut om arbetssättet finns i [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md), och mål och pausade spår i [PLAN.md](PLAN.md). Kör betyder bygga, prova, pusha och publicera via `release`.
 
 ### Dokumentkarta

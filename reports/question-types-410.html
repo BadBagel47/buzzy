@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzzy flerval och siffra</title>
+<style>
+:root{
+ /* Buzzy's three worlds side by side: dark player phone, light host card, dark big screen. Page itself neutral grey-blue. */
+ --page:#e8ecf6;--panel:#ffffff;--ink:#172c46;--muted:#536d8a;--line:#ccd5e5;--blue:#315de8;--green:#15916b;--red:#c94560;
+ --p-bg:#081327;--p-card:#152540;--p-line:#304665;--p-text:#f5f9ff;--p-muted:#b4c7e3;--accent:#80a8ff;
+ --oA:#4274e6;--oB:#15916b;--oC:#d68a1e;--oD:#c94560;--oE:#2a9fb0;
+ --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.5 var(--font);padding:28px 16px 56px}
+main{max-width:1240px;margin:0 auto;display:grid;gap:28px}
+header{display:grid;gap:8px;max-width:72ch}
+h1{margin:0;font-size:30px;line-height:1.15;letter-spacing:-.6px;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+h2{margin:0;font-size:22px;letter-spacing:-.3px;text-wrap:balance}
+.type{display:grid;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+.type>p{margin:0;color:var(--muted);max-width:75ch}
+.stage{display:grid;gap:10px}
+.stage h3{margin:0;font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.row{display:grid;grid-template-columns:280px minmax(260px,330px) minmax(380px,1fr);gap:18px;align-items:start}
+@media(max-width:1060px){.row{grid-template-columns:1fr 1fr}.screen-col{grid-column:1/-1}}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+.col{display:grid;gap:8px}
+.cap{font-size:13px;font-weight:700;color:var(--ink)}
+.note{font-size:13.5px;color:var(--muted);line-height:1.45}
+/* Player phone */
+.phone{width:100%;max-width:280px;border-radius:30px;padding:16px 14px 18px;background:radial-gradient(ellipse at 50% -10%,rgba(99,134,255,.25),transparent 60%),linear-gradient(175deg,#081327,#101d33 70%,#0b192d);color:var(--p-text);border:6px solid #1d2636;display:grid;gap:10px;min-height:520px;align-content:start}
+.p-top{display:flex;justify-content:space-between;font-size:12px;color:var(--p-muted)}
+.p-q{background:var(--p-card);border:1px solid var(--p-line);border-radius:14px;padding:11px 12px;font-size:14.5px;font-weight:650;line-height:1.35}
+.timer{height:6px;border-radius:9px;background:#1c2d47;overflow:hidden}.timer i{display:block;height:100%;width:58%;background:#70dce5}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:10px 11px;border-radius:13px;background:#13233d;border:1.5px solid var(--p-line);font-weight:650;font-size:15px;min-height:48px}
+.opt b{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#fff;font-size:14px}
+.opt.sel{border-color:var(--accent);background:#1b3158;box-shadow:0 0 0 3px rgba(128,168,255,.25)}
+.opt.sel::after{content:"Your answer";font-size:11px;font-weight:700;color:var(--accent)}
+.opt.right{border-color:#2bcea0;background:rgba(43,206,160,.14)}
+.opt.right::after{content:"✓ Correct";font-size:11px;font-weight:800;color:#7dffd9}
+.opt.wrongpick{border-color:#ff9db0;background:rgba(201,69,96,.14)}
+.opt.wrongpick::after{content:"Your answer";font-size:11px;font-weight:700;color:#ffc8ce}
+.opt.dim{opacity:.45}
+.p-foot{font-size:12.5px;color:var(--p-muted);text-align:center}
+.result{border-radius:14px;padding:12px;text-align:center;font-weight:800;font-size:17px}
+.result.ok{background:rgba(43,206,160,.16);color:#7dffd9;border:1px solid rgba(43,206,160,.5)}
+.result.bad{background:rgba(201,69,96,.16);color:#ffc8ce;border:1px solid rgba(255,157,176,.5)}
+.numfield{display:flex;align-items:baseline;justify-content:center;gap:6px;background:#0b192d;border:1.5px solid var(--accent);border-radius:14px;padding:12px;font-size:32px;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.numfield small{font-size:13px;color:var(--p-muted);font-weight:600}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.keys span{display:grid;place-items:center;height:44px;border-radius:12px;background:#1a2c48;border:1px solid var(--p-line);font-size:19px;font-weight:700}
+.keys .send{background:linear-gradient(180deg,#2fc79a,#15916b);border-color:#23b386;font-size:14px}
+.sent{display:flex;justify-content:space-between;align-items:center;background:#13233d;border:1px solid var(--p-line);border-radius:13px;padding:10px 12px;font-size:14px}
+.sent b{font-size:20px;font-variant-numeric:tabular-nums}
+.sent em{font-style:normal;color:var(--accent);font-size:12.5px;font-weight:700}
+/* Host card */
+.host{background:#f4f6fb;border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px;color:#172c46}
+.h-card{background:#fff;border:1px solid #ccd5e5;border-radius:14px;padding:12px;display:grid;gap:9px}
+.h-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#536d8a;font-weight:700}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:#eaf0ff;color:#23446d;font-size:11.5px;font-weight:800}
+.h-q{font-weight:750;font-size:15px;line-height:1.35}
+.h-opt{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;font-size:14px;padding:6px 8px;border-radius:10px;background:#f4f6fb}
+.h-opt b{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;color:#fff;font-size:12px}
+.h-opt.corr{background:#e6f6ef;outline:1.5px solid #15916b}
+.h-opt .n{font-weight:800;font-variant-numeric:tabular-nums;color:#23446d}
+.h-opt .key{font-size:11px;font-weight:800;color:#128654;margin-left:4px}
+.h-prog{font-size:13px;color:#536d8a;display:flex;justify-content:space-between}
+.bar{height:7px;border-radius:9px;background:#dce5f0;overflow:hidden}.bar i{display:block;height:100%;background:#315de8}
+.h-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{display:grid;place-items:center;min-height:40px;border-radius:11px;font-weight:800;font-size:13.5px;border:1px solid #a6bdd7;background:#eff4fa;color:#23446d}
+.btn.primary{background:#315de8;border-color:#315de8;color:#fff}
+.h-list{display:grid;gap:5px;font-size:13.5px}
+.h-list div{display:flex;justify-content:space-between;padding:5px 8px;border-radius:9px;background:#f4f6fb;font-variant-numeric:tabular-nums}
+.h-list .ok{background:#e6f6ef;color:#0e6b4c;font-weight:700}
+.h-list .wait{color:#8697ae}
+/* Big screen */
+.screen{aspect-ratio:16/9;width:100%;border-radius:16px;border:6px solid #1d2636;background:radial-gradient(ellipse at 50% -20%,rgba(99,134,255,.22),transparent 60%),linear-gradient(175deg,#0a1630,#101d33);color:#f5f9ff;padding:3.2% 3.6%;display:grid;grid-template-rows:auto 1fr auto;gap:3%;container-type:inline-size}
+.s-q{font-size:3.4cqw;font-weight:800;line-height:1.2;letter-spacing:-.04cqw;text-wrap:balance}
+.s-meta{display:flex;justify-content:space-between;font-size:2cqw;color:#b4c7e3;font-weight:650}
+.s-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6cqw;align-content:center}
+.s-opt{display:grid;grid-template-columns:4cqw 1fr;align-items:center;gap:1.4cqw;padding:1.3cqw 1.6cqw;border-radius:1.4cqw;background:rgba(21,37,64,.9);border:.25cqw solid #304665;font-size:2.3cqw;font-weight:700}
+.s-opt b{display:grid;place-items:center;width:4cqw;height:4cqw;border-radius:1cqw;font-size:2cqw;color:#fff}
+.s-opt:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:50%}
+.s-bars{display:grid;gap:1.1cqw;align-content:center}
+.s-bar{display:grid;grid-template-columns:4cqw 16cqw 1fr 5cqw;align-items:center;gap:1.2cqw;font-size:2cqw;font-weight:700}
+.s-bar b{display:grid;place-items:center;width:4cqw;height:4cqw;border-radius:1cqw;color:#fff;font-size:1.9cqw}
+.s-bar .track{height:3cqw;border-radius:.8cqw;background:rgba(255,255,255,.08);overflow:hidden}
+.s-bar .track i{display:block;height:100%;border-radius:.8cqw}
+.s-bar .cnt{text-align:right;font-variant-numeric:tabular-nums}
+.s-bar.win{color:#7dffd9}
+.s-bar.lose{opacity:.55}
+.s-center{display:grid;place-items:center;align-content:center;gap:1.4cqw;text-align:center}
+.s-big{font-size:9cqw;font-weight:900;letter-spacing:-.2cqw;line-height:1;font-variant-numeric:tabular-nums}
+.s-hint{font-size:2.3cqw;color:#b4c7e3;font-weight:650}
+.s-dots{display:flex;gap:1cqw;justify-content:center}
+.s-dots i{width:2.2cqw;height:2.2cqw;border-radius:50%;background:#2b415f}.s-dots i.on{background:#70dce5}
+.s-names{display:flex;flex-wrap:wrap;gap:1cqw;justify-content:center}
+.s-names span{padding:.6cqw 1.4cqw;border-radius:99px;background:rgba(43,206,160,.18);border:.2cqw solid rgba(43,206,160,.6);color:#7dffd9;font-size:1.9cqw;font-weight:750}
+.s-guess{display:flex;gap:1.2cqw;justify-content:center;font-size:1.8cqw;color:#b4c7e3;font-variant-numeric:tabular-nums}
+.s-guess span{padding:.4cqw 1.2cqw;border-radius:.8cqw;background:rgba(255,255,255,.06)}
+.A{background:var(--oA)}.B{background:var(--oB)}.C{background:var(--oC)}.D{background:var(--oD)}.E{background:var(--oE)}
+footer{color:var(--muted);font-size:14px;max-width:75ch}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <h1>Flerval och siffra i Buzzys tre vyer</h1>
+ <p>Skiss till #410. Spelarens telefon, hostens Play-vy och storskärmen, före och efter avslöjandet. Texten i vyerna är på engelska som resten av Buzzy. Poäng enligt rummets inställning (här 1 för rätt, 0 för fel).</p>
+</header>
+
+<section class="type">
+ <h2>Flerval, upp till 5 alternativ</h2>
+ <p>Bokstav och färg på varje alternativ är desamma i alla tre vyer, så att storskärmen och telefonerna hänger ihop. Färgen är aldrig enda ledtråden: bokstaven och texten finns alltid med.</p>
+
+ <div class="stage">
+  <h3>Medan spelarna svarar</h3>
+  <div class="row">
+   <div class="col">
+    <span class="cap">Spelare</span>
+    <div class="phone">
+     <div class="p-top"><span>Q 4 · 1 point</span><span>0:12</span></div>
+     <div class="timer"><i></i></div>
+     <div class="p-q">Which planet is the largest in our solar system?</div>
+     <div class="opts">
+      <div class="opt"><b class="A">A</b>Saturn</div>
+      <div class="opt sel"><b class="B">B</b>Jupiter</div>
+      <div class="opt"><b class="C">C</b>Neptune</div>
+      <div class="opt"><b class="D">D</b>Earth</div>
+      <div class="opt"><b class="E">E</b>Uranus</div>
+     </div>
+     <div class="p-foot">You can change your answer until time runs out.</div>
+    </div>
+    <span class="note">Stora knappar i stället för buzzern. Ett tryck väljer, ett nytt tryck på ett annat alternativ byter.</span>
+   </div>
+   <div class="col">
+    <span class="cap">Host (Play)</span>
+    <div class="host"><div class="h-card">
+     <div class="h-head"><span>QUESTION 4</span><span class="chip">Multiple choice</span></div>
+     <div class="h-q">Which planet is the largest in our solar system?</div>
+     <div class="h-opt"><b class="A">A</b>Saturn<span class="n">2</span></div>
+     <div class="h-opt corr"><b class="B">B</b><span>Jupiter<span class="key">✓ correct</span></span><span class="n">5</span></div>
+     <div class="h-opt"><b class="C">C</b>Neptune<span class="n">0</span></div>
+     <div class="h-opt"><b class="D">D</b>Earth<span class="n">1</span></div>
+     <div class="h-opt"><b class="E">E</b>Uranus<span class="n">0</span></div>
+     <div class="h-prog"><span>8 of 10 answered</span><span>0:12 left</span></div>
+     <div class="bar"><i style="width:80%"></i></div>
+     <div class="h-btns"><span class="btn">Lock answers</span><span class="btn primary">Reveal</span></div>
+    </div></div>
+    <span class="note">Bara hosten ser rätt svar och hur många som valt varje alternativ. Reveal låser och visar på en gång; Lock answers låser utan att visa.</span>
+   </div>
+   <div class="col screen-col">
+    <span class="cap">Storskärm (viewer)</span>
+    <div class="screen">
+     <div class="s-q">Which planet is the largest in our solar system?</div>
+     <div class="s-opts">
+      <div class="s-opt"><b class="A">A</b>Saturn</div><div class="s-opt"><b class="B">B</b>Jupiter</div>
+      <div class="s-opt"><b class="C">C</b>Neptune</div><div class="s-opt"><b class="D">D</b>Earth</div>
+      <div class="s-opt"><b class="E">E</b>Uranus</div>
+     </div>
+     <div class="s-meta"><span>8 of 10 answered</span><span>0:12</span></div>
+    </div>
+    <span class="note">Alternativen visas stort, men inte vem som valt vad eller hur svaren fördelar sig, så att ingen kan följa majoriteten.</span>
+   </div>
+  </div>
+ </div>
+
+ <div class="stage">
+  <h3>Avslöjande</h3>
+  <div class="row">
+   <div class="col">
+    <span class="cap">Spelare, rätt svar</span>
+    <div class="phone">
+     <div class="p-top"><span>Q 4 · 1 point</span><span>Time's up</span></div>
+     <div class="p-q">Which planet is the largest in our solar system?</div>
+     <div class="opts">
+      <div class="opt dim"><b class="A">A</b>Saturn</div>
+      <div class="opt right"><b class="B">B</b>Jupiter</div>
+      <div class="opt dim"><b class="C">C</b>Neptune</div>
+      <div class="opt dim"><b class="D">D</b>Earth</div>
+      <div class="opt dim"><b class="E">E</b>Uranus</div>
+     </div>
+     <div class="result ok">Correct · +1</div>
+    </div>
+    <span class="note">Fel svar: det egna alternativet markeras i rött, rätt svar i grönt och raden säger "Wrong · 0".</span>
+   </div>
+   <div class="col">
+    <span class="cap">Host</span>
+    <div class="host"><div class="h-card">
+     <div class="h-head"><span>QUESTION 4 · REVEALED</span><span class="chip">5 of 10 correct</span></div>
+     <div class="h-list">
+      <div class="ok"><span>Anna · B</span><span>+1</span></div>
+      <div class="ok"><span>Bo · B</span><span>+1</span></div>
+      <div><span>Cia · A</span><span>0</span></div>
+      <div><span>Dan · D</span><span>0</span></div>
+      <div class="wait"><span>Eli · no answer</span><span>0</span></div>
+     </div>
+     <div class="h-btns"><span class="btn">Adjust points</span><span class="btn primary">Next question</span></div>
+    </div></div>
+    <span class="note">Poängen delas ut automatiskt. Hosten kan justera som i dag.</span>
+   </div>
+   <div class="col screen-col">
+    <span class="cap">Storskärm</span>
+    <div class="screen">
+     <div class="s-q">Which planet is the largest in our solar system?</div>
+     <div class="s-bars">
+      <div class="s-bar lose"><b class="A">A</b>Saturn<span class="track"><i class="A" style="width:20%"></i></span><span class="cnt">2</span></div>
+      <div class="s-bar win"><b class="B">B</b>Jupiter ✓<span class="track"><i class="B" style="width:50%"></i></span><span class="cnt">5</span></div>
+      <div class="s-bar lose"><b class="C">C</b>Neptune<span class="track"><i class="C" style="width:0%"></i></span><span class="cnt">0</span></div>
+      <div class="s-bar lose"><b class="D">D</b>Earth<span class="track"><i class="D" style="width:10%"></i></span><span class="cnt">1</span></div>
+      <div class="s-bar lose"><b class="E">E</b>Uranus<span class="track"><i class="E" style="width:0%"></i></span><span class="cnt">0</span></div>
+     </div>
+     <div class="s-meta"><span>5 of 10 correct</span><span>Leaderboard next</span></div>
+    </div>
+    <span class="note">Staplarna växer fram med en kort animation. Namnen kan visas om hosten har "Show player names" på.</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="type">
+ <h2>Siffra</h2>
+ <p>Spelarna skriver ett tal med en egen sifferpanel, så att telefonens tangentbord inte täcker frågan. Exakt rätt tal ger poäng.</p>
+
+ <div class="stage">
+  <h3>Medan spelarna svarar</h3>
+  <div class="row">
+   <div class="col">
+    <span class="cap">Spelare</span>
+    <div class="phone">
+     <div class="p-top"><span>Q 5 · 1 point</span><span>0:18</span></div>
+     <div class="timer"><i style="width:75%"></i></div>
+     <div class="p-q">In what year did the Berlin Wall fall?</div>
+     <div class="numfield">1989<small>year</small></div>
+     <div class="keys"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>⌫</span><span>0</span><span class="send">Send</span></div>
+     <div class="p-foot">You can change your answer until time runs out.</div>
+    </div>
+    <span class="note">Efter Send visas "Sent: 1989 · Change". Minus och decimaler visas bara om hosten slagit på dem för frågan.</span>
+   </div>
+   <div class="col">
+    <span class="cap">Host (Play)</span>
+    <div class="host"><div class="h-card">
+     <div class="h-head"><span>QUESTION 5</span><span class="chip">Number</span></div>
+     <div class="h-q">In what year did the Berlin Wall fall?</div>
+     <div class="h-opt corr"><b class="B">✓</b><span>Answer: 1989<span class="key">year</span></span><span></span></div>
+     <div class="h-list">
+      <div><span>Anna</span><span>1989</span></div>
+      <div><span>Bo</span><span>1991</span></div>
+      <div><span>Cia</span><span>1989</span></div>
+      <div class="wait"><span>Dan</span><span>…</span></div>
+     </div>
+     <div class="h-prog"><span>7 of 10 answered</span><span>0:18 left</span></div>
+     <div class="bar"><i style="width:70%"></i></div>
+     <div class="h-btns"><span class="btn">Lock answers</span><span class="btn primary">Reveal</span></div>
+    </div></div>
+    <span class="note">Hosten ser svaren medan de kommer in, men spelarna och storskärmen ser dem inte förrän vid avslöjandet.</span>
+   </div>
+   <div class="col screen-col">
+    <span class="cap">Storskärm</span>
+    <div class="screen">
+     <div class="s-q">In what year did the Berlin Wall fall?</div>
+     <div class="s-center">
+      <div class="s-hint">Type your answer on your phone</div>
+      <div class="s-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+     </div>
+     <div class="s-meta"><span>7 of 10 answered</span><span>0:18</span></div>
+    </div>
+    <span class="note">En prick per spelare som tänds när svaret kommer in, utan att visa talet.</span>
+   </div>
+  </div>
+ </div>
+
+ <div class="stage">
+  <h3>Avslöjande</h3>
+  <div class="row">
+   <div class="col">
+    <span class="cap">Spelare, fel svar</span>
+    <div class="phone">
+     <div class="p-top"><span>Q 5 · 1 point</span><span>Time's up</span></div>
+     <div class="p-q">In what year did the Berlin Wall fall?</div>
+     <div class="sent"><span>Your answer</span><b>1991</b></div>
+     <div class="sent" style="border-color:#2bcea0;background:rgba(43,206,160,.12)"><span>Correct answer</span><b style="color:#7dffd9">1989</b></div>
+     <div class="result bad">Wrong · 0</div>
+    </div>
+    <span class="note">Rätt svar: raden blir grön och säger "Correct · +1".</span>
+   </div>
+   <div class="col">
+    <span class="cap">Host</span>
+    <div class="host"><div class="h-card">
+     <div class="h-head"><span>QUESTION 5 · REVEALED</span><span class="chip">3 of 10 correct</span></div>
+     <div class="h-list">
+      <div class="ok"><span>Anna · 1989</span><span>+1</span></div>
+      <div class="ok"><span>Cia · 1989</span><span>+1</span></div>
+      <div><span>Bo · 1991</span><span>0</span></div>
+      <div><span>Dan · 1987</span><span>0</span></div>
+     </div>
+     <div class="h-btns"><span class="btn">Adjust points</span><span class="btn primary">Next question</span></div>
+    </div></div>
+    <span class="note">Hosten kan ge poäng manuellt för ett svar som var nästan rätt.</span>
+   </div>
+   <div class="col screen-col">
+    <span class="cap">Storskärm</span>
+    <div class="screen">
+     <div class="s-q">In what year did the Berlin Wall fall?</div>
+     <div class="s-center">
+      <div class="s-big">1989</div>
+      <div class="s-names"><span>Anna</span><span>Cia</span><span>Fia</span></div>
+      <div class="s-guess"><span>1987</span><span>1990</span><span>1991 ×2</span><span>1985</span></div>
+     </div>
+     <div class="s-meta"><span>3 of 10 correct</span><span>Leaderboard next</span></div>
+    </div>
+    <span class="note">Rätt svar stort, vilka som hade rätt, och en rad med de andra gissningarna. Namnen visas bara om hosten har "Show player names" på.</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="type">
+ <h2>Hostens redigerare</h2>
+ <p>I New question läggs en väljare till högst upp: <b>Buzzer · Multiple choice · Number</b>, med samma glidande väljare som resten av appen. Flerval visar fem rader för alternativ (två räcker) och en markering för vilket som är rätt. Siffra visar fältet för rätt svar, en valfri enhet och två switchar för minus och decimaler. Poängen följer rummets inställning och kan ändras per fråga, som i dag.</p>
+</section>
+
+<footer>Säg vad du vill ändra, till exempel färger, ordning eller vad storskärmen ska visa. Skissen hör till #410 (nya frågetyper).</footer>
+</main>
+</body>
+</html>

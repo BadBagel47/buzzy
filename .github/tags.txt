@@ -1,0 +1,6 @@
+# Restore points. One tag per line: <name> <full commit sha> [note]
+# Pushing this file to main runs .github/workflows/create-tags.yml, which creates
+# missing tags and never moves or deletes an existing one. Keep old lines.
+fore-viewer 9916e8f7fb5f8b904a3b9d27bc0dcde540b5d63b Before the viewer (#347); made by the owner via Releases
+fore-cloudflare ad7932d914837b69cf5283849b6e2cf58651a8d6 Before the move to Cloudflare (#408); made by the owner via Releases
+published-2026-11-18 05c5b83308b6562d48e1be66c383d579051ce60d Live publication run 44246876775 (#409)

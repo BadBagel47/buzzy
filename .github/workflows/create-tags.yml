@@ -1,0 +1,59 @@
+name: Create tags
+
+# Lets an agent make restore points (git tags) without pushing tags itself.
+# List one tag per line in .github/tags.txt as "<name> <full commit sha> [note]"
+# and push that file to main. Each tag that does not exist yet is created at
+# that commit and checked on origin. An existing tag is never moved, replaced
+# or deleted: if it points to another commit the run fails and changes nothing
+# for that line. Branches are never touched.
+on:
+  push:
+    branches: [main]
+    paths: ['.github/tags.txt']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: create-tags
+  cancel-in-progress: false
+
+jobs:
+  tags:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the full history
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Create missing tags, verify all
+        run: |
+          set -euo pipefail
+          git fetch origin --tags --force
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          failed=0
+          while read -r name sha note; do
+            case "$name" in ''|'#'*) continue;; esac
+            if ! printf '%s' "$name" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._/-]{0,99}$' || ! git check-ref-format "refs/tags/$name"; then
+              echo "::error::$name: not a valid tag name"; failed=1; continue
+            fi
+            if ! printf '%s' "$sha" | grep -Eq '^[0-9a-f]{40}$' || [ "$(git cat-file -t "$sha" 2>/dev/null)" != commit ]; then
+              echo "::error::$name: $sha is not a commit in this repository"; failed=1; continue
+            fi
+            remote=$(git ls-remote origin "refs/tags/$name^{}" | cut -f1)
+            [ -n "$remote" ] || remote=$(git ls-remote origin "refs/tags/$name" | cut -f1)
+            if [ -n "$remote" ]; then
+              if [ "$remote" = "$sha" ]; then echo "$name: already at $sha"; else echo "::error::$name exists at $remote, not $sha; left unchanged"; failed=1; fi
+              continue
+            fi
+            git tag -a "$name" "$sha" -m "${note:-Restore point $name}"
+            git push origin "refs/tags/$name"
+            check=$(git ls-remote origin "refs/tags/$name^{}" | cut -f1)
+            [ "$check" = "$sha" ] || { echo "::error::$name not confirmed on origin"; failed=1; continue; }
+            echo "$name: created at $sha"
+          done < .github/tags.txt
+          exit $failed

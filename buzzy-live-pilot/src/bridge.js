@@ -41,6 +41,8 @@ const aiQuestions=isHost?installAiQuestions({state:s,render:()=>api.render(),sav
 if(isHost){window.BuzzyAiTopics=topicChips;window.BuzzyAiPeriods=periods;}
 // #400: drag questions in the queue with mouse or touch; the other cards slide aside while dragging.
 if(isHost)installQueueDrag();
+// #409: players cannot copy, drag or long-press-save the game's text and images; typing in form fields still works.
+if(!isHost){const field=t=>t instanceof Element&&!!t.closest('input,textarea,[contenteditable=true]');for(const type of ['copy','cut','dragstart','selectstart'])document.addEventListener(type,e=>{if(!field(e.target))e.preventDefault();},true);document.addEventListener('contextmenu',e=>{if(!field(e.target))e.preventDefault();});}
 function message(text,error=false){roomUi.setStatus(code,text,error);status.dataset.error=String(error);}
 function currentInput(action,extra={}){const c=latest.control;return {action,code,roundId:c.r,attempt:c.a,...extra};}
 const command=(action,extra)=>client.command(currentInput(action,extra));

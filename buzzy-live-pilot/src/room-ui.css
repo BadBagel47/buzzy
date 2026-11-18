@@ -379,3 +379,8 @@ html[data-network-role=host] body.queue-dragging { user-select:none;-webkit-user
 html[data-network-role=host] .library-question-card[data-question-drag] { touch-action:pan-y; }
 @media (hover:hover) { html[data-network-role=host] .library-question-card[data-question-drag] { cursor:grab; } }
 @media (prefers-reduced-motion:reduce) { html[data-network-role=host] .library-question-card.queue-drag-shift { transition:none; } }
+
+/* #409: the player's view has no selectable or copyable text (questions included). Form fields stay usable. */
+html[data-network-role=player] body,
+html[data-network-role=player] body *:not(input):not(textarea):not([contenteditable=true]) { -webkit-user-select:none;user-select:none;-webkit-touch-callout:none; }
+html[data-network-role=player] img,html[data-network-role=player] svg { -webkit-user-drag:none; }

@@ -78,7 +78,7 @@ Den här hashen gäller reglerna med Standby (#370), bekräftade 2026-11-11. Dä
 
 ## Återställningspunkt
 
-- **Före flytten till Cloudflare (#408):** grenen `restore/fore-cloudflare` (skapad 2026-11-18) pekar på `ad7932d`. Appkoden där är identisk med den publicerade `05c5b83` ([run 44246876775](https://github.com/BadBagel47/buzzy/actions/runs/44246876775)); efterföljande commits rör bara dokumentation. Databasreglerna är oförändrade (hash `fa60079f…`, kopia i `ops/rules-evidence/`). Grenen är avsiktligt kvar och ändras inte. En permanent tagg med samma namn skapas av användaren via Releases (molnsessionen kan inte pusha taggar).
+- **Före flytten till Cloudflare (#408):** grenen `restore/fore-cloudflare` (skapad 2026-11-18) pekar på `ad7932d`. Appkoden där är identisk med den publicerade `05c5b83` ([run 44246876775](https://github.com/BadBagel47/buzzy/actions/runs/44246876775)); efterföljande commits rör bara dokumentation. Databasreglerna är oförändrade (hash `fa60079f…`, kopia i `ops/rules-evidence/`). Grenen är avsiktligt kvar och ändras inte. Taggen `fore-cloudflare` (release "Före flytten till Cloudflare", skapad av användaren 2026-11-18) pekar på samma commit; kontrollerat av agenten.
 
 - **Före viewer (#347):** taggen `fore-viewer` på GitHub (skapad av användaren 2026-11-10) pekar på `9916e8f`. Appkoden där är identisk med den publicerade `c8267afe59a812ffa2ec1c7a08fb054591f92217` ([run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351)); efterföljande commits fram till taggen rör bara dokumentation. Molnsessionen kan inte pusha taggar, så nya taggar skapas av användaren via Releases.
 - **Backa:**

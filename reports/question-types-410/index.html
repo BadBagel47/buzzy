@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzzy flerval och siffra</title>
+<style>
+:root{
+ /* Neutral host-like page; the screenshots carry Buzzy's own look. Rows of phone and screen shots with short notes. */
+ --page:#e8ecf6;--panel:#ffffff;--ink:#172c46;--muted:#536d8a;--line:#ccd5e5;--accent:#315de8;--good:#15916b;
+ --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15.5px/1.55 var(--font);padding:28px 16px 56px}
+main{max-width:1280px;margin:0 auto;display:grid;gap:24px}
+header{display:grid;gap:8px;max-width:75ch}
+h1{margin:0;font-size:30px;line-height:1.15;letter-spacing:-.6px;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+section{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:16px}
+h2{margin:0;font-size:22px;letter-spacing:-.3px;text-wrap:balance}
+h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+section>p,ul{margin:0;max-width:78ch}
+ul{padding-left:20px;display:grid;gap:4px}
+.phones{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;align-items:start}
+.screens{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px}
+@media(max-width:480px){.screens{grid-template-columns:1fr}}
+figure{margin:0;display:grid;gap:6px}
+figure img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block;background:#0b192d}
+figcaption{font-size:13.5px;color:var(--muted);line-height:1.4}
+figcaption b{color:var(--ink)}
+.today{border-left:4px solid #a6bdd7;padding-left:14px}
+footer{color:var(--muted);font-size:14px;max-width:78ch}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <h1>Flerval och siffra i Buzzys tre vyer</h1>
+ <p>Skiss till #410, gjord direkt i de riktiga vyerna: spelet kördes lokalt och de nya delarna lades in på sidorna. Allt runtomkring är som i dag. Texten i vyerna är på engelska som resten av Buzzy.</p>
+</header>
+
+<section class="today">
+ <h2>Så ser det ut i dag (buzzer)</h2>
+ <p>Utgångsläget. De nya frågetyperna byter bara buzzern, buzzlistan och huvudknappen; sidhuvud, frågekort, timer, liveruta och panelplacering är kvar.</p>
+ <div class="phones">
+  <figure><img src="player-open.jpg" alt="Player view today with the round buzzer"><figcaption><b>Spelare.</b> Frågekort, buzzer och liveruta längst ner.</figcaption></figure>
+  <figure><img src="host-result.jpg" alt="Host Play view today with Buzz results"><figcaption><b>Host.</b> Frågekortet med huvudknappen, och kortet Buzz results under.</figcaption></figure>
+ </div>
+ <div class="screens"><figure><img src="viewer-result.jpg" alt="Viewer today with the question and the Buzz order panel"><figcaption><b>Viewer.</b> Frågenummer, frågetext och rund timer i mitten, panelen Buzz order till höger.</figcaption></figure></div>
+</section>
+
+<section>
+ <h2>Redigeraren</h2>
+ <p>En väljare <b>Answer type</b> (Buzzer · Multiple choice · Number) med samma glidande väljare som Quick Play/Prepared. Vid flerval ersätts fältet Answer av upp till fem alternativ, där ett markeras som rätt. Vid siffra blir Answer ett talfält med valfri enhet. Poängfälten är kvar och följer rummets standard.</p>
+ <div class="phones"><figure><img src="mock-host-editor.jpg" alt="New question with answer type switch and five options"><figcaption><b>New question</b> med flerval valt.</figcaption></figure></div>
+</section>
+
+<section>
+ <h2>Flerval</h2>
+ <h3>Spelare</h3>
+ <div class="phones">
+  <figure><img src="mock-player-mc-open.jpg" alt="Player choosing option B"><figcaption><b>Svarar.</b> Alternativen tar buzzerns plats. Tiden står under. Liverutan visar hur många som svarat.</figcaption></figure>
+  <figure><img src="mock-player-mc-reveal.jpg" alt="Player with correct answer"><figcaption><b>Rätt.</b> Rätt alternativ får buzzlistans gröna rätt-färg.</figcaption></figure>
+  <figure><img src="mock-player-mc-wrong.jpg" alt="Player with wrong answer"><figcaption><b>Fel.</b> Eget svar markeras som fel, rätt svar visas i grönt.</figcaption></figure>
+ </div>
+ <h3>Host</h3>
+ <div class="phones">
+  <figure><img src="mock-host-mc-open.jpg" alt="Host Play view with answer counts per option"><figcaption><b>Svarar.</b> Rätt svar under frågan. Buzz results heter <b>Answers</b> och visar antal per alternativ (bara för hosten). Huvudknappen blir <b>Reveal answer</b>.</figcaption></figure>
+  <figure><img src="mock-host-mc-reveal.jpg" alt="Host Play view after reveal"><figcaption><b>Avslöjat.</b> Samma kort listar spelarna med svar och poäng. Huvudknappen blir <b>Next question</b>.</figcaption></figure>
+ </div>
+ <h3>Viewer</h3>
+ <div class="screens">
+  <figure><img src="mock-viewer-mc-open.jpg" alt="Viewer with options under the question and an Answers panel"><figcaption><b>Svarar.</b> Alternativen under frågetexten, med buzzlistans radstil. Panelen till höger heter <b>Answers</b> och visar vilka som svarat, inte vad.</figcaption></figure>
+  <figure><img src="mock-viewer-mc-reveal.jpg" alt="Viewer after reveal with shares and the correct option"><figcaption><b>Avslöjat.</b> Varje alternativ fylls med sin andel, rätt svar blir grönt. Panelen visar varje spelares svar med samma rätt/fel-stil som buzzlistan.</figcaption></figure>
+ </div>
+</section>
+
+<section>
+ <h2>Siffra</h2>
+ <h3>Spelare</h3>
+ <div class="phones">
+  <figure><img src="mock-player-num-open.jpg" alt="Player typing a number on a keypad"><figcaption><b>Svarar.</b> Sifferpanel i buzzerns plats, så att telefonens tangentbord inte täcker frågan. Svaret kan ändras tills det låses.</figcaption></figure>
+  <figure><img src="mock-player-num-reveal.jpg" alt="Player with wrong number and the correct answer"><figcaption><b>Avslöjat.</b> Eget svar och rätt svar under varandra.</figcaption></figure>
+ </div>
+ <h3>Host</h3>
+ <div class="phones">
+  <figure><img src="mock-host-num-open.jpg" alt="Host Play view with incoming numbers"><figcaption><b>Svarar.</b> Rätt svar under frågan, svaren kommer in i <b>Answers</b> (bara för hosten).</figcaption></figure>
+  <figure><img src="mock-host-num-reveal.jpg" alt="Host Play view after reveal for a number question"><figcaption><b>Avslöjat.</b> Rätt svar överst, med poäng.</figcaption></figure>
+ </div>
+ <h3>Viewer</h3>
+ <div class="screens">
+  <figure><img src="mock-viewer-num-open.jpg" alt="Viewer showing who has answered"><figcaption><b>Svarar.</b> Frågan och timern som i dag; panelen visar vilka som svarat.</figcaption></figure>
+  <figure><img src="mock-viewer-num-reveal.jpg" alt="Viewer with the correct number and each guess"><figcaption><b>Avslöjat.</b> Rätt tal under frågan. Panelen visar allas gissningar, rätt i grönt och fel med kryss.</figcaption></figure>
+ </div>
+</section>
+
+<section>
+ <h2>Det som styrs av befintliga inställningar</h2>
+ <ul>
+  <li>Hostens viewerval gäller som i dag: frågetexten (och därmed alternativen), timern, frågenumret och panelen (samma val som buzzordningen).</li>
+  <li><b>Show player names</b> styr om namn syns i panelen.</li>
+  <li>Leaderboard, join-skärm och standby är oförändrade och väljs av hosten.</li>
+  <li>Poäng följer rummets standard och kan ändras per fråga.</li>
+ </ul>
+</section>
+
+<footer>Skissen hör till #410 (nya frågetyper). Inget är byggt. Säg vad du vill ändra.</footer>
+</main>
+</body>
+</html>

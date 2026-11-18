@@ -8,7 +8,7 @@ Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - Inventory: 2026-11-13
 - Projektspråk: engelska i produkttexten (host, spelare, viewer). Dokument på svenska, kod och commits på engelska.
 - Publiceringsmetod: Firebase Hosting via push till `release` (se Publicering och åtkomst). Push till `main` publicerar inte.
-- Grenar: `main` och `release` (spegel av `main` för publicering, avsiktligt kvar). Tagg `fore-viewer` är återställningspunkt. Inga öppna PR:er eller Issues.
+- Grenar: `main`, `release` (spegel av `main` för publicering) och `restore/fore-cloudflare` (återställningspunkt före #408), alla avsiktligt kvar. Tagg `fore-viewer` är återställningspunkt. Inga öppna PR:er eller Issues.
 - Känslig information (kontrollerat 2026-11-13, alla grenar och hela historiken): Firebase-webbnyckeln finns i koden och historiken och är offentlig av design; databasreglerna skyddar datan. `sk-ant-api03-localtestkey…` i proven är en påhittad testnyckel. Hostens frågor och svar lagras i databasen under `private`, som bara hosten kan läsa. Demofrågornas svar (#388) finns i källkoden, men de är bara exempel. `.gitignore` täcker `.env`.
 - Verktygsläge 2026-11-13, Claude-molnsession: push till `main` och `release` fungerar, `gh` fungerar via REST (GraphQL är spärrat), taggar kan inte pushas.
 - Engångsåtgärder: klara: publicering via `release` (#385) och `.claude/settings.json` (lagt in av användaren). Möjlig framtida: databas- och Auth-behörighet för tjänstekontot, för gallring (#332, alternativ A).
@@ -77,6 +77,8 @@ Den här hashen gäller reglerna med Standby (#370), bekräftade 2026-11-11. Dä
 - Publik status kan läsas från GitHubs workflow-/Actions-sida. Om workflowadressen ger 504 har `/BadBagel47/buzzy/actions` fungerat som reserv. Bekräfta både success och commit i run-sidan innan du rapporterar publicerat.
 
 ## Återställningspunkt
+
+- **Före flytten till Cloudflare (#408):** grenen `restore/fore-cloudflare` (skapad 2026-11-18) pekar på `ad7932d`. Appkoden där är identisk med den publicerade `05c5b83` ([run 44246876775](https://github.com/BadBagel47/buzzy/actions/runs/44246876775)); efterföljande commits rör bara dokumentation. Databasreglerna är oförändrade (hash `fa60079f…`, kopia i `ops/rules-evidence/`). Grenen är avsiktligt kvar och ändras inte. En permanent tagg med samma namn skapas av användaren via Releases (molnsessionen kan inte pusha taggar).
 
 - **Före viewer (#347):** taggen `fore-viewer` på GitHub (skapad av användaren 2026-11-10) pekar på `9916e8f`. Appkoden där är identisk med den publicerade `c8267afe59a812ffa2ec1c7a08fb054591f92217` ([run42687931351](https://github.com/BadBagel47/buzzy/actions/runs/42687931351)); efterföljande commits fram till taggen rör bara dokumentation. Molnsessionen kan inte pusha taggar, så nya taggar skapas av användaren via Releases.
 - **Backa:**

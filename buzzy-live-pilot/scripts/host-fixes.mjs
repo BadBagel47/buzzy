@@ -5,6 +5,10 @@ export function applyHostFixes(html){
  // with Next/Skip (or finishes the set). Switching mode, showing it or opening the buzzers without a correct
  // answer keeps it in the queue, marked as Started.
  replace('function finalizePreparedQuestion(){','function finalizePreparedQuestion(movedOn=false){');
+ // #411: keep the Play page's own source switch only when Play was already showing. Coming from Settings, the first
+ // .play-mode-switch on the page is the Appearance switch, which must not be carried into Play.
+ replace("const stableModeSwitch=state.hostTab==='play'?hostPage.querySelector('.play-mode-switch'):null;","const stableModeSwitch=state.hostTab==='play'&&hostPage.dataset.hostTab==='play'?hostPage.querySelector('.quickplay-card > .play-mode-switch'):null;");
+ replace("const fresh=hostPage.querySelector('.play-mode-switch');","const fresh=hostPage.querySelector('.quickplay-card > .play-mode-switch');");
  replace(" if(!q||q.played||!state.questionShown&&state.startAt===null)return;\n q.played=true;",
   " if(!q||q.played||!movedOn&&!state.questionShown&&state.startAt===null)return;\n if(!movedOn&&state.lastDecision!=='correct'){q.started=true;return;}\n q.played=true;");
  replace('function advanceQuestion(advanceNumber=true){\n finalizePreparedQuestion();','function advanceQuestion(advanceNumber=true){\n finalizePreparedQuestion(true);');

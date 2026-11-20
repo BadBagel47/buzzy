@@ -50,7 +50,8 @@ const verifyTool={
   }}}}},
 };
 const generateSystem=`You write questions for a live pub quiz played with buzzers. Accuracy matters more than anything else.
-Use web search to confirm every answer before you include it, and list the pages you used as sources.
+Write the questions from facts you know with certainty. Use web search only when you are unsure of a fact or it may have changed recently; a separate fact-checker searches every question afterwards. If you searched, list the pages you used as sources.
+Always submit exactly the number of questions asked for: replace a doubtful question with one you are sure of instead of leaving it out.
 Rules for every question:
 - Exactly one clear, correct answer. No trick questions and no wording that allows several reasonable answers.
 - Avoid facts that change over time (current holders, records, "latest", populations, prices, rankings) unless the question itself names the year it refers to.
@@ -140,7 +141,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   throw new AiError('Claude did not return a result. Try again.');
  }
  function generationPrompt(items,total){
-  const used=[...existingQuestions(),...ai.drafts.map(d=>d.question)].filter(Boolean).slice(-150);
+  const used=[...existingQuestions(),...ai.drafts.map(d=>d.question),...ai.rejected.map(d=>d.question)].filter(Boolean).slice(-150);
   const now=new Date(),recent=items.some(i=>recentPeriods.includes(i.period));
   return [`Today's date is ${isoDay(now)}.`,`Write ${total} quiz questions in ${ai.language==='sv'?'Swedish':'English'} (questions, answers and explanations).`,
    'Topics and amounts:',...items.map(i=>`- ${i.count} about "${i.topic}", difficulty: ${levelText[i.difficulty]}${i.period&&i.period!=='any'?`, only about things ${periodText(i.period,now)}`:''}`),
@@ -154,9 +155,9 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const demo=ai.demo?await import('./ai-demo.js'):null;
   const client=demo?null:await createClient(store.get(KEY_STORAGE));
   ai.step=1;render();
-  const used=[...existingQuestions(),...ai.drafts.map(d=>d.question)];
+  const used=[...existingQuestions(),...ai.drafts.map(d=>d.question),...ai.rejected.map(d=>d.question)];
   const written=demo?await demo.demoWrite(items,total,ai.language,new Set(used.map(q=>String(q).toLowerCase())),controller.signal)
-   :await call(client,{system:generateSystem,prompt:generationPrompt(items,total),tool:generateTool,maxSearches:8});
+   :await call(client,{system:generateSystem,prompt:generationPrompt(items,total),tool:generateTool,maxSearches:Math.min(12,Math.max(4,Math.ceil(total/2)))});
   if(demo&&items.some(i=>i.period&&i.period!=='any'))ai.notice='Demo: the sample questions are not sorted by period, and there is no news in the demo. With your own key, Claude picks questions from the chosen period.';
   else if(demo?.demoTopics&&written.general)ai.notice=`Demo: sample questions exist only for ${demo.demoTopics.join(', ')}, so this is a general mix.`;
   const known=new Set(used.map(normalize));
@@ -173,7 +174,7 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   const verdicts=new Map();
   for(let start=0;start<drafts.length;start+=4){
    const batch=drafts.slice(start,start+4);
-   const result=demo?{verdicts:await demo.demoVerify(batch,controller.signal)}:await call(client,{system:verifySystem,tool:verifyTool,maxSearches:8,prompt:`Today's date is ${isoDay(new Date())}.\nCheck these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
+   const result=demo?{verdicts:await demo.demoVerify(batch,controller.signal)}:await call(client,{system:verifySystem,tool:verifyTool,maxSearches:Math.min(12,batch.length*3),prompt:`Today's date is ${isoDay(new Date())}.\nCheck these quiz questions:\n${JSON.stringify(batch.map(d=>({id:d.id,question:d.question,answer:d.answer,accepted_answers:d.accepted})),null,1)}`});
    for(const v of Array.isArray(result?.verdicts)?result.verdicts:[])verdicts.set(String(v.id),v);
    ai.checked=Math.min(drafts.length,start+batch.length);render();
   }
@@ -189,6 +190,15 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   }
   return {kept,rejected};
  }
+ // #412: spread the missing questions over the topics that came up short.
+ function topUp(items,kept,missing){
+  if(items.length===1)return [{...items[0],count:missing}];
+  const short=items.map(i=>({...i,count:Math.max(0,i.count-kept.filter(k=>k.topic===i.topic).length)})).filter(i=>i.count>0);
+  let left=missing;const out=[];
+  for(const i of short.length?short:items){if(left<=0)break;const n=Math.min(left,short.length?i.count:Math.ceil(missing/items.length));out.push({...i,count:n});left-=n;}
+  for(let k=0;left>0&&out.length;k++,left--)out[k%out.length].count++;
+  return out;
+ }
  async function start(items,append=false){
   if(!items.length){ai.error=ai.mode==='topic'?'Enter a topic.':'Add at least one topic with a number of questions.';render();return;}
   if(ai.key!=='saved'&&!ai.demo){ai.error='Add your Anthropic API key in Settings → AI questions first.';render();return;}
@@ -197,10 +207,18 @@ export function installAiQuestions({state,render,save,existingQuestions,defaults
   ai.label=ai.mode==='mix'?(ai.mixName.trim()||'Mix'):items[0].topic;
   ai.phase='running';ai.error='';ai.step=1;ai.checked=0;ai.toCheck=0;render();
   try{
-   const {kept,rejected}=await produce(items);
-   let drafts=[...ai.drafts,...kept];
-   if(ai.mode==='mix'&&ai.shuffle&&!append)drafts=drafts.map(d=>[Math.random(),d]).sort((a,b)=>a[0]-b[0]).map(([,d])=>d);
-   ai.drafts=drafts;ai.rejected=[...ai.rejected,...rejected];ai.phase='review';
+   const requested=items.reduce((n,i)=>n+i.count,0),before=ai.drafts.length;
+   const first=await produce(items);
+   ai.drafts=[...ai.drafts,...first.kept];ai.rejected=[...ai.rejected,...first.rejected];
+   // #412: when fewer questions than asked for pass, ask once more for the missing ones.
+   let got=first.kept.length;
+   if(!ai.demo&&got<requested){
+    try{const second=await produce(topUp(items,first.kept,requested-got));ai.drafts=[...ai.drafts,...second.kept];ai.rejected=[...ai.rejected,...second.rejected];got+=second.kept.length;}
+    catch(error){if(error?.kind==='cancelled'||describeError(error)==='Cancelled.')throw error;}
+   }
+   if(!ai.demo&&got<requested)ai.notice=`${got} of ${requested} questions passed the fact-check. ${ai.rejected.length?'Replace rejected':'New batch'} asks Claude for more.`;
+   if(ai.mode==='mix'&&ai.shuffle&&!append){const fresh=ai.drafts.slice(before).map(d=>[Math.random(),d]).sort((a,b)=>a[0]-b[0]).map(([,d])=>d);ai.drafts=[...ai.drafts.slice(0,before),...fresh];}
+   ai.phase='review';
   }catch(error){
    const message=describeError(error);
    if(error?.kind==='cancelled'||message==='Cancelled.'){ai.phase=ai.drafts.length?'review':'form';ai.error='';}

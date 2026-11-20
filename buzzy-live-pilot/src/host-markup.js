@@ -4,7 +4,10 @@ function key(node){
  if(node.nodeType!==1)return null;
  const names=['id','data-action','data-player-row','data-settings-section','data-clock'];
  for(const name of names)if(node.hasAttribute(name))return `${node.tagName}:${name}:${node.getAttribute(name)}`;
- for(const name of ['appbar','quickplay-card','play-mode-switch','play-mode-content','fact-editor-clip','shared-list-sheet','stack'])if(node.classList.contains(name))return `${node.tagName}:panel:${name}`;
+ for(const name of ['appbar','quickplay-card','play-mode-switch','play-mode-content','fact-editor-clip','shared-list-sheet','stack'])if(node.classList.contains(name)){
+  // Several views use the same switch template (Question source, Appearance, AI choices); tell them apart by their label.
+  const label=node.getAttribute('aria-label');return `${node.tagName}:panel:${name}${label?`:${label}`:''}`;
+ }
  return null;
 }
 function same(a,b){return a.nodeType===b.nodeType&&(a.nodeType!==1||a.tagName===b.tagName);}

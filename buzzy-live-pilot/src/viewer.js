@@ -3,6 +3,8 @@ import {isRoomCode,isNetworkKitCode} from './room-code.js';
 // It shows only question-related state chosen by the host and never writes game state;
 // its only write is its own registration in one of four viewer seats.
 import {clientFor} from './backend.js';
+import {installStaleChunkReload} from './stale-chunks.js';
+installStaleChunkReload();
 import {takeViewerKey} from './nk-client.js';
 import {createCelebration} from './celebration.js';
 

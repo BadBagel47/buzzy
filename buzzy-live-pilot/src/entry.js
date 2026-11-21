@@ -1,6 +1,8 @@
 import {isRoomCode,isNetworkKitCode,SESSION_KEY,BACKEND_KEY} from './room-code.js';
 import {deadline} from './connection.js';
 import {clientOf} from './backend.js';
+import {installStaleChunkReload} from './stale-chunks.js';
+installStaleChunkReload();
 // The landing view opens no Firebase connection until Create/Join.
 const form=document.getElementById('join-form'),code=document.getElementById('room-code'),name=document.getElementById('player-name'),host=document.getElementById('host-entry'),status=document.getElementById('entry-status');
 const normalize=value=>value.toUpperCase().replace(/\s+/g,'');

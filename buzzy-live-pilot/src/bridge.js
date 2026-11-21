@@ -2,6 +2,8 @@ import {isRoomCode,SESSION_KEY} from './room-code.js';
 import {loadLibrary,saveLibrary,freshCopy,exportLibrary,chooseImportFile} from './question-library.js';
 import {deadline} from './connection.js';
 import {clientFor} from './backend.js';
+import {installStaleChunkReload} from './stale-chunks.js';
+installStaleChunkReload();
 import {installRoomUi} from './room-ui.js';
 import {patchHostMarkup} from './host-markup.js';
 import {createCelebration} from './celebration.js';
@@ -353,7 +355,7 @@ function begin(){
   }
  }).finally(()=>{clearTimeout(slow);starting=null;});
 }
-retry.addEventListener('click',()=>{client?.reconnect();if(!s.networkReady||blocked)begin();});
+retry.addEventListener('click',()=>{if(status.textContent.includes('Buzzy has been updated')){location.reload();return;}client?.reconnect();if(!s.networkReady||blocked)begin();});
 window.addEventListener('online',()=>{if(!s.networkReady||blocked)begin();});
 async function start(){
  retry.hidden=true;blocked=false;

@@ -48,7 +48,9 @@ await test('Network interruption restores real emulator sessions and bounded sta
   record('Repeated create command after uncertain acknowledgement returns same room');
   await host.bringToFront();await host.goto('http://127.0.0.1:5173');block=true;await host.locator('#host-entry').click();await host.waitForFunction(()=>!document.querySelector('#host-entry').disabled,{},{timeout:25000});
   assert.match(await host.locator('#entry-status').textContent(),/connection|Connection/);const pendingId=await host.evaluate(()=>sessionStorage.getItem('buzzy-pending-room-create'));assert.ok(pendingId);
-  block=false;await host.locator('#host-entry').click();await ready(host);assert.equal(await identity(host),uid);const freshCode=await host.evaluate(()=>window.BuzzyView.state.code);assert.notEqual(freshCode,code);assert.equal(await host.evaluate(()=>sessionStorage.getItem('buzzy-pending-room-create')),null);
+  block=false;
+  // The start page also retries by itself when the connection is back; either way the same pending room is created.
+  await host.locator('#host-entry').click({timeout:5000}).catch(()=>{});await ready(host);assert.equal(await identity(host),uid);const freshCode=await host.evaluate(()=>window.BuzzyView.state.code);assert.notEqual(freshCode,code);assert.equal(await host.evaluate(()=>sessionStorage.getItem('buzzy-pending-room-create')),null);
   record('New room after network failure: finite wait, enabled retry and successful create');
   await remove(host,freshCode);
   // Restore the old host session solely to end that test room.

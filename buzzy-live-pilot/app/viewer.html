@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" data-network-role="viewer">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#081327">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<title>Buzzy · Viewer</title>
+<link rel="stylesheet" href="/src/viewer.css">
+<script>window.BUZZY_RUNTIME={role:'viewer',transport:"spark-emulator"};</script>
+</head>
+<body>
+<div id="viewer" aria-live="polite"></div>
+<div id="viewer-status" role="status"><p class="viewer-status-text">Connecting to the room…</p></div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<noscript><p>Enable JavaScript to show this room.</p></noscript>
+<script type="module" src="/src/viewer.js"></script>
+</body>
+</html>

@@ -41,7 +41,7 @@ jobs:
   verify:
     if: github.repository == 'BadBagel47/buzzy' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 45
     steps:
       - name: Check out the selected main commit
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -73,12 +73,12 @@ jobs:
       - name: Verify HTTPS pilot with all cloud requests intercepted
         working-directory: buzzy-live-pilot
         run: npm run test:pilot
-      - name: Verify database fallback, room exit and UI batch with local emulators
+      - name: Run the full test suite with local emulators (#429)
         working-directory: buzzy-live-pilot
         run: |
           export JAVA_HOME="${JAVA_HOME_21_X64:?JDK 21 must be present on the runner}"
           export PATH="$JAVA_HOME/bin:$PATH"
-          npm run test:pilot-ui
+          npm test
       - name: Retain tested site
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:

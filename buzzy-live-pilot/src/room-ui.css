@@ -387,3 +387,10 @@ html[data-network-role=player] img,html[data-network-role=player] svg { -webkit-
 
 /* #413: the API key field is a plain text field, so password managers do not offer to save it as a login; the characters are still hidden. */
 .ai-key-input { -webkit-text-security:disc; text-security:disc; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.04em; }
+
+/* #444: export and import of the host's question library, under the queue. */
+html[data-network-role=host] .question-library-row { display:grid;gap:8px;margin-top:12px; }
+html[data-network-role=host] .question-library-help { font-size:var(--host-small-text,12px);line-height:1.5;color:#506783;margin:0; }
+html[data-network-role=host][data-host-theme=dark] .question-library-help { color:#a9b7c9; }
+html[data-network-role=host] .question-library-actions { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+html[data-network-role=host] .question-library-actions .btn { width:100%;justify-content:center; }

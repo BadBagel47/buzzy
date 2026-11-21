@@ -1,0 +1,61 @@
+name: Tests
+
+# #429: every push to main that touches the app runs the whole test suite, so a red or green mark shows on each
+# commit without relying on the agent's own report. Publishing (firebase-pilot.yml) runs the same suite again.
+on:
+  push:
+    branches: [main]
+    paths: ['buzzy-live-pilot/**', '.github/workflows/tests.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Select Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: buzzy-live-pilot/package-lock.json
+      - name: Install locked dependencies
+        working-directory: buzzy-live-pilot
+        run: npm ci --no-audit --no-fund
+      - name: Configuration, generated rules and page build
+        working-directory: buzzy-live-pilot
+        run: |
+          npm run test:config
+          npm run build:pilot
+      - name: Install test browser
+        working-directory: buzzy-live-pilot
+        run: |
+          npx --no-install playwright install --with-deps chromium
+          node --input-type=module -e 'import {chromium} from "playwright"; import {appendFileSync} from "node:fs"; appendFileSync(process.env.GITHUB_ENV, "CHROMIUM_PATH=" + chromium.executablePath() + "\n")'
+      - name: Built pilot with all cloud requests intercepted
+        working-directory: buzzy-live-pilot
+        run: npm run test:pilot
+      - name: Full test suite with local emulators
+        working-directory: buzzy-live-pilot
+        run: |
+          export JAVA_HOME="${JAVA_HOME_21_X64:?JDK 21 must be present on the runner}"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          npm test
+      - name: Production build against local emulators
+        working-directory: buzzy-live-pilot
+        run: |
+          export JAVA_HOME="${JAVA_HOME_21_X64:?JDK 21 must be present on the runner}"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          npm run build
+          npm run test:production

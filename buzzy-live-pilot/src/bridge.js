@@ -1,3 +1,5 @@
+import {isRoomCode,SESSION_KEY} from './room-code.js';
+import {loadLibrary,saveLibrary,freshCopy,exportLibrary,chooseImportFile} from './question-library.js';
 import {deadline} from './connection.js';
 import {getClient} from './client.js';
 import {installRoomUi} from './room-ui.js';
@@ -6,8 +8,11 @@ import {createCelebration} from './celebration.js';
 import {installHostTheme} from './host-theme.js';
 import {installAiQuestions,topicChips,periods} from './ai-questions.js';
 import {installQueueDrag} from './queue-drag.js';
+// #442: the page script (app/page.js) exposes these to the bridge; fail loudly if one is missing instead of silently doing nothing.
+const pageApi=['state','render','handle','tip','currentQ','ensureRound','resetCurrentRound','playSound','animateBuzzLogos','scheduleTimeoutFlip','confetti'];
+{const missing=pageApi.filter(k=>window.BuzzyView?.[k]===undefined);if(missing.length)throw new Error(`Page script is missing BuzzyView.${missing.join(', BuzzyView.')}`);}
 const api=window.BuzzyView,s=api.state,role=window.BUZZY_RUNTIME.role,isHost=role==='host';
-const sessionKey='buzzy-spark-ui-session',status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
+const sessionKey=SESSION_KEY,status=document.getElementById('network-status'),retry=document.getElementById('network-retry');
 const privateKeys=['questions','qIndex','quickQuestion','roomCorrect','roomIncorrect','roomTimer','roomSeconds','roomCustomDurationSelected','defaultMode','roomTextVisibility','roomBuzzerStart','roundTextVisible','roundViewerHidden','roundStartTogether','setName','playedSequence','showUpNext','mode','timer','seconds','correct','incorrect','allowRepeat','allowNegativeScores','viewerView','viewerQuestionNumber','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerCelebration'];
 const settingKeys=['leaderboard','playerBuzzOrder','buzzOrderNames','ownScore','showQuestionPoints','sounds','answerSounds','animations','celebration','showQuestionInfoDefault','allowJoinDuringQuestion','viewerQuestion','viewerTimer','viewerBuzzOrder','viewerLeaderboard','viewerCelebration','viewerJoinScreen','viewerQuestionNumber'];
 const viewerViews=['standby','join','game','leaderboard'];
@@ -61,7 +66,7 @@ async function publish(){
  if(!isHost||!client||!latest)return;
  const desired=uiOptions();
  if(JSON.stringify(desired)!==JSON.stringify(controlOptions(latest.control))){
-  await command('configure',desired);latest.control=await client.read(`rooms/${code}/control`);
+  await command('configure',desired);latest.control=await client.room(code).control();
  }
  const p=await makePresentation(),settings=sharedSettings();
  const ui=privateUi(),fields={};
@@ -79,6 +84,7 @@ async function operation(fn,{save=true}={}){
 }
 async function afterIdle(fn){while(busy)await new Promise(resolve=>idleWaiters.push(resolve));return fn();}
 function scheduleSave(){
+ if(isHost&&s.networkReady)saveLibrary(s.questions);
  if(!isHost||local||!s.networkReady||busy||exitTask||!connected)return;
  const cfg=sharedSettings();if(JSON.stringify(privateUi())===savedPrivate&&JSON.stringify(cfg)===savedSettings&&s.questionShown===!!latest.presentation?.shown)return;
  clearTimeout(saveTimer);saveTimer=setTimeout(()=>operation(async()=>{}),60);
@@ -90,7 +96,7 @@ async function archiveCurrent(){
 }
 function normalizeRecord(r){if(r.type==='adjust')return r;r.attempts=Object.values(r.attempts||{}).map(a=>({...a,buzzes:Object.values(a.buzzes||{})}));r.awards=Object.values(r.awards||{});r.scoresBefore??={};r.scoresAfter??={};return r;}
 async function loadArchive(){
- const records=await client.read(`rooms/${code}/archive`)||{};for(const [id,r] of Object.entries(records))records[id]=normalizeRecord(r);
+ const records=await client.room(code).archive()||{};for(const [id,r] of Object.entries(records))records[id]=normalizeRecord(r);
  if(s.activeRound){const old=records[s.activeRound.id];if(old){const byAttempt=new Map((old.attempts||[]).map(a=>[a.number,a]));for(const a of s.activeRound.attempts)byAttempt.set(a.number,a);s.activeRound.attempts=[...byAttempt.values()].sort((a,b)=>a.number-b.number);s.activeRound.awards=s.activeRound.attempts.flatMap(a=>a.buzzes.filter(b=>b.result).map(b=>({id:b.id,name:b.name,result:b.result,points:b.points})));}if(s.activeRound.archived)records[s.activeRound.id]=s.activeRound;}
  s.roundOverview=Object.values(records).sort((a,b)=>(a.number||0)-(b.number||0)||(a.when||0)-(b.when||0));
  s.history=s.roundOverview.flatMap(r=>r.type==='adjust'?[{label:'Manual score adjustment',detail:`${r.playerName}: ${r.delta>=0?'+':''}${r.delta}`,when:new Date(r.when).toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})}]:[{label:`Question ${r.number} · ${r.title}`,detail:r.status,when:new Date(r.startedAt).toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})},...(r.attempts||[]).flatMap(a=>a.buzzes.map(b=>({label:`${b.name} · ${b.result||'Buzz'}`,detail:`Attempt ${a.number} · #${b.order}${b.result?' · '+b.points+' points':''}`,when:new Date(a.startedAt).toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})})))]);
@@ -185,7 +191,7 @@ function afterRender(){
  const allowedLocal=a=>localActions.has(a);
  for(const el of document.querySelectorAll('[data-action],[data-pick]')){
   const a=el.dataset.action||'pick';
-  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||offlineShown||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a)&&!a.startsWith('host-theme:')&&!(a.startsWith('ai-')&&a!=='ai-add'));
+  const locked=(!isHost&&!a.startsWith('buzz:')&&!allowedLocal(a))||(isHost&&((busy&&a!=='celebrate')||offlineShown||blocked)&&!localActions.has(a)&&!['show-scores','round-overview','history'].includes(a)&&!a.startsWith('host-theme:')&&!a.startsWith('library-')&&!(a.startsWith('ai-')&&a!=='ai-add'));
   el.toggleAttribute('data-network-blocked',locked);
   if(!a.startsWith('buzz:')){
    if(locked){if(!el.hasAttribute('data-network-original-aria'))el.dataset.networkOriginalAria=el.getAttribute('aria-disabled')??'__none__';el.setAttribute('aria-disabled','true');}
@@ -199,10 +205,10 @@ async function advance(action,{force=false}={}){
  await operation(async()=>{
   await archiveCurrent();
   const before={r:latest.control.r,a:latest.control.a};
-  if(latest.control.phase==='open'){await command('stop');latest.control=await client.read(`rooms/${code}/control`);}
+  if(latest.control.phase==='open'){await command('stop');latest.control=await client.room(code).control();}
   runLocal(()=>api.handle(action));
   // Mode switching/next must allocate a new server round even when the legacy UI reuses the displayed number.
-  await command('advance');latest.control=await client.read(`rooms/${code}/control`);s.countQuestion=latest.control.r;s.attemptNumber=1;s.questionShown=false;s.activeRound=null;
+  await command('advance');latest.control=await client.room(code).control();s.countQuestion=latest.control.r;s.attemptNumber=1;s.questionShown=false;s.activeRound=null;
  });
 }
 function handle(action){
@@ -213,6 +219,8 @@ function handle(action){
  if(action==='close-modal'&&s.modal?.startsWith('network-'))return !!exitTask;
 
  if(isHost&&action==='ai-open'){s.modal='ai-questions';api.render();return true;}
+ if(isHost&&action==='library-export'){const n=exportLibrary(s.questions);api.tip(n?`Exported ${n} question${n===1?'':'s'}.`:'There are no questions to export.');return true;}
+ if(isHost&&action==='library-import'){chooseImportFile().then(list=>{if(!list)return;const known=new Set(s.questions.map(q=>`${q.title||''}\n${q.text||''}`));const added=freshCopy(list.filter(q=>!known.has(`${q.title||''}\n${q.text||''}`)),new Set(s.questions.map(q=>q.id)));s.questions=[...s.questions,...added];api.tip(added.length?`Imported ${added.length} question${added.length===1?'':'s'}.`:'All questions in the file are already in the queue.');api.render();afterRender();}).catch(error=>api.tip(error.message||'The file could not be read.'));return true;}
  if(isHost&&action==='ai-open-settings'){s.modal='';s.hostTab='more';api.render();return true;}
  if(isHost&&action.startsWith('ai-')){const result=aiQuestions.handle(action);if(result!==null){if(String(result).startsWith('added:'))api.tip(`${result.slice(6)} question${result.slice(6)==='1'?'':'s'} added to the queue.`);return true;}}
  if(isHost&&action.startsWith('host-theme:')){hostTheme.set(action.slice(11));api.render();return true;}
@@ -239,7 +247,7 @@ function handle(action){
   operation(async()=>{const b=s.buzzes.find(b=>s.mode==='timed'?b.order===s.selectedBuzzOrder:b.id===s.selected);if(!b)throw new Error('Select a player who buzzed.');await command('grade',{playerId:b.id,result:action});},{save:false});return true;
  }
  if(action==='reset'){
-  operation(async()=>{await archiveCurrent();await command('retry');latest.control=await client.read(`rooms/${code}/control`);s.questionShown=true;});return true;
+  operation(async()=>{await archiveCurrent();await command('retry');latest.control=await client.room(code).control();s.questionShown=true;});return true;
  }
  if(['confirm-next','confirm-quick','confirm-play-mode','confirm-skip','next'].includes(action)){advance(action);return true;}
  if(['next-question','next-quick'].includes(action)){
@@ -351,26 +359,28 @@ async function start(){
  retry.hidden=true;blocked=false;
  stopWatch?.();stopConnection?.();
  let saved;try{saved=JSON.parse(sessionStorage.getItem(sessionKey));}catch{}
- if(!saved||saved.role!==role||!/^[A-HJ-NP-Z2-9]{4}$/.test(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
+ if(!saved||saved.role!==role||!isRoomCode(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
  code=saved.code;client=await getClient();
  // Initial connection is pending, not a failure: keep retry out of the header until needed.
  stopConnection=client.watchConnection(value=>{connected=value;trackConnection(value);if(roomEnded){afterRender();return;}retry.hidden=!blocked&&(!s.networkReady||value||!offlineShown);if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){if(value||offlineShown)message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
  await client.waitForConnection();
- const control=await client.read(`rooms/${code}/control`);if(!control)throw new Error('This room is no longer available.');
+ const control=await client.room(code).control();if(!control)throw new Error('This room is no longer available.');
  latest={control,players:[],round:{id:control.r,attempt:control.a},loads:{}};
  if(isHost){
-  const meta=await client.read(`rooms/${code}/meta`);if(meta?.owner!==client.uid)throw new Error('This identity is not the host of this room.');
-  s.created=meta.createdAt;s.history=[];const savedRound=await client.read(`rooms/${code}/archive/round-${control.r}`);if(savedRound){s.activeRound=normalizeRecord(savedRound);s.roundOverview=[savedRound];}
-  const ui=await client.read(`rooms/${code}/private/ui`);if(ui){for(const key of privateKeys)if(key in ui)s[key]=ui[key];savedPrivate=JSON.stringify(privateUi());}
+  const meta=await client.room(code).meta();if(meta?.owner!==client.uid)throw new Error('This identity is not the host of this room.');
+  s.created=meta.createdAt;s.history=[];const savedRound=await client.room(code).archivedRound(control.r);if(savedRound){s.activeRound=normalizeRecord(savedRound);s.roundOverview=[savedRound];}
+  const ui=await client.room(code).hostState();if(ui){for(const key of privateKeys)if(key in ui)s[key]=ui[key];savedPrivate=JSON.stringify(privateUi());}
+  // #444: a new room starts with the questions saved on this device.
+  else{const saved=loadLibrary();if(saved.length){const demo=(s.questions||[]).filter(q=>q.isDemo);s.questions=[...demo,...freshCopy(saved,new Set(demo.map(q=>q.id)))];}}
   s.countQuestion=control.r;s.attemptNumber=control.a;s.questionShown=control.phase!=='ready';
-  const previous=await client.read(`rooms/${code}/presentation`);if(previous){s.questionShown=previous.shown;savedPresentation=JSON.stringify(previous);}
-  savedSettings=JSON.stringify(await client.read(`rooms/${code}/settings`)||{});
+  const previous=await client.room(code).presentation();if(previous){s.questionShown=previous.shown;savedPresentation=JSON.stringify(previous);}
+  savedSettings=JSON.stringify(await client.room(code).settings()||{});
   if(control.phase!=='ready')Object.assign(s,{mode:control.mode,timer:control.timer!==false,seconds:control.ms/1000,correct:control.correct??1,incorrect:control.incorrect??0,allowNegativeScores:control.allowNegative!==false,allowRepeat:control.allowRepeat===true});
   held=true;try{await deadline(publish());}finally{held=false;}
   // #347: only the number of viewer screens is shown; viewers never appear as players.
   stopViewers?.();stopViewers=client.watchViewers(code,count=>{if(s.viewerCount===count)return;s.viewerCount=count;if(s.networkReady){api.render();roomUi.sync();}},()=>{});
  }else{
-  const member=await client.read(`rooms/${code}/members/${client.uid}`);if(!member)throw new Error('Join this room from the start page first.');
+  const member=await client.room(code).ownMember();if(!member)throw new Error('Join this room from the start page first.');
  }
  await deadline(new Promise((resolve,reject)=>{stopWatch=client.watch(code,value=>{latest=value;project(value);retry.hidden=connected||!offlineShown;resolve();},e=>{if(e.code==='room/not-found'&&s.networkReady){ended();return;}if(roomEnded)return;message(e.code==='room/not-found'?e.message:'The room is unavailable or this view no longer has access. Return to the start page.',true);blocked=true;retry.hidden=false;afterRender();reject(e);});}));
 }

@@ -1,10 +1,11 @@
+import {isRoomCode,SESSION_KEY} from './room-code.js';
 import {deadline} from './connection.js';
 // The landing view opens no Firebase connection until Create/Join.
 const form=document.getElementById('join-form'),code=document.getElementById('room-code'),name=document.getElementById('player-name'),host=document.getElementById('host-entry'),status=document.getElementById('entry-status');
 const normalize=value=>value.toUpperCase().replace(/\s+/g,'');
 function error(input,id,message){input.setAttribute('aria-invalid',String(!!message));const node=document.getElementById(id);node.textContent=message;node.hidden=!message;}
 code.addEventListener('input',()=>{code.value=normalize(code.value);error(code,'code-error','');});name.addEventListener('input',()=>error(name,'name-error',''));
-const prefilled=new URL(location.href).searchParams.get('room');if(prefilled&&/^[A-HJ-NP-Z2-9]{4}$/.test(prefilled))code.value=prefilled;
+const prefilled=new URL(location.href).searchParams.get('room');if(prefilled&&isRoomCode(prefilled))code.value=prefilled;
 let busy=false,pending,client,stopConnection;
 const createKey='buzzy-pending-room-create';
 function resume(){if(pending&&!busy&&(pending.role==='host'||(pending.input.code===code.value&&pending.input.name===name.value.trim())))enter(pending.role);}
@@ -12,7 +13,7 @@ function createCommand(){let id=sessionStorage.getItem(createKey);if(!id){id=cry
 async function enter(role){
  if(busy)return;
  if(role==='player'){
-  code.value=normalize(code.value);const ce=/^[A-HJ-NP-Z2-9]{4}$/.test(code.value)?'':'Enter the 4-character room code from your host.',ne=name.value.trim()?'':'Enter your name.';
+  code.value=normalize(code.value);const ce=isRoomCode(code.value)?'':'Enter the 4-character room code from your host.',ne=name.value.trim()?'':'Enter your name.';
   error(code,'code-error',ce);error(name,'name-error',ne);if(ce){code.focus();return;}if(ne){name.focus();return;}
  }
  busy=true;host.disabled=true;form.querySelector('button').disabled=true;status.hidden=false;status.textContent=role==='host'?'Creating your room…':'Joining your room…';
@@ -27,7 +28,7 @@ async function enter(role){
    await client.waitForConnection();
    const result=await client.command(input);
    if(pending!==attempt)return;
-   sessionStorage.setItem('buzzy-spark-ui-session',JSON.stringify({code:result.code,role}));
+   sessionStorage.setItem(SESSION_KEY,JSON.stringify({code:result.code,role}));
    if(role==='host')sessionStorage.removeItem(createKey);
    location.assign(`/${role}`);
   })().catch(error=>{attempt.task=null;throw error;});

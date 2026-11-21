@@ -1,3 +1,4 @@
+import {isRoomCode} from './room-code.js';
 import {deadline,connectionRecovery} from './connection.js';
 import {initializeRuntime} from './runtime-config.js';
 import {initializeApp} from 'firebase/app';
@@ -26,7 +27,7 @@ async function connect(){
     try{await set(ref(db,`rooms/${code}`),room);return {code};}catch(e){if(!permissionDenied(e))throw e;try{const meta=await read(`rooms/${code}/meta`);if(meta?.owner===uid&&meta.createId===x.commandId)return {code};}catch(error){if(!permissionDenied(error))throw error;}if(collision===7)throw e;}
    }
   }
-  const code=String(x.code||'').toUpperCase();if(!/^[A-HJ-NP-Z2-9]{4}$/.test(code))fail('Four-character room code required.');
+  const code=String(x.code||'').toUpperCase();if(!isRoomCode(code))fail('Four-character room code required.');
   const base=`rooms/${code}`, c=await read(`${base}/control`);if(!c)fail('Room not found.');
   if(x.action==='join'){
    if(await read(`${base}/members/${uid}`)){const status=await read(`${base}/moderation/${uid}`);if(status==='banned')fail('You are banned from this session.');if(status==='kicked')await set(ref(db,`${base}/moderation/${uid}`),'active');return {code};}
@@ -130,7 +131,12 @@ async function connect(){
   },reportError));
   return ()=>{stopLoads?.();stops.forEach(stop=>stop());dynamic.forEach(stop=>stop());};
  }
+ // #442: named reads of one room, so the bridge does not need Firebase paths. A network-kit client offers the same names.
+ function roomData(code){const at=part=>read(`rooms/${code}/${part}`);return {
+  control:()=>at('control'),meta:()=>at('meta'),archive:()=>at('archive'),archivedRound:r=>at(`archive/round-${r}`),
+  hostState:()=>at('private/ui'),presentation:()=>at('presentation'),settings:()=>at('settings'),ownMember:()=>at(`members/${uid}`),
+ };}
  function watchViewers(code,next,error){return onValue(ref(db,`rooms/${code}/viewers`),s=>next(Object.keys(s.val()||{}).length),error);}
  function watchOwnViewer(code,next){return onValue(ref(db,`rooms/${code}/viewers/${uid}`),s=>next(s.exists()),()=>next(false));}
- return {auth,db,uid,command,read,watch,watchViewers,watchOwnViewer,serverNow,setOnline:v=>recovery.setOnline(v),reconnect:()=>recovery.recover(),waitForConnection:()=>recovery.ready(),watchConnection:next=>recovery.watch(next)};
+ return {auth,db,uid,command,read,room:roomData,watch,watchViewers,watchOwnViewer,serverNow,setOnline:v=>recovery.setOnline(v),reconnect:()=>recovery.recover(),waitForConnection:()=>recovery.ready(),watchConnection:next=>recovery.watch(next)};
 }

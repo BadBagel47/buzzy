@@ -1,0 +1,29 @@
+<!doctype html>
+<html data-network-role="host" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Buzzy · Host</title>
+<style>@@BUZZY_INCLUDE:page.css@@</style>
+<style>@@BUZZY_INCLUDE:page-network.css@@</style><script>window.BUZZY_RUNTIME={role:"host",transport:"spark-emulator"};</script><link rel="stylesheet" href="/src/room-ui.css"></head>
+<body class="buzzy-design-lab theme-a studio-ui lab-host-view prototype-production">
+<header class="headbar room-host-header"><div class="headinner"><div class="brand" aria-label="Buzzy">bu<b>z</b>zy<span style="color:#80a8ff">.</span></div><div id="network-bar"><button type="button" id="host-status-summary" aria-expanded="false" aria-controls="host-network-notice">Connecting…</button></div><div class="room-header-actions"><button type="button" class="room-icon-button" id="room-share-qr" aria-label="Show room QR" title="Show room QR"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h-3zM21 14v7h-6M12 3v3M3 12h3M12 9v5h-2M12 18v3M18 12h3"/></svg></button><button type="button" class="room-icon-button" id="room-viewer" aria-label="Viewer screen settings" title="Viewer screen settings"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M7 20.5h10M9.5 16.5l-1 4M14.5 16.5l1 4"/><path d="M10 8l4 2-4 2Z"/></svg></button><button type="button" class="room-icon-button" id="leave-room" aria-label="Leave room" title="Leave room"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5M21 12H9"/><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/></svg></button></div><button id="previewtoggle" hidden></button></div><div id="host-network-notice" hidden><div class="host-network-notice-content"><span id="network-status" role="status" aria-live="polite">Connecting…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button></div><button type="button" class="room-icon-button host-notice-dismiss" aria-label="Close connection message" title="Close message">×</button></div></header>
+
+<div class="shell"><main class="maincol" id="maincol"><section id="hostcontent"></section></main><aside class="sidecol" id="sidecol"><section id="playercontent"></section></aside></div>
+
+<div id="modalroot"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="confetti" id="confetti"></div>
+<script>
+// Development preview remains accessible inside the Design Lab; this is not a deploy build.
+document.addEventListener('change', event => {
+ if(event.target?.id==='buzzy-dev-mode')document.dispatchEvent(new CustomEvent('buzzy-development-preview',{detail:{enabled:event.target.checked}}));
+});
+// Design Lab v2 only: independent visual toggles; never alter game state.
+// New render-dependent experiments opt in with data-design-refresh.
+document.addEventListener('change', event => {
+ const key=event.target?.getAttribute?.('data-design-toggle');
+ if(!key||!event.target.matches('input[type=checkbox][data-design-toggle]')||document.body.classList.contains('prototype-production'))return;
+ document.body.classList.toggle(key,event.target.checked);if(event.target.hasAttribute('data-design-refresh'))document.body.dispatchEvent(new CustomEvent('buzzy-design-refresh'));
+});
+</script>
+<script>@@BUZZY_INCLUDE:page.js@@</script>
+<script type="module" src="/src/bridge.js"></script></body></html>

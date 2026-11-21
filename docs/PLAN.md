@@ -1,6 +1,6 @@
 # Buzzy — plan och mål
 
-Uppdaterad 2026-11-13. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
+Uppdaterad 2026-11-21. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); återstartsinformation finns i [HANDOFF.md](HANDOFF.md).
 
 ## Produktmål och ramar
 
@@ -11,13 +11,13 @@ Uppdaterad 2026-11-13. Aktuell uppgiftsstatus finns i [BACKLOG.md](BACKLOG.md); 
 
 ## Nuvarande fas
 
-Live på https://buzzy.trythis.one via Firebase Hosting, som publiceras via grenen `release` (#385). Senaste publicering finns i [HANDOFF.md](HANDOFF.md). Fasen är förfining av hostens gränssnitt (mörkt tema, formspråk), viewer för storskärm och AI-frågor, med löpande användarprov.
+Live på https://buzzy.trythis.one via Firebase Hosting, som publiceras via grenen `release` (#385). Senaste publicering finns i [HANDOFF.md](HANDOFF.md). Fasen är förberedelse för flytten till network-kit (#408): sidorna är vanliga källfiler (#441), reglerna finns som specifikation (#442), hela provsviten körs vid publicering (#429) och frågebanken ligger utanför rummet (#444).
 
 ## Närmast
 
 Uppdaterat 2026-11-21. Buzzy har inga spelare ännu; användaren provar själv.
 
-1. Flytten till network-kit (#408) är huvudspåret. network-kit används redan av Bricks, Critical och Vättigt (enligt användaren 2026-11-21). Först förberedelse (#441, #442, #429), sedan Buzzys rum på network-kit bakom en switch.
+1. Flytten till network-kit (#408) är huvudspåret. network-kit används redan av Bricks, Critical och Vättigt (enligt användaren 2026-11-21). Förberedelsen (#441, #442, #429) och frågebanken utanför rummet (#444) är gjorda 2026-11-21. Nästa steg är Buzzys rum på network-kit bakom en switch.
 2. Fynden från genomgången #415 som löses av flytten rättas inte på Firebase. Bara det som stör egna prov rättas (#417, #418).
 3. Nya frågetyper (#410) byggs på network-kit.
 4. Oberoende av flytten: tillgänglighet (#436–#440) och lägre AI-kostnad (#414).

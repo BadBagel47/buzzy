@@ -1,0 +1,29 @@
+<!doctype html>
+<html data-network-role="player" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Buzzy · Player</title>
+<style>@@BUZZY_INCLUDE:page.css@@</style>
+<style>@@BUZZY_INCLUDE:page-network.css@@</style><script>window.BUZZY_RUNTIME={role:"player",transport:"spark-emulator"};</script><link rel="stylesheet" href="/src/room-ui.css"></head>
+<body class="buzzy-design-lab theme-a studio-ui ">
+<header class="headbar"><div class="headinner"><div class="row"><div class="brand">bu<b>z</b>zy<span style="color:#80a8ff">.</span></div><span class="tag desktoponly">PLAYER</span></div><div class="headtools"><span class="tag headcode" id="header-code">ROOM —</span><button class="btn sm mobile-player-toggle" id="previewtoggle" data-action="toggle-preview">Player view →</button></div></div></header>
+
+<div id="network-bar" class="player-connect-screen"><div class="brand" aria-label="Buzzy">buzzy<span style="color:#80a8ff">.</span></div><span id="network-status" role="status" aria-live="polite">Connecting to your room…</span><button type="button" class="btn sm" id="network-retry" hidden>Try again</button><a href="/" id="leave-room">Leave room</a></div><div class="shell"><main class="maincol" id="maincol"><section id="hostcontent"></section></main><aside class="sidecol" id="sidecol"><section id="playercontent"></section></aside></div>
+
+<div id="modalroot"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="confetti" id="confetti"></div>
+<script>
+// Development preview remains accessible inside the Design Lab; this is not a deploy build.
+document.addEventListener('change', event => {
+ if(event.target?.id==='buzzy-dev-mode')document.dispatchEvent(new CustomEvent('buzzy-development-preview',{detail:{enabled:event.target.checked}}));
+});
+// Design Lab v2 only: independent visual toggles; never alter game state.
+// New render-dependent experiments opt in with data-design-refresh.
+document.addEventListener('change', event => {
+ const key=event.target?.getAttribute?.('data-design-toggle');
+ if(!key||!event.target.matches('input[type=checkbox][data-design-toggle]')||document.body.classList.contains('prototype-production'))return;
+ document.body.classList.toggle(key,event.target.checked);if(event.target.hasAttribute('data-design-refresh'))document.body.dispatchEvent(new CustomEvent('buzzy-design-refresh'));
+});
+</script>
+<script>@@BUZZY_INCLUDE:page.js@@</script>
+<script type="module" src="/src/bridge.js"></script></body></html>

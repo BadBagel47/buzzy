@@ -1,3 +1,4 @@
+import {isRoomCode} from './room-code.js';
 // #347/#352/#354: read-only viewer screen for a TV or projector.
 // It shows only question-related state chosen by the host and never writes game state;
 // its only write is its own registration in one of four viewer seats.
@@ -256,7 +257,7 @@ function fail(error){
  setStatus(latest?'Connection lost — reconnecting…':'We couldn’t connect to the room. Retrying…',{error:true});
 }
 async function start(){
- if(!/^[A-HJ-NP-Z2-9]{4}$/.test(code)){setStatus('Open the viewer link from the host’s Settings to show this room.',{error:true});return;}
+ if(!isRoomCode(code)){setStatus('Open the viewer link from the host’s Settings to show this room.',{error:true});return;}
  document.title=`Buzzy · Viewer · ${code}`;
  setStatus('Connecting to the room…');
  try{client=await getClient();}catch(error){fail(error);setTimeout(start,4000);return;}

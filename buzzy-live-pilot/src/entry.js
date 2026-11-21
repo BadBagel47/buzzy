@@ -40,7 +40,7 @@ async function enter(role){
   })().catch(error=>{attempt.task=null;throw error;});
   await deadline(attempt.task,20000);
  }catch(e){
-  if(role==='player'&&['Room not found.','Room full.','You are banned from this session.'].includes(e.message)&&e.message!=='Room not found.'){error(code,'code-error',e.message==='Room full.'?'This room is full.':'You can’t join this room.');status.textContent='';status.hidden=true;}
+  if(role==='player'&&e.message==='Room full.'){error(code,'code-error','This room is full.');status.textContent='';status.hidden=true;}
   else if(role==='player'&&e.message==='Room not found.'){
    error(code,'code-error',"We couldn’t find a room with that code.");
    status.textContent='';status.hidden=true;code.focus({preventScroll:true});

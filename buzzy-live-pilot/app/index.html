@@ -83,7 +83,7 @@
     .host-option{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 5px;margin-top:18px;font-size:14px;color:var(--muted)}
     .host-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 5px;border:0;border-radius:7px;background:transparent;color:#b6ceff;font-size:14px;font-weight:750}
     .host-button svg{width:15px;height:15px;flex:none}
-    .room-server-choice{flex-basis:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;font-size:13px;color:var(--muted)}.room-server-choice input{width:16px;height:16px;margin:0}
+    .room-server-choice{position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:2;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}.room-server-choice input{appearance:auto;-webkit-appearance:checkbox;width:15px;height:15px;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;flex:none}
     dialog{
       width:calc(100% - 32px);max-width:380px;max-height:calc(100svh - 32px);overflow:auto;
       margin:auto;padding:25px;border:1px solid #425c80;border-radius:21px;
@@ -129,7 +129,7 @@
       </form>
     </section>
 
-    <div class="host-option"><span>Here to host?</span><button class="host-button" id="host-entry" type="button">Host a game <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><label class="room-server-choice" title="Trial of the new room server (#408)"><input type="checkbox" id="room-server"> Use the new room server (trial)</label></div>
+    <div class="host-option"><span>Here to host?</span><button class="host-button" id="host-entry" type="button">Host a game <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><label class="room-server-choice" title="Trial of the new room server (#408)"><input type="checkbox" id="room-server"> New room server (trial)</label></div>
     <noscript><p class="noscript">Enable JavaScript to create or join a room.</p></noscript>
   <p id="entry-status" role="status" class="intro" hidden></p></main>
 

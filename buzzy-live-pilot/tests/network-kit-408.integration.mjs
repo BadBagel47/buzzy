@@ -84,7 +84,7 @@ await test('Host, players and viewer on network-kit rooms',async t=>{
    await idle(host);await host.evaluate(id=>window.BuzzyNetwork.handle(`ban:${id}`),anna);
    await b.waitForFunction(()=>/banned/i.test(document.getElementById('network-status')?.textContent||''));
    await b.goto('http://127.0.0.1:5173');await b.locator('#room-code').fill(code);await b.locator('#player-name').fill('Anna');await b.locator('.join-button').click();
-   await b.waitForFunction(()=>/can’t join this room/.test(document.getElementById('code-error')?.textContent||''));
+   await b.waitForFunction(()=>/banned/.test(document.getElementById('entry-status')?.textContent||''));
    cleo=await page();await cleo.locator('#room-code').fill(code);await cleo.locator('#player-name').fill('Cleo');await cleo.locator('.join-button').click();await ready(cleo);
    await host.waitForFunction(()=>window.BuzzyView.state.players.some(p=>p.name==='Cleo'));
   });

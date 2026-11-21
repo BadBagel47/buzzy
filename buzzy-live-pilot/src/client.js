@@ -1,4 +1,4 @@
-import {isRoomCode} from './room-code.js';
+import {isFirebaseCode as isRoomCode} from './room-code.js';
 import {deadline,connectionRecovery} from './connection.js';
 import {initializeRuntime} from './runtime-config.js';
 import {initializeApp} from 'firebase/app';

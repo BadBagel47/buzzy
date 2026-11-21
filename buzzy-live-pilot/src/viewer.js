@@ -1,8 +1,9 @@
-import {isRoomCode} from './room-code.js';
+import {isRoomCode,isNetworkKitCode} from './room-code.js';
 // #347/#352/#354: read-only viewer screen for a TV or projector.
 // It shows only question-related state chosen by the host and never writes game state;
 // its only write is its own registration in one of four viewer seats.
-import {getClient} from './client.js';
+import {clientFor} from './backend.js';
+import {takeViewerKey} from './nk-client.js';
 import {createCelebration} from './celebration.js';
 
 const root=document.getElementById('viewer'),statusNode=document.getElementById('viewer-status');
@@ -254,17 +255,19 @@ function fail(error){
  const message=error?.message||'';
  if(message==='Room not found.'){ended=true;setStatus('We couldn’t find this room. Ask the host for a new viewer link.',{error:true});return;}
  if(message==='All viewer screens are in use.'){setStatus('All four viewer screens are already in use for this room.',{error:true});return;}
+ if(message==='Room full.'){setStatus('Another viewer screen is already showing this room.',{error:true});return;}
+ if(message.startsWith('This viewer link is not valid')){ended=true;setStatus(message,{error:true});return;}
  setStatus(latest?'Connection lost — reconnecting…':'We couldn’t connect to the room. Retrying…',{error:true});
 }
 async function start(){
  if(!isRoomCode(code)){setStatus('Open the viewer link from the host’s Settings to show this room.',{error:true});return;}
  document.title=`Buzzy · Viewer · ${code}`;
  setStatus('Connecting to the room…');
- try{client=await getClient();}catch(error){fail(error);setTimeout(start,4000);return;}
+ try{if(isNetworkKitCode(code))takeViewerKey(code);client=await clientFor(code);}catch(error){fail(error);setTimeout(start,4000);return;}
  client.watchConnection(value=>{
   connected=value;if(ended)return;
   if(!value){if(latest)setStatus('Connection lost — reconnecting…',{error:true});return;}
-  register().catch(error=>{fail(error);if(!ended&&error?.message!=='All viewer screens are in use.')setTimeout(()=>{if(connected&&!ended)register().catch(fail);},4000);});
+  register().catch(error=>{fail(error);if(!ended&&!['All viewer screens are in use.','Room full.'].includes(error?.message))setTimeout(()=>{if(connected&&!ended)register().catch(fail);},4000);});
  });
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&latest)render();});

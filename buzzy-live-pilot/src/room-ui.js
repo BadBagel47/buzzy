@@ -12,10 +12,10 @@ export function renderHostStatus(code,text,error){
  notice.hidden=!show;summary.setAttribute('aria-expanded',String(show));summary.setAttribute('aria-label',`${code?`Room ${code}`:'Connecting'}${code?`, ${connection.textContent}`:''}${!connected&&!initial?'. Show connection message':''}`);status.textContent=text;
 }
 // UI-only helpers. Room permissions, membership and exit semantics stay in bridge.js.
-export function installRoomUi({api,isHost,getCode,viewer=null}) {
+export function installRoomUi({api,isHost,getCode,getViewerKey=null,viewer=null}) {
  let observed,observer,share,returnFocus,returnFocusSelector,previousOverflow,shareGeneration=0;
  const hostLayout=isHost?installHostLayout():null;
- const url=()=>`${location.origin}/?room=${getCode()}`,viewerUrl=()=>getCode()?`${location.origin}/viewer?room=${getCode()}`:'';
+ const url=()=>`${location.origin}/?room=${getCode()}`,viewerUrl=()=>{if(!getCode())return '';const key=getViewerKey?.();return `${location.origin}/viewer?room=${getCode()}${key?`#key=${encodeURIComponent(key)}`:''}`;};
  function resizeBuzzer(){
   if(!observed?.isConnected)return;
   const style=getComputedStyle(observed),box=observed.getBoundingClientRect();

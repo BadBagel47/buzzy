@@ -1,0 +1,94 @@
+name: Rooms - deploy network-kit room server
+
+# #408: Buzzy's room server (buzzy-live-pilot/worker, rooms/, vendor/network-kit) as the Cloudflare Worker
+# buzzy-rooms on buzzy-rooms.trythis.one. Runs when the release branch changes it, so the room server and
+# the pages are published together. Needs the repository secret CLOUDFLARE_API_TOKEN (the same token the
+# other games use); CLOUDFLARE_ACCOUNT_ID and TRYTHIS_COUNTRY_BYPASS are optional. Without the token the
+# job is skipped with a notice.
+on:
+  push:
+    branches: [release]
+    paths:
+      - 'buzzy-live-pilot/rooms/**'
+      - 'buzzy-live-pilot/worker/**'
+      - 'buzzy-live-pilot/vendor/network-kit/**'
+      - 'buzzy-live-pilot/wrangler.jsonc'
+      - '.github/workflows/deploy-rooms.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-rooms
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      TRYTHIS_COUNTRY_BYPASS: ${{ secrets.TRYTHIS_COUNTRY_BYPASS }}
+    defaults:
+      run:
+        working-directory: buzzy-live-pilot
+    steps:
+      - name: Check for the Cloudflare token
+        id: token
+        working-directory: .
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::notice::CLOUDFLARE_API_TOKEN is not set; the room server was not deployed."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Check out
+        if: steps.token.outputs.skip != 'true'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Select Node
+        if: steps.token.outputs.skip != 'true'
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: buzzy-live-pilot/package-lock.json
+      - name: Install locked dependencies
+        if: steps.token.outputs.skip != 'true'
+        run: npm ci --no-audit --no-fund
+      - name: Test the rules and the network-kit copy
+        if: steps.token.outputs.skip != 'true'
+        run: |
+          node --test tests/rooms-rules.test.mjs
+          node vendor/network-kit/smoke.mjs --options rooms/options.js
+      - name: Deploy and check
+        if: steps.token.outputs.skip != 'true'
+        run: |
+          # A brand-new Worker can fail with code 10007 right after its upload; once more works (network-kit F-112).
+          deploy() {
+            for attempt in 1 2; do
+              npx wrangler deploy "$@" 2>&1 | tee deploy.log
+              [ "${PIPESTATUS[0]}" = 0 ] && return 0
+              grep -q 'code: 10007' deploy.log || return 1
+              sleep 15
+            done
+            return 1
+          }
+          deploy --domain buzzy-rooms.trythis.one
+          url=https://buzzy-rooms.trythis.one
+          edge=()
+          if [ -n "$TRYTHIS_COUNTRY_BYPASS" ]; then echo "::add-mask::$TRYTHIS_COUNTRY_BYPASS"; edge=(-H "x-trythis-country-bypass: $TRYTHIS_COUNTRY_BYPASS"); fi
+          # The previous version (or nothing, after a first upload) may answer for a while (network-kit B-119, F-143).
+          want=$(cat vendor/network-kit/VERSION)
+          for i in $(seq 1 36); do
+            body=$(curl -fsS "${edge[@]}" "$url/rooms" || true)
+            echo "$body" | grep -q "\"version\":\"$want\"" && break
+            sleep 5
+          done
+          if ! echo "$body" | grep -q "\"version\":\"$want\""; then
+            if [ -z "$TRYTHIS_COUNTRY_BYPASS" ]; then echo "::warning::$url/rooms did not answer with $want (TRYTHIS_COUNTRY_BYPASS is not set, so the country rule may stop this check): $body"; exit 0; fi
+            echo "::error::$url/rooms did not answer with version $want within 3 minutes (last: $body)"; exit 1
+          fi
+          echo "Room server network-kit $want on $url" >> "$GITHUB_STEP_SUMMARY"

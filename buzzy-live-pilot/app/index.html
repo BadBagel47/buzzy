@@ -83,6 +83,7 @@
     .host-option{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 5px;margin-top:18px;font-size:14px;color:var(--muted)}
     .host-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 5px;border:0;border-radius:7px;background:transparent;color:#b6ceff;font-size:14px;font-weight:750}
     .host-button svg{width:15px;height:15px;flex:none}
+    .room-server-choice{flex-basis:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;font-size:13px;color:var(--muted)}.room-server-choice input{width:16px;height:16px;margin:0}
     dialog{
       width:calc(100% - 32px);max-width:380px;max-height:calc(100svh - 32px);overflow:auto;
       margin:auto;padding:25px;border:1px solid #425c80;border-radius:21px;
@@ -110,8 +111,8 @@
 
       <form id="join-form" novalidate>
         <div class="field-group">
-          <div class="label-row"><label for="room-code">Room code</label><span class="field-hint" id="code-hint">4 characters</span></div>
-          <input class="room-code" id="room-code" name="roomCode" type="text" inputmode="text" maxlength="4" placeholder="····" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-hint code-error" required>
+          <div class="label-row"><label for="room-code">Room code</label><span class="field-hint" id="code-hint">4 or 6 characters</span></div>
+          <input class="room-code" id="room-code" name="roomCode" type="text" inputmode="text" maxlength="6" placeholder="····" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-hint code-error" required>
           <p class="field-error" id="code-error" aria-live="polite" hidden></p>
         </div>
 
@@ -128,7 +129,7 @@
       </form>
     </section>
 
-    <div class="host-option"><span>Here to host?</span><button class="host-button" id="host-entry" type="button">Host a game <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
+    <div class="host-option"><span>Here to host?</span><button class="host-button" id="host-entry" type="button">Host a game <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><label class="room-server-choice" title="Trial of the new room server (#408)"><input type="checkbox" id="room-server"> Use the new room server (trial)</label></div>
     <noscript><p class="noscript">Enable JavaScript to create or join a room.</p></noscript>
   <p id="entry-status" role="status" class="intro" hidden></p></main>
 
@@ -140,9 +141,9 @@
     <h2 id="privacy-title" tabindex="-1" autofocus>Privacy</h2>
     <p>Buzzy lets a host run a quiz while players buzz in from their own devices. No account or email is needed, and Buzzy uses no cookies, ads or analytics.</p>
     <p><b>What is stored.</b> The name you type, an anonymous ID for your device, your buzzes and your score. Everything belongs to one game room. The host's questions and answers are visible only to the host. A nickname is enough.</p>
-    <p><b>How long.</b> A room and everything in it is deleted when the host ends the game. Rooms that are left open are not yet deleted automatically.</p>
-    <p><b>On your device.</b> Buzzy keeps your current room, and for hosts a few settings, in your browser so the game still works after a reload.</p>
-    <p><b>Who processes data.</b> Buzzy runs on Google Firebase, with the database in the EU. Hosts who use AI questions send topics directly to Anthropic with their own key; no player data is sent. Images in questions load from the address the host chose.</p>
+    <p><b>How long.</b> A room and everything in it is deleted when the host ends the game. Rooms that are left open are not yet deleted automatically. Rooms on the new room server (a trial the host can choose) are deleted 24 hours after the last person leaves.</p>
+    <p><b>On your device.</b> Buzzy keeps your current room, and for hosts their questions and a few settings, in your browser so the game still works after a reload.</p>
+    <p><b>Who processes data.</b> Buzzy runs on Google Firebase, with the database in the EU. Rooms on the new room server run on Cloudflare in the EU; Cloudflare processes your IP address to deliver the connection. Hosts who use AI questions send topics directly to Anthropic with their own key; no player data is sent. Images in questions load from the address the host chose.</p>
     <p><b>Contact.</b> A contact form is coming. You can also contact the Swedish Authority for Privacy Protection (IMY).</p>
     <button class="dialog-close" id="privacy-close" type="button">Close</button>
   </dialog>

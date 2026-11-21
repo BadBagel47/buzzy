@@ -1,7 +1,7 @@
 import {isRoomCode,SESSION_KEY} from './room-code.js';
 import {loadLibrary,saveLibrary,freshCopy,exportLibrary,chooseImportFile} from './question-library.js';
 import {deadline} from './connection.js';
-import {getClient} from './client.js';
+import {clientFor} from './backend.js';
 import {installRoomUi} from './room-ui.js';
 import {patchHostMarkup} from './host-markup.js';
 import {createCelebration} from './celebration.js';
@@ -36,7 +36,7 @@ const celebration=createCelebration(()=>s.celebration);
 // #352: the sharing view can put the join screen on viewer screens; it is saved like other host settings.
 // Focus rings are for keyboard users: remember whether the last input was a pointer or a key (not shortcuts such as Cmd+Shift+4).
 for(const type of ['pointerdown','keydown'])document.addEventListener(type,event=>{if(type==='keydown'&&(event.metaKey||event.ctrlKey||event.altKey||['Shift','Meta','Control','Alt'].includes(event.key)))return;document.documentElement.dataset.input=type==='keydown'?'keyboard':'pointer';},true);
-const roomUi=installRoomUi({api,isHost,getCode:()=>code});
+const roomUi=installRoomUi({api,isHost,getCode:()=>code,getViewerKey:()=>client?.viewerKey?.()||''});
 // #378: light or dark host theme, following the device unless the host chose otherwise on this device.
 const hostTheme=isHost?installHostTheme({onChange:choice=>{s.hostTheme=choice;}}):null;if(hostTheme)s.hostTheme=hostTheme.choice;
 // #387: questions written and fact-checked by Claude with the host's own key (kept in this browser only).
@@ -360,7 +360,7 @@ async function start(){
  stopWatch?.();stopConnection?.();
  let saved;try{saved=JSON.parse(sessionStorage.getItem(sessionKey));}catch{}
  if(!saved||saved.role!==role||!isRoomCode(saved.code))throw new Error('No room selected. Return to the start page to create or join a room.');
- code=saved.code;client=await getClient();
+ code=saved.code;client=await clientFor(code);
  // Initial connection is pending, not a failure: keep retry out of the header until needed.
  stopConnection=client.watchConnection(value=>{connected=value;trackConnection(value);if(roomEnded){afterRender();return;}retry.hidden=!blocked&&(!s.networkReady||value||!offlineShown);if(value&&blocked&&!starting)queueMicrotask(begin);if(s.networkReady&&!blocked){if(value||offlineShown)message(value?`Room ${code} · Connected`:'Disconnected — waiting to reconnect');api.render();afterRender();}});
  await client.waitForConnection();

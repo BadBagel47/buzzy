@@ -20,6 +20,7 @@ Uppdaterad 2026-11-21. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - 2026-11-13 (#406, integritetstexten): ansvarig anges som "Buzzy" utan namn, ett kontaktformulär läggs till senare, och texten beskriver läget i dag. Agenten har påpekat att det troligen inte räcker för GDPR:s krav på identitet och kontaktuppgift.
 - 2026-11-18 (#408, flytten till network-kit): vid flytten får rummen fler spelarplatser och färre storskärmar än i dag (12 och 4), och rumskoderna blir 6 tecken. Exakta antal bestäms vid flytten.
 - 2026-11-21 (#408): fokus på flytten till network-kit; network-kits stöd (F-147–F-151, D-152) byggs först; 30 spelare och 1 storskärm per rum; egen Worker på egen underdomän under provperioden; adminsidan och Playtest används; samma Cloudflare-nyckel som de andra spelen. Detaljer i [NETWORK_KIT_408.md](NETWORK_KIT_408.md).
+- 2026-11-21 (#408): network-kit 0.21.0 är publicerad (tagg `v0.21.0`) med allt Buzzy bad om. Nästa steg är körning F (Buzzys rum på network-kit bakom en switch), som väntar på körbesked.
 - Övriga beslut om arbetssättet finns i [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md), och mål och pausade spår i [PLAN.md](PLAN.md). Kör betyder bygga, prova, pusha och publicera via `release`.
 
 ### Dokumentkarta

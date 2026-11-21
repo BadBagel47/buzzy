@@ -14,25 +14,27 @@ Statusfältet anger det senaste verifierade steget: registrerat → körbesked �
 
 ## Proposed runs
 
-Förslag 2026-11-21: fokus på flytten till network-kit (#408), eftersom Buzzy saknar spelare och de flesta fynden från #415 löses av flytten. Modellnivåer anges neutralt.
+Förslag 2026-11-21: fokus på flytten till network-kit (#408). network-kits stöd (F-147–F-151, D-152) byggs i network-kit samtidigt. Modellnivåer anges neutralt.
 
 - **A** – stark modell, hög nivå – Förberedelse för flytten (steg 1)
   - #441 – Prototypen görs om till vanliga källfiler och bygget stoppas om en ersättning inte träffar, så att flytten kan göras i vanlig kod.
   - #442 – En regellista som specifikation för rummets regler och ett namngivet gränssnitt mot nätverksdelen, så att network-kit kan kopplas in bredvid Firebase.
   - #429 – Hela provsviten körs vid publicering och vid push till main.
-- **B** – stark modell, hög nivå – Flytten, steg 2
-  - #408 – Buzzys rum på network-kit med reglerna i rummet, bakom en switch hos hosten; Firebase finns kvar som förval.
+- **B** – stark modell, hög nivå – Frågebank utanför rummet
+  - #444 – Förberedda frågor sparas i hostens webbläsare med export/import och kopieras in i rummet när quizet startar; fungerar redan på Firebase och gör att rummet bara behöver bära den aktuella frågan efter flytten.
 - **C** – stark modell, medelnivå – Det som stör egna prov på Firebase
   - #417 – En nekad sparning stoppas med ett läsbart besked, och formuläret kontrollerar bildadressen.
   - #418 – Viewerns frågetext kommer tillbaka efter en dold fråga.
-- **D** – standardmodell, medelnivå – Tillgänglighet (påverkas inte av flytten)
+- **D** – standardmodell, medelnivå – Tillgänglighet (efter A, eftersom A flyttar samma kod)
   - #436, #437, #438, #440 – Kontrast, skärmläsare, storlekar och enhetliga ord.
 - **E** – stark modell, hög nivå – Lägre AI-kostnad
   - #414 – Promptcachning, faktakoll av reservfrågor bara vid behov och kostnad per steg.
+- **F** – stark modell, hög nivå – Flytten, steg 2 (när A och network-kits stöd är klara)
+  - #408 – Buzzys rum på network-kit med reglerna i rummet, bakom en switch hos hosten.
 
 Läggs på flytten (rättas inte på Firebase): #416, #419–#428, #432, #434. #410 byggs på network-kit. Låg prioritet: #430, #431, #435, #443.
 
-Väntar på underlag från användaren: #332 och #405 (beslut enligt avsnitt 5 i [PRIVACY_332.md](PRIVACY_332.md)), #290, #345, #284.
+Väntar på underlag från användaren: #332 och #405 (beslut enligt avsnitt 5 i [PRIVACY_332.md](PRIVACY_332.md)), #410 (närmast vinner: delad vinst och över/under), #290, #345, #284.
 
 Parkerat: #331, #348, #349, #350, #351 väg 2, #360, #377 (bevakas), #380.
 

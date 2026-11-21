@@ -69,6 +69,8 @@ jobs:
         working-directory: buzzy-live-pilot
         run: |
           npx --no-install playwright install --with-deps chromium
+          # Layout tests measure text; use the page font (Inter) as on the local test machine.
+          sudo apt-get install -y --no-install-recommends fonts-inter
           node --input-type=module -e 'import {chromium} from "playwright"; import {appendFileSync} from "node:fs"; appendFileSync(process.env.GITHUB_ENV, "CHROMIUM_PATH=" + chromium.executablePath() + "\n")'
       - name: Verify HTTPS pilot with all cloud requests intercepted
         working-directory: buzzy-live-pilot

@@ -59,6 +59,8 @@ Gjord 2026-11-21 mot network-kit 0.19.0 (`docs/INTEGRATION.md`, `CHANGELOG.md`, 
 
 ## 5. Ordning
 
+Användarens beslut 2026-11-21: network-kits stöd (F-147–F-151, D-152) byggs först, i network-kit, innan Buzzy implementerar steg 2. Buzzys förberedelse i steg 1 kan göras samtidigt.
+
 1. #441 och #442 (prototypen till källfiler, regellista och gränssnitt), #429 (prov vid publicering).
 2. Worker med network-kit-kopia, regler och Node-prov för reglerna; publicering via GitHub Actions.
 3. Klienten för network-kit bakom switchen; prov i båda lägena.

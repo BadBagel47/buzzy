@@ -67,6 +67,8 @@ Gjord 2026-11-21 mot network-kit 0.19.0 (`docs/INTEGRATION.md`, `CHANGELOG.md`, 
 
 ## 6. Tips till network-kit
 
+Registrerade i network-kits backlogg 2026-11-21: F-147 (punkt 1), F-148 (2), F-149 (3), F-150 (4), F-151 (5), D-152 (6), D-153 (7–9). Ingen påbörjad; ägaren väljer ordningen.
+
 Nu:
 
 1. **Lagra server-run-spelets state i delar eller nycklar**, som snapshot och välkomststate redan gör, eller låt reglerna lagra stora sällan ändrade delar separat (`room.store(key, value)`). Annars skrivs en stor frågebank om vid varje buzz.

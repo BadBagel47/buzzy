@@ -1,0 +1,8 @@
+// Local tests only: no admin page, no jurisdiction, any origin.
+{
+  "name": "buzzy-rooms-local",
+  "main": "worker/local.js",
+  "compatibility_date": "2026-11-01",
+  "durable_objects": { "bindings": [{ "name": "ROOMS", "class_name": "Room" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }]
+}

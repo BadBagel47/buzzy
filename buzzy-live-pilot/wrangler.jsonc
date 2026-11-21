@@ -1,0 +1,10 @@
+// #408: Buzzy's room server (network-kit). Deployed by .github/workflows/deploy-rooms.yml.
+{
+  "name": "buzzy-rooms",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "durable_objects": { "bindings": [{ "name": "ROOMS", "class_name": "Room" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
+  "services": [{ "binding": "NETWORK_KIT_ADMIN", "service": "network-kit-admin", "entrypoint": "GameApi" }],
+  "vars": { "ROOM_JURISDICTION": "eu" }
+}

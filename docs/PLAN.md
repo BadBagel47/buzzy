@@ -17,7 +17,7 @@ Live på https://buzzy.trythis.one via Firebase Hosting, som publiceras via gren
 
 Uppdaterat 2026-11-21. Buzzy har inga spelare ännu; användaren provar själv.
 
-1. Flytten till network-kit (#408) är huvudspåret. network-kit används redan av Bricks, Critical och Vättigt (enligt användaren 2026-11-21). Förberedelsen (#441, #442, #429) och frågebanken utanför rummet (#444) är gjorda 2026-11-21. Steg 2 (Buzzys rum på network-kit bakom hostens val) är byggt 2026-11-21; därefter Buzzys rum på network-kit bakom en switch.
+1. Flytten till network-kit (#408) är huvudspåret. network-kit används redan av Bricks, Critical och Vättigt (enligt användaren 2026-11-21). Förberedelsen (#441, #442, #429) och frågebanken utanför rummet (#444) är gjorda 2026-11-21. Steg 2 (Buzzys rum på network-kit bakom hostens val) är byggt 2026-11-21. Därefter: rumsservern publiceras, användarprov med Playtest, network-kit som förval, sedan #410 på network-kit.
 2. Fynden från genomgången #415 som löses av flytten rättas inte på Firebase. Bara det som stör egna prov rättas (#417, #418).
 3. Nya frågetyper (#410) byggs på network-kit.
 4. Oberoende av flytten: tillgänglighet (#436–#440) och lägre AI-kostnad (#414).

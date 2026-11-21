@@ -15,11 +15,13 @@ Live på https://buzzy.trythis.one via Firebase Hosting, som publiceras via gren
 
 ## Närmast
 
-1. Integritet och gallring inför lansering: #332 och #405. Underlaget finns i [PRIVACY_332.md](PRIVACY_332.md) och väntar på beslut.
-2. Användarprov av publicerade ändringar på riktiga enheter, se HANDOFF.
-3. #290 (vibration) och #345 (tillfälligt hostfel) när det finns nytt underlag.
-4. #387 (AI-frågor) mot riktiga Claude när nyckeln finns.
-5. Parkerat: #331 (hostinloggning, väntar på engångslänkslösning), #348–#350, #351 väg 2, #360, #377 och #380.
+Uppdaterat 2026-11-21. Buzzy har inga spelare ännu; användaren provar själv.
+
+1. Flytten till network-kit (#408) är huvudspåret. network-kit används redan av Bricks, Critical och Vättigt (enligt användaren 2026-11-21). Först förberedelse (#441, #442, #429), sedan Buzzys rum på network-kit bakom en switch.
+2. Fynden från genomgången #415 som löses av flytten rättas inte på Firebase. Bara det som stör egna prov rättas (#417, #418).
+3. Nya frågetyper (#410) byggs på network-kit.
+4. Oberoende av flytten: tillgänglighet (#436–#440) och lägre AI-kostnad (#414).
+5. Integritet och gallring (#332, #405) väntar på användarens beslut; gallringen följer med network-kit.
 
 ## Inför skarp lansering
 

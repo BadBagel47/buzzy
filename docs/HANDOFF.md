@@ -23,7 +23,7 @@ Uppdaterad 2026-11-13. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 
 ### Dokumentkarta
 
-[PLAN.md](PLAN.md) (mål), [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md) (arbetssätt), [BACKLOG.md](BACKLOG.md) (funktioner och buggar, med Proposed runs och Klart), [PRIVACY_332.md](PRIVACY_332.md) (integritet och gallring), [WEBBSETUP.md](WEBBSETUP.md) (Firebase, domän och regler), ID-underlag: [CONFETTI_283_284.md](CONFETTI_283_284.md), [INVESTIGATION_290.md](INVESTIGATION_290.md), [PAKET_289.md](PAKET_289.md), [PILOT_RUN_289.md](PILOT_RUN_289.md), [PLAYER_EXIT_295_297.md](PLAYER_EXIT_295_297.md), [RECONNECT_293.md](RECONNECT_293.md), [RULES_REVIEW_289.md](RULES_REVIEW_289.md), [UI_BATCH_292_303.md](UI_BATCH_292_303.md), [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md), historik i `docs/archive/`.
+[PLAN.md](PLAN.md) (mål), [WORKING_AGREEMENTS.md](WORKING_AGREEMENTS.md) (arbetssätt), [BACKLOG.md](BACKLOG.md) (funktioner och buggar, med Proposed runs och Klart), [PRIVACY_332.md](PRIVACY_332.md) (integritet och gallring), [NETWORK_KIT_408.md](NETWORK_KIT_408.md) (avstämning inför flytten), `reviews/` (genomgången #415), [WEBBSETUP.md](WEBBSETUP.md) (Firebase, domän och regler), ID-underlag: [CONFETTI_283_284.md](CONFETTI_283_284.md), [INVESTIGATION_290.md](INVESTIGATION_290.md), [PAKET_289.md](PAKET_289.md), [PILOT_RUN_289.md](PILOT_RUN_289.md), [PLAYER_EXIT_295_297.md](PLAYER_EXIT_295_297.md), [RECONNECT_293.md](RECONNECT_293.md), [RULES_REVIEW_289.md](RULES_REVIEW_289.md), [UI_BATCH_292_303.md](UI_BATCH_292_303.md), [UI_REFINEMENTS_304_313.md](UI_REFINEMENTS_304_313.md), historik i `docs/archive/`.
 
 ## Aktuellt läge
 

@@ -57,6 +57,18 @@ Gjord 2026-11-21 mot network-kit 0.19.0 (`docs/INTEGRATION.md`, `CHANGELOG.md`, 
 8. **Playtest:** använda network-kits Playtest och inspelning för dina egna prov. Förslag: ja, med en kort lista över prov för Buzzy.
 9. **Cloudflare-token:** samma token som de andra spelen använder, eller en ny med behörighet bara för Buzzys Worker. Förslag: ny token begränsad till Workers på kontot.
 
+### Användarens svar 2026-11-21
+
+1. Rumsservern: egen Worker på en egen underdomän under provperioden; sidorna kvar på Firebase Hosting; efter provperioden sidor och rumsserver i samma Worker på `buzzy.trythis.one`.
+2. Buzzy kopplas till network-kits adminsida: ja.
+3. Platser: 30 spelare och 1 storskärm (viewer).
+4. Åtkomst: spelare med kod eller QR (öppna rum), storskärmen bara med sin egen länk (`needsKey`).
+5. Avstängning: ett val i network-kit så att rummet inte blir privat (F-149), byggt före Buzzys implementation.
+6. Förval under provperioden: Firebase tills network-kit-läget klarar proven, därefter network-kit.
+7. Rummets livslängd: ingen preferens; agentens förslag gäller: stäng efter 3 timmar när alla skärmar ligger i bakgrunden (`idleCloseMs`), radera 24 timmar efter att sista deltagaren lämnat.
+8. Playtest: ja.
+9. Cloudflare-nyckel: samma som de andra spelen (användarens val; en läckt nyckel påverkar alla spel).
+
 ## 5. Ordning
 
 Användarens beslut 2026-11-21: network-kits stöd (F-147–F-151, D-152) byggs först, i network-kit, innan Buzzy implementerar steg 2. Buzzys förberedelse i steg 1 kan göras samtidigt.

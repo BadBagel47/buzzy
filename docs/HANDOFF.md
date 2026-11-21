@@ -11,6 +11,7 @@ Uppdaterad 2026-11-21. Läs därefter [arbetssättet](WORKING_AGREEMENTS.md), [p
 - Grenar: `main`, `release` (spegel av `main` för publicering) och `restore/fore-cloudflare` (återställningspunkt före #408), alla avsiktligt kvar. Tagg `fore-viewer` är återställningspunkt. Inga öppna PR:er eller Issues.
 - Känslig information (kontrollerat 2026-11-13, alla grenar och hela historiken): Firebase-webbnyckeln finns i koden och historiken och är offentlig av design; databasreglerna skyddar datan. `sk-ant-api03-localtestkey…` i proven är en påhittad testnyckel. Hostens frågor och svar lagras i databasen under `private`, som bara hosten kan läsa. Demofrågornas svar (#388) finns i källkoden, men de är bara exempel. `.gitignore` täcker `.env`.
 - Verktygsläge 2026-11-18, Claude-molnsession: push till `main`, `release` och andra grenar fungerar, `gh` läser via REST (GraphQL och skrivning via API är spärrat), taggar kan inte pushas direkt; de skapas via arbetsflödet `create-tags.yml`.
+- Verktygsläge 2026-11-21: agenten kan inte läsa privata utkast till säkerhetsrapporter i repot (listan returneras tom). Säkerhetsgenomgången från #415 ligger där; användaren klistrar in den vid behov.
 - Engångsåtgärder: klara: publicering via `release` (#385), `.claude/settings.json` (lagt in av användaren) och taggar via arbetsflöde (2026-11-18, se Återställningspunkt). Möjlig framtida: databas- och Auth-behörighet för tjänstekontot, för gallring (#332, alternativ A).
 
 ### Beslut

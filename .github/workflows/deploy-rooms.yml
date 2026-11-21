@@ -5,6 +5,7 @@ name: Rooms - deploy network-kit room server
 # the pages are published together. Needs the repository secret CLOUDFLARE_API_TOKEN (the same token the
 # other games use); CLOUDFLARE_ACCOUNT_ID and TRYTHIS_COUNTRY_BYPASS are optional. Without the token the
 # job is skipped with a notice.
+# To deploy again without a change to the room server, run this workflow from the Actions tab (Run workflow).
 on:
   push:
     branches: [release]

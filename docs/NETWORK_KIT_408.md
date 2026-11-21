@@ -65,7 +65,7 @@ Gjord 2026-11-21 mot network-kit 0.19.0 (`docs/INTEGRATION.md`, `CHANGELOG.md`, 
 4. Åtkomst: spelare med kod eller QR (öppna rum), storskärmen bara med sin egen länk (`needsKey`).
 5. Avstängning: ett val i network-kit så att rummet inte blir privat (F-149), byggt före Buzzys implementation.
 6. Förval under provperioden: Firebase tills network-kit-läget klarar proven, därefter network-kit.
-7. Rummets livslängd: ingen preferens; agentens förslag gäller: stäng efter 3 timmar när alla skärmar ligger i bakgrunden (`idleCloseMs`), radera 24 timmar efter att sista deltagaren lämnat.
+7. Rummets livslängd (se även #444: frågebanken måste ligga utanför rummet): ingen preferens; agentens förslag gäller: stäng efter 3 timmar när alla skärmar ligger i bakgrunden (`idleCloseMs`), radera 24 timmar efter att sista deltagaren lämnat.
 8. Playtest: ja.
 9. Cloudflare-nyckel: samma som de andra spelen (användarens val; en läckt nyckel påverkar alla spel).
 

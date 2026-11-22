@@ -53,7 +53,8 @@ function makeClient(){
  /** Join this page's room in the role the start page chose. */
  function ensure(code){
   const saved=session();
-  if(/\/viewer(\.html)?$/.test(location.pathname))return enter(code,{role:'viewer',key:sessionStorage.getItem(VIEWER_KEY+code)||undefined,slot:'screen',name:'Viewer'});
+  if(/\/viewer(\.html)?$/.test(location.pathname))// The room has one viewer seat: the same browser takes its own seat back, also from a new tab (identity per device).
+  return enter(code,{role:'viewer',key:localStorage.getItem(VIEWER_KEY+code)||undefined,slot:'screen',identity:'device',name:'Viewer'});
   if(saved.role==='host')return enter(code,{name:'Host'});
   return enter(code,{name:saved.name||'Player'});
  }
@@ -137,6 +138,6 @@ function makeClient(){
 /** The viewer page keeps the key from its link for reloads and takes it out of the address bar. */
 export function takeViewerKey(code){
  const params=new URLSearchParams(location.hash.slice(1)),key=params.get('key');
- if(key){sessionStorage.setItem(VIEWER_KEY+code,key);history.replaceState(history.state,'',location.pathname+location.search);}
- return sessionStorage.getItem(VIEWER_KEY+code)||'';
+ if(key){localStorage.setItem(VIEWER_KEY+code,key);history.replaceState(history.state,'',location.pathname+location.search);}
+ return localStorage.getItem(VIEWER_KEY+code)||'';
 }

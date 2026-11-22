@@ -246,7 +246,9 @@ html[data-network-role=host][data-input=pointer] :is(button,a,summary,input,sele
 .room-share-screen .room-share-copy:focus-visible,.room-share-screen .room-share-close:focus-visible { outline:3px solid #90acff;outline-offset:3px; }
 @media (min-width:900px) and (min-height:520px) {
  .room-share-content { margin:auto;padding-top:0; }
- .room-share-content h1 { font-size:clamp(48px,9dvh,96px); }
+ /* #448: the heading stays on one line beside the QR code; it shrinks with the window instead of wrapping. */
+ .room-share-content { max-width:min(1500px,94vw);grid-template-columns:auto auto;justify-content:center; }
+ .room-share-content h1 { font-size:min(clamp(48px,9dvh,96px),4.4vw);white-space:nowrap; }
 }
 
 /* #361: the empty message in Round overview follows the light host theme. */

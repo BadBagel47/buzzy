@@ -78,7 +78,15 @@ function makeClient(){
   const code=String(x.code||'').toUpperCase();
   if(x.action==='join'){
    const name=String(x.name||'').trim();if(!name||name.length>24)throw new Error('Name must contain 1–24 characters.');
-   const r=await enter(code,{name});await currentView(code);
+   const r=await enter(code,{name});
+   // #449: the room refuses a name that is already used; wait for membership or that answer.
+   const taken=await deadline(new Promise(resolve=>{
+    const check=()=>{if(view?.members?.[r.me]){stop();resolve(false);}};
+    const stopMessage=r.on('message',({data})=>{if(data?.t==='name-taken'){stop();resolve(true);}});
+    const stopView=(fn=>{views.add(fn);return ()=>views.delete(fn);})(check);
+    const stop=()=>{stopMessage();stopView();};check();
+   }));
+   if(taken){r.leave();room=null;view=null;throw Object.assign(new Error('That name is already taken in this room. Add a number or choose another name.'),{code:'name-taken'});}
    // The player page joins again as the same participant.
    r.disconnect();room=null;view=null;return {code};
   }

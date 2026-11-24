@@ -147,3 +147,15 @@ test('The viewer screen needs its own link and cannot send', async () => {
   assert.equal(t.received(screen).filter((m) => m.t === 'res').length, 0);
   await assert.rejects(t.join('Second screen', {role: 'viewer', key: t.keys.viewer.k}), /not let in/);
 });
+
+test('A name already used in the room is refused (#449)', async () => {
+  const {t, state} = await setup();
+  const ana = await t.join('Anna');
+  const twin = await t.join(' anna ');
+  assert.deepEqual(t.received(twin).filter((m) => m.t === 'name-taken').length, 1);
+  assert.equal(Object.keys(t.game.members).length, 1);
+  assert.equal(t.game.members[twin.id], undefined);
+  const other = await t.join('Anna 2');
+  assert.equal(state(other).members[other.id].name, 'Anna 2');
+  assert.equal(state(ana).members[ana.id].name, 'Anna');
+});

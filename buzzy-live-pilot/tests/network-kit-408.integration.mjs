@@ -42,6 +42,11 @@ await test('Host, players and viewer on network-kit rooms',async t=>{
    for(const name of ['Alex','Anna']){const p=await page();await p.locator('#room-code').fill(code.toLowerCase());await p.locator('#player-name').fill(name);await p.locator('.join-button').click();await ready(p);if(name==='Alex')a=p;else b=p;}
    await host.waitForFunction(()=>window.BuzzyView.state.players.length===2);
    assert.deepEqual((await state(host)).players.map(p=>[p.name,p.score,p.status]),[['Alex',0,'active'],['Anna',0,'active']]);
+   // #449: a name already in the room is refused on the start page.
+   const twin=await page();await twin.locator('#room-code').fill(code);await twin.locator('#player-name').fill('anna');await twin.locator('.join-button').click();
+   await twin.waitForFunction(()=>/already taken/.test(document.getElementById('name-error')?.textContent||''));
+   assert.equal(new URL(twin.url()).pathname,'/');await twin.close();
+   await host.waitForTimeout(300);assert.equal((await state(host)).players.length,2);
    await idle(host);await host.locator('.quickplay-main[data-action="open"]').click();
    await a.waitForFunction(()=>window.BuzzyView.state.phase==='open');await b.waitForFunction(()=>window.BuzzyView.state.phase==='open');
   });

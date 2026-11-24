@@ -16,6 +16,8 @@ const MAX_BUZZ_CORRECTION_MS = 100;
 class RuleError extends Error {}
 const fail = (message) => { throw new RuleError(message); };
 const emptyAttempt = () => ({n: 0, hits: {}, first: null, judgments: {}});
+/** Names compare without case, accents written two ways, or extra spaces (#449). */
+export const sameName = (a, b) => String(a ?? '').normalize('NFKC').toLocaleLowerCase('sv').replace(/\s+/g, ' ').trim() === String(b ?? '').normalize('NFKC').toLocaleLowerCase('sv').replace(/\s+/g, ' ').trim();
 const clamp = (allowNegative, before, requested) => (allowNegative === false && requested < 0 ? (before < 0 ? before : Math.max(0, before + requested)) : before + requested);
 
 export function initialGame(now) {
@@ -219,6 +221,9 @@ export const buzzyRules = {
     const g = room.game;
     if (who.role === 'player') {
       if (!g.members[who.id]) {
+        // #449: a name already used in this room is refused; the player adds a number or picks another name.
+        const taken = Object.values(g.members).some((m) => sameName(m.name, who.name));
+        if (taken) { room.send([who.id], {t: 'name-taken'}); return; }
         const c = g.control;
         // Someone who joins while a question is shown or open plays from the next one (the page shows them as waiting or queued).
         const fromRound = c.r + (c.phase === 'ready' && !g.presentation?.shown ? 0 : 1);

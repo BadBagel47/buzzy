@@ -15,6 +15,8 @@ await test('Mobile UI refinements: navigation, stable animations, Settings and c
    await host.setViewportSize({width,height});const centers=[];
    for(const tab of ['play','players','questions','more']){
     await host.locator(`[data-nav="${tab}"]`).click();await settle(host);
+    // The view change can briefly keep the old heading next to the new one; measure once only one is left.
+    await host.waitForFunction(()=>document.querySelectorAll('.appbar>h1').length===1);
     const heading=await host.locator('.appbar>h1').boundingBox();centers.push(heading.y+heading.height/2);
     const g=await host.evaluate(()=>{const nav=document.querySelector('.nav'),a=nav.querySelector('.active'),r=nav.getBoundingClientRect(),b=a.getBoundingClientRect(),css=getComputedStyle(nav,'::before'),x=new DOMMatrixReadOnly(css.transform).m41;return {tab:a.dataset.nav,width:innerWidth,height:innerHeight,buttonWidths:[...nav.querySelectorAll('button')].map(n=>n.getBoundingClientRect().width),highlight:{x:r.left+parseFloat(getComputedStyle(nav).borderLeftWidth)+x,width:parseFloat(css.width)},active:{x:b.left,width:b.width},overflow:document.documentElement.scrollWidth>innerWidth+1};});
     if(tab==='play'&&width>360){const offset=await host.evaluate(()=>{const b=document.querySelector('[data-nav=play]'),r=b.getBoundingClientRect(),svg=b.querySelector('svg'),s=svg.getBoundingClientRect(),path=svg.querySelector('path').getBBox(),t=b.querySelector('span').getBoundingClientRect();return (s.left+path.x*s.width/24+t.right)/2-(r.left+r.width/2);});assert.ok(Math.abs(offset)<0.8,`Play visible content offset ${offset}px at ${width}px`);}

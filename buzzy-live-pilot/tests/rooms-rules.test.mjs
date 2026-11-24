@@ -93,7 +93,18 @@ test('Host state and history stay with the host; settings and presentation reach
   const {t, cmd, state, round} = await setup();
   const ana = await t.join('Ana');
   await cmd(t.owner, 'publish', {presentationPatch: {r: 1, a: 1, text: 'Q', shown: false, loadKey: 'k1'}, settingsPatch: {leaderboard: true}, privatePatch: {questions: [{id: 'q1', text: 'Q', answer: 'secret'}]}});
+  // #427: the text stays in the room until the host shows the question.
+  assert.equal(state(ana).presentation.text, '');
+  assert.ok(!JSON.stringify(t.received(ana)).includes('"text":"Q"'), 'the text never reached the player early');
+  await cmd(t.owner, 'publish', {presentationPatch: {shown: true}});
   assert.equal(state(ana).presentation.text, 'Q');
+  // #431: images only over https.
+  await cmd(t.owner, 'publish', {presentationPatch: {image: 'http://example.com/a.png'}});
+  assert.equal(state(ana).presentation.image, '');
+  await cmd(t.owner, 'publish', {presentationPatch: {image: 'javascript:alert(1)'}});
+  assert.equal(state(ana).presentation.image, '');
+  await cmd(t.owner, 'publish', {presentationPatch: {image: 'https://example.com/a.png'}});
+  assert.equal(state(ana).presentation.image, 'https://example.com/a.png');
   assert.equal(state(ana).settings.leaderboard, true);
   assert.ok(!JSON.stringify(t.received(ana)).includes('secret'), 'the host page state never reaches players');
   assert.equal((await cmd(t.owner, 'get', {what: 'ui'})).value.questions[0].answer, 'secret');
@@ -155,6 +166,13 @@ test('A name already used in the room is refused (#449)', async () => {
   assert.deepEqual(t.received(twin).filter((m) => m.t === 'name-taken').length, 1);
   assert.equal(Object.keys(t.game.members).length, 1);
   assert.equal(t.game.members[twin.id], undefined);
+  // #431: lookalike letters and invisible characters do not make a different name.
+  for (const copy of ['Аnna', 'An\u200Bna', 'A n n a', '\u202EAnna']) {
+    const c = await t.join(copy);
+    assert.equal(t.received(c).filter((m) => m.t === 'name-taken').length, 1, JSON.stringify(copy));
+  }
+  const blank = await t.join('\u200B\u200B');
+  assert.equal(t.received(blank).filter((m) => m.t === 'name-taken').length, 1, 'a name of only invisible characters is refused');
   const other = await t.join('Anna 2');
   assert.equal(state(other).members[other.id].name, 'Anna 2');
   assert.equal(state(ana).members[ana.id].name, 'Anna');

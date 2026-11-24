@@ -181,7 +181,9 @@ function project(value){
 async function preparePlayer(p){
  if(p.loadKey===loadedKey)return;loadedKey=p.loadKey;const generation=++loadGeneration;
  let result='ready';
- if(p.image){result=await new Promise(resolve=>{const image=new Image();let settled=false;const finish=v=>{if(settled)return;settled=true;clearTimeout(timer);resolve(v);};const timer=setTimeout(()=>finish('failed'),9000);image.onload=()=>typeof image.decode==='function'?image.decode().then(()=>finish('ready'),()=>finish('failed')):finish('ready');image.onerror=()=>finish('failed');image.src=p.image;});}
+ // #431: question images only over https (plain http only while testing on this machine).
+ if(p.image&&!/^https:\/\//i.test(p.image)&&!(['127.0.0.1','localhost'].includes(location.hostname)&&/^http:\/\/(127\.0\.0\.1|localhost)[:/]/i.test(p.image)))result='failed';
+ else if(p.image){result=await new Promise(resolve=>{const image=new Image();image.referrerPolicy='no-referrer';let settled=false;const finish=v=>{if(settled)return;settled=true;clearTimeout(timer);resolve(v);};const timer=setTimeout(()=>finish('failed'),9000);image.onload=()=>typeof image.decode==='function'?image.decode().then(()=>finish('ready'),()=>finish('failed')):finish('ready');image.onerror=()=>finish('failed');image.src=p.image;});}
  if(generation!==loadGeneration)return;
  try{await client.command({action:'ready',code,key:p.loadKey,status:result});}catch(e){if(generation===loadGeneration)api.tip('Unable to confirm question readiness.');}
 }

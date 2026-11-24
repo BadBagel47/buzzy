@@ -16,8 +16,13 @@ const MAX_BUZZ_CORRECTION_MS = 100;
 class RuleError extends Error {}
 const fail = (message) => { throw new RuleError(message); };
 const emptyAttempt = () => ({n: 0, hits: {}, first: null, judgments: {}});
-/** Names compare without case, accents written two ways, or extra spaces (#449). */
-export const sameName = (a, b) => String(a ?? '').normalize('NFKC').toLocaleLowerCase('sv').replace(/\s+/g, ' ').trim() === String(b ?? '').normalize('NFKC').toLocaleLowerCase('sv').replace(/\s+/g, ' ').trim();
+// #449, #431: names are compared by how they look. Invisible characters (zero-width, direction marks) are removed,
+// letters from other alphabets that look like Latin ones count as the same letter, and case and extra spaces do not matter.
+const LOOKALIKE = {а: 'a', в: 'b', е: 'e', к: 'k', м: 'm', н: 'h', о: 'o', р: 'p', с: 'c', т: 't', у: 'y', х: 'x', і: 'i', ј: 'j', ѕ: 's', ԁ: 'd', ԛ: 'q', ԝ: 'w', α: 'a', β: 'b', ε: 'e', η: 'n', ι: 'i', κ: 'k', ν: 'v', ο: 'o', ρ: 'p', τ: 't', υ: 'u', χ: 'x', '0': 'o', '1': 'l', '|': 'l'};
+/** The name as it is shown: invisible and control characters removed, spaces tidied. */
+export const cleanName = (name) => String(name ?? '').normalize('NFKC').replace(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu, '').replace(/\s+/g, ' ').trim();
+const nameKey = (name) => [...cleanName(name).toLocaleLowerCase('sv')].map((c) => LOOKALIKE[c] ?? c).join('').replace(/ /g, '');
+export const sameName = (a, b) => nameKey(a) === nameKey(b);
 const clamp = (allowNegative, before, requested) => (allowNegative === false && requested < 0 ? (before < 0 ? before : Math.max(0, before + requested)) : before + requested);
 
 export function initialGame(now) {
@@ -32,7 +37,14 @@ export function initialGame(now) {
   };
 }
 
-/** What every participant may see: the same parts players can read on Firebase. */
+/** #427: the question's text reaches players and the viewer only when the host shows the question. The image is sent ahead for preloading. */
+function visiblePresentation(g) {
+  const p = g.presentation;
+  if (!p || p.shown || g.control.phase !== 'ready') return p;
+  return {...p, text: ''};
+}
+
+/** What every participant may see. The host's own page keeps its question text; nothing secret is sent. */
 export function view(room) {
   const g = room.game;
   const online = Object.fromEntries(room.players.map((p) => [p.id, p.status === 'online']));
@@ -40,7 +52,7 @@ export function view(room) {
   return {
     ownerId: room.ownerId, createdAt: g.createdAt, control: g.control, attempt: g.attempt, excluded: g.excluded,
     members: g.members, scores: g.scores, moderation: g.moderation, adjustments: g.adjustments,
-    settings: g.settings, presentation: g.presentation, selection: g.selection, celebration: g.celebration,
+    settings: g.settings, presentation: visiblePresentation(g), selection: g.selection, celebration: g.celebration,
     loads: g.loads, online, viewers,
   };
 }
@@ -142,6 +154,8 @@ async function publish(room, g, x) {
   if (x.presentation !== undefined) g.presentation = x.presentation;
   if (x.settings !== undefined) g.settings = x.settings;
   if (patch.presentation) g.presentation = {...(g.presentation || {}), ...patch.presentation};
+  // #431: question images only from https addresses.
+  if (g.presentation?.image && !/^https:\/\/[^\s]+$/i.test(String(g.presentation.image))) g.presentation = {...g.presentation, image: ''};
   if (patch.settings) g.settings = {...g.settings, ...patch.settings};
   if (x.privateUi !== undefined || patch.ui) {
     const ui = x.privateUi !== undefined ? x.privateUi : {...(await storedObject(room, 'ui')), ...patch.ui};
@@ -222,12 +236,13 @@ export const buzzyRules = {
     if (who.role === 'player') {
       if (!g.members[who.id]) {
         // #449: a name already used in this room is refused; the player adds a number or picks another name.
-        const taken = Object.values(g.members).some((m) => sameName(m.name, who.name));
+        const name = cleanName(who.name);
+        const taken = !name || Object.values(g.members).some((m) => sameName(m.name, name));
         if (taken) { room.send([who.id], {t: 'name-taken'}); return; }
         const c = g.control;
         // Someone who joins while a question is shown or open plays from the next one (the page shows them as waiting or queued).
         const fromRound = c.r + (c.phase === 'ready' && !g.presentation?.shown ? 0 : 1);
-        g.members[who.id] = {name: who.name, at: room.now(), fromRound};
+        g.members[who.id] = {name, at: room.now(), fromRound};
         g.scores[who.id] = 0;
       } else if (g.moderation[who.id] === 'kicked') {
         g.moderation[who.id] = 'active';

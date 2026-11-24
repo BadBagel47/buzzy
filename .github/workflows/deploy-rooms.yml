@@ -28,10 +28,6 @@ jobs:
   deploy:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      TRYTHIS_COUNTRY_BYPASS: ${{ secrets.TRYTHIS_COUNTRY_BYPASS }}
     defaults:
       run:
         working-directory: buzzy-live-pilot
@@ -39,6 +35,8 @@ jobs:
       - name: Check for the Cloudflare token
         id: token
         working-directory: .
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
             echo "::notice::CLOUDFLARE_API_TOKEN is not set; the room server was not deployed."
@@ -58,7 +56,8 @@ jobs:
           cache-dependency-path: buzzy-live-pilot/package-lock.json
       - name: Install locked dependencies
         if: steps.token.outputs.skip != 'true'
-        run: npm ci --no-audit --no-fund
+        # #431: the Cloudflare token is only given to the deploy step, and packages run no install scripts.
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Test the rules and the network-kit copy
         if: steps.token.outputs.skip != 'true'
         run: |
@@ -66,6 +65,10 @@ jobs:
           node vendor/network-kit/smoke.mjs --options rooms/options.js
       - name: Deploy and check
         if: steps.token.outputs.skip != 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TRYTHIS_COUNTRY_BYPASS: ${{ secrets.TRYTHIS_COUNTRY_BYPASS }}
         run: |
           # A brand-new Worker can fail with code 10007 right after its upload; once more works (network-kit F-112).
           deploy() {

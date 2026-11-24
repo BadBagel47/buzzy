@@ -115,7 +115,8 @@ jobs:
           cache-dependency-path: buzzy-live-pilot/package-lock.json
       - name: Install locked CLI before authentication
         working-directory: buzzy-live-pilot
-        run: npm ci --no-audit --no-fund
+        # #431: this job later gets Google access, so packages may not run their own install scripts here.
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Restore only the tested public site
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:

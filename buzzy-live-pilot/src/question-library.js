@@ -14,9 +14,16 @@ export function saveLibrary(questions){
  if(!list.length)return;
  try{localStorage.setItem(KEY,JSON.stringify({version:1,savedAt:new Date().toISOString(),questions:list}));}catch{}
 }
-// A copy for a new quiz: nothing is played yet, and ids are unique within the room.
+// A copy for a new quiz: nothing is played, started or skipped yet, and ids are unique within the room.
+// #452: a played or skipped question was also marked inactive (active:false) and the page passes over inactive
+// questions, so it must become active again. A question the host switched off without playing it stays off.
 export function freshCopy(list,taken=new Set()){
- return libraryQuestions(list).map((q,i)=>{let id=String(q.id||'');if(!id||taken.has(id))id=`q${Date.now().toString(36)}${i}`;taken.add(id);return {...q,id,played:false};});
+ return libraryQuestions(list).map((q,i)=>{
+  let id=String(q.id||'');if(!id||taken.has(id))id=`q${Date.now().toString(36)}${i}`;taken.add(id);
+  const used=!!(q.played||q.skipped||q.started);
+  const {playedOrder,...rest}=q;
+  return {...rest,id,played:false,started:false,skipped:false,active:used?true:q.active};
+ });
 }
 export function exportLibrary(questions){
  const list=libraryQuestions(questions);

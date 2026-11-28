@@ -16,7 +16,7 @@
     "test:ui": "node scripts/emulators.mjs ui",
     "test:production": "node scripts/emulators.mjs production",
     "build:pilot": "node scripts/build-pilot.mjs",
-    "test:config": "node --test tests/runtime.test.mjs tests/connection.test.mjs tests/generated-rules.test.mjs tests/pages.test.mjs tests/rooms-rules.test.mjs && node vendor/network-kit/smoke.mjs --options rooms/options.js",
+    "test:config": "node --test tests/runtime.test.mjs tests/connection.test.mjs tests/generated-rules.test.mjs tests/pages.test.mjs tests/rooms-rules.test.mjs tests/question-library.test.mjs && node vendor/network-kit/smoke.mjs --options rooms/options.js",
     "test:pilot": "node --test tests/pilot-build.test.mjs",
     "test:transport": "node scripts/build-pages.mjs && node scripts/emulators.mjs transport",
     "test:pilot-ui": "node scripts/build-pages.mjs && node scripts/emulators.mjs pilot-ui",
